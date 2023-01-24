@@ -165,6 +165,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerImage.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
     <ClCompile Include="Scene\SceneMain.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
@@ -176,6 +178,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerImage.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\SceneBase.h" />
     <ClInclude Include="Scene\SceneMain.h" />
     <ClInclude Include="Scene\SceneManager.h" />
@@ -184,6 +189,9 @@
     <ClInclude Include="Util\Mouse.h" />
     <ClInclude Include="Util\Pad.h" />
     <ClInclude Include="Util\Vec2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DxlibGame.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

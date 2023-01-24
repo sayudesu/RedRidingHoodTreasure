@@ -8,16 +8,16 @@ namespace
 
 }
 
-void SceneTitle::init()
+void SceneTitle::Init()
 {
 
 }
-void SceneTitle::end()
+void SceneTitle::End()
 {
 
 }
 
-SceneBase* SceneTitle::update()
+SceneBase* SceneTitle::Update()
 {
 	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	//メニュー画面に移動
@@ -29,7 +29,7 @@ SceneBase* SceneTitle::update()
 	return this;
 }
 
-void SceneTitle::draw()
+void SceneTitle::Draw()
 {
 	DrawString(0,0, "タイトル", 0xffffff);
 }

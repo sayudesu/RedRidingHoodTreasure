@@ -7,23 +7,23 @@ namespace
 
 }
 
-void SceneResult::init()
+void SceneResult::Init()
 {
 
 }
 
-void SceneResult::end()
+void SceneResult::End()
 {
 
 }
 
-SceneBase* SceneResult::update()
+SceneBase* SceneResult::Update()
 {
 
 	return this;
 }
 
-void SceneResult::draw()
+void SceneResult::Draw()
 {
 
 }

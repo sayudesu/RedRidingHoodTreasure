@@ -10,13 +10,13 @@ public:
 	}
 	virtual ~SceneResult() {}
 
-	virtual void init();
-	virtual void end();
+	virtual void Init();
+	virtual void End();
 
-	virtual SceneBase* update() override;
-	virtual void draw();
+	virtual SceneBase* Update() override;
+	virtual void Draw();
 
-	virtual bool isEnd() { return m_isEnd; }
+	virtual bool IsEnd() { return m_isEnd; }
 private:
 
 	bool m_isEnd;

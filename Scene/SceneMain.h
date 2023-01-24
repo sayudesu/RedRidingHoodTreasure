@@ -2,6 +2,9 @@
 #include "SceneBase.h"
 #include "Vec2.h"
 
+
+class Player;
+
 class SceneMain : public SceneBase
 {
 public:
@@ -9,21 +12,14 @@ public:
 	virtual ~SceneMain();
 
 
-	virtual void init();
-	virtual void end();
+	virtual void Init();
+	virtual void End();
 
-	virtual SceneBase* update() override;
-	virtual void draw();
+	virtual SceneBase* Update() override;
+	virtual void Draw();
 
 private:
-	void UpdateMove();
-private:
-	//キャラクターの位置
-	Vec2 m_pos;
-	Vec2 m_underPos;
-	//方向
-	Vec2 m_vec;
 
-	//update処理メンバ関数ポインタ
-	void (SceneMain::* m_func)();
+	int m_hPlayer;
+	Player* m_pPlayer;
 };

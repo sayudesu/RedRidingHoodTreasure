@@ -14,7 +14,9 @@ public:
 	virtual void Update();
 	virtual void Draw();
 
-	void setHandle(int handle) { m_hPlayer = handle; }
+	bool FieldJudgement();
+
+	void SetHandle(int handle) { m_hPlayer = handle; }
 
 private:
 
@@ -24,6 +26,8 @@ private:
 
 	//グラフィックハンドル
 	int m_hPlayer;
+	//プレイヤーグラフィックサイズ
+	Vec2 m_playerSize;
 	//キャラクターの位置
 	Vec2 m_pos;
 	Vec2 m_underPos;

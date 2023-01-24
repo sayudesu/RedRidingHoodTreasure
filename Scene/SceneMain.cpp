@@ -27,7 +27,7 @@ void SceneMain::Init()
 {
 	m_pPlayer->Init();
 	m_hPlayer = LoadGraph(kPlayerImage);
-	m_pPlayer->setHandle(m_hPlayer);
+	m_pPlayer->SetHandle(m_hPlayer);
 }
 void SceneMain::End()
 {

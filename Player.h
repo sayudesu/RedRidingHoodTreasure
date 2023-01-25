@@ -14,13 +14,17 @@ public:
 	virtual void Update();
 	virtual void Draw();
 
-	bool FieldJudgement();
+	int FieldJudgement();
+
+	bool CheckHit();
 
 	void SetHandle(int handle) { m_hPlayer = handle; }
 
 private:
 
 	void UpdateMove();
+
+	
 
 private:
 

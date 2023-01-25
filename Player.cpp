@@ -1,6 +1,7 @@
 #include "SceneMain.h"
 #include "Player.h"
 #include <DxLib.h>
+#include "Pad.h"
 #include "game.h"
 
 namespace
@@ -18,6 +19,11 @@ namespace
 	//地面の高さY軸
 	constexpr int kGround = 750;
 
+	//はしご１座標
+	constexpr int kLadderX = Game::kScreenWidth - 120;
+	constexpr int kLadderY = 500;
+	constexpr int kLadderXBottom = Game::kScreenWidth - 80;
+	constexpr int kLadderYBottom = Game::kScreenHeight - 50;
 }
 
 Player::Player() :
@@ -74,61 +80,103 @@ void Player::Draw()
 }
 int Player::FieldJudgement()
 {
-	//地面との当たり判定
-	//bool isField = false;
-	//地面１
-	if (m_pos.y >= kGround - 30 - m_playerSize.y)
+	if (CheckHit())
+	{
+		return 0;
+	}
+	else if(m_pos.y >= kGround - 30 - m_playerSize.y)
 	{
 		m_pos.y = kGround - 30 - m_playerSize.y;
-		isField = true;
 		return 1;
 	}
 
-	if (m_pos.x >= Game::kScreenWidth - 125 &&
-		m_pos.x <= Game::kScreenWidth - 75 )
-	{
-		printfDx("判定\n");
-		isField = false;
-	}
-	else
-	{
-		clsDx();
-	}
-
-	//return isField;
 }
 
 void Player::UpdateMove()
 {
+	//入力判定
+	Pad::update();
 	//プレイヤー位置
 	m_pos += m_vec;
 	m_underPos += m_vec;
 
 	//重力
-	m_vec.y += kGravity;
+	if(!CheckHit())
+	{
+		m_vec.y += kGravity;
+	}
 
+	//当たり判定
+	//地面
 	FieldJudgement();
+	//はしご
+	CheckHit();
 
-	if (CheckHitKey(KEY_INPUT_RIGHT))
+	//移動
+	if (CheckHitKey(KEY_INPUT_RIGHT))//右
 	{
 		m_pos.x += kMoveSpeed;
 		m_underPos.x += kMoveSpeed;
 	}
-	if (CheckHitKey(KEY_INPUT_LEFT))
+	if (CheckHitKey(KEY_INPUT_LEFT))//左
 	{
 		m_pos.x -= kMoveSpeed;
 		m_underPos.x -= kMoveSpeed;
 	}
 
-	if (CheckHitKey(KEY_INPUT_UP))
+	//ジャンプ
+	if (Pad::isTrigger(KEY_INPUT_UP))//上
 	{
-		if (FieldJudgement())//地面にいる状態の場合
+		if (FieldJudgement() == 1)//地面にいる状態の場合
 		{
 			m_vec.y = kJump;//ジャンプ開始
 		}
-		else
+
+		if (CheckHit())
 		{
-			m_pos.y = 500 - 30;
+			m_pos.y -= kMoveSpeed;
 		}
 	}
+
+
+
+
+
+
+#if true	
+
+	if (CheckHit())
+	{
+		printfDx("判定あり\n");
+	}
+	else if (true)
+	{
+		printfDx("判定なし\n");
+	}
+
+	DrawPixel(m_pos.x, m_pos.y, 0xff0000);//キャラ
+	DrawPixel(Game::kScreenWidth - 120, 0, 0x00ff00);
+	//キャラクター
+	DrawBox(m_pos.x - 25, m_pos.y - 25, m_pos.x + 25, m_pos.y + 25, 0xff0000, true);
+	//はしご
+	DrawBox(kLadderX, kLadderY, kLadderXBottom, kLadderYBottom, 0xff0000, true);
+
+	//      left,  top,   right,   bottom,
+#endif
+}
+
+//キャラクターとはしごの判定
+bool Player::CheckHit()
+{
+	if ((kLadderXBottom > m_pos.x - 25) &&
+		(kLadderX < m_pos.x + 25))
+	{
+		if ((kLadderYBottom > m_pos.y - 25) &&
+			(kLadderY < m_pos.y + 25))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

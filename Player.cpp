@@ -28,6 +28,8 @@ namespace
 
 Player::Player() :
 	m_hPlayer(-1),
+	m_gravity(0.0f),
+	m_isLadder(false),
 	m_playerSize(0.0f, 0.0f),
 	m_pos(0.0, 0.0),
 	m_underPos(0.0, 0.0),
@@ -48,6 +50,8 @@ void Player::Init()
 
 	m_underPos.x = m_pos.x + 50;
 	m_underPos.y = m_pos.y + 100;
+
+	m_gravity = kGravity;
 
 	GetGraphSizeF(m_hPlayer, &m_playerSize.x, &m_playerSize.y);
 }
@@ -78,39 +82,11 @@ void Player::Draw()
 	//地面1
 	DrawLine(0, kGround, Game::kScreenWidth, kGround, 0xffffff);
 }
-int Player::FieldJudgement()
-{
-	if (CheckHit())
-	{
-		return 0;
-	}
-	else if(m_pos.y >= kGround - 30 - m_playerSize.y)
-	{
-		m_pos.y = kGround - 30 - m_playerSize.y;
-		return 1;
-	}
 
-}
-
-void Player::UpdateMove()
+void Player::Operation()
 {
 	//入力判定
 	Pad::update();
-	//プレイヤー位置
-	m_pos += m_vec;
-	m_underPos += m_vec;
-
-	//重力
-	if(!CheckHit())
-	{
-		m_vec.y += kGravity;
-	}
-
-	//当たり判定
-	//地面
-	FieldJudgement();
-	//はしご
-	CheckHit();
 
 	//移動
 	if (CheckHitKey(KEY_INPUT_RIGHT))//右
@@ -123,46 +99,110 @@ void Player::UpdateMove()
 		m_pos.x -= kMoveSpeed;
 		m_underPos.x -= kMoveSpeed;
 	}
-
-	//ジャンプ
-	if (Pad::isTrigger(KEY_INPUT_UP))//上
+	//アップダウン
+	if (CheckHit())
 	{
-		if (FieldJudgement() == 1)//地面にいる状態の場合
-		{
-			m_vec.y = kJump;//ジャンプ開始
-		}
-
-		if (CheckHit())
+		m_isLadder = true;
+		m_vec.y = 0.0f;
+		if (CheckHitKey(KEY_INPUT_UP))//梯子上り
 		{
 			m_pos.y -= kMoveSpeed;
 		}
+		if (CheckHitKey(KEY_INPUT_DOWN))//梯子下り
+		{
+			m_pos.y += kMoveSpeed;
+		}
+	}
+	else if (!CheckHit())//ジャンプ
+	{
+		m_gravity = kGravity;//重力をかける
+
+		//ジャンプ
+		if (Pad::isTrigger(KEY_INPUT_UP))//上
+		{
+			if (FieldJudgement() == 1)//地面にいる状態の場合
+			{
+				m_vec.y = kJump;//ジャンプ開始
+			}
+		}
 	}
 
+	//ポーズメニュー
+	if (CheckHitKey(KEY_INPUT_P))
+	{
+		m_func = &Player::MenuStop;
+	}
+		
+}
+int Player::FieldJudgement()
+{
+	if (CheckHit())//梯子の判定
+	{
+		return 0;
+	}
+	else if(m_pos.y >= kGround - m_playerSize.y - 30)//地面に着地
+	{
+		m_pos.y = kGround - 30 - m_playerSize.y;
+		
+		printfDx("地面1\n");
+		return 1;
+	}
 
+	if (m_pos.y >= 500 - m_playerSize.y - 30 && m_isLadder)//地面2
+	{
+		m_pos.y = 500 - 30 - m_playerSize.y;
+		printfDx("地面2\n");
+		return 1;
+	}
+}
 
+void Player::UpdateMove()
+{	
+	//プレイヤー位置
+	m_pos += m_vec;
+	m_underPos += m_vec;
 
+	//重力
+	m_vec.y += m_gravity;
 
+	////////////////////
+	////*当たり判定*////
+	///////////////////
+	
+	//はしご
+	CheckHit();
+	//地面
+	FieldJudgement();
 
+	//操作
+	Operation();
+
+	//////////////////////////
+	/////*判定の確認用*///////
+	//////////////////////////
 #if true	
 
 	if (CheckHit())
 	{
-		printfDx("判定あり\n");
+		printfDx("梯子1\n");
 	}
 	else if (true)
 	{
-		printfDx("判定なし\n");
+		printfDx("梯子0\n");
 	}
-
-	DrawPixel(m_pos.x, m_pos.y, 0xff0000);//キャラ
-	DrawPixel(Game::kScreenWidth - 120, 0, 0x00ff00);
+	//キャラの中心
+	DrawPixel(m_pos.x, m_pos.y, 0xff0000);
 	//キャラクター
 	DrawBox(m_pos.x - 25, m_pos.y - 25, m_pos.x + 25, m_pos.y + 25, 0xff0000, true);
 	//はしご
 	DrawBox(kLadderX, kLadderY, kLadderXBottom, kLadderYBottom, 0xff0000, true);
-
-	//      left,  top,   right,   bottom,
+	//     　 left,  　　top,  　　 right,   　　　bottom,
 #endif
+}
+
+void Player::MenuStop()
+{
+	printfDx("ポーズ中\n");
 }
 
 //キャラクターとはしごの判定

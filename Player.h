@@ -25,7 +25,7 @@ private:
 	//地面判定
 	int FieldJudgement();
 	//梯子判定
-	bool CheckHit();
+	int CheckHit();
 
 private:
 
@@ -39,9 +39,10 @@ private:
 	int m_hPlayer;
 	//重力
 	float m_gravity;
+	//階段判定
+	bool m_isFloorOne;
 	//梯子判定
 	bool m_isLadder;
-
 	//プレイヤーグラフィックサイズ
 	Vec2 m_playerSize;
 	//キャラクターの位置

@@ -37,12 +37,16 @@ private:
 
 	//グラフィックハンドル
 	int m_hPlayer;
+
+	int chara_act[5];
 	//重力
 	float m_gravity;
 	//階段判定
 	bool m_isFloorOne;
 	//梯子判定
 	bool m_isLadder;
+	//下に移動できない
+	bool m_isInvaliDown;
 	//プレイヤーグラフィックサイズ
 	Vec2 m_playerSize;
 	//キャラクターの位置

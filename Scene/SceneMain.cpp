@@ -7,7 +7,7 @@
 
 namespace
 {
-	const char* const kPlayerImage = "Data/square.png";
+	const char* const kPlayerImage = "Data/run turnaround-Sheet.png";
 }
 
 
@@ -26,6 +26,7 @@ SceneMain::~SceneMain()
 void SceneMain::Init()
 {
 	m_pPlayer->Init();
+
 	m_hPlayer = LoadGraph(kPlayerImage);
 	m_pPlayer->SetHandle(m_hPlayer);
 }

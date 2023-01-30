@@ -19,11 +19,23 @@ namespace
 	//地面の高さY軸
 	constexpr int kGround = 750;
 
-	//はしご１座標
+	constexpr int test = 1;
+
+	////////////////////
+	///*地面　２座標*///
+	////////////////////
+	constexpr int kGroundSecondX = Game::kScreenWidth / 2;
+	constexpr int kGroundSecondY = 600;
+	constexpr int kGroundSecondBottomX = Game::kScreenWidth;
+	constexpr int kGroundSecondBottomY = 600 + 20;
+
+	////////////////////
+	///*はしご１座標*///
+	////////////////////
 	constexpr int kLadderX = Game::kScreenWidth - 120;
-	constexpr int kLadderY = 500;
-	constexpr int kLadderXBottom = Game::kScreenWidth - 80;
-	constexpr int kLadderYBottom = Game::kScreenHeight - 50;
+	constexpr int kLadderY = 600;
+	constexpr int kLadderXBottom = Game::kScreenWidth - 90;
+	constexpr int kLadderYBottom = Game::kScreenHeight - 70;
 }
 
 Player::Player() :
@@ -31,12 +43,18 @@ Player::Player() :
 	m_gravity(0.0f),
 	m_isFloorOne(false),
 	m_isLadder(false),
+	m_isInvaliDown(false),
 	m_playerSize(0.0f, 0.0f),
 	m_pos(0.0, 0.0),
 	m_underPos(0.0, 0.0),
 	m_vec(0.0, 0.0)
 {
 	m_func = &Player::UpdateMove;
+
+	for (int i = 0; i < 5; i++)
+	{
+		chara_act[i] = 0;
+	}
 }
 
 Player::~Player()
@@ -55,6 +73,10 @@ void Player::Init()
 	m_gravity = kGravity;
 
 	GetGraphSizeF(m_hPlayer, &m_playerSize.x, &m_playerSize.y);
+
+	chara_act[5];
+
+	//LoadDivGraph("Data/run turnaround-Sheet.png",5, 5, 1,32, 32,chara_act);
 }
 void Player::End()
 {
@@ -70,15 +92,23 @@ void Player::Draw()
 {
 	DrawString(0, 0, "ゲームプレイ", 0xffffff);
 	//キャラクター
-	//DrawRotaGraphF(m_pos.x,m_pos.y, 0.2, DX_PI / 2, m_hPlayer, true);
+	//DrawRectRotaGraph(m_pos.x, m_pos.y, 0, 0, 80, 64, 2, 0, m_hPlayer, true, false);
+	DrawRectRotaGraph(m_pos.x, m_pos.y, 80, 0, 80, 64, 2, 0, m_hPlayer, true, false);
+
+	printfDx("%d\n", m_pos.x);
+	//DrawGraph(m_pos.x, m_pos.y, a, true);
+
+	//DrawRotaGraphF(m_pos.x,m_pos.y, 5, 0, chara_act[0], true);
+
+
 
 	//////////////////////////////////////
 	//*地面は下から順番に数えていきます*//
 	//////////////////////////////////////
 	
 	//地面2
-	DrawBox(Game::kScreenWidth / 2, 500, Game::kScreenWidth, 500 + 20, 0x00ff00,false);
-	DrawLine(Game::kScreenWidth / 2, 500, Game::kScreenWidth, 500, 0xffffff);
+	DrawBox(kGroundSecondX, kGroundSecondY, kGroundSecondBottomX, kGroundSecondBottomY, 0x00ff00,false);
+	DrawLine(Game::kScreenWidth / 2, 600, Game::kScreenWidth, 600, 0xffffff);
 	//はしご
 	DrawBox(kLadderX, kLadderY, kLadderXBottom, kLadderYBottom, 0xff0000, true);
 	//     　 left,  　　top,  　　 right,   　　　bottom,
@@ -113,23 +143,26 @@ void Player::Operation()
 		m_pos.y -= kMoveSpeed;
 	
 	} 
-	else if (CheckHitKey(KEY_INPUT_DOWN) && CheckHit() == 1)//梯子下り
+
+	if(!m_isInvaliDown)
 	{
-		m_vec.y = 0.0f;
-		m_pos.y += kMoveSpeed;
+		if (CheckHitKey(KEY_INPUT_DOWN) && CheckHit() == 1)//梯子下り
+		{
+			m_vec.y = 0.0f;
+			m_pos.y += kMoveSpeed;
 		
+		}
 	}
 
 	//ジャンプ
 	if (Pad::isTrigger(KEY_INPUT_UP) && CheckHit() == 0)//上
 	{
-		if (FieldJudgement() >= 1)//地面にいる状態の場合
+		if (FieldJudgement() == 1)//地面にいる状態の場合
 		{
 			printfDx("ジャンプ\n");
 			m_vec.y = kJump;//ジャンプ開始
 		}
 	}
-
 
 	//ポーズメニュー
 	if (CheckHitKey(KEY_INPUT_P))
@@ -138,33 +171,39 @@ void Player::Operation()
 	}
 		
 }
+
 int Player::FieldJudgement()
 {
-	if (CheckHit() == 1)//梯子の判定
-	{
-		return 0;
-	}
-
-	if(m_pos.y >= kGround - m_playerSize.y - 30)//地面に着地
+	m_isInvaliDown = false;
+	
+	if(m_pos.y >= kGround - 30 - m_playerSize.y)//地面に着地
 	{
 		if(!m_isFloorOne)
 		{
-			m_pos.y = kGround - 30 - m_playerSize.y;
+			m_pos.y = kGround - 30- m_playerSize.y;
+			m_isInvaliDown = true;//地面にいる場合ジャンプ可能
+
 		}
 
 		printfDx("地面1\n");
 		return 1;
 	}
-	
-	if (m_pos.y >= 500 - m_playerSize.y)//地面2
+
+	if (CheckHit() == 1)//梯子の判定
 	{
-		m_pos.y = 500 - 30 - m_playerSize.y;
+		return 0;
+	}
+
+	
+	//２階に来たら作動する
+	/*
+	if (m_pos.y >= 600 - m_playerSize.y)//地面2
+	{
+		m_pos.y = 600 - 30 - m_playerSize.y;
 		printfDx("地面2\n");
 		return 2;
 	}
-	
-	return 4;
-
+	*/
 	/*
 	//地面1との当たり判定
 	if ((Game::kScreenWidth + 1 > m_pos.x - 25.0f) &&
@@ -250,6 +289,10 @@ void Player::UpdateMove()
 void Player::MenuStop()
 {
 	printfDx("ポーズ中\n");
+	if (CheckHitKey(KEY_INPUT_O))
+	{
+		m_func = &Player::UpdateMove;
+	}
 }
 
 

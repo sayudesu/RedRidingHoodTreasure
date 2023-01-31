@@ -151,6 +151,7 @@ void Player::Draw()
 	//’n–Ê‚P
 	DrawBox(0, 700, Game::kScreenWidth + 1, kGround + 20 + 1, 0x00ff00, false);
 	
+	DrawBox(200, 600, 200 + 10, 600 + 10, 0x00ff00, true);
 
 	DrawLine(Game::kScreenWidth / 2, 520, Game::kScreenWidth, 520, 0xffffff);//2
 	DrawLine(0, kGround, Game::kScreenWidth, kGround, 0xffffff);//1

@@ -22,6 +22,8 @@ private:
 
 	//操作
 	void Operation();
+	//状態
+	void Condition();
 	//地面判定
 	int FieldJudgement();
 	//梯子判定
@@ -37,8 +39,12 @@ private:
 
 	//グラフィックハンドル
 	int m_hPlayer;
-
-	int chara_act[5];
+	//キャラクター画像位置
+	int m_charaImagePos;
+	//フレームカウント
+	int m_frameCount;
+	//現在何階にいるか
+	int m_hierarchy;
 	//重力
 	float m_gravity;
 	//階段判定
@@ -47,6 +53,8 @@ private:
 	bool m_isLadder;
 	//下に移動できない
 	bool m_isInvaliDown;
+	//キャラクターの向き
+	bool m_isCharaDirection;
 	//プレイヤーグラフィックサイズ
 	Vec2 m_playerSize;
 	//キャラクターの位置

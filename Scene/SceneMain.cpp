@@ -7,7 +7,7 @@
 
 namespace
 {
-	const char* const kPlayerImage = "Data/run turnaround-Sheet.png";
+	const char* const kPlayerImage = "Data/red hood itch free Copy-Sheet.png";
 }
 
 

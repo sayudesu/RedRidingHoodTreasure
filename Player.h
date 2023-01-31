@@ -17,6 +17,7 @@ public:
 
 	//画像
 	void SetHandle(int handle) { m_hPlayer = handle; }
+	void SetHandleIdle(int handle) { m_hPlayerIdle = handle; }
 
 private:
 
@@ -28,6 +29,8 @@ private:
 	int FieldJudgement();
 	//梯子判定
 	int CheckHit();
+	//落下判定
+	void CheckFall();
 
 private:
 
@@ -39,14 +42,22 @@ private:
 
 	//グラフィックハンドル
 	int m_hPlayer;
+	int m_hPlayerIdle;
 	//キャラクター画像位置
 	int m_charaImagePos;
+	int m_charaImageIdlePos;
+	int m_charaImageAttackPos;
 	//フレームカウント
 	int m_frameCount;
 	//現在何階にいるか
 	int m_hierarchy;
 	//重力
 	float m_gravity;
+	//アニメーション
+	bool m_isRunMoveLeft;
+	bool m_isRunMoveRight;
+	bool m_isIdleMove;
+	bool m_isAttackMove;
 	//階段判定
 	bool m_isFloorOne;
 	//梯子判定
@@ -55,10 +66,14 @@ private:
 	bool m_isInvaliDown;
 	//キャラクターの向き
 	bool m_isCharaDirection;
+	bool m_isCharaIdleDirection;
 	//プレイヤーグラフィックサイズ
 	Vec2 m_playerSize;
 	//キャラクターの位置
 	Vec2 m_pos;
+	//画像用キャラクター位置調整
+	Vec2 m_imagePos;
+	Vec2 m_imageBalancePos;
 	Vec2 m_underPos;
 	//方向
 	Vec2 m_vec;

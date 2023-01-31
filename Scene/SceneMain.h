@@ -21,5 +21,6 @@ public:
 private:
 
 	int m_hPlayer;
+	int m_hPlayerIdle;
 	Player* m_pPlayer;
 };

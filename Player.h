@@ -29,6 +29,8 @@ private:
 	int FieldJudgement();
 	//梯子判定
 	int CheckHit();
+	//アイテムボックス判定
+	void BoxJudgement();
 	//落下判定
 	void CheckFall();
 
@@ -47,6 +49,11 @@ private:
 	int m_charaImagePos;
 	int m_charaImageIdlePos;
 	int m_charaImageAttackPos;
+	//アイテムボックスサイズ位置
+	int m_boxPosX;
+	int m_boxPosY;
+	int m_boxPosBottomX;
+	int m_boxPosBottomY;
 	//フレームカウント
 	int m_frameCount;
 	//現在何階にいるか
@@ -58,6 +65,8 @@ private:
 	bool m_isRunMoveRight;
 	bool m_isIdleMove;
 	bool m_isAttackMove;
+	//アイテム武器
+	bool m_isGetSword;
 	//階段判定
 	bool m_isFloorOne;
 	//梯子判定

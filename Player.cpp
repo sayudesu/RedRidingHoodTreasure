@@ -20,7 +20,6 @@ namespace
 	constexpr int kGround = 700;
 
 	constexpr int kCharaImageLeftPos = -112; //左移動
-
 	constexpr int kCharaImageRightPos = 112; //右移動
 
 	//アニメーションフレーム数
@@ -54,6 +53,12 @@ namespace
 	///////////////////////
 	///*アイテムボックス*///
 	///////////////////////
+
+	constexpr int kBoxPosX = 200;
+	constexpr int kBoxPosY = 550;
+	constexpr int kBoxPosBottomX = 200 + 50;
+	constexpr int kBoxPosBottomY = 550 + 50;
+
 }
 
 Player::Player() :
@@ -62,6 +67,10 @@ Player::Player() :
 	m_charaImagePos(0),
 	m_charaImageIdlePos(0),
 	m_charaImageAttackPos(0),
+	m_boxPosX(0),
+	m_boxPosY(0),
+	m_boxPosBottomX(0),
+	m_boxPosBottomY(0),
 	m_frameCount(0),
 	m_hierarchy(0),
 	m_gravity(0.0f),
@@ -69,6 +78,7 @@ Player::Player() :
 	m_isRunMoveRight(false),
 	m_isIdleMove(false),
 	m_isAttackMove(false),
+	m_isGetSword(false),
 	m_isFloorOne(false),
 	m_isLadder(false),
 	m_isInvaliDown(false),
@@ -155,7 +165,11 @@ void Player::Draw()
 	//地面１
 	DrawBox(0, 700, Game::kScreenWidth + 1, kGround + 20 + 1, 0x00ff00, false);
 	
-	DrawBox(200, 600, 200 + 10, 600 + 10, 0x00ff00, true);//アイテムボックス
+	
+	if(!m_isGetSword)
+	{
+		DrawBox(kBoxPosX, kBoxPosY, kBoxPosBottomX, kBoxPosBottomY, 0x00ff00, true);//アイテムボックス
+	}
 
 	DrawLine(Game::kScreenWidth / 2, 520, Game::kScreenWidth, 520, 0xffffff);//2
 	DrawLine(0, kGround, Game::kScreenWidth, kGround, 0xffffff);//1
@@ -166,7 +180,7 @@ void Player::Draw()
 	////////////////////
 	///*判定の確認用*///
 	////////////////////
-#if false	
+#if true		
 
 	//キャラクター
 	DrawBox(m_pos.x - 25, m_pos.y - 10, m_pos.x + 25, m_pos.y + 60, 0xff0000, false);
@@ -242,13 +256,15 @@ void Player::Operation()
 			m_isIdleMove = false;
 		}
 	}
+
 	//攻撃
-	if(CheckHitKey(KEY_INPUT_V))
+	if(m_isGetSword)
 	{
-		m_isAttackMove = true;
+		if(CheckHitKey(KEY_INPUT_V))
+		{
+			m_isAttackMove = true;
+		}
 	}
-
-
 
 	//ポーズメニュー
 	if (CheckHitKey(KEY_INPUT_P))
@@ -400,6 +416,21 @@ int Player::CheckHit()
 	return 0;
 }
 
+
+void Player::BoxJudgement()
+{
+	if ((kBoxPosBottomX > m_pos.x - 25) &&
+		((kBoxPosX < m_pos.x + 25)))
+	{
+		if ((kBoxPosBottomY > m_pos.y - 10) &&
+			(kBoxPosY < m_pos.y + 60))
+		{
+			//printfDx("ボックス判定\n");
+			m_isGetSword = true;
+		}
+	}
+}
+
 void Player::CheckFall()
 {
 	if ((kFallBoxBottomX > m_pos.x - 25) &&
@@ -409,6 +440,7 @@ void Player::CheckFall()
 			(kFallBoxY < m_pos.y + 60))
 		{
 			m_hierarchy = 1;
+			printfDx("紫HIt");
 		}
 	}
 }
@@ -425,14 +457,18 @@ void Player::UpdateMove()
 	m_imagePos = m_pos;
 	m_pos += m_vec;
 	m_underPos += m_vec;
+
 	////////////////////
 	////*当たり判定*////
 	///////////////////
-	
 	//はしご
 	CheckHit();
 	////地面
 	FieldJudgement();
+	//アイテム
+	BoxJudgement();
+
+
 	//落ち
 	CheckFall();
 	//操作

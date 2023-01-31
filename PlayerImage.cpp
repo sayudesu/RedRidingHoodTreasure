@@ -3,6 +3,8 @@
 #include "PlayerImage.h"
 #include <Dxlib.h>
 
+
+
 namespace
 {
 	const char* const kPlayerImage = "Data/square.png";
@@ -11,7 +13,7 @@ namespace
 PlayerImage::PlayerImage() :
 	m_hPlayer(-1)
 {
-
+	
 }
 
 void PlayerImage::Init()

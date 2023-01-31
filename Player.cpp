@@ -50,6 +50,10 @@ namespace
 	constexpr int kLadderY = 500;
 	constexpr int kLadderXBottom = Game::kScreenWidth - 90;
 	constexpr int kLadderYBottom = Game::kScreenHeight - 70;
+
+	///////////////////////
+	///*アイテムボックス*///
+	///////////////////////
 }
 
 Player::Player() :
@@ -151,7 +155,7 @@ void Player::Draw()
 	//地面１
 	DrawBox(0, 700, Game::kScreenWidth + 1, kGround + 20 + 1, 0x00ff00, false);
 	
-	DrawBox(200, 600, 200 + 10, 600 + 10, 0x00ff00, true);
+	DrawBox(200, 600, 200 + 10, 600 + 10, 0x00ff00, true);//アイテムボックス
 
 	DrawLine(Game::kScreenWidth / 2, 520, Game::kScreenWidth, 520, 0xffffff);//2
 	DrawLine(0, kGround, Game::kScreenWidth, kGround, 0xffffff);//1

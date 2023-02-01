@@ -1,6 +1,7 @@
 #pragma once
 #include "Vec2.h"
 
+class Enemy;
 class Player
 {
 public:
@@ -18,6 +19,7 @@ public:
 	//画像
 	void SetHandle(int handle) { m_hPlayer = handle; }
 	void SetHandleIdle(int handle) { m_hPlayerIdle = handle; }
+	void SetHandleLighting(int handle) { m_hPlayerLighting = handle; }
 
 private:
 
@@ -33,6 +35,10 @@ private:
 	void BoxJudgement();
 	//落下判定
 	void CheckFall();
+	//敵との当たり判定
+	bool EnemyHit();
+	//HP管理
+	void HealthControl();
 
 private:
 
@@ -45,15 +51,22 @@ private:
 	//グラフィックハンドル
 	int m_hPlayer;
 	int m_hPlayerIdle;
+	int m_hPlayerLighting;
 	//キャラクター画像位置
 	int m_charaImagePos;
 	int m_charaImageIdlePos;
 	int m_charaImageAttackPos;
+	int m_charaImageDamagePos;
 	//アイテムボックスサイズ位置
 	int m_boxPosX;
 	int m_boxPosY;
 	int m_boxPosBottomX;
 	int m_boxPosBottomY;
+	//プレイヤー体力
+	int m_playerHealthBer;
+	int m_playerHealthBerCount;
+	//アイテムボックスドロップ
+	int m_boxDropCount;
 	//フレームカウント
 	int m_frameCount;
 	//現在何階にいるか
@@ -65,6 +78,7 @@ private:
 	bool m_isRunMoveRight;
 	bool m_isIdleMove;
 	bool m_isAttackMove;
+	bool m_isDamageMove;
 	//アイテム武器
 	bool m_isGetSword;
 	//階段判定
@@ -88,5 +102,6 @@ private:
 	Vec2 m_vec;
 	
 	void (Player::* m_func)();
+	Enemy* m_pEnemy;
 };
 

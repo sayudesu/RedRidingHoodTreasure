@@ -15,7 +15,7 @@ namespace
 	// ジャンプ力
 	constexpr float kJump = -15.0f;
 	// 重力
-	constexpr float kGravity = 1.5f;
+	constexpr float kGravity = 1.0f;
 
 	//地面の高さY軸
 	constexpr int kGround = 700;
@@ -65,6 +65,7 @@ Player::Player() :
 	m_hPlayer(-1),
 	m_hPlayerIdle(-1),
 	m_hPlayerLighting(-1),
+	m_hHealthBer(-1),
 	m_charaImagePos(0),
 	m_charaImageIdlePos(0),
 	m_charaImageAttackPos(0),
@@ -75,6 +76,8 @@ Player::Player() :
 	m_boxPosBottomY(0),
 	m_playerHealthBer(0),
 	m_playerHealthBerCount(0),
+	m_playerHealthSizeX(0),
+	m_playerHealthSizeY(0),
 	m_boxDropCount(0),
 	m_frameCount(0),
 	m_hierarchy(0),
@@ -84,6 +87,7 @@ Player::Player() :
 	m_isIdleMove(false),
 	m_isAttackMove(false),
 	m_isDamageMove(false),
+	m_isHealthBer(false),
 	m_isGetSword(false),
 	m_isFloorOne(false),
 	m_isLadder(false),
@@ -111,6 +115,7 @@ void Player::Init()
 {
 	m_hierarchy = 1;
 	m_playerHealthBer = 100;
+
 	m_boxDropCount = 120;
 
 	m_boxPosX = kBoxPosX;
@@ -164,6 +169,19 @@ void Player::Draw()
 	DrawLine(Game::kScreenWidth / 2, 520, Game::kScreenWidth, 520, 0xffffff);//2
 	DrawLine(0, kGround, Game::kScreenWidth, kGround, 0xffffff);//1
 
+	//体力の量表示
+	if(!m_isHealthBer)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+		DrawExtendGraph(m_pos.x - 35, m_pos.y - 30, m_playerHealthSizeX + m_pos.x - 35 + 75, m_playerHealthSizeY + m_pos.y - 30 + 10,m_hHealthBer,true);
+		DrawBox(m_pos.x - 35, m_pos.y - 30, m_pos.x - 35 + 75, m_pos.y - 30 + 10, 0xffffff, false);
+		//DrawExtendGraph(m_pos.x - 35, m_pos.y - 30,0 + m_pos.x - 35 + 75, m_playerHealthSizeY + m_pos.y - 30 + 10, m_hHealthBer, false);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
+
+	//DrawExtendGraph(100, 100, 100 + 130 * 200, 480 * 200, m_hHealthBer, false);
+	
+	//DrawRotaGraph(m_pos.x -100000000, m_pos.y + 20 + GetRand(5), 30000, 0, m_playerHealthBer, true, false);
 
 	//キャラクター
 	SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
@@ -202,15 +220,13 @@ void Player::Draw()
 
 
 
-
-
 	DrawString(0, 0, "ゲームプレイ", 0xffffff);
 
 
 	////////////////////
 	///*判定の確認用*///
 	////////////////////
-#if true	
+#if false	
 	//キャラクター
 	DrawBox(m_pos.x - 25, m_pos.y - 10, m_pos.x + 25, m_pos.y + 60, 0xff0000, false);
 
@@ -483,7 +499,6 @@ void Player::CheckFall()
 			(kFallBoxY < m_pos.y + 60))
 		{
 			m_hierarchy = 1;
-			printfDx("FallHIt\n");
 		}
 	}
 }
@@ -523,11 +538,15 @@ void Player::HealthControl()
 	if (m_playerHealthBerCount == 1)
 	{
 		m_playerHealthBer -= 20;
+		m_playerHealthSizeX -= 20;
 	}
 
 	if (m_playerHealthBer <= 0)
 	{
+		m_playerHealthBer = 1;
 		printfDx("死亡\n");
+		m_playerHealthSizeX = 0;
+		m_isHealthBer = true;
 	}
 	
 }
@@ -545,7 +564,7 @@ void Player::UpdateMove()
 	m_imagePos = m_pos;
 	m_pos += m_vec;
 	m_underPos += m_vec;
-	
+
 	////////////////////
 	////*当たり判定*////
 	///////////////////
@@ -557,14 +576,16 @@ void Player::UpdateMove()
 	EnemyHit();
 	//アイテム
 	BoxJudgement();
-
-	if(EnemyHit())
+	if(!m_isHealthBer)
 	{
-		HealthControl();
-	}
-	else
-	{
-		m_playerHealthBerCount = 0;
+		if(EnemyHit())
+		{
+			HealthControl();
+		}
+		else
+		{
+			m_playerHealthBerCount = 0;
+		}
 	}
 
 	m_boxDropCount++;

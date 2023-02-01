@@ -20,6 +20,7 @@ public:
 	void SetHandle(int handle) { m_hPlayer = handle; }
 	void SetHandleIdle(int handle) { m_hPlayerIdle = handle; }
 	void SetHandleLighting(int handle) { m_hPlayerLighting = handle; }
+	void SetHandleHealthBer(int handle) { m_hHealthBer = handle; }
 
 private:
 
@@ -52,6 +53,7 @@ private:
 	int m_hPlayer;
 	int m_hPlayerIdle;
 	int m_hPlayerLighting;
+	int m_hHealthBer;
 	//キャラクター画像位置
 	int m_charaImagePos;
 	int m_charaImageIdlePos;
@@ -65,6 +67,8 @@ private:
 	//プレイヤー体力
 	int m_playerHealthBer;
 	int m_playerHealthBerCount;
+	int m_playerHealthSizeX;
+	int m_playerHealthSizeY;
 	//アイテムボックスドロップ
 	int m_boxDropCount;
 	//フレームカウント
@@ -79,6 +83,8 @@ private:
 	bool m_isIdleMove;
 	bool m_isAttackMove;
 	bool m_isDamageMove;
+	//HP表示
+	bool m_isHealthBer;
 	//アイテム武器
 	bool m_isGetSword;
 	//階段判定

@@ -24,6 +24,7 @@ private:
 	int m_hPlayer;
 	int m_hPlayerIdle;
 	int m_hPlayerLighting;
+	int m_hPlayerHealthBer;
 	int m_hEnemy;
 
 	Player* m_pPlayer;

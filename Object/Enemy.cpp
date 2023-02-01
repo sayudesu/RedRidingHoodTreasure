@@ -60,7 +60,7 @@ void Enemy::Draw()
 	//DrawGraph(0, 0, m_handle, false);
 	DrawRectRotaGraph(m_pos.x,m_pos.y,
 		1344 - 112, 133, 112, 133, 2, 0, m_handle, true,false);
-#if true	
+#if false	
 	
 	DrawBox(m_size.x, m_size.y, m_sizeBottom.x, m_sizeBottom.y,0xffffff, false);
 

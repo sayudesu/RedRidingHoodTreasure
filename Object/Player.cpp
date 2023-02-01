@@ -172,7 +172,8 @@ void Player::Draw()
 	//‘Ì—Í‚Ì—Ê•\Ž¦
 	if(!m_isHealthBer)
 	{
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 230);
+		DrawBox(m_pos.x - 35, m_pos.y - 30, m_pos.x - 35 + 75, m_pos.y - 30 + 10, 0xff0000, true);
 		DrawExtendGraph(m_pos.x - 35, m_pos.y - 30, m_playerHealthSizeX + m_pos.x - 35 + 75, m_playerHealthSizeY + m_pos.y - 30 + 10,m_hHealthBer,true);
 		DrawBox(m_pos.x - 35, m_pos.y - 30, m_pos.x - 35 + 75, m_pos.y - 30 + 10, 0xffffff, false);
 		//DrawExtendGraph(m_pos.x - 35, m_pos.y - 30,0 + m_pos.x - 35 + 75, m_playerHealthSizeY + m_pos.y - 30 + 10, m_hHealthBer, false);

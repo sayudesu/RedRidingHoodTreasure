@@ -107,6 +107,15 @@ SceneBase* SceneMain::Update()
 
 	m_pPlayer->Update();
 	m_pEnemy->Update();
+
+	if (m_pPlayer->isDead())
+	{
+		return(new SceneTitle);
+	}
+	else if (m_pPlayer->isTitle())
+	{
+		return(new SceneMain);
+	}
 	return this;
 }
 

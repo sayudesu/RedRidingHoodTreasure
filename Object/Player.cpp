@@ -97,6 +97,9 @@ Player::Player() :
 	m_isJumpMove		  (false),
 	m_isCrouchingMove     (false),
 	m_isHealthBer         (false),
+	m_isDead			  (false),
+	m_isReset			  (false),
+	m_isTitle			  (false),
 	m_isGetSword          (false),
 	m_isItemDrop          (false),
 	m_isFloorOne          (false),
@@ -159,7 +162,7 @@ void Player::Update()
 //描画
 void Player::Draw()
 {
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA,100);
+	//SetDrawBlendMode(DX_BLENDMODE_ALPHA,100);
 
 	//////////////////////////////////////
 	//*　　　　　マップ背景　　　　　　*//
@@ -170,16 +173,32 @@ void Player::Draw()
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapFourth, true);
 
 	//////////////////////////////////////
+	//*　　　　　マップチップ　　　　　*//
+	//////////////////////////////////////
+
+	//DrawRectRotaGraph(0, Game::kScreenHeight, 16, 224, 160, 32, 3, 0, m_hMapChip, true, true);
+	DrawRectExtendGraph(
+		kGroundSecondX, kGroundSecondY,
+		kGroundSecondBottomX, kGroundSecondBottomY,
+		16, 224, 160, 32,
+		m_hMapChip, true);
+
+	DrawRectExtendGraph(
+		0, Game::kScreenHeight - 25, Game::kScreenWidth, Game::kScreenHeight + 25,
+		16, 224, 160, 32,
+		m_hMapChip, true);
+	//////////////////////////////////////
 	//*地面は下から順番に数えていきます*//
 	//////////////////////////////////////
 	
 	//地面2
 	DrawBox(kGroundSecondX, kGroundSecondY,
-		kGroundSecondBottomX, kGroundSecondBottomY, 0x00ff00,false);
+			kGroundSecondBottomX, kGroundSecondBottomY, 0x00ff00,false);
 
 	//梯子1
 	DrawBox(kLadderX, kLadderY, kLadderXBottom, kLadderYBottom, 0xff0000, true);
 	//     　 left,  　　top,  　　 right,   　　　bottom,
+	 
 	//地面１
 	DrawBox(0, 700, Game::kScreenWidth + 1, kGround + 20 + 1, 0x00ff00, false);
 	
@@ -268,17 +287,19 @@ void Player::Draw()
 			m_charaImageCrouching, 532, 112, 133, 2, 0, m_hPlayer, true, m_isCharaDirection);
 	}
 
-
+	//死んだ場合のメニュー画面
 	if (m_isDead)
 	{
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
-		DrawBox(350, 200, 300 + 600, 200 + 300, 0x0000ff, true);
-
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);//透過
+		DrawBox(350, 200, 300 + 600, 200 + 300, 0x0000ff, true);//背景
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-		DrawBox(350,200,300 + 600,200 + 300,0xffffff,false);
+
+		DrawBox(350,200,300 + 600,200 + 300,0xffffff,false);//枠
 		DrawString(Game::kScreenWidth / 2 - 100, Game::kScreenHeight / 2 - 100, "あなたは死にました", 0xff0000);
-		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2  - 30, "受け入れる", 0xffffff);
-		DrawString(Game::kScreenWidth / 2 + 50, Game::kScreenHeight / 2 - 30, "受け入れない", 0xffffff);
+		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2 - 30, "受け入れる", 0xffffff);
+		DrawString(Game::kScreenWidth / 2 + 50, Game::kScreenHeight  / 2 - 30, "受け入れない", 0xffffff);
+		DrawString(Game::kScreenWidth / 2 - 200 + 35, Game::kScreenHeight / 2, "Y", 0xffffff);
+		DrawString(Game::kScreenWidth / 2 + 50 + 40, Game::kScreenHeight  / 2, "N", 0xffffff);
 	}
 
 
@@ -667,6 +688,7 @@ void Player::HealthControl()
 //アップデート処理
 void Player::UpdateMove()
 {	
+	clsDx();
 	//printfDx("%f\n", m_pEnemy->GetSize().x);
 	if(CheckHit() == 0)
 	{
@@ -722,13 +744,31 @@ void Player::UpdateMove()
 void Player::MenuStop()
 {
 	printfDx("ポーズ中\n");
+	printfDx("救済処置\n");
 	if (CheckHitKey(KEY_INPUT_O))
 	{
 		m_func = &Player::UpdateMove;
+	}
+	m_isDead = true;
+	if (CheckHitKey(KEY_INPUT_Y))
+	{
+		m_isReset = true;
+	}
+	if (CheckHitKey(KEY_INPUT_N))
+	{
+		m_isTitle = true;
 	}
 }
 //死んだ場合のMenu
 void Player::DeathMenu()
 {
 	m_isDead = true;
+	if (CheckHitKey(KEY_INPUT_Y))
+	{
+		m_isReset = true;
+	}
+	if (CheckHitKey(KEY_INPUT_N))
+	{
+		m_isTitle = true;
+	}
 }

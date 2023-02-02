@@ -16,6 +16,9 @@ public:
 	virtual void Draw();
 
 public:
+	bool isDead() { return m_isReset; }
+	bool isTitle() { return m_isTitle; }
+public:
 
 	//‰æ‘œ
 	void SetHandle         (int handle) { m_hPlayer         = handle; }
@@ -112,6 +115,9 @@ private:
 	//HP
 	bool m_isHealthBer;
 	bool m_isDead;
+	//€‚ñ‚¾ê‡
+	bool m_isReset;
+	bool m_isTitle;
 	//ƒAƒCƒeƒ€•Ší
 	bool m_isGetSword;
 	bool m_isItemDrop;

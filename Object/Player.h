@@ -18,10 +18,17 @@ public:
 public:
 
 	//画像
-	void SetHandle(int handle) { m_hPlayer = handle; }
-	void SetHandleIdle(int handle) { m_hPlayerIdle = handle; }
-	void SetHandleLighting(int handle) { m_hPlayerLighting = handle; }
-	void SetHandleHealthBer(int handle) { m_hHealthBer = handle; }
+	void SetHandle         (int handle) { m_hPlayer         = handle; }
+	void SetHandleIdle     (int handle) { m_hPlayerIdle     = handle; }
+	void SetHandleLighting (int handle) { m_hPlayerLighting = handle; }
+	void SetHandleHealthBer(int handle) { m_hHealthBer      = handle; }
+
+	void SetHandleMapFirst (int handle) { m_hMapFirst = handle; }
+	void SetHandleMapSecond(int handle) { m_hMapSecond = handle; }
+	void SetHandleMapThird (int handle) { m_hMapThird = handle; }
+	void SetHandleMapFourth(int handle) { m_hMapFourth = handle; }
+
+	void SetHnadleMapChip(int handle) { m_hMapChip = handle; }
 
 private:
 
@@ -43,9 +50,9 @@ private:
 	void HealthControl();
 
 private:
-
+	//更新画面
 	void UpdateMove();
-
+	//ポーズ画面
 	void MenuStop();
 
 	//死んだ場合
@@ -58,6 +65,12 @@ private:
 	int m_hPlayerIdle;
 	int m_hPlayerLighting;
 	int m_hHealthBer;
+	//マップ用グラフィックハンドル
+	int m_hMapFirst;
+	int m_hMapSecond;
+	int m_hMapThird;
+	int m_hMapFourth;
+	int m_hMapChip;
 	//キャラクター画像位置
 	int m_charaImagePos;
 	int m_charaImageIdlePos;

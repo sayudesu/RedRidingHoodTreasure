@@ -63,54 +63,54 @@ namespace
 
 }
 Player::Player() :
-	m_hPlayer(-1),
-	m_hPlayerIdle(-1),
-	m_hPlayerLighting(-1),
-	m_hHealthBer(-1),
-	m_charaImagePos(0),
-	m_charaImageIdlePos(0),
-	m_charaImageAttackPos(0),
-	m_charaImageDamagePos(0),
-	m_charaImageJumpPos(0),
-	m_charaImageCrouching(0),
-	m_boxPosX(0),
-	m_boxPosY(0),
-	m_boxPosBottomX(0),
-	m_boxPosBottomY(0),
-	m_stagingBoxX(0),
-	m_stagingBoxY(0),
-	m_stagingBoxBottomX(0),
-	m_stagingBoxBottomY(0),
-	m_playerHealthBer(0),
+	m_hPlayer             (-1),
+	m_hPlayerIdle         (-1),
+	m_hPlayerLighting     (-1),
+	m_hHealthBer          (-1),
+	m_charaImagePos		  (0),
+	m_charaImageIdlePos   (0),
+	m_charaImageAttackPos (0),
+	m_charaImageDamagePos (0),
+	m_charaImageJumpPos   (0),
+	m_charaImageCrouching (0),
+	m_boxPosX			  (0),
+	m_boxPosY             (0),
+	m_boxPosBottomX       (0),
+	m_boxPosBottomY       (0),
+	m_stagingBoxX         (0),
+	m_stagingBoxY         (0),
+	m_stagingBoxBottomX   (0),
+	m_stagingBoxBottomY   (0),
+	m_playerHealthBer     (0),
 	m_playerHealthBerCount(0),
-	m_playerHealthSizeX(0),
-	m_playerHealthSizeY(0),
-	m_boxDropCount(0),
-	m_frameCount(0),
-	m_hierarchy(0),
+	m_playerHealthSizeX   (0),
+	m_playerHealthSizeY   (0),
+	m_boxDropCount        (0),
+	m_frameCount          (0),
+	m_hierarchy           (0),
 	m_gravity(0.0f),
-	m_isRunMoveLeft(false),
-	m_isRunMoveRight(false),
-	m_isIdleMove(false),
-	m_isAttackMove(false),
-	m_isDamageMove(false),
-	m_isJumpMove(false),
-	m_isCrouchingMove(false),
-	m_isHealthBer(false),
-	m_isGetSword(false),
-	m_isItemDrop(false),
-	m_isFloorOne(false),
-	m_isLadder(false),
-	m_isInvaliDown(false),
-	m_isCharaDirection(false),
+	m_isRunMoveLeft       (false),
+	m_isRunMoveRight      (false),
+	m_isIdleMove          (false),
+	m_isAttackMove		  (false),
+	m_isDamageMove		  (false),
+	m_isJumpMove		  (false),
+	m_isCrouchingMove     (false),
+	m_isHealthBer         (false),
+	m_isGetSword          (false),
+	m_isItemDrop          (false),
+	m_isFloorOne          (false),
+	m_isLadder            (false),
+	m_isInvaliDown        (false),
+	m_isCharaDirection    (false),
 	m_isCharaIdleDirection(false),
-	m_playerSize(0.0f, 0.0f),
-	m_pos(0.0, 0.0),
-	m_imagePos(0.0, 0.0),
-	m_imageBalancePos(0.0, 0.0),
-	m_underPos(0.0, 0.0),
-	m_vec(0.0, 0.0),
-	m_pEnemy(nullptr),
+	m_playerSize     (0.0f, 0.0f),
+	m_pos            (0.0f, 0.0f),
+	m_imagePos       (0.0f, 0.0f),
+	m_imageBalancePos(0.0f, 0.0f),
+	m_underPos       (0.0f, 0.0f),
+	m_vec            (0.0f, 0.0f),
+	m_pEnemy      (nullptr),
 	m_pSceneResult(nullptr)
 {
 	m_charaImagePos = (1344 - kCharaImageRightPos);
@@ -159,6 +159,16 @@ void Player::Update()
 //描画
 void Player::Draw()
 {
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA,100);
+
+	//////////////////////////////////////
+	//*　　　　　マップ背景　　　　　　*//
+	//////////////////////////////////////
+	DrawExtendGraph(0,0,  Game::kScreenWidth,Game::kScreenHeight,  m_hMapFirst , true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapSecond, true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapThird , true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapFourth, true);
+
 	//////////////////////////////////////
 	//*地面は下から順番に数えていきます*//
 	//////////////////////////////////////
@@ -722,5 +732,3 @@ void Player::DeathMenu()
 {
 	m_isDead = true;
 }
-
-

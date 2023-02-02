@@ -27,6 +27,12 @@ private:
 	int m_hPlayerHealthBer;
 	int m_hEnemy;
 
+	int m_hMapFirst;
+	int m_hMapSecond;
+	int m_hMapThird;
+	int m_hMapFourth;
+	int m_hMapChip;
+
 	Player* m_pPlayer;
 	Enemy* m_pEnemy;
 };

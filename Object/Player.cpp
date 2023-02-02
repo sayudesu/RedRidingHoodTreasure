@@ -32,7 +32,7 @@ namespace
 	////////////////////
 	constexpr int kGroundSecondX = Game::kScreenWidth / 2;
 	constexpr int kGroundSecondY = 520;
-	constexpr int kGroundSecondBottomX = Game::kScreenWidth;
+	constexpr int kGroundSecondBottomX = Game::kScreenWidth - 120;
 	constexpr int kGroundSecondBottomY = kGroundSecondY + 20;
 
 	///////////////////////
@@ -43,19 +43,17 @@ namespace
 	constexpr int kFallBoxBottomX = Game::kScreenWidth / 2 - 40;
 	constexpr int kFallBoxBottomY = kFallBoxY + 80;
 
-
 	////////////////////
 	///*はしご１座標*///
 	////////////////////
-	constexpr int kLadderX = Game::kScreenWidth - 120;
+	constexpr int kLadderX = Game::kScreenWidth - 100;
 	constexpr int kLadderY = 500;
 	constexpr int kLadderXBottom = Game::kScreenWidth - 90;
 	constexpr int kLadderYBottom = Game::kScreenHeight - 70;
 
-	///////////////////////
+	////////////////////////
 	///*アイテムボックス*///
 	///////////////////////
-
 	constexpr int kBoxPosX = 200;
 	constexpr int kBoxPosY = 550;
 	constexpr int kBoxPosBottomX = 200 + 50;
@@ -73,6 +71,7 @@ Player::Player() :
 	m_charaImageDamagePos (0),
 	m_charaImageJumpPos   (0),
 	m_charaImageCrouching (0),
+	m_count				  (0),
 	m_boxPosX			  (0),
 	m_boxPosY             (0),
 	m_boxPosBottomX       (0),
@@ -168,7 +167,7 @@ void Player::Draw()
 	//*　　　　　マップ背景　　　　　　*//
 	//////////////////////////////////////
 	DrawExtendGraph(0,0,  Game::kScreenWidth,Game::kScreenHeight,  m_hMapFirst , true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapSecond, true);
+	DrawExtendGraph(0 + GetRand(10), 0 + GetRand(10), Game::kScreenWidth + GetRand(10), Game::kScreenHeight + GetRand(10), m_hMapSecond, true);
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapThird , true);
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapFourth, true);
 
@@ -184,7 +183,7 @@ void Player::Draw()
 		m_hMapChip, true);
 
 	DrawRectExtendGraph(
-		0, Game::kScreenHeight - 25, Game::kScreenWidth, Game::kScreenHeight + 25,
+		0, Game::kScreenHeight - 25, Game::kScreenWidth, Game::kScreenHeight + 10,
 		16, 224, 160, 32,
 		m_hMapChip, true);
 	//////////////////////////////////////
@@ -222,7 +221,7 @@ void Player::Draw()
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 
-	DrawLine(Game::kScreenWidth / 2, 520, Game::kScreenWidth, 520, 0xffffff);//2
+	DrawLine(Game::kScreenWidth / 2, 520, Game::kScreenWidth - 120, 520, 0xffffff);//2
 	DrawLine(0, kGround, Game::kScreenWidth, kGround, 0xffffff);//1
 
 	//体力の量表示
@@ -232,13 +231,8 @@ void Player::Draw()
 		DrawBox(m_pos.x - 35, m_pos.y - 30, m_pos.x - 35 + 75, m_pos.y - 30 + 10, 0xff0000, true);
 		DrawExtendGraph(m_pos.x - 35, m_pos.y - 30, m_playerHealthSizeX + m_pos.x - 35 + 75, m_playerHealthSizeY + m_pos.y - 30 + 10,m_hHealthBer,true);
 		DrawBox(m_pos.x - 35, m_pos.y - 30, m_pos.x - 35 + 75, m_pos.y - 30 + 10, 0xffffff, false);
-		//DrawExtendGraph(m_pos.x - 35, m_pos.y - 30,0 + m_pos.x - 35 + 75, m_playerHealthSizeY + m_pos.y - 30 + 10, m_hHealthBer, false);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
-
-	//DrawExtendGraph(100, 100, 100 + 130 * 200, 480 * 200, m_hHealthBer, false);
-	
-	//DrawRotaGraph(m_pos.x -100000000, m_pos.y + 20 + GetRand(5), 30000, 0, m_playerHealthBer, true, false);
 
 	//キャラクター
 	SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
@@ -309,7 +303,7 @@ void Player::Draw()
 	////////////////////
 	///*判定の確認用*///
 	////////////////////
-#if false	
+#if true	
 	//キャラクター
 	DrawBox(m_pos.x - 25, m_pos.y - 10, m_pos.x + 25, m_pos.y + 60, 0xff0000, false);
 
@@ -551,7 +545,10 @@ int Player::FieldJudgement()
 		return 0;
 	}
 
-	if(m_hierarchy == 1)
+	////////////////////////////////////
+	///*当たり判定を四角形に変更予定*///
+	////////////////////////////////////
+	if(true/*m_hierarchy == 1*/)
 	{
 		if(m_pos.y >= kGround - 60 - m_playerSize.y)//地面に着地
 		{
@@ -563,7 +560,7 @@ int Player::FieldJudgement()
 	}
 	
 	//２階に来たら作動する	
-	if (m_hierarchy == 2)
+	if (true/*m_hierarchy == 2*/)
 	{
 		if (m_pos.y >= 520 - 60 - m_playerSize.y)//地面2
 		{
@@ -586,6 +583,13 @@ int Player::CheckHit()
 		{
 			m_isFloorOne = true;
 
+			m_count++;
+			//1フレームだけで代入する（予定
+			if (m_count == 1)
+			{
+				m_pos.x = (10 + kLadderX);
+			}
+			/*
 			if (static_cast<int>(m_pos.y) <= 680)
 			{
 				m_hierarchy = 1;
@@ -594,11 +598,14 @@ int Player::CheckHit()
 			{
 				m_hierarchy = 2;
 			}
-
+			*/
 			return 1;
 		}
 	}
+
 	m_isFloorOne = false;
+	m_count = 0;
+
 	return 0;
 }
 //アイテムボックスの判定

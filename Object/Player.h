@@ -26,9 +26,9 @@ public:
 	void SetHandleLighting (int handle) { m_hPlayerLighting = handle; }
 	void SetHandleHealthBer(int handle) { m_hHealthBer      = handle; }
 
-	void SetHandleMapFirst (int handle) { m_hMapFirst = handle; }
+	void SetHandleMapFirst (int handle) { m_hMapFirst = handle;  }
 	void SetHandleMapSecond(int handle) { m_hMapSecond = handle; }
-	void SetHandleMapThird (int handle) { m_hMapThird = handle; }
+	void SetHandleMapThird (int handle) { m_hMapThird = handle;  }
 	void SetHandleMapFourth(int handle) { m_hMapFourth = handle; }
 
 	void SetHnadleMapChip(int handle) { m_hMapChip = handle; }
@@ -81,6 +81,8 @@ private:
 	int m_charaImageDamagePos;
 	int m_charaImageJumpPos;
 	int m_charaImageCrouching;
+	//はしご
+	int m_count;
 	//アイテムボックスサイズ位置
 	int m_boxPosX;
 	int m_boxPosY;

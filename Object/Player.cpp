@@ -1,4 +1,5 @@
 #include "SceneMain.h"
+#include "SceneResult.h"
 #include "Player.h"
 #include "Enemy.h"
 #include <DxLib.h>
@@ -70,10 +71,16 @@ Player::Player() :
 	m_charaImageIdlePos(0),
 	m_charaImageAttackPos(0),
 	m_charaImageDamagePos(0),
+	m_charaImageJumpPos(0),
+	m_charaImageCrouching(0),
 	m_boxPosX(0),
 	m_boxPosY(0),
 	m_boxPosBottomX(0),
 	m_boxPosBottomY(0),
+	m_stagingBoxX(0),
+	m_stagingBoxY(0),
+	m_stagingBoxBottomX(0),
+	m_stagingBoxBottomY(0),
 	m_playerHealthBer(0),
 	m_playerHealthBerCount(0),
 	m_playerHealthSizeX(0),
@@ -87,8 +94,11 @@ Player::Player() :
 	m_isIdleMove(false),
 	m_isAttackMove(false),
 	m_isDamageMove(false),
+	m_isJumpMove(false),
+	m_isCrouchingMove(false),
 	m_isHealthBer(false),
 	m_isGetSword(false),
+	m_isItemDrop(false),
 	m_isFloorOne(false),
 	m_isLadder(false),
 	m_isInvaliDown(false),
@@ -100,7 +110,8 @@ Player::Player() :
 	m_imageBalancePos(0.0, 0.0),
 	m_underPos(0.0, 0.0),
 	m_vec(0.0, 0.0),
-	m_pEnemy(nullptr)
+	m_pEnemy(nullptr),
+	m_pSceneResult(nullptr)
 {
 	m_charaImagePos = (1344 - kCharaImageRightPos);
 	m_func = &Player::UpdateMove;
@@ -109,6 +120,7 @@ Player::Player() :
 Player::~Player()
 {
 	delete m_pEnemy;
+	delete m_pSceneResult;
 }
 //初期化
 void Player::Init()
@@ -141,6 +153,7 @@ void Player::End()
 void Player::Update()
 {
 	m_pEnemy->Update();
+
 	(this->*m_func)();
 }
 //描画
@@ -163,7 +176,21 @@ void Player::Draw()
 	
 	if(!m_isGetSword)
 	{
-		DrawBox(m_boxPosX, m_boxPosY, m_boxPosBottomX, m_boxPosBottomY, 0x00ff00, true);//アイテムボックス
+		if (m_boxDropCount < 120)
+		{
+			m_stagingBoxX = GetRand(10), m_stagingBoxY = GetRand(10);
+			m_stagingBoxBottomX = GetRand(10), m_stagingBoxBottomY = GetRand(10);
+			SetDrawBlendMode(DX_BLENDMODE_ALPHA, GetRand(255));
+		}
+		else
+		{
+			m_stagingBoxX = 0;
+			m_stagingBoxY = 0;
+			m_stagingBoxBottomX = 0;
+			m_stagingBoxBottomY = 0;
+		}
+		DrawBox(m_boxPosX + m_stagingBoxX, m_boxPosY + m_stagingBoxY, m_boxPosBottomX + m_stagingBoxBottomX, m_boxPosBottomY + m_stagingBoxBottomY, 0x00ff00, true);//アイテムボックス
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 
 	DrawLine(Game::kScreenWidth / 2, 520, Game::kScreenWidth, 520, 0xffffff);//2
@@ -192,7 +219,7 @@ void Player::Draw()
 		DrawRotaGraph(m_pos.x - 3 + GetRand(5), m_pos.y + 20 + GetRand(5), 3, 0, m_hPlayerLighting, true, false);
 	}
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	if (m_isIdleMove && !m_isAttackMove && !m_isDamageMove)//何もしない
+	if (m_isIdleMove && !m_isAttackMove && !m_isDamageMove && !m_isJumpMove && !m_isCrouchingMove)//何もしない
 	{
 
 		DrawRectRotaGraph(static_cast<int>(m_imagePos.x) + static_cast<int>(m_imageBalancePos.x),
@@ -200,25 +227,49 @@ void Player::Draw()
 			m_charaImageIdlePos, 0, 80, 80, 2, 0, m_hPlayerIdle, true, m_isCharaIdleDirection);
 
 	}
-	else if (m_isRunMoveRight && !m_isAttackMove || m_isRunMoveLeft && !m_isAttackMove && !m_isDamageMove)//走る
+	else if (m_isRunMoveRight && !m_isAttackMove || m_isRunMoveLeft && !m_isAttackMove && !m_isDamageMove && !m_isJumpMove && !m_isCrouchingMove)//走る
 	{
 		DrawRectRotaGraph(static_cast<int>(m_imagePos.x), static_cast<int>(m_imagePos.y),
 			m_charaImagePos, 133, 112, 133, 2, 0, m_hPlayer, true, m_isCharaDirection);
 	}
-	if (m_isAttackMove && !m_isDamageMove)//剣攻撃
+	if (m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)//剣攻撃
 	{
 		DrawRectRotaGraph(static_cast<int>(m_imagePos.x) + 0,
 			static_cast<int>(m_imagePos.y) + 0,
 			m_charaImageAttackPos, 1197, 112, 133, 2, 0, m_hPlayer, true, m_isCharaDirection);
 	}
-	if (m_isDamageMove)
+	if (m_isDamageMove && !m_isCrouchingMove)//攻撃を受けたら
 	{
 		DrawRectRotaGraph(static_cast<int>(m_imagePos.x) + 0,
 			static_cast<int>(m_imagePos.y) + 0,
 			m_charaImageDamagePos, 1330, 112, 133, 2, 0, m_hPlayer, true, m_isCharaDirection);
 	}
+	if (m_isJumpMove && !m_isCrouchingMove)//ジャンプをしたら
+	{
+		DrawRectRotaGraph(static_cast<int>(m_imagePos.x) + 0,
+			static_cast<int>(m_imagePos.y) + 0,
+			m_charaImageJumpPos, 399, 112, 133, 2, 0, m_hPlayer, true, m_isCharaDirection);
+	}
+
+	if(m_isCrouchingMove)
+	{
+		DrawRectRotaGraph(static_cast<int>(m_imagePos.x) + 0,
+			static_cast<int>(m_imagePos.y) + 0,
+			m_charaImageCrouching, 532, 112, 133, 2, 0, m_hPlayer, true, m_isCharaDirection);
+	}
 
 
+	if (m_isDead)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+		DrawBox(350, 200, 300 + 600, 200 + 300, 0x0000ff, true);
+
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		DrawBox(350,200,300 + 600,200 + 300,0xffffff,false);
+		DrawString(Game::kScreenWidth / 2 - 100, Game::kScreenHeight / 2 - 100, "あなたは死にました", 0xff0000);
+		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2  - 30, "受け入れる", 0xffffff);
+		DrawString(Game::kScreenWidth / 2 + 50, Game::kScreenHeight / 2 - 30, "受け入れない", 0xffffff);
+	}
 
 
 	DrawString(0, 0, "ゲームプレイ", 0xffffff);
@@ -237,9 +288,6 @@ void Player::Draw()
 	printfDx("%d\n", m_playerHealthBer);
 
 #endif
-
-
-
 }
 //操作
 void Player::Operation()
@@ -247,12 +295,13 @@ void Player::Operation()
 	//入力判定
 	Pad::update();
 
+	m_isCrouchingMove = false;
 	m_isRunMoveRight = false;//右に動いているかどうか
 	m_isRunMoveLeft = false;//左に動いているかどうか
 	m_isIdleMove = true;//動いているかどうか
 
 	//移動
-	if (CheckHitKey(KEY_INPUT_RIGHT) && !m_isAttackMove && !m_isDamageMove)//右
+	if (CheckHitKey(KEY_INPUT_RIGHT) && !m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)//右
 	{
 		m_pos.x += kMoveSpeed;
 		m_underPos.x += kMoveSpeed;
@@ -261,7 +310,7 @@ void Player::Operation()
 		m_isIdleMove = false;
 		m_isCharaIdleDirection = false;
 	}
-	if (CheckHitKey(KEY_INPUT_LEFT) && !m_isAttackMove && !m_isDamageMove)//左
+	if (CheckHitKey(KEY_INPUT_LEFT) && !m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)//左
 	{
 		m_pos.x -= kMoveSpeed;
 		m_underPos.x -= kMoveSpeed;
@@ -272,14 +321,14 @@ void Player::Operation()
 	}
 
 	//アップダウン
-	if (CheckHitKey(KEY_INPUT_UP) && CheckHit() == 1 && !m_isAttackMove && !m_isDamageMove)//梯子上り
+	if (CheckHitKey(KEY_INPUT_UP) && CheckHit() == 1 && !m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)//梯子上り
 	{
 		m_vec.y = 0.0f;
 		m_pos.y -= kMoveSpeed;
 		m_isIdleMove = false;
 	
 	} 
-	if(!m_isInvaliDown && !m_isAttackMove && !m_isDamageMove)
+	if(!m_isInvaliDown && !m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)
 	{
 		if (CheckHitKey(KEY_INPUT_DOWN) && CheckHit() == 1)//梯子下り
 		{
@@ -297,12 +346,18 @@ void Player::Operation()
 		{
 			//printfDx("ジャンプ\n");
 			m_vec.y = kJump;//ジャンプ開始
-			m_isIdleMove = false;
+			m_isJumpMove = true;
+			//m_isIdleMove = false;
 		}
 	}
 
+	if (CheckHitKey(KEY_INPUT_DOWN))
+	{
+		m_isCrouchingMove = true;
+	}
+
 	//攻撃
-	if(m_isGetSword && !m_isDamageMove)
+	if(m_isGetSword && !m_isDamageMove && !m_isCrouchingMove)
 	{
 		if(CheckHitKey(KEY_INPUT_V))
 		{
@@ -389,11 +444,50 @@ void Player::Condition()
 		if(m_charaImageDamagePos == kCharaImageRightPos * 7)
 		{
 			m_charaImageDamagePos = 0;
+	
 			m_isDamageMove = false;
+
 		}
 	}
 
+	//ジャンプした場合
+	if (m_isJumpMove)
+	{
+		m_frameCount++;
+		if (m_frameCount >= kAnimationFrame)
+		{
+			m_charaImageJumpPos += kCharaImageRightPos;
+			m_frameCount = 0;
+		}
+		if (m_charaImageJumpPos == kCharaImageRightPos * 12)
+		{
+			m_charaImageJumpPos = 0;
 
+			if (FieldJudgement() == 1 || FieldJudgement() == 2)
+			{
+				m_isJumpMove = false;
+			}
+		}
+	}
+
+	if (m_isCrouchingMove)
+	{
+		m_frameCount++;
+		if (m_frameCount >= kAnimationFrame)
+		{
+			m_charaImageCrouching += kCharaImageRightPos;
+			m_frameCount = 0;
+		}
+		if (m_charaImageCrouching >= kCharaImageRightPos)
+		{
+			m_charaImageCrouching = kCharaImageRightPos;
+	
+		}
+	}
+	else
+	{
+		m_isCrouchingMove = false;
+	}
 
 	//攻撃アニメーション（剣）
 	if (m_isAttackMove)
@@ -486,9 +580,17 @@ void Player::BoxJudgement()
 			(m_boxPosY < m_pos.y + 60))
 		{
 			//printfDx("ボックス判定\n");
-			m_isGetSword = true;//アイテムボックス非表示
+			m_isItemDrop = true;
+			if (m_boxDropCount >= 120)
+			{
+				m_isGetSword = true;//アイテムボックス非表示
+				m_boxDropCount = 0;
+
+			}
+
 		}
 	}
+
 }
 //下に落ちる判定
 void Player::CheckFall()
@@ -512,20 +614,17 @@ bool Player::EnemyHit()
 		if ((m_pEnemy->GetSizeBottom().y > m_pos.y - 10) &&
 			(m_pEnemy->GetSize().y < m_pos.y + 60))
 		{
-			
-			if(m_isGetSword)
+			if (m_isGetSword)
 			{
+
 				m_boxPosX = m_pos.x;
-				m_boxPosY = m_pos.y;
+				m_boxPosY = m_pos.y - 80;
 				m_boxPosBottomX = m_boxPosX + 50;
 				m_boxPosBottomY = m_boxPosY + 50;
-				
-				if (m_boxDropCount >= 120)
-				{
-					m_isGetSword = false;//アイテムボックスドロップ
-					m_boxDropCount = 0;
-				}
+
+				m_isGetSword = false;//アイテムボックスドロップ
 			}
+
 			m_isDamageMove = true;//ダメージアニメーション再生
 			return true;
 		}
@@ -548,6 +647,10 @@ void Player::HealthControl()
 		printfDx("死亡\n");
 		m_playerHealthSizeX = 0;
 		m_isHealthBer = true;
+		//ポーズメニュー
+
+		m_func = &Player::DeathMenu;
+		
 	}
 	
 }
@@ -573,14 +676,23 @@ void Player::UpdateMove()
 	CheckHit();
 	////地面
 	FieldJudgement();
-	//敵との当たり判定
-	EnemyHit();
 	//アイテム
 	BoxJudgement();
+	if (!m_isGetSword)
+	{
+		m_boxDropCount++;
+	}
+	if (m_boxDropCount >= 120)
+	{
+		m_boxDropCount = 120;
+	}
+	//敵との当たり判定
+	EnemyHit();
 	if(!m_isHealthBer)
 	{
 		if(EnemyHit())
 		{
+			//m_boxDropCount++;
 			HealthControl();
 		}
 		else
@@ -588,11 +700,6 @@ void Player::UpdateMove()
 			m_playerHealthBerCount = 0;
 		}
 	}
-
-	m_boxDropCount++;
-	if (m_boxDropCount >= 120)m_boxDropCount = 120;
-
-
 
 	//落ち
 	CheckFall();
@@ -609,6 +716,11 @@ void Player::MenuStop()
 	{
 		m_func = &Player::UpdateMove;
 	}
+}
+//死んだ場合のMenu
+void Player::DeathMenu()
+{
+	m_isDead = true;
 }
 
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "Vec2.h"
 
+class SceneResult;
 class Enemy;
 class Player
 {
@@ -47,6 +48,9 @@ private:
 
 	void MenuStop();
 
+	//死んだ場合
+	void DeathMenu();
+
 private:
 
 	//グラフィックハンドル
@@ -59,11 +63,18 @@ private:
 	int m_charaImageIdlePos;
 	int m_charaImageAttackPos;
 	int m_charaImageDamagePos;
+	int m_charaImageJumpPos;
+	int m_charaImageCrouching;
 	//アイテムボックスサイズ位置
 	int m_boxPosX;
 	int m_boxPosY;
 	int m_boxPosBottomX;
 	int m_boxPosBottomY;
+	//アイテムボックスの演出
+	int m_stagingBoxX;
+	int m_stagingBoxY;
+	int m_stagingBoxBottomX;
+	int m_stagingBoxBottomY;
 	//プレイヤー体力
 	int m_playerHealthBer;
 	int m_playerHealthBerCount;
@@ -83,10 +94,14 @@ private:
 	bool m_isIdleMove;
 	bool m_isAttackMove;
 	bool m_isDamageMove;
-	//HP表示
+	bool m_isJumpMove;
+	bool m_isCrouchingMove;
+	//HP
 	bool m_isHealthBer;
+	bool m_isDead;
 	//アイテム武器
 	bool m_isGetSword;
+	bool m_isItemDrop;
 	//階段判定
 	bool m_isFloorOne;
 	//梯子判定
@@ -109,5 +124,6 @@ private:
 	
 	void (Player::* m_func)();
 	Enemy* m_pEnemy;
+	SceneResult* m_pSceneResult;
 };
 

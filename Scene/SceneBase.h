@@ -1,10 +1,11 @@
 #pragma once
 
+class SceneManager;
 // ゲームシーン基底クラス
 class SceneBase
 {
 public:
-	SceneBase() {}
+	SceneBase(){}
 	virtual ~SceneBase() {}
 
 	virtual void Init() {}
@@ -15,5 +16,6 @@ public:
 
 	// シーン終了
 	virtual bool IsEnd() { return false; }
+
 };
 

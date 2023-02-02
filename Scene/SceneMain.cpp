@@ -20,6 +20,7 @@ SceneMain::SceneMain() :
 	m_hPlayerIdle(-1),
 	m_hPlayerLighting(-1),
 	m_hPlayerHealthBer(-1),
+	m_hEnemy(-1),
 	m_pPlayer(nullptr),
 	m_pEnemy(nullptr)
 {

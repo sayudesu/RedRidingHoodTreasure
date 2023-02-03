@@ -31,7 +31,7 @@ namespace
 	///*地面　２座標*///
 	////////////////////
 	constexpr int kGroundSecondX = Game::kScreenWidth / 2;
-	constexpr int kGroundSecondY = 520;
+	constexpr int kGroundSecondY = 520 - 10;
 	constexpr int kGroundSecondBottomX = Game::kScreenWidth - 120;
 	constexpr int kGroundSecondBottomY = kGroundSecondY + 20;
 
@@ -65,6 +65,10 @@ Player::Player() :
 	m_hPlayerIdle         (-1),
 	m_hPlayerLighting     (-1),
 	m_hHealthBer          (-1),
+	m_playerLeft		  (0),
+	m_playerTop           (0),
+	m_playerRight		  (0),
+	m_playerBpttom        (0),
 	m_charaImagePos		  (0),
 	m_charaImageIdlePos   (0),
 	m_charaImageAttackPos (0),
@@ -127,6 +131,7 @@ Player::~Player()
 //初期化
 void Player::Init()
 {
+
 	m_hierarchy = 1;
 	m_playerHealthBer = 100;
 
@@ -306,7 +311,7 @@ void Player::Draw()
 #if true	
 	//キャラクター
 	DrawBox(m_pos.x - 25, m_pos.y - 10, m_pos.x + 25, m_pos.y + 60, 0xff0000, false);
-
+	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBpttom, 0xffff00, false);
 	//２階から落ちる範囲
 	DrawBox(kFallBoxX, kFallBoxY, kFallBoxBottomX, kFallBoxBottomY, 0xf000f0, false);
 	//printfDx("%f\n", m_pos.y);
@@ -353,7 +358,7 @@ void Player::Operation()
 		m_isIdleMove = false;
 	
 	} 
-	if(!m_isInvaliDown && !m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)
+	if(m_isInvaliDown && !m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)
 	{
 		if (CheckHitKey(KEY_INPUT_DOWN) && CheckHit() == 1)//梯子下り
 		{
@@ -369,7 +374,7 @@ void Player::Operation()
 		if (FieldJudgement() == 1 ||
 			FieldJudgement() == 2)//地面にいる状態の場合
 		{
-			//printfDx("ジャンプ\n");
+			printfDx("ジャンプ\n");
 			m_vec.y = kJump;//ジャンプ開始
 			m_isJumpMove = true;
 			//m_isIdleMove = false;
@@ -548,7 +553,7 @@ int Player::FieldJudgement()
 	////////////////////////////////////
 	///*当たり判定を四角形に変更予定*///
 	////////////////////////////////////
-	if(true/*m_hierarchy == 1*/)
+	/*	if(m_hierarchy == 1)
 	{
 		if(m_pos.y >= kGround - 60 - m_playerSize.y)//地面に着地
 		{
@@ -558,14 +563,33 @@ int Player::FieldJudgement()
 			return 1;
 		}
 	}
-	
-	//２階に来たら作動する	
-	if (true/*m_hierarchy == 2*/)
+	*/
+
+	//2階の判定
+	if ((kGroundSecondBottomX > m_pos.x - 25) &&
+		(kGroundSecondX       < m_pos.x + 25))
 	{
-		if (m_pos.y >= 520 - 60 - m_playerSize.y)//地面2
+		if ((kGroundSecondBottomY > m_pos.y) &&
+			(kGroundSecondY       < m_pos.y + 60))
 		{
 			m_pos.y = 520 - 60 - m_playerSize.y;
-			return 2;
+			m_isInvaliDown = true;//下に移動できない
+			return 1;
+		}
+	}
+
+	//1階の判定
+	if ((Game::kScreenWidth + 1 > m_playerLeft) &&
+		(0                     < m_playerRight))
+	{
+		if ((kGround + 20 + 1 > m_playerTop) &&
+			(700              < m_playerBpttom))
+		{
+
+			m_pos.y = kGround - 50 - m_playerSize.y;
+			m_isInvaliDown = true;//下に移動できない
+			return 1;
+
 		}
 	}
 
@@ -575,25 +599,27 @@ int Player::FieldJudgement()
 int Player::CheckHit()
 {
 
-	if ((kLadderXBottom > m_pos.x - 25) &&
-		(kLadderX < m_pos.x + 25))
+	if ((kLadderXBottom > m_playerLeft) &&
+		(kLadderX < m_playerRight))
 	{
-		if ((kLadderYBottom > m_pos.y - 10) &&
-			(kLadderY < m_pos.y + 60))
+		if ((kLadderYBottom > m_playerTop) &&
+			(kLadderY < m_playerBpttom))
 		{
 			m_isFloorOne = true;
-
+			m_isInvaliDown = true;
 			m_count++;
 			//1フレームだけで代入する（予定
 			if (m_count == 1)
 			{
-				m_pos.x = (10 + kLadderX);
+				//m_pos.x = (10 + kLadderX);
 			}
+
 			/*
 			if (static_cast<int>(m_pos.y) <= 680)
 			{
 				m_hierarchy = 1;
 			}
+			
 			if (static_cast<int>(m_pos.y) <= 580)
 			{
 				m_hierarchy = 2;
@@ -611,11 +637,11 @@ int Player::CheckHit()
 //アイテムボックスの判定
 void Player::BoxJudgement()
 {
-	if ((m_boxPosBottomX > m_pos.x - 25) &&
-		((m_boxPosX < m_pos.x + 25)))
+	if ((m_boxPosBottomX > m_playerLeft) &&
+		((m_boxPosX < m_playerRight)))
 	{
-		if ((m_boxPosBottomY > m_pos.y - 10) &&
-			(m_boxPosY < m_pos.y + 60))
+		if ((m_boxPosBottomY > m_playerTop) &&
+			(m_boxPosY < m_playerBpttom))
 		{
 			//printfDx("ボックス判定\n");
 			m_isItemDrop = true;
@@ -636,7 +662,7 @@ void Player::CheckFall()
 	if ((kFallBoxBottomX > m_pos.x - 25) &&
 		(kFallBoxX < m_pos.x + 25))
 	{
-		if ((kFallBoxBottomY > m_pos.y - 10) &&
+		if ((kFallBoxBottomY > m_pos.y) &&
 			(kFallBoxY < m_pos.y + 60))
 		{
 			m_hierarchy = 1;
@@ -646,11 +672,11 @@ void Player::CheckFall()
 //敵とプレイヤーの判定
 bool Player::EnemyHit()
 {
-	if ((m_pEnemy->GetSizeBottom().x > m_pos.x - 25) &&
-		(m_pEnemy->GetSize().x < m_pos.x + 25))
+	if ((m_pEnemy->GetSizeBottom().x > m_playerLeft) &&
+		(m_pEnemy->GetSize().x < m_playerRight))
 	{
-		if ((m_pEnemy->GetSizeBottom().y > m_pos.y - 10) &&
-			(m_pEnemy->GetSize().y < m_pos.y + 60))
+		if ((m_pEnemy->GetSizeBottom().y > m_playerTop) &&
+			(m_pEnemy->GetSize().y < m_playerBpttom))
 		{
 			if (m_isGetSword)
 			{
@@ -696,16 +722,25 @@ void Player::HealthControl()
 void Player::UpdateMove()
 {	
 	clsDx();
-	//printfDx("%f\n", m_pEnemy->GetSize().x);
-	if(CheckHit() == 0)
+
+	if(!FieldJudgement() == 1)
 	{
 		//重力
 		m_vec.y += m_gravity;	
 	}
+	else
+	{
+		m_vec.y = 0.0f;
+	}
+
+	m_playerLeft = m_pos.x - 15;
+	m_playerTop = m_pos.y + 10;
+	m_playerRight = m_pos.x + 10;
+	m_playerBpttom = m_pos.y + 60;
 
 	//プレイヤー位置
 	m_imagePos = m_pos;
-	m_pos += m_vec;
+	m_pos      += m_vec;
 	m_underPos += m_vec;
 
 	////////////////////
@@ -713,7 +748,7 @@ void Player::UpdateMove()
 	///////////////////
 	//はしご
 	CheckHit();
-	////地面
+	//地面
 	FieldJudgement();
 	//アイテム
 	BoxJudgement();
@@ -739,9 +774,11 @@ void Player::UpdateMove()
 			m_playerHealthBerCount = 0;
 		}
 	}
-
+	////////////////////////
+	///*これいらないかも*///
+	////////////////////////
 	//落ち
-	CheckFall();
+//	CheckFall();
 	//操作
 	Operation();
 	//状態（動き）

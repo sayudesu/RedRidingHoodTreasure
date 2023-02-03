@@ -68,6 +68,11 @@ private:
 	int m_hPlayerIdle;
 	int m_hPlayerLighting;
 	int m_hHealthBer;
+	//プレイヤー判定用
+	int m_playerLeft;
+	int m_playerTop;
+	int m_playerRight;
+	int m_playerBpttom;
 	//マップ用グラフィックハンドル
 	int m_hMapFirst;
 	int m_hMapSecond;

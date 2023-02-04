@@ -23,6 +23,8 @@ namespace
 	const char* const kMapFifth = "Data/Map/plx-5.png";
 	//マップチップ
 	const char* const kMapChip = "Data/Map/jungle tileset.png";
+	//エネミー
+	const char* const kEnemyEye = "Data/Enemy/EyeBall Monster-Sheet.png";
 
 }
 
@@ -57,34 +59,37 @@ void SceneMain::Init()
 	m_pPlayer->Init();
 	m_pEnemy->Init();
 
+	//プレイヤー画像
 	m_hPlayer = LoadGraph(kPlayerImage);
 	m_hPlayerIdle = LoadGraph(kPlayerImageIdle);
 	m_hPlayerLighting = LoadGraph(kPlayerLighting);
 	m_hPlayerHealthBer = LoadGraph(kPlayerHealthBer);
 
-	m_hEnemy = LoadGraph(kPlayerImage);
+	//エネミー画像
+	m_hEnemy = LoadGraph(kEnemyEye);
 
+	//マップ画像
 	m_hMapFirst  = LoadGraph(kMapFirst);
 	m_hMapSecond = LoadGraph(kMapSecond);
 	m_hMapThird  = LoadGraph(kMapThird);
 	m_hMapFourth = LoadGraph(kMapFourth);
 	m_hMapFifth = LoadGraph(kMapFifth);
-
 	m_hMapChip = LoadGraph(kMapChip);
 
+	//プレイヤー画像
 	m_pPlayer->SetHandle(m_hPlayer);
 	m_pPlayer->SetHandleIdle(m_hPlayerIdle);
 	m_pPlayer->SetHandleLighting(m_hPlayerLighting);
 	m_pPlayer->SetHandleHealthBer(m_hPlayerHealthBer);
-
+	//エネミー画像
 	m_pEnemy->SetHandle(m_hEnemy);
 
+	//マップ画像
 	m_pPlayer->SetHandleMapFirst (m_hMapFirst);
 	m_pPlayer->SetHandleMapSecond(m_hMapSecond);
 	m_pPlayer->SetHandleMapThird (m_hMapThird);
 	m_pPlayer->SetHandleMapFourth(m_hMapFourth);
 	m_pPlayer->SetHandleMapFifth(m_hMapFifth);
-
 	m_pPlayer->SetHnadleMapChip(m_hMapChip);
 }
 void SceneMain::End()

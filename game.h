@@ -7,7 +7,7 @@ namespace Game
 	// マウスカーソル表示
 	constexpr bool kMouseMode = true;
 	// ウインドウ名
-	const char* const kTitleText = "ゲーム名";
+	const char* const kTitleText = "DCの様なゲーム（制作中）";
 	// ウインドウサイズ
 	constexpr int kScreenWidth = 1280;
 	constexpr int kScreenHeight = 720;

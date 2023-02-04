@@ -761,7 +761,7 @@ void Player::BoxJudgement()
 //“G‚ÆƒvƒŒƒCƒ„[‚Ì”»’è
 bool Player::EnemyHit()
 {
-#if true		
+#if false		
 	if ((m_pEnemy->GetSizeBottom().x > m_playerLeft) &&
 		(m_pEnemy->GetSize().x < m_playerRight))
 	{
@@ -784,6 +784,9 @@ bool Player::EnemyHit()
 		}
 	}
 #else
+	printfDx("\n\n\nplayer%f\n", m_pEnemy->GetSize().x);
+	printfDx("playerY%f\n", m_pEnemy->GetSize().y);
+
 	if ((m_pEnemy->GetSizeBottom().x > m_pos.x - 25) &&
 		(m_pEnemy->GetSize().x < m_pos.x + 25))
 	{

@@ -9,7 +9,7 @@ namespace
 	constexpr int kAnimationFrame = 3;
 
 	//エネミー移動速度
-	constexpr float kEnemySpeed = 7.0f;
+	constexpr float kEnemySpeed = 6.5f;
 }
 
 Enemy::Enemy():
@@ -34,10 +34,10 @@ Enemy::~Enemy()
 void Enemy::Init()
 {
 	m_eyeImagePos = 336;
-	m_direction = true;
+	m_direction = false;
 
 	m_pos.x = Game::kScreenWidth;
-	m_pos.y = Game::kScreenHeight - 70 + 80;
+	m_pos.y = Game::kScreenHeight - 70;
 }
 
 void Enemy::End()
@@ -47,26 +47,50 @@ void Enemy::End()
 void Enemy::Update()
 {
 
-	m_size.x = m_pos.x - 50;
-	m_size.y = m_pos.y - 50;
-	m_sizeBottom.x = m_size.x + 100;
-	m_sizeBottom.y = m_size.y + 100;
+	//m_size.x = 500;
+	//m_size.y = 400;
+	//m_sizeBottom.x = 600;
+	//m_sizeBottom.y = 500;
+
+	//m_size.x = m_pos.x + 500;
+	//m_size.y = m_pos.y + 400;
+	//m_sizeBottom.x = m_size.x - 100;
+	//m_sizeBottom.y = m_size.y - 100;
+
+
+	/*m_size.x = m_pos.x - 15.0f;
+	m_size.y = m_pos.y;
+	m_sizeBottom.x = m_size.x + 10.0f;
+	m_sizeBottom.y = m_size.y + 60.0f;*/
+
+
+	m_size.x = m_pos.x - 25.0f;
+	m_size.y = m_pos.y + 10.0f;
+	m_sizeBottom.x = m_pos.x + 25.0f;
+	m_sizeBottom.y = m_pos.y + 60.0f;
+	
+	printfDx("\nenemy%f\n", m_size.x);
+	printfDx("enemyY%f\n", m_size.y);
 
 	m_pos += m_vec;
+	
 	if (m_pos.x >= Game::kScreenWidth)
 	{
-		m_direction = true;
+		//m_direction = true;
 		m_isRunMove = true;
 		m_vec.x = -kEnemySpeed;
 	}
 	else if (m_pos.x <= 0.0f)
 	{
-		m_direction = false;
+		//m_direction = false;
 		m_isRunMove = true;
 		m_vec.x = kEnemySpeed;
 	}
+
+	
 	//アニメーション
 	Condition();
+	
 }
 
 void Enemy::Draw()
@@ -76,7 +100,8 @@ void Enemy::Draw()
 		0, m_eyeImagePos, 128, 82, 3, 0, m_handle, true, m_direction);
 #if true	
 	//エネミーの当たり判定
-	DrawBox(m_size.x, m_size.y, m_sizeBottom.x, m_sizeBottom.y,0xffffff, false);
+	DrawBox(m_size.x, m_size.y,m_sizeBottom.x, m_sizeBottom.y,0xffffff, false);
+	//DrawBox(m_pos.x - 25, m_pos.y + 10, m_pos.x + 25, m_pos.y + 60, 0xff0000, false);
 
 #endif
 }
@@ -84,7 +109,7 @@ void Enemy::Draw()
 void Enemy::SetHandle(int handle)
 {
 	m_handle = handle;
-	GetGraphSizeF(m_handle, &m_size.x, &m_size.y);
+	//GetGraphSizeF(m_handle, &m_size.x, &m_size.y);
 }
 
 void Enemy::Condition()

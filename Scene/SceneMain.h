@@ -31,6 +31,7 @@ private:
 	int m_hMapSecond;
 	int m_hMapThird;
 	int m_hMapFourth;
+	int m_hMapFifth;
 	int m_hMapChip;
 
 	Player* m_pPlayer;

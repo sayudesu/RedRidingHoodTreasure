@@ -20,6 +20,7 @@ namespace
 	const char* const kMapSecond = "Data/Map/plx-2.png";
 	const char* const kMapThird  = "Data/Map/plx-3.png";
 	const char* const kMapFourth = "Data/Map/plx-4.png";
+	const char* const kMapFifth = "Data/Map/plx-5.png";
 	//マップチップ
 	const char* const kMapChip = "Data/Map/jungle tileset.png";
 
@@ -36,6 +37,7 @@ SceneMain::SceneMain() :
 	m_hMapSecond(-1),
 	m_hMapThird(-1),
 	m_hMapFourth(-1),
+	m_hMapFifth(-1),
 	m_hMapChip(-1),
 	m_pPlayer(nullptr),
 	m_pEnemy(nullptr)
@@ -66,6 +68,7 @@ void SceneMain::Init()
 	m_hMapSecond = LoadGraph(kMapSecond);
 	m_hMapThird  = LoadGraph(kMapThird);
 	m_hMapFourth = LoadGraph(kMapFourth);
+	m_hMapFifth = LoadGraph(kMapFifth);
 
 	m_hMapChip = LoadGraph(kMapChip);
 
@@ -80,6 +83,7 @@ void SceneMain::Init()
 	m_pPlayer->SetHandleMapSecond(m_hMapSecond);
 	m_pPlayer->SetHandleMapThird (m_hMapThird);
 	m_pPlayer->SetHandleMapFourth(m_hMapFourth);
+	m_pPlayer->SetHandleMapFifth(m_hMapFifth);
 
 	m_pPlayer->SetHnadleMapChip(m_hMapChip);
 }
@@ -98,6 +102,7 @@ void SceneMain::End()
 	DeleteGraph(m_hMapSecond);
 	DeleteGraph(m_hMapThird);
 	DeleteGraph(m_hMapFourth);
+	DeleteGraph(m_hMapFifth);
 
 	DeleteGraph(m_hMapChip);
 }

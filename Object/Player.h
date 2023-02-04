@@ -30,6 +30,7 @@ public:
 	void SetHandleMapSecond(int handle) { m_hMapSecond = handle; }
 	void SetHandleMapThird (int handle) { m_hMapThird = handle;  }
 	void SetHandleMapFourth(int handle) { m_hMapFourth = handle; }
+	void SetHandleMapFifth (int handle)  { m_hMapFifth = handle; }
 
 	void SetHnadleMapChip(int handle) { m_hMapChip = handle; }
 
@@ -45,8 +46,6 @@ private:
 	int CheckHit();
 	//アイテムボックス判定
 	void BoxJudgement();
-	//落下判定
-	void CheckFall();
 	//敵との当たり判定
 	bool EnemyHit();
 	//HP管理
@@ -68,17 +67,18 @@ private:
 	int m_hPlayerIdle;
 	int m_hPlayerLighting;
 	int m_hHealthBer;
-	//プレイヤー判定用
-	int m_playerLeft;
-	int m_playerTop;
-	int m_playerRight;
-	int m_playerBpttom;
 	//マップ用グラフィックハンドル
 	int m_hMapFirst;
 	int m_hMapSecond;
 	int m_hMapThird;
 	int m_hMapFourth;
+	int m_hMapFifth;
 	int m_hMapChip;
+	//プレイヤー判定用
+	int m_playerLeft;
+	int m_playerTop;
+	int m_playerRight;
+	int m_playerBpttom;
 	//キャラクター画像位置
 	int m_charaImagePos;
 	int m_charaImageIdlePos;

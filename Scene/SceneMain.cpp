@@ -9,12 +9,12 @@
 namespace
 {
 	//プレイヤー
-	const char* const kPlayerImage = "Data/red hood itch free Copy-Sheet.png";
-	const char* const kPlayerImageIdle = "Data/idle sheet-Sheet.png";
+	const char* const kPlayerImage = "Data/Player/red hood itch free Copy-Sheet.png";
+	const char* const kPlayerImageIdle = "Data/Player/idle sheet-Sheet.png";
 	//光
-	const char* const kPlayerLighting = "Data/lighting2.png";
+	const char* const kPlayerLighting = "Data/UI/lighting2.png";
 	//体力
-	const char* const kPlayerHealthBer = "Data/HP2.png";
+	const char* const kPlayerHealthBer = "Data/UI/HP2.png";
 	//マップ
 	const char* const kMapFirst  = "Data/Map/plx-1.png";
 	const char* const kMapSecond = "Data/Map/plx-2.png";
@@ -23,6 +23,7 @@ namespace
 	const char* const kMapFifth = "Data/Map/plx-5.png";
 	//マップチップ
 	const char* const kMapChip = "Data/Map/jungle tileset.png";
+	const char* const kMapChipSecond = "Data/Map/SET1_decorative_obj.png";
 	//エネミー
 	const char* const kEnemyEye = "Data/Enemy/EyeBall Monster-Sheet.png";
 
@@ -57,7 +58,7 @@ SceneMain::~SceneMain()
 void SceneMain::Init()
 {
 	m_pPlayer->Init();
-	m_pEnemy->Init();
+	//m_pEnemy->Init();
 
 	//プレイヤー画像
 	m_hPlayer = LoadGraph(kPlayerImage);
@@ -81,6 +82,7 @@ void SceneMain::Init()
 	m_pPlayer->SetHandleIdle(m_hPlayerIdle);
 	m_pPlayer->SetHandleLighting(m_hPlayerLighting);
 	m_pPlayer->SetHandleHealthBer(m_hPlayerHealthBer);
+
 	//エネミー画像
 	m_pEnemy->SetHandle(m_hEnemy);
 
@@ -96,6 +98,7 @@ void SceneMain::End()
 {
 	m_pPlayer->End();
 	m_pEnemy->End();
+
 	DeleteGraph(m_hPlayer);
 	DeleteGraph(m_hPlayerIdle);
 	DeleteGraph(m_hPlayerLighting);

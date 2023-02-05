@@ -5,7 +5,7 @@
 #include <DxLib.h>
 #include "Pad.h"
 #include "game.h"
-
+//定数
 namespace
 {
 	//プレイヤーの初期座標
@@ -68,6 +68,7 @@ namespace
 	constexpr int kBoxPosBottomY = 550 + 50;
 
 }
+//コンストラクタ
 Player::Player() :
 	m_hPlayer             (-1),
 	m_hPlayerIdle         (-1),
@@ -137,6 +138,7 @@ Player::Player() :
 	m_func = &Player::UpdateMove;
 	m_pEnemy = new Enemy;
 }
+//デストラクタ
 Player::~Player()
 {
 	delete m_pEnemy;
@@ -166,6 +168,7 @@ void Player::Init()
 
 	GetGraphSizeF(m_hPlayer, &m_playerSize.x, &m_playerSize.y);
 }
+//メモリの開放
 void Player::End()
 {
 
@@ -174,7 +177,6 @@ void Player::End()
 void Player::Update()
 {
 	m_pEnemy->Update();
-
 	(this->*m_func)();
 }
 //描画
@@ -760,8 +762,7 @@ void Player::BoxJudgement()
 }
 //敵とプレイヤーの判定
 bool Player::EnemyHit()
-{
-#if false		
+{			
 	if ((m_pEnemy->GetSizeBottom().x > m_playerLeft) &&
 		(m_pEnemy->GetSize().x < m_playerRight))
 	{
@@ -783,32 +784,7 @@ bool Player::EnemyHit()
 			return true;
 		}
 	}
-#else
-	printfDx("\n\n\nplayer%f\n", m_pEnemy->GetSize().x);
-	printfDx("playerY%f\n", m_pEnemy->GetSize().y);
 
-	if ((m_pEnemy->GetSizeBottom().x > m_pos.x - 25) &&
-		(m_pEnemy->GetSize().x < m_pos.x + 25))
-	{
-		if ((m_pEnemy->GetSizeBottom().y > m_pos.y + 10) &&
-			(m_pEnemy->GetSize().y < m_pos.y + 60))
-		{
-			if (m_isGetSword)
-			{
-
-				m_boxPosX = m_pos.x;
-				m_boxPosY = m_pos.y - 80;
-				m_boxPosBottomX = m_boxPosX + 50;
-				m_boxPosBottomY = m_boxPosY + 50;
-
-				m_isGetSword = false;//アイテムボックスドロップ
-			}
-
-			m_isDamageMove = true;//ダメージアニメーション再生
-			return true;
-		}
-	}
-#endif
 	return false;
 }
 //プレイヤーの体力を管理
@@ -838,7 +814,6 @@ void Player::HealthControl()
 void Player::UpdateMove()
 {	
 	clsDx();
-
 	if(!FieldJudgement() == 1)
 	{
 		//重力
@@ -891,11 +866,7 @@ void Player::UpdateMove()
 			m_playerHealthBerCount = 0;
 		}
 	}
-	////////////////////////
-	///*これいらないかも*///
-	////////////////////////
-	//落ち
-//	CheckFall();
+
 	//操作
 	Operation();
 	//状態（動き）

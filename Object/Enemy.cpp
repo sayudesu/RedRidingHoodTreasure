@@ -23,7 +23,11 @@ Enemy::Enemy():
 	m_size(0.0f, 0.0f),
 	m_sizeBottom(0.0f, 0.0f)
 {
+	m_eyeImagePos = 336;
+	m_direction = false;
 
+	m_pos.x = static_cast<float>(Game::kScreenWidth);
+	m_pos.y = static_cast<float>(Game::kScreenHeight) + 15.0f;
 }
 
 Enemy::~Enemy()
@@ -33,11 +37,6 @@ Enemy::~Enemy()
 
 void Enemy::Init()
 {
-	m_eyeImagePos = 336;
-	m_direction = false;
-
-	m_pos.x = Game::kScreenWidth;
-	m_pos.y = Game::kScreenHeight - 70;
 }
 
 void Enemy::End()
@@ -47,44 +46,42 @@ void Enemy::End()
 void Enemy::Update()
 {
 
-	//m_size.x = 500;
-	//m_size.y = 400;
-	//m_sizeBottom.x = 600;
-	//m_sizeBottom.y = 500;
-
-	//m_size.x = m_pos.x + 500;
-	//m_size.y = m_pos.y + 400;
-	//m_sizeBottom.x = m_size.x - 100;
-	//m_sizeBottom.y = m_size.y - 100;
-
-
-	/*m_size.x = m_pos.x - 15.0f;
-	m_size.y = m_pos.y;
-	m_sizeBottom.x = m_size.x + 10.0f;
-	m_sizeBottom.y = m_size.y + 60.0f;*/
-
-
-	m_size.x = m_pos.x - 25.0f;
-	m_size.y = m_pos.y + 10.0f;
-	m_sizeBottom.x = m_pos.x + 25.0f;
-	m_sizeBottom.y = m_pos.y + 60.0f;
-	
 	printfDx("\nenemy%f\n", m_size.x);
 	printfDx("enemyY%f\n", m_size.y);
 
 	m_pos += m_vec;
 	
-	if (m_pos.x >= Game::kScreenWidth)
+	if (m_pos.x >= Game::kScreenWidth)//左に移動時の判定
 	{
-		//m_direction = true;
+		m_direction = true;
 		m_isRunMove = true;
+
 		m_vec.x = -kEnemySpeed;
 	}
-	else if (m_pos.x <= 0.0f)
+	if (m_direction)//左に移動時の判定
 	{
-		//m_direction = false;
+		m_size.x = m_pos.x + 80;
+		m_size.y = m_pos.y - 70.0f;
+
+		m_sizeBottom.x = m_pos.x + 120;
+		m_sizeBottom.y = m_pos.y - 25.0f;
+	}
+
+	if (m_pos.x <= 0.0f)//右に移動
+	{
+		m_direction = false;
 		m_isRunMove = true;
+
 		m_vec.x = kEnemySpeed;
+	}
+	if (!m_direction)//右に移動時の判定
+	{
+
+		m_size.x = m_pos.x - 120.0f;
+		m_size.y = m_pos.y - 70.0f;
+
+		m_sizeBottom.x = m_pos.x - 80.0f;
+		m_sizeBottom.y = m_pos.y - 25.0f;
 	}
 
 	
@@ -96,11 +93,12 @@ void Enemy::Update()
 void Enemy::Draw()
 {
 	//エネミー
-	DrawRectRotaGraph(m_pos.x,m_pos.y,
+	DrawRectRotaGraph(static_cast<int>(m_pos.x), static_cast<int>(m_pos.y),
 		0, m_eyeImagePos, 128, 82, 3, 0, m_handle, true, m_direction);
 #if true	
 	//エネミーの当たり判定
-	DrawBox(m_size.x, m_size.y,m_sizeBottom.x, m_sizeBottom.y,0xffffff, false);
+	DrawBox(static_cast<int>(m_size.x), static_cast<int>(m_size.y)
+		, static_cast<int>(m_sizeBottom.x), static_cast<int>(m_sizeBottom.y),0xffffff, false);
 	//DrawBox(m_pos.x - 25, m_pos.y + 10, m_pos.x + 25, m_pos.y + 60, 0xff0000, false);
 
 #endif
@@ -128,4 +126,5 @@ void Enemy::Condition()
 			m_eyeImagePos = 336;
 		}
 	}
+
 }

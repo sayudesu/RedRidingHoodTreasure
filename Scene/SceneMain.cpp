@@ -1,7 +1,8 @@
 #include "SceneTitle.h"
 #include "SceneMain.h"
 #include "SceneResult.h"
-#include "Player.h"
+#include "PlayerMapMove.h"
+//#include "Player.h"
 #include "Enemy.h"
 #include "game.h"
 #include <DxLib.h>
@@ -31,6 +32,7 @@ namespace
 
 
 SceneMain::SceneMain() :
+	m_test(0),
 	m_hPlayer(-1),
 	m_hPlayerIdle(-1),
 	m_hPlayerLighting(-1),
@@ -42,10 +44,12 @@ SceneMain::SceneMain() :
 	m_hMapFourth(-1),
 	m_hMapFifth(-1),
 	m_hMapChip(-1),
+	m_hMapChipSecond(-1),
 	m_pPlayer(nullptr),
 	m_pEnemy(nullptr)
 {
-	m_pPlayer = new Player;
+	m_pPlayer = new PlayerMapMove;
+	//m_pPlayer = new Player;
 	m_pEnemy = new Enemy;
 }
 
@@ -59,6 +63,8 @@ void SceneMain::Init()
 {
 	m_pPlayer->Init();
 	//m_pEnemy->Init();
+
+	m_test = MakeScreen(Game::kScreenWidth, Game::kScreenHeight, true);
 
 	//プレイヤー画像
 	m_hPlayer = LoadGraph(kPlayerImage);
@@ -76,6 +82,7 @@ void SceneMain::Init()
 	m_hMapFourth = LoadGraph(kMapFourth);
 	m_hMapFifth = LoadGraph(kMapFifth);
 	m_hMapChip = LoadGraph(kMapChip);
+	m_hMapChipSecond = LoadGraph(kMapChipSecond);
 
 	//プレイヤー画像
 	m_pPlayer->SetHandle(m_hPlayer);
@@ -93,11 +100,14 @@ void SceneMain::Init()
 	m_pPlayer->SetHandleMapFourth(m_hMapFourth);
 	m_pPlayer->SetHandleMapFifth(m_hMapFifth);
 	m_pPlayer->SetHnadleMapChip(m_hMapChip);
+	m_pPlayer->SetHnadleMapChipSecond(m_hMapChipSecond);
 }
 void SceneMain::End()
 {
 	m_pPlayer->End();
 	m_pEnemy->End();
+
+	DeleteGraph(m_test);
 
 	DeleteGraph(m_hPlayer);
 	DeleteGraph(m_hPlayerIdle);
@@ -113,6 +123,7 @@ void SceneMain::End()
 	DeleteGraph(m_hMapFifth);
 
 	DeleteGraph(m_hMapChip);
+	DeleteGraph(m_hMapChipSecond);
 }
 
 SceneBase* SceneMain::Update()
@@ -134,6 +145,18 @@ SceneBase* SceneMain::Update()
 
 void SceneMain::Draw()
 {
+
+	//SetDrawScreen(m_test);
+
 	m_pPlayer->Draw();
 	m_pEnemy->Draw();
+
+	//SetDrawScreen(DX_SCREEN_BACK);
+
+	
+	//int shakeX = 0; /*GetRand(4) - 2; */
+	//int shakeY = 0;/*GetRand(4) - 2; */
+//	DrawGraph(shakeX, shakeY, m_test, true);
+	
+
 }

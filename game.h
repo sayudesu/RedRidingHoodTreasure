@@ -8,6 +8,10 @@ namespace Game
 	constexpr bool kMouseMode = true;
 	// ウインドウ名
 	const char* const kTitleText = "ゲーム（制作中）";
+	//フォント名
+	const char* const kFontName = "HG行書体";
+	//const char* const kFontName = "Data/Font/GAGAGAGA FREE";
+	constexpr int kFontSize = 64;
 	// ウインドウサイズ
 	constexpr int kScreenWidth = 1280;
 	constexpr int kScreenHeight = 720;

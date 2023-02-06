@@ -13,6 +13,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetMouseDispFlag(Game::kMouseMode);
 	// 画面サイズの設定
 	SetGraphMode(Game::kScreenWidth, Game::kScreenHeight, Game::kColorDepth);
+	//フォント変更
+	ChangeFont(Game::kFontName);
+	//CreateFontToHandle(Game::kFontName,64,-1,-1);
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
@@ -29,10 +32,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	while (ProcessMessage() == 0)
 	{
 		LONGLONG  time = GetNowHiPerformanceCount();
+
 		// 画面のクリア
 		ClearDrawScreen();
 
+		//更新処理
 		scene.Update();
+
+		//表示処理
 		scene.Draw();
 
 		//裏画面を表画面を入れ替える
@@ -47,7 +54,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 	}
 
+	//メモリの解放
 	scene.End();
+	//DeleteFontToHandle(font);
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 

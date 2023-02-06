@@ -3,7 +3,8 @@
 #include "Vec2.h"
 
 
-class Player;
+class PlayerMapMove;
+//class Player;
 class Enemy;
 
 class SceneMain : public SceneBase
@@ -20,6 +21,8 @@ public:
 	virtual void Draw();
 
 private:
+	//MakeScreenƒeƒXƒg
+	int m_test;
 
 	int m_hPlayer;
 	int m_hPlayerIdle;
@@ -33,7 +36,9 @@ private:
 	int m_hMapFourth;
 	int m_hMapFifth;
 	int m_hMapChip;
+	int m_hMapChipSecond;
 
-	Player* m_pPlayer;
+	PlayerMapMove* m_pPlayer;
+	//Player* m_pPlayer;
 	Enemy* m_pEnemy;
 };

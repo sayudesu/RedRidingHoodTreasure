@@ -3,11 +3,11 @@
 
 class SceneResult;
 class Enemy;
-class Player
+class PlayerMapMove
 {
 public:
-	Player();
-	virtual ~Player();
+	PlayerMapMove();
+	virtual ~PlayerMapMove();
 
 	virtual void Init();
 	virtual void End();
@@ -150,8 +150,11 @@ private:
 	//•ûŒü
 	Vec2 m_vec;
 	
-	void (Player::* m_func)();
+	void (PlayerMapMove::* m_func)();
 	Enemy* m_pEnemy;
 	SceneResult* m_pSceneResult;
+
+	int m_mapY;
+	int m_mapY2;
 };
 

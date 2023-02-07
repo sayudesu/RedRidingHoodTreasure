@@ -39,44 +39,60 @@ namespace
 	constexpr int kAnimationFrame = 3;
 
 	////////////////////
+	///*地面　4座標*////
+	////////////////////
+	constexpr int kGroundFourthX = 100;
+	constexpr int kGroundFourthY = 435 - 125;
+	constexpr int kGroundFourthBottomX = Game::kScreenWidth;
+	constexpr int kGroundFourthBottomY = kGroundFourthY + 20;
+	
+	////////////////////
 	///*地面　3座標*///
 	////////////////////
 	constexpr int kGroundThirdX = 0;
-	constexpr int kGroundThirdY = 380 - 10;
-	constexpr int kGroundThirdBottomX = Game::kScreenWidth / 2 + 100;
+	constexpr int kGroundThirdY = 435;
+	constexpr int kGroundThirdBottomX = Game::kScreenWidth - 100;
 	constexpr int kGroundThirdBottomY = kGroundThirdY + 20;
 
 	////////////////////
-	///*地面　２座標*///
+	///*地面　2座標*///
 	////////////////////
-	constexpr int kGroundSecondX = Game::kScreenWidth / 2;
+	constexpr int kGroundSecondX = 100;
 	constexpr int kGroundSecondY = 560;
-	constexpr int kGroundSecondBottomX = Game::kScreenWidth - 120;
+	constexpr int kGroundSecondBottomX = Game::kScreenWidth;
 	constexpr int kGroundSecondBottomY = kGroundSecondY + 20;
 
 	////////////////////
-	///*はしご ２座標*///
+	///*はしご 3座標*///
 	////////////////////
-	constexpr int kLadderSecondX = Game::kScreenWidth / 2 + 120;
-	constexpr int kLadderSecondY = 380 - 10;
+	constexpr int kLadderThirdX = Game::kScreenWidth - 150;
+	constexpr int kLadderThirdY = 300;
+	constexpr int kLadderBottomThirdX = kLadderThirdX + 10;
+	constexpr int kLadderBottomThirdY = kLadderThirdY + 70;
+	
+	////////////////////
+	///*はしご 2座標*///
+	////////////////////
+	constexpr int kLadderSecondX = 150;
+	constexpr int kLadderSecondY = 430;
 	constexpr int kLadderBottomSecondX = kLadderSecondX + 10;
-	constexpr int kLadderBottomSecondY = kLadderSecondY + 100;
+	constexpr int kLadderBottomSecondY = kLadderSecondY + 70;
 
 	////////////////////
-	///*はしご１座標*///
+	///*はしご 1座標*///
 	////////////////////
 	constexpr int kLadderX = Game::kScreenWidth - 100;
-	constexpr int kLadderY = 500;
+	constexpr int kLadderY = 530;
 	constexpr int kLadderXBottom = Game::kScreenWidth - 90;
-	constexpr int kLadderYBottom = Game::kScreenHeight - 70;
+	constexpr int kLadderYBottom = Game::kScreenHeight - 80;
 
 	////////////////////////
 	///*アイテムボックス*///
 	///////////////////////
-	constexpr int kBoxPosX = 200;
-	constexpr int kBoxPosY = 550;
-	constexpr int kBoxPosBottomX = 200 + 50;
-	constexpr int kBoxPosBottomY = 550 + 50;
+	constexpr int kBoxPosX = Game::kScreenWidth / 2 + 300;
+	constexpr int kBoxPosY = Game::kScreenHeight - 100;
+	constexpr int kBoxPosBottomX = 50;
+	constexpr int kBoxPosBottomY = 50;
 
 }
 //コンストラクタ
@@ -169,8 +185,8 @@ void PlayerMapMove::Init()
 
 	m_boxPosX = kBoxPosX;
 	m_boxPosY = kBoxPosY;
-	m_boxPosBottomX = kBoxPosBottomX;
-	m_boxPosBottomY = kBoxPosBottomY;
+	m_boxPosBottomX = m_boxPosX + kBoxPosBottomX;
+	m_boxPosBottomY = m_boxPosY + kBoxPosBottomY;
 
 	m_pos.x = kPosX;
 	m_pos.y = kPosY;
@@ -196,84 +212,18 @@ void PlayerMapMove::Update()
 //描画
 void PlayerMapMove::Draw()
 {
-	//SetDrawBlendMode(DX_BLENDMODE_ALPHA,100);
-
-	//////////////////////////////////////
-	//*　　　　　マップ背景　　　　　　*//
-	//////////////////////////////////////
-	//DrawExtendGraph(0,0,  Game::kScreenWidth,Game::kScreenHeight,  m_hMapFirst , true);
-	//DrawExtendGraph(-10 + GetRand(10), 0 + GetRand(5), Game::kScreenWidth + GetRand(10), Game::kScreenHeight + GetRand(5), m_hMapSecond, true);
-	//DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapThird , true);
-	//DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapFourth, true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapFifth, true);
-
-	/*m_mapY--;
-	m_mapY2--;*/
-
-	//////////////////////////////////////
-	//*　　　　　マップチップ　　　　　*//
-	//////////////////////////////////////
-
-	//3階
-	DrawRectExtendGraph(
-		kGroundThirdX, kGroundThirdY,
-		kGroundThirdBottomX, kGroundThirdBottomY,
-		16, 224, 160, 32,
-		m_hMapChip, true);
-	//2階
-	DrawRectExtendGraph(
-		kGroundSecondX, kGroundSecondY,
-		kGroundSecondBottomX, kGroundSecondBottomY,
-		16, 224, 160, 32,
-		m_hMapChip, true);
-	//1階
-	DrawRectExtendGraph(
-		0, 700, Game::kScreenWidth + 1, kGround + 20 + 1,
-		16, 224, 160, 32,
-		m_hMapChip, true);
-
-	/////実装途中！！！/////////////////
-	/////実装途中！！！/////////////////
-	/////実装途中！！！/////////////////
-	//1階の梯子
-	DrawRectExtendGraph(
-		kLadderX- 50, kLadderY, kLadderXBottom + 20, kLadderYBottom + 60,
-		683, 400, 21 + 10, 80 + 10 ,
-		m_hMapChipSecond, true);
-	//////////////////////////////////////
-	//*地面は下から順番に数えていきます*//
-	//////////////////////////////////////
-	
-	//地面3
-	DrawBox(kGroundThirdX, kGroundThirdY,
-		kGroundThirdBottomX, kGroundThirdBottomY, 0x00ff00, false);
-
-	//梯子2
-	DrawBox(kLadderSecondX, kLadderSecondY, kLadderBottomSecondX, kLadderBottomSecondY, 0xff0000, true);
-	//     　 left,  　　top,  　　 right,   　　　bottom,
-
-	//地面2
-	DrawBox(kGroundSecondX, kGroundSecondY,
-			kGroundSecondBottomX, kGroundSecondBottomY, 0x00ff00, false);
-
-	//梯子1
-	//DrawBox(kLadderX, kLadderY, kLadderXBottom, kLadderYBottom, 0xff0000, false);
-	//     　 left,  　　top,  　　 right,   　　　bottom,
-	 
-	//地面１
-	DrawBox(0, 700, Game::kScreenWidth + 1, kGround + 20 + 1, 0x00ff00, false);
-
-	//DrawLine(Game::kScreenWidth / 2, 520, Game::kScreenWidth - 120, 520, 0xffffff);//2
-	//DrawLine(0, kGround, Game::kScreenWidth, kGround, 0xffffff);//1
+	DrawMap();
 	
 	
 	if(!m_isGetSword)
 	{
-		if (m_boxDropCount < 120)
+	
+		if (m_boxDropCount < 120)//アイテムを揺れて描画
 		{
 			m_stagingBoxX = GetRand(10), m_stagingBoxY = GetRand(10);
 			m_stagingBoxBottomX = GetRand(10), m_stagingBoxBottomY = GetRand(10);
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, GetRand(255));
+			//m_boxPosY++;//ゆっくり下に落とす
 		}
 		else
 		{
@@ -304,6 +254,7 @@ void PlayerMapMove::Draw()
 		DrawRotaGraph(m_pos.x - 3 + GetRand(5), m_pos.y + 20 + GetRand(5), 3, 0, m_hPlayerLighting, true, false);
 	}
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
 	if (m_isIdleMove && !m_isAttackMove && !m_isDamageMove && !m_isJumpMove && !m_isCrouchingMove)//何もしない
 	{
 
@@ -608,6 +559,18 @@ int PlayerMapMove::FieldJudgement()
 		return 0;
 	}
 
+	//4階の判定
+	if ((kGroundFourthBottomX > m_pos.x - 25) &&
+		(kGroundFourthX < m_pos.x + 25))
+	{
+		if ((kGroundFourthBottomY > m_pos.y) &&
+			(kGroundFourthY < m_pos.y + 60))
+		{
+			m_pos.y = kGroundFourthY - 50 - m_playerSize.y;
+			m_isInvaliDown = true;//下に移動できない
+			return 1;
+		}
+	}
 	//3階の判定
 	if ((kGroundThirdBottomX > m_pos.x - 25) &&
 		(kGroundThirdX < m_pos.x + 25))
@@ -649,6 +612,7 @@ int PlayerMapMove::FieldJudgement()
 		}
 	}
 #else
+	//1階
 	if ((Game::kScreenWidth + 1 > m_pos.x - 25) &&
 		(0                      < m_pos.x + 25))
 	{
@@ -673,6 +637,24 @@ int PlayerMapMove::CheckHit()
 {
 #if true	
 
+	//3階梯子
+	if ((kLadderBottomThirdX > m_playerLeft) &&
+		(kLadderThirdX < m_playerRight))
+	{
+		if ((kLadderBottomThirdY > m_playerTop) &&
+			(kLadderThirdY < m_playerBpttom))
+		{
+			m_isFloorOne = true;
+			m_isInvaliDown = true;
+			m_count++;
+			//1フレームだけで代入する（予定
+			if (m_count == 1)
+			{
+				//m_pos.x = (10 + kLadderX);
+			}
+			return 1;
+		}
+	}
 	//2階梯子
 	if ((kLadderBottomSecondX > m_playerLeft) &&
 		(kLadderSecondX < m_playerRight))
@@ -691,7 +673,6 @@ int PlayerMapMove::CheckHit()
 			return 1;
 		}
 	}
-
 	//1階梯子
 	if ((kLadderXBottom > m_playerLeft) &&
 		(kLadderX < m_playerRight))
@@ -837,6 +818,95 @@ void PlayerMapMove::HealthControl()
 	}
 	
 }
+//マップを描画
+void PlayerMapMove::DrawMap()
+{
+	//////////////////////////////////////
+	//*　　　　　マップ背景　　　　　　*//
+	//////////////////////////////////////
+	DrawExtendGraph(0,0,  Game::kScreenWidth,Game::kScreenHeight,  m_hMapFirst , true);
+	DrawExtendGraph(-10 + GetRand(10), 0 + GetRand(5), Game::kScreenWidth + GetRand(10), Game::kScreenHeight + GetRand(5), m_hMapSecond, true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapThird , true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapFourth, true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapFifth, true);
+
+	//////////////////////////////////////
+	//*　　　　　マップチップ　　　　　*//
+	//////////////////////////////////////
+	
+		//2階の梯子
+	DrawRectExtendGraph(
+		kLadderThirdX - 50, kLadderThirdY, kLadderBottomThirdX + 20, kLadderBottomThirdY + 60,
+		683, 400, 21 + 10, 80 + 10,
+		m_hMapChipSecond, true);
+
+	//2階の梯子
+	DrawRectExtendGraph(
+		kLadderSecondX - 50, kLadderSecondY, kLadderBottomSecondX + 20, kLadderBottomSecondY + 60,
+		683, 400, 21 + 10, 80 + 10,
+		m_hMapChipSecond, true);
+
+	//1階の梯子
+	DrawRectExtendGraph(
+		kLadderX - 50, kLadderY, kLadderXBottom + 20, kLadderYBottom + 60,
+		683, 400, 21 + 10, 80 + 10,
+		m_hMapChipSecond, true);
+
+	//4階
+	DrawRectExtendGraph(
+		kGroundFourthX, kGroundFourthY,
+		kGroundFourthBottomX, kGroundFourthBottomY,
+		16, 224, 160, 32,
+		m_hMapChip, true);
+
+	//3階
+	DrawRectExtendGraph(
+		kGroundThirdX, kGroundThirdY,
+		kGroundThirdBottomX, kGroundThirdBottomY,
+		16, 224, 160, 32,
+		m_hMapChip, true);
+	//2階
+	DrawRectExtendGraph(
+		kGroundSecondX, kGroundSecondY,
+		kGroundSecondBottomX, kGroundSecondBottomY,
+		16, 224, 160, 32,
+		m_hMapChip, true);
+	//1階
+	DrawRectExtendGraph(
+		0, 700, Game::kScreenWidth + 1, kGround + 20 + 1,
+		16, 224, 160, 32,
+		m_hMapChip, true);
+
+
+	//////////////////////////////////////
+	//*地面は下から順番に数えていきます*//
+	//////////////////////////////////////
+
+	//梯子3
+	DrawBox(kLadderThirdX, kLadderThirdY, kLadderBottomThirdX, kLadderBottomThirdY, 0xff0000, true);
+	//     　 left,  　　top,  　　 right,   　　　bottom,
+	//梯子2
+	DrawBox(kLadderSecondX, kLadderSecondY, kLadderBottomSecondX, kLadderBottomSecondY, 0xff0000, true);
+	//     　 left,  　　top,  　　 right,   　　　bottom,
+	//梯子1
+	DrawBox(kLadderX, kLadderY, kLadderXBottom, kLadderYBottom, 0xff0000, true);
+	//     　 left,  　　top,  　　 right,   　　　bottom,
+
+	//地面3
+	DrawBox(kGroundThirdX, kGroundThirdY,
+		kGroundThirdBottomX, kGroundThirdBottomY, 0x00ff00, false);
+
+	//地面3
+	DrawBox(kGroundThirdX, kGroundThirdY,
+		kGroundThirdBottomX, kGroundThirdBottomY, 0x00ff00, false);
+
+	//地面2
+	DrawBox(kGroundSecondX, kGroundSecondY,
+		kGroundSecondBottomX, kGroundSecondBottomY, 0x00ff00, false);
+
+	//地面１
+	DrawBox(0, 700, Game::kScreenWidth + 1, kGround + 20 + 1, 0x00ff00, false);
+}
 
 //アップデート処理
 void PlayerMapMove::UpdateMove()
@@ -846,7 +916,6 @@ void PlayerMapMove::UpdateMove()
 	{
 		//重力
 		m_vec.y += m_gravity;	
-
 	}
 
 	if(CheckHit() == 1)
@@ -884,7 +953,7 @@ void PlayerMapMove::UpdateMove()
 		m_boxDropCount = 120;
 		
 	}
-	/*
+	
 	//敵との当たり判定
 	EnemyHit();
 	if(!m_isHealthBer)
@@ -899,7 +968,7 @@ void PlayerMapMove::UpdateMove()
 			m_playerHealthBerCount = 0;
 		}
 	}
-	*/
+	
 	//操作
 	Operation();
 	//状態（動き）

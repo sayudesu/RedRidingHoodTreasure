@@ -16,8 +16,8 @@ public:
 	virtual void Draw();
 
 public:
-	bool isDead() { return m_isReset; }
-	bool isTitle() { return m_isTitle; }
+	bool IsDead() { return m_isReset; }
+	bool IsTitle() { return m_isTitle; }
 public:
 
 	//画像
@@ -52,7 +52,10 @@ private:
 	//HP管理
 	void HealthControl();
 
+	void DrawMap();
+
 private:
+
 	//更新画面
 	void UpdateMove();
 	//ポーズ画面

@@ -64,7 +64,7 @@ void SceneMain::Init()
 	m_pPlayer->Init();
 	//m_pEnemy->Init();
 
-	m_test = MakeScreen(Game::kScreenWidth, Game::kScreenHeight, true);
+	//m_test = MakeScreen(Game::kScreenWidth, Game::kScreenHeight, true);
 
 	//ƒvƒŒƒCƒ„[‰æ‘œ
 	m_hPlayer = LoadGraph(kPlayerImage);
@@ -132,11 +132,11 @@ SceneBase* SceneMain::Update()
 	m_pPlayer->Update();
 	m_pEnemy->Update();
 
-	if (m_pPlayer->isDead())
+	if (m_pPlayer->IsDead())
 	{
 		return(new SceneTitle);
 	}
-	else if (m_pPlayer->isTitle())
+	else if (m_pPlayer->IsTitle())
 	{
 		return(new SceneMain);
 	}

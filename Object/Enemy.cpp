@@ -9,7 +9,7 @@ namespace
 	constexpr int kAnimationFrame = 3;
 
 	//エネミー移動速度
-	constexpr float kEnemySpeed = 6.5f;
+	constexpr float kEnemySpeed = 6.9f;
 }
 
 Enemy::Enemy():
@@ -26,8 +26,8 @@ Enemy::Enemy():
 	m_eyeImagePos = 336;
 	m_direction = false;
 
-	m_pos.x = static_cast<float>(Game::kScreenWidth);
-	m_pos.y = static_cast<float>(Game::kScreenHeight) + 15.0f;
+	m_pos.x = static_cast<float>(Game::kScreenWidth) - 150.0f;
+	m_pos.y = static_cast<float>(Game::kScreenHeight) - 320.0f;
 }
 
 Enemy::~Enemy()
@@ -51,7 +51,7 @@ void Enemy::Update()
 
 	m_pos += m_vec;
 	
-	if (m_pos.x >= Game::kScreenWidth)//左に移動時の判定
+	if (m_pos.x >= Game::kScreenWidth - 150)//左に移動時の判定
 	{
 		m_direction = true;
 		m_isRunMove = true;
@@ -60,11 +60,11 @@ void Enemy::Update()
 	}
 	if (m_direction)//左に移動時の判定
 	{
-		m_size.x = m_pos.x + 80;
-		m_size.y = m_pos.y - 70.0f;
+		m_size.x = m_pos.x + 80 + 10;
+		m_size.y = m_pos.y;
 
-		m_sizeBottom.x = m_pos.x + 120;
-		m_sizeBottom.y = m_pos.y - 25.0f;
+		m_sizeBottom.x = m_size.x + 45 - 20;
+		m_sizeBottom.y = m_size.y + 25.0f;
 	}
 
 	if (m_pos.x <= 0.0f)//右に移動
@@ -76,12 +76,11 @@ void Enemy::Update()
 	}
 	if (!m_direction)//右に移動時の判定
 	{
+		m_size.x = m_pos.x + 80 + 10 - 200;
+		m_size.y = m_pos.y;
 
-		m_size.x = m_pos.x - 120.0f;
-		m_size.y = m_pos.y - 70.0f;
-
-		m_sizeBottom.x = m_pos.x - 80.0f;
-		m_sizeBottom.y = m_pos.y - 25.0f;
+		m_sizeBottom.x = m_size.x + 45 - 20;
+		m_sizeBottom.y = m_size.y + 25.0f;
 	}
 
 	
@@ -94,12 +93,16 @@ void Enemy::Draw()
 {
 	//エネミー
 	DrawRectRotaGraph(static_cast<int>(m_pos.x), static_cast<int>(m_pos.y),
-		0, m_eyeImagePos, 128, 82, 3, 0, m_handle, true, m_direction);
+		0, m_eyeImagePos, 128, 82/2, 3, 0, m_handle, true, m_direction);
 #if true	
+
 	//エネミーの当たり判定
 	DrawBox(static_cast<int>(m_size.x), static_cast<int>(m_size.y)
-		, static_cast<int>(m_sizeBottom.x), static_cast<int>(m_sizeBottom.y),0xffffff, false);
-	//DrawBox(m_pos.x - 25, m_pos.y + 10, m_pos.x + 25, m_pos.y + 60, 0xff0000, false);
+		, static_cast<int>(m_sizeBottom.x), static_cast<int>(m_sizeBottom.y),0xff0000, false);
+
+	//攻撃受け範囲判定
+	DrawBox(static_cast<int>(m_size.x) - 15, static_cast<int>(m_size.y) - 15
+		, static_cast<int>(m_sizeBottom.x) + 15 , static_cast<int>(m_sizeBottom.y) + 15, 0x0000ff, false);
 
 #endif
 }

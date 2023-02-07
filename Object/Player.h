@@ -16,8 +16,8 @@ public:
 	virtual void Draw();
 
 public:
-	bool isDead() { return m_isReset; }
-	bool isTitle() { return m_isTitle; }
+	bool IsDead() { return m_isReset; }
+	bool IsTitle() { return m_isTitle; }
 public:
 
 	//画像
@@ -32,6 +32,7 @@ public:
 	void SetHandleMapFourth(int handle) { m_hMapFourth = handle; }
 	void SetHandleMapFifth (int handle)  { m_hMapFifth = handle; }
 
+	//マップチップ画像
 	void SetHnadleMapChip(int handle) { m_hMapChip = handle; }
 	void SetHnadleMapChipSecond(int handle){ m_hMapChipSecond = handle; }
 

@@ -1,6 +1,6 @@
 #include "Enemy.h"
+
 #include "game.h"
-#include "Dxlib.h"
 #include <Dxlib.h>
 
 namespace
@@ -21,13 +21,23 @@ Enemy::Enemy():
 	m_pos(0.0f,0.0f),
 	m_vec(0.0f, 0.0f),
 	m_size(0.0f, 0.0f),
-	m_sizeBottom(0.0f, 0.0f)
+	m_sizeBottom(0.0f, 0.0f),
+	m_sizeHit(0.0f, 0.0f),
+	m_sizeBottomHit(0.0f, 0.0f),
+	m_shotEnemyPos(0.0f, 0.0f),
+	m_shotEnemyBottomPos(0.0f, 0.0f)
 {
 	m_eyeImagePos = 336;
 	m_direction = false;
 
 	m_pos.x = static_cast<float>(Game::kScreenWidth) - 150.0f;
-	m_pos.y = static_cast<float>(Game::kScreenHeight) - 320.0f;
+	m_pos.y = static_cast<float>(Game::kScreenHeight) - 360.0f;
+
+	m_shotEnemyPos.x =  20;
+	m_shotEnemyPos.y = Game::kScreenHeight - 230.0f;
+	m_shotEnemyBottomPos.x = m_shotEnemyPos.x + 20;
+	m_shotEnemyBottomPos.y = m_shotEnemyPos.y + 20;
+
 }
 
 Enemy::~Enemy()
@@ -41,16 +51,45 @@ void Enemy::Init()
 
 void Enemy::End()
 {
+
 }
 
 void Enemy::Update()
 {
-
-	printfDx("\nenemy%f\n", m_size.x);
-	printfDx("enemyY%f\n", m_size.y);
-
-	m_pos += m_vec;
+	EyeEnemy();
 	
+}
+
+void Enemy::Draw()
+{
+	//エネミー
+	DrawRectRotaGraph(static_cast<int>(m_pos.x), static_cast<int>(m_pos.y),
+		0, m_eyeImagePos, 128, 82/2, 3, 0, m_handle, true, m_direction);
+
+	ShotEnemyDraw();
+#if true	
+
+	//エネミーの当たり判定
+	DrawBox(static_cast<int>(m_size.x), static_cast<int>(m_size.y)
+		, static_cast<int>(m_sizeBottom.x), static_cast<int>(m_sizeBottom.y),0xff0000, false);
+
+	//攻撃受け範囲判定
+	DrawBox(m_sizeHit.x, m_sizeHit.y
+		, m_sizeBottomHit.x, m_sizeBottomHit.y, 0x0000ff, false);
+
+#endif
+}
+
+void Enemy::SetHandle(int handle)
+{
+	m_handle = handle;
+	//GetGraphSizeF(m_handle, &m_size.x, &m_size.y);
+}
+
+void Enemy::EyeEnemy()
+{
+	m_pos += m_vec;
+
 	if (m_pos.x >= Game::kScreenWidth - 150)//左に移動時の判定
 	{
 		m_direction = true;
@@ -83,34 +122,24 @@ void Enemy::Update()
 		m_sizeBottom.y = m_size.y + 25.0f;
 	}
 
-	
+	m_sizeHit.x = m_size.x - 15.0f;
+	m_sizeHit.y = m_size.y - 15.0f;
+	m_sizeBottomHit.x = m_sizeBottom.x + 15;
+	m_sizeBottomHit.y = m_sizeBottom.y + 15;
+
 	//アニメーション
 	Condition();
-	
 }
 
-void Enemy::Draw()
+void Enemy::ShotEnemy()
 {
-	//エネミー
-	DrawRectRotaGraph(static_cast<int>(m_pos.x), static_cast<int>(m_pos.y),
-		0, m_eyeImagePos, 128, 82/2, 3, 0, m_handle, true, m_direction);
-#if true	
 
-	//エネミーの当たり判定
-	DrawBox(static_cast<int>(m_size.x), static_cast<int>(m_size.y)
-		, static_cast<int>(m_sizeBottom.x), static_cast<int>(m_sizeBottom.y),0xff0000, false);
-
-	//攻撃受け範囲判定
-	DrawBox(static_cast<int>(m_size.x) - 15, static_cast<int>(m_size.y) - 15
-		, static_cast<int>(m_sizeBottom.x) + 15 , static_cast<int>(m_sizeBottom.y) + 15, 0x0000ff, false);
-
-#endif
 }
 
-void Enemy::SetHandle(int handle)
+void Enemy::ShotEnemyDraw()
 {
-	m_handle = handle;
-	//GetGraphSizeF(m_handle, &m_size.x, &m_size.y);
+
+	DrawBox(m_shotEnemyPos.x, m_shotEnemyPos.y, m_shotEnemyBottomPos.x, m_shotEnemyBottomPos.y, 0xffffff, true);
 }
 
 void Enemy::Condition()
@@ -131,3 +160,4 @@ void Enemy::Condition()
 	}
 
 }
+

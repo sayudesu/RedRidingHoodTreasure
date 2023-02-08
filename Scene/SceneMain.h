@@ -19,7 +19,10 @@ public:
 
 	virtual SceneBase* Update() override;
 	virtual void Draw();
-
+	
+public:
+	bool Check(int firstLeft,int firstTop,int firstRight,int firstBottom,
+		int SecondLeft, int SecondTop, int SecondRight, int SecondBottom);
 private:
 	//MakeScreenƒeƒXƒg
 	int m_test;

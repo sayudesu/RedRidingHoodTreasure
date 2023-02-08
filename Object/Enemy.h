@@ -17,9 +17,18 @@ public:
 	Vec2 GetSize() { return m_size; }
 	Vec2 GetSizeBottom() { return m_sizeBottom; }
 
+	Vec2 GetSizeHit() { return m_sizeHit; }
+	Vec2 GetSizeBottomHit() { return m_sizeBottomHit; }
+
 private:
+	//敵アイ
+	void EyeEnemy();
+	//敵射撃
+	void ShotEnemy();
+	void ShotEnemyDraw();
 	//状態
 	void Condition();
+
 
 private:
 	//グラフィックハンドル
@@ -37,5 +46,12 @@ private:
 	//エネミーのサイズ
 	Vec2 m_size;
 	Vec2 m_sizeBottom;
+	//エネミー攻撃受け範囲
+	Vec2 m_sizeHit;
+	Vec2 m_sizeBottomHit;
+	//ショットエネミー位置
+	Vec2 m_shotEnemyPos;
+	Vec2 m_shotEnemyBottomPos;
+
 };
 

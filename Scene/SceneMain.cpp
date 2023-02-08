@@ -62,9 +62,6 @@ SceneMain::~SceneMain()
 void SceneMain::Init()
 {
 	m_pPlayer->Init();
-	//m_pEnemy->Init();
-
-	//m_test = MakeScreen(Game::kScreenWidth, Game::kScreenHeight, true);
 
 	//プレイヤー画像
 	m_hPlayer = LoadGraph(kPlayerImage);
@@ -130,7 +127,11 @@ SceneBase* SceneMain::Update()
 {
 
 	m_pPlayer->Update();
-	m_pEnemy->Update();
+	if(m_pPlayer->GetLifeEnemy())
+	{
+		m_pEnemy->Update();
+	}
+
 
 	if (m_pPlayer->IsDead())
 	{
@@ -140,6 +141,7 @@ SceneBase* SceneMain::Update()
 	{
 		return(new SceneMain);
 	}
+
 	return this;
 }
 
@@ -148,15 +150,43 @@ void SceneMain::Draw()
 
 	//SetDrawScreen(m_test);
 
+
 	m_pPlayer->Draw();
-	m_pEnemy->Draw();
+
+	if (m_pPlayer->GetLifeEnemy())
+	{
+		m_pEnemy->Draw();
+	}
 
 	//SetDrawScreen(DX_SCREEN_BACK);
 
-	
 	//int shakeX = 0; /*GetRand(4) - 2; */
 	//int shakeY = 0;/*GetRand(4) - 2; */
 //	DrawGraph(shakeX, shakeY, m_test, true);
 	
 
 }
+
+//敵とプレイヤーの衝突判定
+bool SceneMain::Check(int firstLeft, int firstTop, int firstRight, int firstBottom,
+	int SecondLeft, int SecondTop, int SecondRight, int SecondBottom)
+{
+	if ((firstRight > SecondLeft) &&
+		(firstLeft < SecondRight))
+	{
+		if ((firstBottom > SecondTop) &&
+			(firstTop < SecondBottom))
+		{
+			printfDx("判定有効");
+			return true;
+		}
+	}
+	return false;
+}
+
+
+
+
+
+
+

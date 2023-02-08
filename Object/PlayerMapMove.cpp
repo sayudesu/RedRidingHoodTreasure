@@ -2,6 +2,7 @@
 #include "SceneResult.h"
 #include "PlayerMapMove.h"
 #include "Enemy.h"
+#include "Collision.h"
 #include <DxLib.h>
 #include "Pad.h"
 #include "game.h"
@@ -9,7 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
-///*ここはまだ完成していないマップをスクロールさせるテスト用cppファイル*///
+///*                      テスト用cppファイル                          *///
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -18,10 +19,11 @@
 namespace
 {
 	constexpr int kmapSize = 250;
-	constexpr float kPlayerSize = 1.4;
+
+	constexpr double kPlayerSize = 1.4;
 	//プレイヤーの初期座標
-	constexpr float kPosX = 0.0f;//20.0f;
-	constexpr float kPosY = 600.0f;//700.0f;
+	constexpr float kPosX = 0.0f;
+	constexpr float kPosY = static_cast<float>(Game::kScreenHeight) - 50.0f -300.0f;//デバック用に-300移動
 	//動く速さ
 	constexpr float kMoveSpeed = 5.0f; //もっと下げたほうが面白い！修正待ち
 	// ジャンプ力
@@ -39,52 +41,52 @@ namespace
 	constexpr int kAnimationFrame = 3;
 
 	////////////////////
-	///*地面　4座標*////
+	///*地面　2座標*///
 	////////////////////
-	constexpr int kGroundFourthX = 100;
-	constexpr int kGroundFourthY = 435 - 125;
-	constexpr int kGroundFourthBottomX = Game::kScreenWidth;
-	constexpr int kGroundFourthBottomY = kGroundFourthY + 20;
+	constexpr int kGroundSecondX = 100;
+	constexpr int kGroundSecondY = Game::kScreenHeight - 40 - 160;
+	constexpr int kGroundSecondBottomX = Game::kScreenWidth;
+	constexpr int kGroundSecondBottomY = kGroundSecondY + 20;
 	
 	////////////////////
 	///*地面　3座標*///
 	////////////////////
 	constexpr int kGroundThirdX = 0;
-	constexpr int kGroundThirdY = 435;
+	constexpr int kGroundThirdY = kGroundSecondY - 125;
 	constexpr int kGroundThirdBottomX = Game::kScreenWidth - 100;
 	constexpr int kGroundThirdBottomY = kGroundThirdY + 20;
 
 	////////////////////
-	///*地面　2座標*///
+	///*地面　4座標*////
 	////////////////////
-	constexpr int kGroundSecondX = 100;
-	constexpr int kGroundSecondY = 560;
-	constexpr int kGroundSecondBottomX = Game::kScreenWidth;
-	constexpr int kGroundSecondBottomY = kGroundSecondY + 20;
-
-	////////////////////
-	///*はしご 3座標*///
-	////////////////////
-	constexpr int kLadderThirdX = Game::kScreenWidth - 150;
-	constexpr int kLadderThirdY = 300;
-	constexpr int kLadderBottomThirdX = kLadderThirdX + 10;
-	constexpr int kLadderBottomThirdY = kLadderThirdY + 70;
-	
-	////////////////////
-	///*はしご 2座標*///
-	////////////////////
-	constexpr int kLadderSecondX = 150;
-	constexpr int kLadderSecondY = 430;
-	constexpr int kLadderBottomSecondX = kLadderSecondX + 10;
-	constexpr int kLadderBottomSecondY = kLadderSecondY + 70;
+	constexpr int kGroundFourthX = 100;
+	constexpr int kGroundFourthY = kGroundThirdY - 125;
+	constexpr int kGroundFourthBottomX = Game::kScreenWidth;
+	constexpr int kGroundFourthBottomY = kGroundFourthY + 20;
 
 	////////////////////
 	///*はしご 1座標*///
 	////////////////////
 	constexpr int kLadderX = Game::kScreenWidth - 100;
-	constexpr int kLadderY = 530;
+	constexpr int kLadderY = kGroundSecondY - 10;
 	constexpr int kLadderXBottom = Game::kScreenWidth - 90;
-	constexpr int kLadderYBottom = Game::kScreenHeight - 80;
+	constexpr int kLadderYBottom = kGroundSecondY + 80;
+	
+	////////////////////
+	///*はしご 2座標*///
+	////////////////////
+	constexpr int kLadderSecondX = 150;
+	constexpr int kLadderSecondY = kGroundThirdY - 10;
+	constexpr int kLadderBottomSecondX = kLadderSecondX + 10;
+	constexpr int kLadderBottomSecondY = kLadderSecondY + 80;
+
+	////////////////////
+	///*はしご 3座標*///
+	////////////////////
+	constexpr int kLadderThirdX = Game::kScreenWidth - 150;
+	constexpr int kLadderThirdY = kGroundFourthY - 10;
+	constexpr int kLadderBottomThirdX = kLadderThirdX + 10;
+	constexpr int kLadderBottomThirdY = kLadderThirdY + 80;
 
 	////////////////////////
 	///*アイテムボックス*///
@@ -111,7 +113,7 @@ PlayerMapMove::PlayerMapMove() :
 	m_playerLeft		  (0),
 	m_playerTop           (0),
 	m_playerRight		  (0),
-	m_playerBpttom        (0),
+	m_playerBottom        (0),
 	m_charaImagePos		  (0),
 	m_charaImageIdlePos   (0),
 	m_charaImageAttackPos (0),
@@ -147,6 +149,8 @@ PlayerMapMove::PlayerMapMove() :
 	m_isReset			  (false),
 	m_isTitle			  (false),
 	m_isGetSword          (false),
+	m_isAttack			  (false),
+	m_isEnemyDead		  (false),
 	m_isItemDrop          (false),
 	m_isFloorOne          (false),
 	m_isLadder            (false),
@@ -158,21 +162,21 @@ PlayerMapMove::PlayerMapMove() :
 	m_imagePos       (0.0f, 0.0f),
 	m_imageBalancePos(0.0f, 0.0f),
 	m_underPos       (0.0f, 0.0f),
+	m_attackPos	     (0.0f, 0.0f),
+	m_attackBottomPos(0.0f, 0.0f),
 	m_vec            (0.0f, 0.0f),
-	m_pEnemy      (nullptr),
-	m_pSceneResult(nullptr),
-	m_mapY(0),
-	m_mapY2(0)
+	m_pEnemy(nullptr)
+
 {
 	m_charaImagePos = (1344 - kCharaImageRightPos);
 	m_func = &PlayerMapMove::UpdateMove;
 	m_pEnemy = new Enemy;
+
 }
 //デストラクタ
 PlayerMapMove::~PlayerMapMove()
 {
 	delete m_pEnemy;
-	delete m_pSceneResult;
 }
 //初期化
 void PlayerMapMove::Init()
@@ -196,6 +200,8 @@ void PlayerMapMove::Init()
 
 	m_gravity = kGravity;
 
+	m_isEnemyDead = true;
+
 	GetGraphSizeF(m_hPlayer, &m_playerSize.x, &m_playerSize.y);
 }
 //メモリの開放
@@ -206,7 +212,14 @@ void PlayerMapMove::End()
 //アップデート処理
 void PlayerMapMove::Update()
 {
-	m_pEnemy->Update();
+	if (GetLifeEnemy())
+	{
+		m_pEnemy->Update();
+	}
+	else
+	{
+		printfDx("Enemy is Dead");
+	}
 	(this->*m_func)();
 }
 //描画
@@ -318,10 +331,14 @@ void PlayerMapMove::Draw()
 	///*判定の確認用*///
 	////////////////////
 #if true	
+
 	//キャラクター
-	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBpttom, 0xff0000, false);
-	//DrawBox(m_pos.x - 25, m_pos.y + 10, m_pos.x + 25, m_pos.y + 60, 0xff0000, false);
-	//DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBpttom, 0xffff00, false);
+	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xff0000, false);
+
+	if (m_isAttack)
+	{
+		DrawBox(m_attackPos.x, m_attackPos.y, m_attackBottomPos.x, m_attackBottomPos.y, 0x0000ff, false);
+	}
 
 	//printfDx("%f\n", m_pos.y);
 	printfDx("%d\n", m_playerHealthBer);
@@ -536,11 +553,13 @@ void PlayerMapMove::Condition()
 		{
 			m_charaImageAttackPos += kCharaImageRightPos;
 			m_frameCount = 0;
+			m_isAttack = true;
 		}
 		if (m_charaImageAttackPos >= 1344)
 		{
 			m_charaImageAttackPos = 0;
 			m_isAttackMove = false;//攻撃をしているかどうか
+			m_isAttack = false;
 		}
 	}
 	else
@@ -616,11 +635,11 @@ int PlayerMapMove::FieldJudgement()
 	if ((Game::kScreenWidth + 1 > m_pos.x - 25) &&
 		(0                      < m_pos.x + 25))
 	{
-		if ((kGround + 20 + 1 > m_pos.y + 10) &&
-			(700              < m_pos.y + 60))
+		if ((Game::kScreenHeight - 20 > m_pos.y + 10) &&
+			(Game::kScreenHeight - 40 < m_pos.y + 60))
 		{
 
-			m_pos.y = kGround - 50 - m_playerSize.y;
+			m_pos.y = Game::kScreenHeight - 40 - 50 - m_playerSize.y;
 	
 			m_isInvaliDown = true;//下に移動できない
 			printfDx("地面判定\n");
@@ -642,7 +661,7 @@ int PlayerMapMove::CheckHit()
 		(kLadderThirdX < m_playerRight))
 	{
 		if ((kLadderBottomThirdY > m_playerTop) &&
-			(kLadderThirdY < m_playerBpttom))
+			(kLadderThirdY < m_playerBottom))
 		{
 			m_isFloorOne = true;
 			m_isInvaliDown = true;
@@ -660,7 +679,7 @@ int PlayerMapMove::CheckHit()
 		(kLadderSecondX < m_playerRight))
 	{
 		if ((kLadderBottomSecondY > m_playerTop) &&
-			(kLadderSecondY < m_playerBpttom))
+			(kLadderSecondY < m_playerBottom))
 		{
 			m_isFloorOne = true;
 			m_isInvaliDown = true;
@@ -678,7 +697,7 @@ int PlayerMapMove::CheckHit()
 		(kLadderX < m_playerRight))
 	{
 		if ((kLadderYBottom > m_playerTop) &&
-			(kLadderY < m_playerBpttom))
+			(kLadderY < m_playerBottom))
 		{
 			m_isFloorOne = true;
 			m_isInvaliDown = true;
@@ -735,7 +754,7 @@ void PlayerMapMove::BoxJudgement()
 		((m_boxPosX < m_playerRight)))
 	{
 		if ((m_boxPosBottomY > m_playerTop) &&
-			(m_boxPosY < m_playerBpttom))
+			(m_boxPosY < m_playerBottom))
 		{
 			//printfDx("ボックス判定\n");
 			m_isItemDrop = true;
@@ -768,31 +787,54 @@ void PlayerMapMove::BoxJudgement()
 	}
 #endif
 }
+
 //敵とプレイヤーの判定
 bool PlayerMapMove::EnemyHit()
 {			
-	if ((m_pEnemy->GetSizeBottom().x > m_playerLeft) &&
-		(m_pEnemy->GetSize().x < m_playerRight))
+	if (GetLifeEnemy())
 	{
-		if ((m_pEnemy->GetSizeBottom().y > m_playerTop) &&
-			(m_pEnemy->GetSize().y < m_playerBpttom))
+		if ((m_pEnemy->GetSizeBottom().x > m_playerLeft) &&
+			(m_pEnemy->GetSize().x < m_playerRight))
 		{
-			if (m_isGetSword)
+			if ((m_pEnemy->GetSizeBottom().y > m_playerTop) &&
+				(m_pEnemy->GetSize().y < m_playerBottom))
 			{
+				if (m_isGetSword)
+				{
 
-				m_boxPosX = static_cast<int>(m_pos.x);
-				m_boxPosY = static_cast<int>(m_pos.y) - 80;
-				m_boxPosBottomX = m_boxPosX + 50;
-				m_boxPosBottomY = m_boxPosY + 50;
+					m_boxPosX = static_cast<int>(m_pos.x);
+					m_boxPosY = static_cast<int>(m_pos.y) - 80;
+					m_boxPosBottomX = m_boxPosX + 50;
+					m_boxPosBottomY = m_boxPosY + 50;
 
-				m_isGetSword = false;//アイテムボックスドロップ
+					m_isGetSword = false;//アイテムボックスドロップ
+				}
+
+				m_isDamageMove = true;//ダメージアニメーション再生
+				return true;
 			}
-
-			m_isDamageMove = true;//ダメージアニメーション再生
-			return true;
 		}
 	}
 
+	return false;
+}
+//敵との攻撃当たり判定
+bool PlayerMapMove::AttackHit()
+{
+	if(m_isAttack)
+	{
+		if ((m_pEnemy->GetSizeBottomHit().x > m_attackPos.x) &&
+			(m_pEnemy->GetSizeHit().x < m_attackBottomPos.x))
+		{
+			if ((m_pEnemy->GetSizeBottomHit().x > m_attackPos.y) &&
+				(m_pEnemy->GetSizeHit().y < m_attackBottomPos.y))
+			{
+				m_isEnemyDead = false;
+				printfDx("攻撃をした");
+				return true;
+			}
+		}
+	}
 	return false;
 }
 //プレイヤーの体力を管理
@@ -873,7 +915,7 @@ void PlayerMapMove::DrawMap()
 		m_hMapChip, true);
 	//1階
 	DrawRectExtendGraph(
-		0, 700, Game::kScreenWidth + 1, kGround + 20 + 1,
+		0, Game::kScreenHeight - 40, Game::kScreenWidth + 1, Game::kScreenHeight - 20,
 		16, 224, 160, 32,
 		m_hMapChip, true);
 
@@ -905,13 +947,13 @@ void PlayerMapMove::DrawMap()
 		kGroundSecondBottomX, kGroundSecondBottomY, 0x00ff00, false);
 
 	//地面１
-	DrawBox(0, 700, Game::kScreenWidth + 1, kGround + 20 + 1, 0x00ff00, false);
+	DrawBox(0, Game::kScreenHeight - 40, Game::kScreenWidth + 1, Game::kScreenHeight - 20, 0x00ff00, false);
 }
 
 //アップデート処理
 void PlayerMapMove::UpdateMove()
 {	
-	clsDx();
+	//clsDx();
 	if(FieldJudgement() == 0)
 	{
 		//重力
@@ -922,12 +964,29 @@ void PlayerMapMove::UpdateMove()
 	{
 		m_vec.y = 0.0f;
 	}
-	
+
 	m_playerLeft = static_cast<int>(m_pos.x) - 15;
 	m_playerTop = static_cast<int>(m_pos.y)+ 10;
 	m_playerRight = m_playerLeft + 40;
-	m_playerBpttom = m_playerTop + 40;
+	m_playerBottom = m_playerTop + 40;
 	
+	//プレイヤー攻撃範囲
+	if (m_isCharaDirection)
+	{
+		m_attackPos.x = m_pos.x - 20.0f;
+		m_attackPos.y = m_pos.y - 20.0f;
+		m_attackBottomPos.x = m_attackPos.x + 60.0f;
+		m_attackBottomPos.y = m_attackPos.y + 70.0f;
+	}
+	else
+	{
+		m_attackPos.x = m_pos.x - 40.0f;
+		m_attackPos.y = m_pos.y - 20.0f;
+		m_attackBottomPos.x = m_attackPos.x + 60.0f;
+		m_attackBottomPos.y = m_attackPos.y + 70.0f;
+	}
+
+
 	//プレイヤー位置
 	m_imagePos = m_pos;
 	m_pos      += m_vec;
@@ -942,6 +1001,9 @@ void PlayerMapMove::UpdateMove()
 	FieldJudgement();
 	//アイテム
 	BoxJudgement();
+	//攻撃
+	AttackHit();
+
 	if (!m_isGetSword)
 	{
 		m_boxDropCount++;

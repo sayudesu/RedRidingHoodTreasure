@@ -13,8 +13,10 @@ namespace Game
 	//const char* const kFontName = "Data/Font/GAGAGAGA FREE";
 	constexpr int kFontSize = 64;
 	// ウインドウサイズ
-	constexpr int kScreenWidth = 1280;
-	constexpr int kScreenHeight = 720;
+	/*constexpr int kScreenWidth = 1280;
+	constexpr int kScreenHeight = 720;*/
+	constexpr int kScreenWidth = 1920;
+	constexpr int kScreenHeight = 1080;
 	// カラーモード
 	constexpr int kColorDepth = 32;		// 32 or 16
 };

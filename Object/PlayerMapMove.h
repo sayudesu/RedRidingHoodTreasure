@@ -2,7 +2,9 @@
 #include "Vec2.h"
 
 class SceneResult;
+class SceneMain;
 class Enemy;
+
 class PlayerMapMove
 {
 public:
@@ -16,8 +18,14 @@ public:
 	virtual void Draw();
 
 public:
-	bool IsDead() { return m_isReset; }
-	bool IsTitle() { return m_isTitle; }
+	bool IsDead      () { return m_isReset;     }
+	bool IsTitle     () { return m_isTitle;     }
+	bool GetLifeEnemy() { return m_isEnemyDead; }
+
+	int GetPlayerLeft  () { return m_playerLeft;   }
+	int GetPlayerRight () { return m_playerRight;  }
+	int GetPlayerTop   () { return m_playerTop;    }
+	int GetPlayerBottom() { return m_playerBottom; }
 public:
 
 	//画像
@@ -35,6 +43,8 @@ public:
 	void SetHnadleMapChip(int handle) { m_hMapChip = handle; }
 	void SetHnadleMapChipSecond(int handle){ m_hMapChipSecond = handle; }
 
+	
+
 private:
 
 	//操作
@@ -49,9 +59,12 @@ private:
 	void BoxJudgement();
 	//敵との当たり判定
 	bool EnemyHit();
+	//敵との攻撃当たり判定
+	bool AttackHit();
 	//HP管理
 	void HealthControl();
 
+	//マップを表示
 	void DrawMap();
 
 private:
@@ -60,7 +73,6 @@ private:
 	void UpdateMove();
 	//ポーズ画面
 	void MenuStop();
-
 	//死んだ場合
 	void DeathMenu();
 
@@ -83,7 +95,7 @@ private:
 	int m_playerLeft;
 	int m_playerTop;
 	int m_playerRight;
-	int m_playerBpttom;
+	int m_playerBottom;
 	//キャラクター画像位置
 	int m_charaImagePos;
 	int m_charaImageIdlePos;
@@ -133,6 +145,9 @@ private:
 	//アイテム武器
 	bool m_isGetSword;
 	bool m_isItemDrop;
+	//攻撃判定
+	bool m_isAttack;
+	bool m_isEnemyDead;
 	//階段判定
 	bool m_isFloorOne;
 	//梯子判定
@@ -150,14 +165,13 @@ private:
 	Vec2 m_imagePos;
 	Vec2 m_imageBalancePos;
 	Vec2 m_underPos;
+	//プレイヤー攻撃範囲
+	Vec2 m_attackPos;
+	Vec2 m_attackBottomPos;	
 	//方向
 	Vec2 m_vec;
 	
 	void (PlayerMapMove::* m_func)();
 	Enemy* m_pEnemy;
-	SceneResult* m_pSceneResult;
-
-	int m_mapY;
-	int m_mapY2;
 };
 

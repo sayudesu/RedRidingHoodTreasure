@@ -3,9 +3,9 @@
 #include "SceneMain2.h"
 #include "SceneResult.h"
 #include "PlayerMapMove.h"
+#include "SceneGameOver.h"
 //#include "Player.h"
 #include "Enemy.h"
-#include "ShotBase.h"
 #include "game.h"
 #include <DxLib.h>
 #include <Image.h>
@@ -107,20 +107,23 @@ SceneBase* SceneMain::Update()
 {
 
 	m_pPlayer->Update();
+
+	//敵が生きているかどうか
 	if(m_pPlayer->GetLifeEnemy())
 	{
 		m_pEnemy->Update();
 	}
-
+	//ステージをクリアした場合
 	if (m_pPlayer->GetStageClear())
 	{
 		return(new SceneMain2);
 	}
-
+	//死んだ場合
 	if (m_pPlayer->IsDead())
 	{
-		return(new SceneTitle);
+		return(new SceneGameOver);
 	}
+	//タイトルも戻る場合
 	else if (m_pPlayer->IsTitle())
 	{
 		return(new SceneMain);
@@ -137,6 +140,7 @@ void SceneMain::Draw()
 
 	m_pPlayer->Draw();
 
+	//敵が生きているかどうか
 	if (m_pPlayer->GetLifeEnemy())
 	{
 		m_pEnemy->Draw();

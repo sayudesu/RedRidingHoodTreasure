@@ -165,6 +165,7 @@ private:
 	bool m_isCharaIdleDirection;
 	//ステージクリア判定
 	bool m_isStageClear;
+	bool  m_isMenu;
 	//プレイヤーグラフィックサイズ
 	Vec2 m_playerSize;
 	//キャラクターの位置

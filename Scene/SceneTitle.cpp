@@ -79,5 +79,5 @@ void SceneTitle::Draw()
 		m_charaImagePos, 133, 112, 133, 18, 0, m_hImagePlayer, true, true);
 	//DrawGraph(100, 100, m_hImagePlayer, true);
 	DrawString(0,0, "タイトル", 0xffffff);
-	DrawString(0, 100, "Zで開始", 0xffffff);
+	DrawString(0, 100, "Zで長押しで開始", 0xffffff);
 }

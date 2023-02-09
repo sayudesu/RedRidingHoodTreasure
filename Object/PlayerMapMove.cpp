@@ -24,7 +24,7 @@ namespace
 	constexpr float kPosX = 0.0f;
 	constexpr float kPosY = static_cast<float>(Game::kScreenHeight) - 50.0f -300.0f;//デバック用に-300移動
 	//動く速さ
-	constexpr float kMoveSpeed = 5.0f; //もっと下げたほうが面白い！修正待ち
+	constexpr float kMoveSpeed = 15.0f; //もっと下げたほうが面白い！修正待ち
 	// ジャンプ力
 	constexpr float kJump = -10.0f;
 	// 重力
@@ -166,6 +166,7 @@ PlayerMapMove::PlayerMapMove() :
 	m_isCharaDirection    (false),
 	m_isCharaIdleDirection(false),
 	m_isStageClear		  (false),
+	m_isMenu              (false),
 	m_playerSize     (0.0f, 0.0f),
 	m_pos            (0.0f, 0.0f),
 	m_imagePos       (0.0f, 0.0f),
@@ -330,10 +331,30 @@ void PlayerMapMove::Draw()
 		DrawBox(x,y,bx,by,0xffffff,false);//枠
 		DrawString(Game::kScreenWidth / 2 - 100, Game::kScreenHeight / 2 - 100, "あなたは死にました", 0xff0000);
 		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2 - 30, "受け入れる", 0xffffff);
-		DrawString(Game::kScreenWidth / 2 + 50, Game::kScreenHeight  / 2 - 30, "受け入れない", 0xffffff);
+		DrawString(Game::kScreenWidth / 2 + 50, Game::kScreenHeight  / 2 - 30, "受け入れる", 0xffffff);
 		DrawString(Game::kScreenWidth / 2 - 200 + 35, Game::kScreenHeight / 2, "Y", 0xffffff);
-		DrawString(Game::kScreenWidth / 2 + 50 + 40, Game::kScreenHeight  / 2, "N", 0xffffff);
+		DrawString(Game::kScreenWidth / 2 + 50 + 40, Game::kScreenHeight  / 2, "Y", 0xffffff);
 	}
+
+	//メニュー画面
+	if (m_isMenu)
+	{
+		int x = 650;
+		int y = 400;
+		int bx = x + 550;
+		int by = y + 300;
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);//透過
+		DrawBox(x, y, bx, by, 0x0000ff, true);//背景
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+		DrawBox(x, y, bx, by, 0xffffff, false);//枠
+
+		DrawString(Game::kScreenWidth / 2 - 100, Game::kScreenHeight / 2 - 100, "メインメニュー", 0xff0000);
+		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2 - 30, "未実装", 0xffffff);
+		DrawString(Game::kScreenWidth / 2 + 50, Game::kScreenHeight / 2 - 30, "未実装", 0xffffff);
+
+	}
+
 
 	////////////////////
 	///*判定の確認用*///
@@ -432,6 +453,7 @@ void PlayerMapMove::Operation()
 	//ポーズメニュー
 	if (CheckHitKey(KEY_INPUT_P))
 	{
+		m_isMenu = true;
 		m_func = &PlayerMapMove::MenuStop;
 	}
 		
@@ -1070,15 +1092,17 @@ void PlayerMapMove::MenuStop()
 {
 	if (CheckHitKey(KEY_INPUT_O))
 	{
+		m_isMenu = false;
 		m_func = &PlayerMapMove::UpdateMove;
 	}
-	m_isDead = true;
 	if (CheckHitKey(KEY_INPUT_Y))
 	{
+		m_isMenu = false;
 		m_isReset = true;
 	}
 	if (CheckHitKey(KEY_INPUT_N))
 	{
+		m_isMenu = false;
 		m_isTitle = true;
 	}
 }
@@ -1086,14 +1110,12 @@ void PlayerMapMove::MenuStop()
 void PlayerMapMove::DeathMenu()
 {
 	m_isDead = true;
+	
 	if (CheckHitKey(KEY_INPUT_Y))
 	{
 		m_isReset = true;
 	}
-	if (CheckHitKey(KEY_INPUT_N))
-	{
-		m_isTitle = true;
-	}
+	
 }
 
 void PlayerMapMove::Goal()

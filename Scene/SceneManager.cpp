@@ -5,6 +5,7 @@
 #include "SceneMain.h"
 #include "SceneMain2.h"
 #include "SceneResult.h"
+#include "SceneGameOver.h"
 
 SceneManager::SceneManager()
 {

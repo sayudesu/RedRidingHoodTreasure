@@ -1,6 +1,7 @@
 #pragma once
 #include "SceneBase.h"
 #include "Vec2.h"
+#include <vector>
 
 
 class PlayerMapMove;

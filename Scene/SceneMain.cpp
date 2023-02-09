@@ -1,35 +1,14 @@
 #include "SceneTitle.h"
 #include "SceneMain.h"
+#include "SceneMain2.h"
 #include "SceneResult.h"
 #include "PlayerMapMove.h"
 //#include "Player.h"
 #include "Enemy.h"
+#include "ShotBase.h"
 #include "game.h"
 #include <DxLib.h>
-
-namespace
-{
-	//プレイヤー
-	const char* const kPlayerImage = "Data/Player/red hood itch free Copy-Sheet.png";
-	const char* const kPlayerImageIdle = "Data/Player/idle sheet-Sheet.png";
-	//光
-	const char* const kPlayerLighting = "Data/UI/lighting2.png";
-	//体力
-	const char* const kPlayerHealthBer = "Data/UI/HP2.png";
-	//マップ
-	const char* const kMapFirst  = "Data/Map/plx-1.png";
-	const char* const kMapSecond = "Data/Map/plx-2.png";
-	const char* const kMapThird  = "Data/Map/plx-3.png";
-	const char* const kMapFourth = "Data/Map/plx-4.png";
-	const char* const kMapFifth = "Data/Map/plx-5.png";
-	//マップチップ
-	const char* const kMapChip = "Data/Map/jungle tileset.png";
-	const char* const kMapChipSecond = "Data/Map/SET1_decorative_obj.png";
-	//エネミー
-	const char* const kEnemyEye = "Data/Enemy/EyeBall Monster-Sheet.png";
-
-}
-
+#include <Image.h>
 
 SceneMain::SceneMain() :
 	m_test(0),
@@ -62,24 +41,24 @@ SceneMain::~SceneMain()
 void SceneMain::Init()
 {
 	m_pPlayer->Init();
-
+	
 	//プレイヤー画像
-	m_hPlayer = LoadGraph(kPlayerImage);
-	m_hPlayerIdle = LoadGraph(kPlayerImageIdle);
-	m_hPlayerLighting = LoadGraph(kPlayerLighting);
-	m_hPlayerHealthBer = LoadGraph(kPlayerHealthBer);
+	m_hPlayer = LoadGraph(Image::kPlayerImage);
+	m_hPlayerIdle = LoadGraph(Image::kPlayerImageIdle);
+	m_hPlayerLighting = LoadGraph(Image::kPlayerLighting);
+	m_hPlayerHealthBer = LoadGraph(Image::kPlayerHealthBer);
 
 	//エネミー画像
-	m_hEnemy = LoadGraph(kEnemyEye);
+	m_hEnemy = LoadGraph(Image::kEnemyEye);
 
 	//マップ画像
-	m_hMapFirst  = LoadGraph(kMapFirst);
-	m_hMapSecond = LoadGraph(kMapSecond);
-	m_hMapThird  = LoadGraph(kMapThird);
-	m_hMapFourth = LoadGraph(kMapFourth);
-	m_hMapFifth = LoadGraph(kMapFifth);
-	m_hMapChip = LoadGraph(kMapChip);
-	m_hMapChipSecond = LoadGraph(kMapChipSecond);
+	m_hMapFirst  = LoadGraph(Image::kMapFirst);
+	m_hMapSecond = LoadGraph(Image::kMapSecond);
+	m_hMapThird  = LoadGraph(Image::kMapThird);
+	m_hMapFourth = LoadGraph(Image::kMapFourth);
+	m_hMapFifth = LoadGraph(Image::kMapFifth);
+	m_hMapChip = LoadGraph(Image::kMapChip);
+	m_hMapChipSecond = LoadGraph(Image::kMapChipSecond);
 
 	//プレイヤー画像
 	m_pPlayer->SetHandle(m_hPlayer);
@@ -98,6 +77,7 @@ void SceneMain::Init()
 	m_pPlayer->SetHandleMapFifth(m_hMapFifth);
 	m_pPlayer->SetHnadleMapChip(m_hMapChip);
 	m_pPlayer->SetHnadleMapChipSecond(m_hMapChipSecond);
+
 }
 void SceneMain::End()
 {
@@ -132,6 +112,10 @@ SceneBase* SceneMain::Update()
 		m_pEnemy->Update();
 	}
 
+	if (m_pPlayer->GetStageClear())
+	{
+		return(new SceneMain2);
+	}
 
 	if (m_pPlayer->IsDead())
 	{

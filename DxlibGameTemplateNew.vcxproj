@@ -164,12 +164,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Object\Collision.cpp" />
     <ClCompile Include="Object\Enemy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object\Player.cpp" />
     <ClCompile Include="Object\PlayerImage.cpp" />
     <ClCompile Include="Object\PlayerMapMove.cpp" />
+    <ClCompile Include="Object\ShotBase.cpp" />
+    <ClCompile Include="Object\ShotPlayer.cpp" />
+    <ClCompile Include="SceneMain2.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
     <ClCompile Include="Scene\SceneMain.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
@@ -180,13 +182,16 @@
     <ClCompile Include="Util\Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Object\Collision.h" />
+    <ClInclude Include="Image.h" />
     <ClInclude Include="Object\Enemy.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="Object\Player.h" />
     <ClInclude Include="Object\PlayerImage.h" />
     <ClInclude Include="Object\PlayerMapMove.h" />
+    <ClInclude Include="Object\ShotBase.h" />
+    <ClInclude Include="Object\ShotPlayer.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SceneMain2.h" />
     <ClInclude Include="Scene\SceneBase.h" />
     <ClInclude Include="Scene\SceneMain.h" />
     <ClInclude Include="Scene\SceneManager.h" />

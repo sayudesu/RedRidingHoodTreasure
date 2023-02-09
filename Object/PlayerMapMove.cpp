@@ -2,7 +2,6 @@
 #include "SceneResult.h"
 #include "PlayerMapMove.h"
 #include "Enemy.h"
-#include "Collision.h"
 #include <DxLib.h>
 #include "Pad.h"
 #include "game.h"
@@ -88,6 +87,15 @@ namespace
 	constexpr int kLadderBottomThirdX = kLadderThirdX + 10;
 	constexpr int kLadderBottomThirdY = kLadderThirdY + 80;
 
+	////////////////////
+	///*　　ゴール　*///
+	////////////////////
+
+	constexpr int kGoalX = Game::kScreenWidth - 100;
+	constexpr int kGoalY = 550;
+	constexpr int kGoalBottomX = kGoalX + 50;
+	constexpr int kGoalBottomY = kGoalY + 80;
+
 	////////////////////////
 	///*アイテムボックス*///
 	///////////////////////
@@ -157,6 +165,7 @@ PlayerMapMove::PlayerMapMove() :
 	m_isInvaliDown        (false),
 	m_isCharaDirection    (false),
 	m_isCharaIdleDirection(false),
+	m_isStageClear		  (false),
 	m_playerSize     (0.0f, 0.0f),
 	m_pos            (0.0f, 0.0f),
 	m_imagePos       (0.0f, 0.0f),
@@ -310,22 +319,21 @@ void PlayerMapMove::Draw()
 	//死んだ場合のメニュー画面
 	if (m_isDead)
 	{
+		int x = 650;
+		int y = 400;
+		int bx = x + 550;
+		int by = y + 300;
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);//透過
-		DrawBox(350, 200, 300 + 600, 200 + 300, 0x0000ff, true);//背景
+		DrawBox(x, y, bx, by, 0x0000ff, true);//背景
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-		DrawBox(350,200,300 + 600,200 + 300,0xffffff,false);//枠
+		DrawBox(x,y,bx,by,0xffffff,false);//枠
 		DrawString(Game::kScreenWidth / 2 - 100, Game::kScreenHeight / 2 - 100, "あなたは死にました", 0xff0000);
 		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2 - 30, "受け入れる", 0xffffff);
 		DrawString(Game::kScreenWidth / 2 + 50, Game::kScreenHeight  / 2 - 30, "受け入れない", 0xffffff);
 		DrawString(Game::kScreenWidth / 2 - 200 + 35, Game::kScreenHeight / 2, "Y", 0xffffff);
 		DrawString(Game::kScreenWidth / 2 + 50 + 40, Game::kScreenHeight  / 2, "N", 0xffffff);
 	}
-
-
-	DrawString(0, 0, "ゲームプレイ", 0xffffff);
-
-	DrawString(300, 0, "Test用PlayerMapMove", 0xffffff);
 
 	////////////////////
 	///*判定の確認用*///
@@ -837,6 +845,20 @@ bool PlayerMapMove::AttackHit()
 	}
 	return false;
 }
+bool PlayerMapMove::CheckGoal()
+{
+	if ((kGoalBottomX > m_playerLeft) &&
+		(kGoalX < m_playerRight))
+	{
+		if ((kGoalBottomY > m_playerTop) &&
+			(kGoalY < m_playerBottom))
+		{
+			m_func = &PlayerMapMove::Goal;
+			return true;
+		}
+	}
+	return false;
+}
 //プレイヤーの体力を管理
 void PlayerMapMove::HealthControl()
 {
@@ -871,6 +893,13 @@ void PlayerMapMove::DrawMap()
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapThird , true);
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapFourth, true);
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapFifth, true);
+
+	//////////////////////////////////////
+	//*　　　　　　ゴール　　　　　　　*//
+	//////////////////////////////////////
+
+	DrawBox(kGoalX, kGoalY, kGoalBottomX, kGoalBottomY, 0x000000, true);
+
 
 	//////////////////////////////////////
 	//*　　　　　マップチップ　　　　　*//
@@ -1003,7 +1032,6 @@ void PlayerMapMove::UpdateMove()
 	BoxJudgement();
 	//攻撃
 	AttackHit();
-
 	if (!m_isGetSword)
 	{
 		m_boxDropCount++;
@@ -1030,7 +1058,8 @@ void PlayerMapMove::UpdateMove()
 			m_playerHealthBerCount = 0;
 		}
 	}
-	
+	//ゴール確認
+	CheckGoal();
 	//操作
 	Operation();
 	//状態（動き）
@@ -1039,8 +1068,6 @@ void PlayerMapMove::UpdateMove()
 //ポーズ画面
 void PlayerMapMove::MenuStop()
 {
-	printfDx("ポーズ中\n");
-	printfDx("救済処置\n");
 	if (CheckHitKey(KEY_INPUT_O))
 	{
 		m_func = &PlayerMapMove::UpdateMove;
@@ -1066,5 +1093,18 @@ void PlayerMapMove::DeathMenu()
 	if (CheckHitKey(KEY_INPUT_N))
 	{
 		m_isTitle = true;
+	}
+}
+
+void PlayerMapMove::Goal()
+{
+
+	m_pos.y -= 8.0f;
+	m_imagePos.y -= 8.0f;
+	//上まで行くとマップ移動
+	if (m_pos.y <= 0.0f)
+	{
+		DrawString(300, 300, "移動", 0xffffff);
+		m_isStageClear = true;
 	}
 }

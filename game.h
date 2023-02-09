@@ -1,9 +1,17 @@
 #pragma once
 
+//#define _DEBUG 
+
 namespace Game
 {
+//#ifdef _DEBUG	
 	// ウインドウモード設定
 	constexpr bool kWindowMode = true;
+	/*
+#else
+	constexpr bool kWindowMode = false;
+#endif
+*/
 	// マウスカーソル表示
 	constexpr bool kMouseMode = true;
 	// ウインドウ名

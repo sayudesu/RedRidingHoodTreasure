@@ -1,24 +1,23 @@
 #pragma once
 #include "SceneBase.h"
+#include "Vec2.h"
 
 class SceneTitle : public SceneBase
 {
 public:
-	SceneTitle()
-	{
-		m_isEnd = false;
-	}
-	virtual ~SceneTitle() {}
+	SceneTitle();
+	virtual ~SceneTitle();
 
 	virtual void Init();
 	virtual void End();
 
 	virtual SceneBase* Update() override;
 	virtual void Draw();
-
-	virtual bool IsEnd() { return m_isEnd; }
 private:
+	int m_hImagePlayer;
+	int m_charaImagePos;
+	int m_frameCount;
+	int m_sceneChangeCount;
 
-	bool m_isEnd;
-
+	Vec2 m_imagePos;
 };

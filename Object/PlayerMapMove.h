@@ -26,6 +26,8 @@ public:
 	int GetPlayerRight () { return m_playerRight;  }
 	int GetPlayerTop   () { return m_playerTop;    }
 	int GetPlayerBottom() { return m_playerBottom; }
+
+	bool GetStageClear() { return m_isStageClear; }
 public:
 
 	//画像
@@ -61,6 +63,8 @@ private:
 	bool EnemyHit();
 	//敵との攻撃当たり判定
 	bool AttackHit();
+	//ゴール判定
+	bool CheckGoal();
 	//HP管理
 	void HealthControl();
 
@@ -75,6 +79,8 @@ private:
 	void MenuStop();
 	//死んだ場合
 	void DeathMenu();
+	//ステージクリア
+	void Goal();
 
 private:
 
@@ -157,6 +163,8 @@ private:
 	//キャラクターの向き
 	bool m_isCharaDirection;
 	bool m_isCharaIdleDirection;
+	//ステージクリア判定
+	bool m_isStageClear;
 	//プレイヤーグラフィックサイズ
 	Vec2 m_playerSize;
 	//キャラクターの位置

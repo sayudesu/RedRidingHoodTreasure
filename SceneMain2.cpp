@@ -24,4 +24,5 @@ SceneBase* SceneMain2::Update()
 
 void SceneMain2::Draw()
 {
+
 }

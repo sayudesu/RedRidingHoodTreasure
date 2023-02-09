@@ -32,6 +32,6 @@ SceneBase* SceneGameOver::Update()
 
 void SceneGameOver::Draw()
 {
-	DrawString(0, 0, "ゲームオーバー", 0xffffff);
-	DrawString(0, 100, "Zでタイトル画面に移動", 0xffffff);
+	DrawString(10, 0, "ゲームオーバー", 0xffffff);
+	DrawString(10, 100, "Zでタイトル画面に移動", 0xffffff);
 }

@@ -21,6 +21,7 @@ public:
 	bool IsDead      () { return m_isReset;     }
 	bool IsTitle     () { return m_isTitle;     }
 	bool GetLifeEnemy() { return m_isEnemyDead; }
+	bool GetEnemyMove() { return m_isStopMove;  }
 
 	int GetPlayerLeft  () { return m_playerLeft;   }
 	int GetPlayerRight () { return m_playerRight;  }
@@ -36,16 +37,14 @@ public:
 	void SetHandleLighting (int handle) { m_hPlayerLighting = handle; }
 	void SetHandleHealthBer(int handle) { m_hHealthBer      = handle; }
 
-	void SetHandleMapFirst (int handle) { m_hMapFirst = handle;  }
+	void SetHandleMapFirst (int handle) { m_hMapFirst  = handle; }
 	void SetHandleMapSecond(int handle) { m_hMapSecond = handle; }
-	void SetHandleMapThird (int handle) { m_hMapThird = handle;  }
+	void SetHandleMapThird (int handle) { m_hMapThird  = handle; }
 	void SetHandleMapFourth(int handle) { m_hMapFourth = handle; }
 	void SetHandleMapFifth (int handle)  { m_hMapFifth = handle; }
 
-	void SetHnadleMapChip(int handle) { m_hMapChip = handle; }
-	void SetHnadleMapChipSecond(int handle){ m_hMapChipSecond = handle; }
-
-	
+	void SetHnadleMapChip      (int handle) { m_hMapChip       = handle; }
+	void SetHnadleMapChipSecond(int handle) { m_hMapChipSecond = handle; }
 
 private:
 
@@ -70,6 +69,8 @@ private:
 
 	//マップを表示
 	void DrawMap();
+	//ヒントを表示
+	void DrawTip();
 
 private:
 
@@ -81,6 +82,8 @@ private:
 	void DeathMenu();
 	//ステージクリア
 	void Goal();
+	//ゲーム説明
+	void Description();
 
 private:
 
@@ -132,6 +135,8 @@ private:
 	int m_frameCount;
 	//現在何階にいるか
 	int m_hierarchy;
+	//説明用
+	int m_tip;
 	//重力
 	float m_gravity;
 	//アニメーション
@@ -154,6 +159,8 @@ private:
 	//攻撃判定
 	bool m_isAttack;
 	bool m_isEnemyDead;
+	//ストップ
+	bool m_isStopMove;
 	//階段判定
 	bool m_isFloorOne;
 	//梯子判定
@@ -165,7 +172,11 @@ private:
 	bool m_isCharaIdleDirection;
 	//ステージクリア判定
 	bool m_isStageClear;
-	bool  m_isMenu;
+	bool m_isMenu;
+	//ゲームヒント
+	bool m_isItemTip;
+	bool m_isItemDropTip;
+	bool m_isUpTip;
 	//プレイヤーグラフィックサイズ
 	Vec2 m_playerSize;
 	//キャラクターの位置

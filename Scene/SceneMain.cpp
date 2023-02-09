@@ -109,7 +109,7 @@ SceneBase* SceneMain::Update()
 	m_pPlayer->Update();
 
 	//“G‚ª¶‚«‚Ä‚¢‚é‚©‚Ç‚¤‚©
-	if(m_pPlayer->GetLifeEnemy())
+	if(m_pPlayer->GetLifeEnemy() && m_pPlayer->GetEnemyMove())
 	{
 		m_pEnemy->Update();
 	}
@@ -126,7 +126,7 @@ SceneBase* SceneMain::Update()
 	//ƒ^ƒCƒgƒ‹‚à–ß‚éê‡
 	else if (m_pPlayer->IsTitle())
 	{
-		return(new SceneMain);
+		return(new SceneTitle);
 	}
 
 	return this;

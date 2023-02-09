@@ -12,6 +12,7 @@ namespace
 
 SceneTitle::SceneTitle():
 	m_hImagePlayer(-1),
+	m_hImageMap(-1),
 	m_charaImagePos(0),
 	m_frameCount(0),
 	m_sceneChangeCount(0),
@@ -22,13 +23,15 @@ SceneTitle::SceneTitle():
 SceneTitle::~SceneTitle()
 {
 	DeleteGraph(m_hImagePlayer);
+	DeleteGraph(m_hImageMap);
 }
 
 void SceneTitle::Init()
 {
 	m_hImagePlayer = LoadGraph(Image::kPlayerImage);
-	m_imagePos.x = Game::kScreenWidth / 2;
-	m_imagePos.y = Game::kScreenHeight / 2 - 250;
+	m_hImageMap    = LoadGraph(Image::kMapFirst);
+	m_imagePos.x   = Game::kScreenWidth / 2;
+	m_imagePos.y   = Game::kScreenHeight / 2 - 250;
 
 	//m_charaImagePos = (1344 );
 }
@@ -75,9 +78,18 @@ SceneBase* SceneTitle::Update()
 
 void SceneTitle::Draw()
 {
+	DrawExtendGraph(0 + 100, 0 + 100,Game::kScreenWidth  - 100, Game::kScreenHeight - 100,m_hImageMap,true);
 	DrawRectRotaGraph(m_imagePos.x, m_imagePos.y,
 		m_charaImagePos, 133, 112, 133, 18, 0, m_hImagePlayer, true, true);
 	//DrawGraph(100, 100, m_hImagePlayer, true);
-	DrawString(0,0, "タイトル", 0xffffff);
-	DrawString(0, 100, "Zで長押しで開始", 0xffffff);
+	int x = Game::kScreenWidth/2 - 300;
+	int y = 700;
+	int bx = x + 300 * 2;
+	int by = y + 200;
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);//透過
+	DrawBox(x, y, bx, by, 0x0000ff, true);//背景
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	DrawBox(x, y, bx, by, 0xffffff, false);//枠
+	DrawString(Game::kScreenWidth / 2 - 100, Game::kScreenHeight / 2 + 250, "Z長押しでゲームスタート", 0xffffff);
 }

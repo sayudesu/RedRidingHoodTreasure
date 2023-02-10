@@ -14,7 +14,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// 画面サイズの設定
 	SetGraphMode(Game::kScreenWidth, Game::kScreenHeight, Game::kColorDepth);
 	//フォント変更
-	ChangeFont(Game::kFontName);
+	//ChangeFont(Game::kFontName);
 	//CreateFontToHandle(Game::kFontName,64,-1,-1);
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理

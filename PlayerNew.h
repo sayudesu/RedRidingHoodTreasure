@@ -1,15 +1,11 @@
 #pragma once
 #include "Vec2.h"
 
-class SceneResult;
-class SceneMain;
-class Enemy;
-
-class PlayerMapMove
+class PlayerNew
 {
 public:
-	PlayerMapMove();
-	virtual ~PlayerMapMove();
+	PlayerNew();
+	virtual ~PlayerNew();
 
 	virtual void Init();
 	virtual void End();
@@ -18,52 +14,20 @@ public:
 	virtual void Draw();
 
 public:
-	bool IsDead      () { return m_isReset;     }
-	bool IsTitle     () { return m_isTitle;     }
-	bool GetLifeEnemy() { return m_isEnemyDead; }
-	bool GetEnemyMove() { return m_isStopMove;  }
+	float GetPlayerLeft  () { return static_cast<float>(m_playerLeft);   }
+	float GetPlayerTop   () { return static_cast<float>(m_playerTop);    }
+	float GetPlayerRight () { return static_cast<float>(m_playerRight);  }
+	float GetPlayerBottom() { return static_cast<float>(m_playerBottom); }
 
-	int GetPlayerLeft  () { return m_playerLeft;   }
-	int GetPlayerRight () { return m_playerRight;  }
-	int GetPlayerTop   () { return m_playerTop;    }
-	int GetPlayerBottom() { return m_playerBottom; }
+	Vec2 GetPos() { return m_pos; }
 
-	bool GetStageClear() { return m_isStageClear; }
-public:
+	bool GetGravity(bool gravity) { m_isGravity = gravity; }
 
-	//画像
-	void SetHandle         (int handle) { m_hPlayer         = handle; }
-	void SetHandleIdle     (int handle) { m_hPlayerIdle     = handle; }
-	void SetHandleLighting (int handle) { m_hPlayerLighting = handle; }
-	void SetHandleHealthBer(int handle) { m_hHealthBer      = handle; }
-
-	void SetHandleMapFirst (int handle) { m_hMapFirst  = handle; }
-	void SetHandleMapSecond(int handle) { m_hMapSecond = handle; }
-	void SetHandleMapThird (int handle) { m_hMapThird  = handle; }
-	void SetHandleMapFourth(int handle) { m_hMapFourth = handle; }
-	void SetHandleMapFifth (int handle)  { m_hMapFifth = handle; }
-
-	void SetHnadleMapChip      (int handle) { m_hMapChip       = handle; }
-	void SetHnadleMapChipSecond(int handle) { m_hMapChipSecond = handle; }
-	
 private:
 
 	//操作
 	void Operation();
-	//状態
-	void Condition();
-	//地面判定
-	int FieldJudgement();
-	//梯子判定
-	int CheckHit();
-	//アイテムボックス判定
-	void BoxJudgement();
-	//敵との当たり判定
-	bool EnemyHit();
-	//敵との攻撃当たり判定
-	bool AttackHit();
-	//ゴール判定
-	bool CheckGoal();
+
 	//HP管理
 	void HealthControl();
 
@@ -177,6 +141,8 @@ private:
 	bool m_isItemTip;
 	bool m_isItemDropTip;
 	bool m_isUpTip;
+
+	bool m_isGravity;
 	//プレイヤーグラフィックサイズ
 	Vec2 m_playerSize;
 	//キャラクターの位置
@@ -187,11 +153,10 @@ private:
 	Vec2 m_underPos;
 	//プレイヤー攻撃範囲
 	Vec2 m_attackPos;
-	Vec2 m_attackBottomPos;	
+	Vec2 m_attackBottomPos;
 	//方向
 	Vec2 m_vec;
-	
-	void (PlayerMapMove::* m_func)();
-	Enemy* m_pEnemy;
-};
 
+	void (PlayerNew::* m_func)();
+
+};

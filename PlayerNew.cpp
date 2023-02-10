@@ -1,7 +1,5 @@
-#include "SceneMain.h"
-#include "SceneResult.h"
-#include "PlayerMapMove.h"
-#include "Enemy.h"
+#include "SceneMain2.h"
+#include "PlayerNew.h"
 #include <DxLib.h>
 #include "Pad.h"
 #include "game.h"
@@ -14,7 +12,7 @@ namespace
 	constexpr double kPlayerSize = 1.4;
 	//プレイヤーの初期座標
 	constexpr float kPosX = 0.0f;
-	constexpr float kPosY = static_cast<float>(Game::kScreenHeight) - 50.0f -300.0f;//デバック用に-300移動
+	constexpr float kPosY = static_cast<float>(Game::kScreenHeight) - 50.0f - 300.0f;//デバック用に-300移動
 	//動く速さ
 	constexpr float kMoveSpeed = 15.0f; //もっと下げたほうが面白い！修正待ち
 	// ジャンプ力
@@ -38,7 +36,7 @@ namespace
 	constexpr int kGroundSecondY = Game::kScreenHeight - 40 - 160;
 	constexpr int kGroundSecondBottomX = Game::kScreenWidth;
 	constexpr int kGroundSecondBottomY = kGroundSecondY + 20;
-	
+
 	////////////////////
 	///*地面　3座標*///
 	////////////////////
@@ -62,7 +60,7 @@ namespace
 	constexpr int kLadderY = kGroundSecondY - 10;
 	constexpr int kLadderXBottom = Game::kScreenWidth - 90;
 	constexpr int kLadderYBottom = kGroundSecondY + 80;
-	
+
 	////////////////////
 	///*はしご 2座標*///
 	////////////////////
@@ -98,95 +96,96 @@ namespace
 
 }
 //コンストラクタ
-PlayerMapMove::PlayerMapMove() :
-	m_hPlayer             (-1),
-	m_hPlayerIdle         (-1),
-	m_hPlayerLighting     (-1),
-	m_hHealthBer          (-1),
-	m_hMapFirst			  (-1),
-	m_hMapSecond		  (-1),
-	m_hMapThird		      (-1),
-	m_hMapFourth		  (-1),
-	m_hMapFifth			  (-1),
-	m_hMapChip			  (-1),
-	m_hMapChipSecond	  (-1),
-	m_playerLeft		  (0),
-	m_playerTop           (0),
-	m_playerRight		  (0),
-	m_playerBottom        (0),
-	m_charaImagePos		  (0),
-	m_charaImageIdlePos   (0),
-	m_charaImageAttackPos (0),
-	m_charaImageDamagePos (0),
-	m_charaImageJumpPos   (0),
-	m_charaImageCrouching (0),
-	m_count				  (0),
-	m_boxPosX			  (0),
-	m_boxPosY             (0),
-	m_boxPosBottomX       (0),
-	m_boxPosBottomY       (0),
-	m_stagingBoxX         (0),
-	m_stagingBoxY         (0),
-	m_stagingBoxBottomX   (0),
-	m_stagingBoxBottomY   (0),
-	m_playerHealthBer     (0),
+PlayerNew::PlayerNew() :
+	m_hPlayer(-1),
+	m_hPlayerIdle(-1),
+	m_hPlayerLighting(-1),
+	m_hHealthBer(-1),
+	m_hMapFirst(-1),
+	m_hMapSecond(-1),
+	m_hMapThird(-1),
+	m_hMapFourth(-1),
+	m_hMapFifth(-1),
+	m_hMapChip(-1),
+	m_hMapChipSecond(-1),
+	m_playerLeft(0),
+	m_playerTop(0),
+	m_playerRight(0),
+	m_playerBottom(0),
+	m_charaImagePos(0),
+	m_charaImageIdlePos(0),
+	m_charaImageAttackPos(0),
+	m_charaImageDamagePos(0),
+	m_charaImageJumpPos(0),
+	m_charaImageCrouching(0),
+	m_count(0),
+	m_boxPosX(0),
+	m_boxPosY(0),
+	m_boxPosBottomX(0),
+	m_boxPosBottomY(0),
+	m_stagingBoxX(0),
+	m_stagingBoxY(0),
+	m_stagingBoxBottomX(0),
+	m_stagingBoxBottomY(0),
+	m_playerHealthBer(0),
 	m_playerHealthBerCount(0),
-	m_playerHealthSizeX   (0),
-	m_playerHealthSizeY   (0),
-	m_boxDropCount        (0),
-	m_frameCount          (0),
-	m_hierarchy           (0),
-	m_tip				  (0),
+	m_playerHealthSizeX(0),
+	m_playerHealthSizeY(0),
+	m_boxDropCount(0),
+	m_frameCount(0),
+	m_hierarchy(0),
+	m_tip(0),
 	m_gravity(0.0f),
-	m_isRunMoveLeft       (false),
-	m_isRunMoveRight      (false),
-	m_isIdleMove          (false),
-	m_isAttackMove		  (false),
-	m_isDamageMove		  (false),
-	m_isJumpMove		  (false),
-	m_isCrouchingMove     (false),
-	m_isHealthBer         (false),
-	m_isDead			  (false),
-	m_isReset			  (false),
-	m_isTitle			  (false),
-	m_isGetSword          (false),
-	m_isAttack			  (false),
-	m_isEnemyDead		  (false),
-	m_isStopMove		  (false),
-	m_isItemDrop          (false),
-	m_isFloorOne          (false),
-	m_isLadder            (false),
-	m_isInvaliDown        (false),
-	m_isCharaDirection    (false),
+	m_isRunMoveLeft(false),
+	m_isRunMoveRight(false),
+	m_isIdleMove(false),
+	m_isAttackMove(false),
+	m_isDamageMove(false),
+	m_isJumpMove(false),
+	m_isCrouchingMove(false),
+	m_isHealthBer(false),
+	m_isDead(false),
+	m_isReset(false),
+	m_isTitle(false),
+	m_isGetSword(false),
+	m_isAttack(false),
+	m_isEnemyDead(false),
+	m_isStopMove(false),
+	m_isItemDrop(false),
+	m_isFloorOne(false),
+	m_isLadder(false),
+	m_isInvaliDown(false),
+	m_isCharaDirection(false),
 	m_isCharaIdleDirection(false),
-	m_isStageClear		  (false),
-	m_isMenu              (false),
-	m_isItemTip			  (false),
-	m_isItemDropTip		  (false),
-	m_isUpTip			  (false),
-	m_playerSize     (0.0f, 0.0f),
-	m_pos            (0.0f, 0.0f),
-	m_imagePos       (0.0f, 0.0f),
+	m_isStageClear(false),
+	m_isMenu(false),
+	m_isItemTip(false),
+	m_isItemDropTip(false),
+	m_isUpTip(false),
+	m_isGravity(false),
+	m_playerSize(0.0f, 0.0f),
+	m_pos(0.0f, 0.0f),
+	m_imagePos(0.0f, 0.0f),
 	m_imageBalancePos(0.0f, 0.0f),
-	m_underPos       (0.0f, 0.0f),
-	m_attackPos	     (0.0f, 0.0f),
+	m_underPos(0.0f, 0.0f),
+	m_attackPos(0.0f, 0.0f),
 	m_attackBottomPos(0.0f, 0.0f),
-	m_vec            (0.0f, 0.0f),
-	m_pEnemy(nullptr)
+	m_vec(0.0f, 0.0f)
 
 {
 	m_charaImagePos = (1344 - kCharaImageRightPos);
-	m_func = &PlayerMapMove::UpdateMove;
-	m_pEnemy = new Enemy;
+	m_func = &PlayerNew::UpdateMove;
+
+
 
 }
 //デストラクタ
-PlayerMapMove::~PlayerMapMove()
+PlayerNew::~PlayerNew()
 {
-	delete m_pEnemy;
+
 }
 //初期化
-void PlayerMapMove::Init()
+void PlayerNew::Init()
 {
 
 	m_hierarchy = 1;
@@ -216,31 +215,23 @@ void PlayerMapMove::Init()
 	GetGraphSizeF(m_hPlayer, &m_playerSize.x, &m_playerSize.y);
 }
 //メモリの開放
-void PlayerMapMove::End()
+void PlayerNew::End()
 {
 
 }
 //アップデート処理
-void PlayerMapMove::Update()
+void PlayerNew::Update()
 {
-	if (GetLifeEnemy() && GetEnemyMove())
-	{
-		m_pEnemy->Update();
-	}
-	else
-	{
-		printfDx("Enemy is Dead");
-	}
 	(this->*m_func)();
 }
 //描画
-void PlayerMapMove::Draw()
+void PlayerNew::Draw()
 {
 	DrawMap();
-	
-	if(!m_isGetSword)
+
+	if (!m_isGetSword)
 	{
-	
+
 		if (m_boxDropCount < 120)//アイテムを揺れて描画
 		{
 			m_stagingBoxX = GetRand(10), m_stagingBoxY = GetRand(10);
@@ -260,11 +251,11 @@ void PlayerMapMove::Draw()
 	}
 
 	//体力の量表示
-	if(!m_isHealthBer)
+	if (!m_isHealthBer)
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 230);
 		DrawBox(m_pos.x - 35, m_pos.y - 30, m_pos.x - 35 + 75, m_pos.y - 30 + 10, 0xff0000, true);
-		DrawExtendGraph(m_pos.x - 35, m_pos.y - 30, m_playerHealthSizeX + m_pos.x - 35 + 75, m_playerHealthSizeY + m_pos.y - 30 + 10,m_hHealthBer,true);
+		DrawExtendGraph(m_pos.x - 35, m_pos.y - 30, m_playerHealthSizeX + m_pos.x - 35 + 75, m_playerHealthSizeY + m_pos.y - 30 + 10, m_hHealthBer, true);
 		DrawBox(m_pos.x - 35, m_pos.y - 30, m_pos.x - 35 + 75, m_pos.y - 30 + 10, 0xffffff, false);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
@@ -272,7 +263,7 @@ void PlayerMapMove::Draw()
 	//キャラクター
 	SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 64);
-	for (int i = 0; i < 4 ; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		DrawRotaGraph(m_pos.x - 3 + GetRand(5), m_pos.y + 20 + GetRand(5), 3, 0, m_hPlayerLighting, true, false);
 	}
@@ -310,7 +301,7 @@ void PlayerMapMove::Draw()
 			m_charaImageJumpPos, 399, 112, 133, kPlayerSize, 0, m_hPlayer, true, m_isCharaDirection);
 	}
 
-	if(m_isCrouchingMove)
+	if (m_isCrouchingMove)
 	{
 		DrawRectRotaGraph(static_cast<int>(m_imagePos.x) + 0,
 			static_cast<int>(m_imagePos.y) + 0,
@@ -328,12 +319,12 @@ void PlayerMapMove::Draw()
 		DrawBox(x, y, bx, by, 0x0000ff, true);//背景
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-		DrawBox(x,y,bx,by,0xffffff,false);//枠
+		DrawBox(x, y, bx, by, 0xffffff, false);//枠
 		DrawString(Game::kScreenWidth / 2 - 100, Game::kScreenHeight / 2 - 100, "あなたは死にました", 0xff0000);
 		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2 - 30, "受け入れる", 0xffffff);
-		DrawString(Game::kScreenWidth / 2 + 50, Game::kScreenHeight  / 2 - 30, "受け入れる", 0xffffff);
+		DrawString(Game::kScreenWidth / 2 + 50, Game::kScreenHeight / 2 - 30, "受け入れる", 0xffffff);
 		DrawString(Game::kScreenWidth / 2 - 200 + 35, Game::kScreenHeight / 2, "Y", 0xffffff);
-		DrawString(Game::kScreenWidth / 2 + 50 + 40, Game::kScreenHeight  / 2, "Y", 0xffffff);
+		DrawString(Game::kScreenWidth / 2 + 50 + 40, Game::kScreenHeight / 2, "Y", 0xffffff);
 	}
 
 	//メニュー画面
@@ -351,7 +342,7 @@ void PlayerMapMove::Draw()
 
 		DrawString(Game::kScreenWidth / 2 - 100, Game::kScreenHeight / 2 - 100, "メインメニュー", 0xffffff);
 		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2 - 30, "タイトルに戻る:: Z ", 0xffffff);
-		DrawString(Game::kScreenWidth / 2 + 50, Game::kScreenHeight / 2 - 30,  "ゲームを閉じる:: Q ", 0xffffff);
+		DrawString(Game::kScreenWidth / 2 + 50, Game::kScreenHeight / 2 - 30, "ゲームを閉じる:: Q ", 0xffffff);
 
 	}
 	//ヒントを表示
@@ -376,7 +367,7 @@ void PlayerMapMove::Draw()
 #endif
 }
 //操作
-void PlayerMapMove::Operation()
+void PlayerNew::Operation()
 {
 	//入力判定
 	Pad::update();
@@ -407,16 +398,16 @@ void PlayerMapMove::Operation()
 	}
 
 	//アップダウン
-	if (CheckHitKey(KEY_INPUT_UP) && CheckHit() == 1 && !m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)//梯子上り
+	if (CheckHitKey(KEY_INPUT_UP)&& !m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)//梯子上り
 	{
 		m_vec.y = 0.0f;
 		m_pos.y -= kMoveSpeed;
 		m_isIdleMove = false;
-	
-	} 
-	if(m_isInvaliDown && !m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)
+
+	}
+	if (m_isInvaliDown && !m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)
 	{
-		if (CheckHitKey(KEY_INPUT_DOWN) && CheckHit() == 1)//梯子下り
+		if (CheckHitKey(KEY_INPUT_DOWN))//梯子下り
 		{
 			m_vec.y = 0.0f;
 			m_pos.y += kMoveSpeed;
@@ -425,16 +416,15 @@ void PlayerMapMove::Operation()
 	}
 
 	//ジャンプ
-	if (Pad::isTrigger(KEY_INPUT_UP) && CheckHit() == 0 && !m_isAttackMove && !m_isDamageMove)//上
+	if (Pad::isTrigger(KEY_INPUT_UP) && !m_isAttackMove && !m_isDamageMove)//上
 	{
-		if (FieldJudgement() == 1 ||
-			FieldJudgement() == 2)//地面にいる状態の場合
-		{
+	
+		
 			printfDx("ジャンプ\n");
 			m_vec.y = kJump;//ジャンプ開始
 			m_isJumpMove = true;
 			//m_isIdleMove = false;
-		}
+		
 	}
 
 	if (CheckHitKey(KEY_INPUT_DOWN))
@@ -443,9 +433,9 @@ void PlayerMapMove::Operation()
 	}
 
 	//攻撃
-	if(m_isGetSword && !m_isDamageMove && !m_isCrouchingMove)
+	if (m_isGetSword && !m_isDamageMove && !m_isCrouchingMove)
 	{
-		if(CheckHitKey(KEY_INPUT_V))
+		if (CheckHitKey(KEY_INPUT_V))
 		{
 			m_isAttackMove = true;
 		}
@@ -457,425 +447,13 @@ void PlayerMapMove::Operation()
 		m_isStopMove = false;
 		//m_isEnemyDead = false;
 		m_isMenu = true;
-		m_func = &PlayerMapMove::MenuStop;
-	}
-		
-}
-//アニメーション
-void PlayerMapMove::Condition()
-{	
-
-	if (m_isCharaIdleDirection)
-	{
-		m_imageBalancePos.x = -20;
-		m_imageBalancePos.y = 20;
-	}
-	else
-	{
-		m_imageBalancePos.x = 20;
-		m_imageBalancePos.y = 20;
-	}
-
-	//アイドル状態
-	if(m_isIdleMove)
-	{
-		m_frameCount++;
-		if(m_frameCount >= kAnimationFrame)
-		{
-			m_charaImageIdlePos += 80;
-			m_frameCount = 0;
-		}
-		if (m_charaImageIdlePos == 1440)
-		{
-			m_charaImageIdlePos = 0;
-		}
-	}
-	
-	//右に移動アニメーション
-	if(m_isRunMoveRight)
-	{
-		m_frameCount++;
-		if (m_frameCount >= kAnimationFrame)
-		{
-			m_charaImagePos -= kCharaImageRightPos;
-			m_frameCount = 0;
-		}
-		if (m_charaImagePos == 0)
-		{
-			m_charaImagePos = (1344 - kCharaImageRightPos);
-		}
-	}
-
-	//左に移動アニメーション
-	if(m_isRunMoveLeft)
-	{
-		m_frameCount++;
-		if (m_frameCount >= kAnimationFrame)
-		{
-			m_charaImagePos -= kCharaImageRightPos;
-			m_frameCount = 0;
-		}
-		if (m_charaImagePos == 0)
-		{
-			m_charaImagePos = (1344 - kCharaImageRightPos);
-		}
-	}
-
-	//攻撃を受けた場合
-	if (m_isDamageMove)
-	{
-		m_frameCount++;
-		if (m_frameCount >= kAnimationFrame)
-		{
-			m_charaImageDamagePos += kCharaImageRightPos;
-			m_frameCount = 0;
-		}
-		if(m_charaImageDamagePos == kCharaImageRightPos * 7)
-		{
-			m_charaImageDamagePos = 0;
-	
-			m_isDamageMove = false;
-
-		}
-	}
-
-	//ジャンプした場合
-	if (m_isJumpMove)
-	{
-		m_frameCount++;
-		if (m_frameCount >= kAnimationFrame)
-		{
-			m_charaImageJumpPos += kCharaImageRightPos;
-			m_frameCount = 0;
-		}
-		if (m_charaImageJumpPos == kCharaImageRightPos * 12)
-		{
-			m_charaImageJumpPos = 0;
-
-			if (FieldJudgement() == 1 || FieldJudgement() == 2)
-			{
-				m_isJumpMove = false;
-			}
-		}
-	}
-
-	if (m_isCrouchingMove)
-	{
-		m_frameCount++;
-		if (m_frameCount >= kAnimationFrame)
-		{
-			m_charaImageCrouching += kCharaImageRightPos;
-			m_frameCount = 0;
-		}
-		if (m_charaImageCrouching >= kCharaImageRightPos)
-		{
-			m_charaImageCrouching = kCharaImageRightPos;
-	
-		}
-	}
-	else
-	{
-		m_isCrouchingMove = false;
-	}
-
-	//攻撃アニメーション（剣）
-	if (m_isAttackMove)
-	{
-		m_frameCount++;
-		if (m_frameCount >= kAnimationFrame)
-		{
-			m_charaImageAttackPos += kCharaImageRightPos;
-			m_frameCount = 0;
-			m_isAttack = true;
-		}
-		if (m_charaImageAttackPos >= 1344)
-		{
-			m_charaImageAttackPos = 0;
-			m_isAttackMove = false;//攻撃をしているかどうか
-			m_isAttack = false;
-		}
-	}
-	else
-	{
-		m_charaImageAttackPos = 0;
+		m_func = &PlayerNew::MenuStop;
 	}
 
 }
-//地面との判定
-int PlayerMapMove::FieldJudgement()
-{
-	m_isInvaliDown = false;
 
-	if (CheckHit() == 1)//梯子の判定
-	{
-		return 0;
-	}
-
-	//4階の判定
-	if ((kGroundFourthBottomX > m_pos.x - 25) &&
-		(kGroundFourthX < m_pos.x + 25))
-	{
-		if ((kGroundFourthBottomY > m_pos.y) &&
-			(kGroundFourthY < m_pos.y + 60))
-		{
-			m_pos.y = kGroundFourthY - 50 - m_playerSize.y;
-			m_isInvaliDown = true;//下に移動できない
-			return 1;
-		}
-	}
-	//3階の判定
-	if ((kGroundThirdBottomX > m_pos.x - 25) &&
-		(kGroundThirdX < m_pos.x + 25))
-	{
-		if ((kGroundThirdBottomY > m_pos.y) &&
-			(kGroundThirdY < m_pos.y + 60))
-		{
-			m_pos.y = kGroundThirdY - 50 - m_playerSize.y;
-			m_isInvaliDown = true;//下に移動できない
-			return 1;
-		}
-	}
-	//2階の判定
-	if ((kGroundSecondBottomX > m_pos.x - 25) &&
-		(kGroundSecondX       < m_pos.x + 25))
-	{
-		if ((kGroundSecondBottomY > m_pos.y) &&
-			(kGroundSecondY       < m_pos.y + 60))
-		{
-			m_pos.y = kGroundSecondY - 50 - m_playerSize.y;
-			m_isInvaliDown = true;//下に移動できない
-			return 1;
-		}
-	}
-#if false			
-	//1階の判定
-	if ((Game::kScreenWidth > m_playerLeft) &&
-		(0                     < m_playerRight))
-	{
-		if ((kGround > m_playerTop) &&
-			(700              < m_playerBpttom))
-		{
-
-			m_pos.y = kGround - 45 - m_playerSize.y;
-			printfDx("地面判定\n");
-			m_isInvaliDown = true;//下に移動できない
-			return 1;
-
-		}
-	}
-#else
-	//1階
-	if ((Game::kScreenWidth + 1 > m_pos.x - 25) &&
-		(0                      < m_pos.x + 25))
-	{
-		if ((Game::kScreenHeight - 20 > m_pos.y + 10) &&
-			(Game::kScreenHeight - 40 < m_pos.y + 60))
-		{
-
-			m_pos.y = Game::kScreenHeight - 40 - 50 - m_playerSize.y;
-	
-			m_isInvaliDown = true;//下に移動できない
-			printfDx("地面判定\n");
-			return 1;
-
-		}
-	}
-#endif
-
-	return 0;
-}
-//キャラクターとはしごの判定
-int PlayerMapMove::CheckHit()
-{
-#if true	
-
-	//3階梯子
-	if ((kLadderBottomThirdX > m_playerLeft) &&
-		(kLadderThirdX < m_playerRight))
-	{
-		if ((kLadderBottomThirdY > m_playerTop) &&
-			(kLadderThirdY < m_playerBottom))
-		{
-			m_isFloorOne = true;
-			m_isInvaliDown = true;
-			m_count++;
-			//1フレームだけで代入する（予定
-			if (m_count == 1)
-			{
-				//m_pos.x = (10 + kLadderX);
-			}
-			return 1;
-		}
-	}
-	//2階梯子
-	if ((kLadderBottomSecondX > m_playerLeft) &&
-		(kLadderSecondX < m_playerRight))
-	{
-		if ((kLadderBottomSecondY > m_playerTop) &&
-			(kLadderSecondY < m_playerBottom))
-		{
-			m_isFloorOne = true;
-			m_isInvaliDown = true;
-			m_count++;
-			//1フレームだけで代入する（予定
-			if (m_count == 1)
-			{
-				//m_pos.x = (10 + kLadderX);
-			}
-			return 1;
-		}
-	}
-	//1階梯子
-	if ((kLadderXBottom > m_playerLeft) &&
-		(kLadderX < m_playerRight))
-	{
-		if ((kLadderYBottom > m_playerTop) &&
-			(kLadderY < m_playerBottom))
-		{
-			
-			m_isFloorOne = true;
-			m_isInvaliDown = true;
-			m_count++;
-			//1フレームだけで代入する（予定
-			if (m_count == 1)
-			{
-				//m_pos.x = (10 + kLadderX);
-			}
-			if (m_isUpTip)
-			{
-				m_tip = 3;
-			}
-			return 1;
-		}
-	}
-#else
-	if ((kLadderXBottom > m_pos.x - 25) &&
-		(kLadderX < m_pos.x + 25))
-	{
-		if ((kLadderYBottom > m_pos.y + 10) &&
-			(kLadderY < m_pos.y + 60))
-		{
-			m_isFloorOne = true;
-			m_isInvaliDown = true;
-			m_count++;
-			//1フレームだけで代入する（予定
-			if (m_count == 1)
-			{
-				//m_pos.x = (10 + kLadderX);
-			}
-
-			/*
-			if (static_cast<int>(m_pos.y) <= 680)
-			{
-				m_hierarchy = 1;
-			}
-
-			if (static_cast<int>(m_pos.y) <= 580)
-			{
-				m_hierarchy = 2;
-			}
-			*/
-			return 1;
-		}
-	}
-#endif	
-	m_isFloorOne = false;
-	m_count = 0;
-
-	return 0;
-}
-//アイテムボックスの判定
-void PlayerMapMove::BoxJudgement()
-{
-	if ((m_boxPosBottomX > m_playerLeft) &&
-		((m_boxPosX < m_playerRight)))
-	{
-		if ((m_boxPosBottomY > m_playerTop) &&
-			(m_boxPosY < m_playerBottom))
-		{
-			//printfDx("ボックス判定\n");
-			m_isItemDrop = true;
-			if (m_boxDropCount >= 120)
-			{
-				m_isGetSword = true;//アイテムボックス非表示
-				m_boxDropCount = 0;
-
-				if(m_isItemTip){
-					m_tip = 1;
-				}
-			}
-
-		}
-	}
-}
-//敵とプレイヤーの判定
-bool PlayerMapMove::EnemyHit()
-{			
-	if (GetLifeEnemy())
-	{
-		if ((m_pEnemy->GetSizeBottom().x > m_playerLeft) &&
-			(m_pEnemy->GetSize().x < m_playerRight))
-		{
-			if ((m_pEnemy->GetSizeBottom().y > m_playerTop) &&
-				(m_pEnemy->GetSize().y < m_playerBottom))
-			{
-				if (m_isGetSword)
-				{
-					if (m_isItemDropTip) {
-						m_tip = 2;
-					}
-					m_boxPosX = static_cast<int>(m_pos.x);
-					m_boxPosY = static_cast<int>(m_pos.y) - 80;
-					m_boxPosBottomX = m_boxPosX + 50;
-					m_boxPosBottomY = m_boxPosY + 50;
-
-					m_isGetSword = false;//アイテムボックスドロップ
-				}
-
-				m_isDamageMove = true;//ダメージアニメーション再生
-				return true;
-			}
-		}
-	}
-
-	return false;
-}
-//敵との攻撃当たり判定
-bool PlayerMapMove::AttackHit()
-{
-	if(m_isAttack)
-	{
-		if ((m_pEnemy->GetSizeBottomHit().x > m_attackPos.x) &&
-			(m_pEnemy->GetSizeHit().x < m_attackBottomPos.x))
-		{
-			if ((m_pEnemy->GetSizeBottomHit().x > m_attackPos.y) &&
-				(m_pEnemy->GetSizeHit().y < m_attackBottomPos.y))
-			{
-				m_isEnemyDead = false;
-				printfDx("攻撃をした");
-				return true;
-			}
-		}
-	}
-	return false;
-}
-//プレイヤーとゴールの当たり判定
-bool PlayerMapMove::CheckGoal()
-{
-	if ((kGoalBottomX > m_playerLeft) &&
-		(kGoalX < m_playerRight))
-	{
-		if ((kGoalBottomY > m_playerTop) &&
-			(kGoalY < m_playerBottom))
-		{
-			m_func = &PlayerMapMove::Goal;
-			return true;
-		}
-	}
-	return false;
-}
 //プレイヤーの体力を管理
-void PlayerMapMove::HealthControl()
+void PlayerNew::HealthControl()
 {
 	m_playerHealthBerCount += 1;
 	if (m_playerHealthBerCount == 1)
@@ -892,20 +470,20 @@ void PlayerMapMove::HealthControl()
 		m_isHealthBer = true;
 		//ポーズメニュー
 
-		m_func = &PlayerMapMove::DeathMenu;
-		
+		m_func = &PlayerNew::DeathMenu;
+
 	}
-	
+
 }
 //マップを描画
-void PlayerMapMove::DrawMap()
+void PlayerNew::DrawMap()
 {
 	//////////////////////////////////////
 	//*　　　　　マップ背景　　　　　　*//
 	//////////////////////////////////////
-	DrawExtendGraph(0,0,  Game::kScreenWidth,Game::kScreenHeight,  m_hMapFirst , true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapFirst, true);
 	DrawExtendGraph(-10 + GetRand(10), 0 + GetRand(5), Game::kScreenWidth + GetRand(10), Game::kScreenHeight + GetRand(5), m_hMapSecond, true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapThird , true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapThird, true);
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapFourth, true);
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapFifth, true);
 
@@ -919,7 +497,7 @@ void PlayerMapMove::DrawMap()
 	//////////////////////////////////////
 	//*　　　　　マップチップ　　　　　*//
 	//////////////////////////////////////
-	
+
 		//2階の梯子
 	DrawRectExtendGraph(
 		kLadderThirdX - 50, kLadderThirdY, kLadderBottomThirdX + 20, kLadderBottomThirdY + 60,
@@ -994,7 +572,7 @@ void PlayerMapMove::DrawMap()
 	DrawBox(0, Game::kScreenHeight - 40, Game::kScreenWidth + 1, Game::kScreenHeight - 20, 0x00ff00, false);
 }
 //ヒントを表示
-void PlayerMapMove::DrawTip()
+void PlayerNew::DrawTip()
 {
 	//武器入手
 	if (m_tip == 1)
@@ -1050,25 +628,20 @@ void PlayerMapMove::DrawTip()
 }
 
 //アップデート処理
-void PlayerMapMove::UpdateMove()
-{	
+void PlayerNew::UpdateMove()
+{
 	//clsDx();
-	if(FieldJudgement() == 0)
+	if (m_isGravity)
 	{
 		//重力
-		m_vec.y += m_gravity;	
-	}
-
-	if(CheckHit() == 1)
-	{
-		m_vec.y = 0.0f;
+		m_vec.y += m_gravity;
 	}
 
 	m_playerLeft = static_cast<int>(m_pos.x) - 15;
-	m_playerTop = static_cast<int>(m_pos.y)+ 10;
+	m_playerTop = static_cast<int>(m_pos.y) + 10;
 	m_playerRight = m_playerLeft + 40;
 	m_playerBottom = m_playerTop + 40;
-	
+
 	//プレイヤー攻撃範囲
 	if (m_isCharaDirection)
 	{
@@ -1088,20 +661,13 @@ void PlayerMapMove::UpdateMove()
 
 	//プレイヤー位置
 	m_imagePos = m_pos;
-	m_pos      += m_vec;
+	m_pos += m_vec;
 	m_underPos += m_vec;
 
 	////////////////////
 	////*当たり判定*////
 	///////////////////
-	//はしご
-	CheckHit();
-	//地面
-	FieldJudgement();
-	//アイテム
-	BoxJudgement();
-	//攻撃
-	AttackHit();
+
 	if (!m_isGetSword)
 	{
 		m_boxDropCount++;
@@ -1111,43 +677,26 @@ void PlayerMapMove::UpdateMove()
 	if (m_boxDropCount >= 120)
 	{
 		m_boxDropCount = 120;
-		
+
 	}
-	
-	//敵との当たり判定
-	EnemyHit();
-	if(!m_isHealthBer)
-	{
-		if(EnemyHit())
-		{
-			//m_boxDropCount++;
-			HealthControl();
-		}
-		else
-		{
-			m_playerHealthBerCount = 0;
-		}
-	}
-	//ゴール確認
-	CheckGoal();
+
 	//操作
 	Operation();
-	//状態（動き）
-	Condition();
 
-	if (m_tip == 1 ||m_tip == 2 || m_tip == 3)
+
+	if (m_tip == 1 || m_tip == 2 || m_tip == 3)
 	{
-		m_func = &PlayerMapMove::Description;
+		m_func = &PlayerNew::Description;
 	}
 }
 //ポーズ画面
-void PlayerMapMove::MenuStop()
+void PlayerNew::MenuStop()
 {
 	if (CheckHitKey(KEY_INPUT_O))
 	{
 		m_isMenu = false;
 		m_isStopMove = true;
-		m_func = &PlayerMapMove::UpdateMove;
+		m_func = &PlayerNew::UpdateMove;
 	}
 	if (CheckHitKey(KEY_INPUT_Z))
 	{
@@ -1167,18 +716,18 @@ void PlayerMapMove::MenuStop()
 	}
 }
 //死んだ場合のMenu
-void PlayerMapMove::DeathMenu()
+void PlayerNew::DeathMenu()
 {
 	m_isDead = true;
-	
+
 	if (CheckHitKey(KEY_INPUT_Y))
 	{
 		m_isReset = true;
 	}
-	
+
 }
 //ゴールに到達した場合
-void PlayerMapMove::Goal()
+void PlayerNew::Goal()
 {
 	m_pos.x = kGoalX + 30;
 	m_imagePos.x = kGoalX + 30;
@@ -1192,12 +741,12 @@ void PlayerMapMove::Goal()
 	}
 }
 
-void PlayerMapMove::Description()
+void PlayerNew::Description()
 {
 	if (CheckHitKey(KEY_INPUT_SPACE))
 	{
 		m_tip = 10;
-		m_func = &PlayerMapMove::UpdateMove;
+		m_func = &PlayerNew::UpdateMove;
 	}
 
 }

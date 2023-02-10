@@ -1,35 +1,8 @@
-#pragma once
+#include "DrawMapStage2.h"
+#include "game.h"
+#include <Dxlib.h>
 
-//#define _DEBUG 
-
-namespace Game
-{
-//#ifdef _DEBUG	
-	// ウインドウモード設定
-	constexpr bool kWindowMode = true;
-	/*
-#else
-	constexpr bool kWindowMode = false;
-#endif
-*/
-	// マウスカーソル表示
-	constexpr bool kMouseMode = true;
-	// ウインドウ名
-	const char* const kTitleText = "ゲーム（制作中）";
-	//フォント名
-	//const char* const kFontName = "HG行書体";
-	//const char* const kFontName = "Data/Font/GAGAGAGA FREE";
-	constexpr int kFontSize = 64;
-	// ウインドウサイズ
-	/*constexpr int kScreenWidth = 1280;
-	constexpr int kScreenHeight = 720;*/
-	constexpr int kScreenWidth = 1920;
-	constexpr int kScreenHeight = 1080;
-	// カラーモード
-	constexpr int kColorDepth = 32;		// 32 or 16
-};
-
-namespace Stage2
+namespace 
 {
 	//箱の横幅
 	constexpr int BoxWidth = 150;
@@ -39,10 +12,10 @@ namespace Stage2
 	constexpr int BoxStep = 5;
 
 	//一階
-	constexpr int Box1X = 0;                                   //左
-	constexpr int Box1Y = Game::kScreenHeight - 60;            //上
-	constexpr int BoxBottom1X = Box1X + Game::kScreenWidth / 2;//右
-	constexpr int BoxBottom1Y = Box1Y + BoxHeight;             //下
+	constexpr int Box1X = 0;
+	constexpr int Box1Y = Game::kScreenHeight - 60;
+	constexpr int BoxBottom1X = Box1X + Game::kScreenWidth / 2;
+	constexpr int BoxBottom1Y = Box1Y + BoxHeight;
 
 	//一階一段差
 	constexpr int Box2X = BoxBottom1X;
@@ -85,4 +58,36 @@ namespace Stage2
 	constexpr int Box8Y = Box7Y - BoxStep;
 	constexpr int BoxBottom8X = Box8X + BoxWidth;
 	constexpr int BoxBottom8Y = Box8Y + BoxHeight;
+}
+
+DrawMapStage2::DrawMapStage2()
+{
+}
+
+DrawMapStage2::~DrawMapStage2()
+{
+}
+
+void DrawMapStage2::Init()
+{
+}
+
+void DrawMapStage2::End()
+{
+}
+
+void DrawMapStage2::Update()
+{
+}
+
+void DrawMapStage2::Draw()
+{
+	DrawBox(Box1X, Box1Y, BoxBottom1X, BoxBottom1Y, 0xffffff, true);
+	DrawBox(Box2X, Box2Y, BoxBottom2X, BoxBottom2Y, 0xffffff, true);
+	DrawBox(Box3X, Box3Y, BoxBottom3X, BoxBottom3Y, 0xffffff, true);
+	DrawBox(Box4X, Box4Y, BoxBottom4X, BoxBottom4Y, 0xffffff, true);
+	DrawBox(Box5X, Box5Y, BoxBottom5X, BoxBottom5Y, 0xffffff, true);
+	DrawBox(Box6X, Box6Y, BoxBottom6X, BoxBottom6Y, 0xffffff, true);
+	DrawBox(Box7X, Box7Y, BoxBottom7X, BoxBottom7Y, 0xffffff, true);
+	DrawBox(Box8X, Box8Y, BoxBottom8X, BoxBottom8Y, 0xffffff, true);
 }

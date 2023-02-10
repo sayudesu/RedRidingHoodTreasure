@@ -1,6 +1,9 @@
 #pragma once
 #include "SceneBase.h"
 
+class DrawMapStage2;
+class PlayerNew;
+class Collision;
 class SceneMain2 : public SceneBase
 {
 public:
@@ -11,7 +14,10 @@ public:
 	virtual void End();
 	virtual SceneBase* Update() override;
 	virtual void Draw();
-
+private:
+	DrawMapStage2* m_pStage;
+	PlayerNew* m_pPlayer;
+	Collision* m_pCollision;
 };
 
 

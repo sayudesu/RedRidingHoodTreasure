@@ -164,6 +164,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="DrawMapStage2.cpp" />
     <ClCompile Include="Object\Enemy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object\Player.cpp" />
@@ -171,6 +173,7 @@
     <ClCompile Include="Object\PlayerMapMove.cpp" />
     <ClCompile Include="Object\ShotBase.cpp" />
     <ClCompile Include="Object\ShotPlayer.cpp" />
+    <ClCompile Include="PlayerNew.cpp" />
     <ClCompile Include="SceneGameOver.cpp" />
     <ClCompile Include="SceneMain2.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
@@ -183,6 +186,8 @@
     <ClCompile Include="Util\Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="DrawMapStage2.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Object\Enemy.h" />
     <ClInclude Include="game.h" />
@@ -191,6 +196,7 @@
     <ClInclude Include="Object\PlayerMapMove.h" />
     <ClInclude Include="Object\ShotBase.h" />
     <ClInclude Include="Object\ShotPlayer.h" />
+    <ClInclude Include="PlayerNew.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneGameOver.h" />
     <ClInclude Include="SceneMain2.h" />

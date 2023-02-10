@@ -15,6 +15,7 @@ SceneManager::SceneManager()
 void SceneManager::Init()
 {
 	m_pScene = new SceneTitle;
+	//m_pScene = new SceneMain2;
 	m_pScene->Init();
 }
 // I—¹

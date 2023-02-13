@@ -16,7 +16,7 @@ namespace
 	constexpr float kPosX = 0.0f;
 	constexpr float kPosY = static_cast<float>(Game::kScreenHeight) - 50.0f -300.0f;//デバック用に-300移動
 	//動く速さ
-	constexpr float kMoveSpeed = 15.0f; //もっと下げたほうが面白い！修正待ち
+	constexpr float kMoveSpeed = 17.0f; //もっと下げたほうが面白い！修正待ち
 	// ジャンプ力
 	constexpr float kJump = -10.0f;
 	// 重力
@@ -223,7 +223,7 @@ void PlayerMapMove::End()
 //アップデート処理
 void PlayerMapMove::Update()
 {
-	if (GetLifeEnemy() && GetEnemyMove())
+	if (GetLifeEnemy() && GetEnemyMove() &&!m_isItemTip &&!m_isItemDropTip &&!m_isUpTip)
 	{
 		m_pEnemy->Update();
 	}
@@ -618,7 +618,7 @@ int PlayerMapMove::FieldJudgement()
 		if ((kGroundFourthBottomY > m_pos.y) &&
 			(kGroundFourthY < m_pos.y + 60))
 		{
-			m_pos.y = kGroundFourthY - 50 - m_playerSize.y;
+			m_pos.y = kGroundFourthY - 50;// -m_playerSize.y;
 			m_isInvaliDown = true;//下に移動できない
 			return 1;
 		}
@@ -630,7 +630,7 @@ int PlayerMapMove::FieldJudgement()
 		if ((kGroundThirdBottomY > m_pos.y) &&
 			(kGroundThirdY < m_pos.y + 60))
 		{
-			m_pos.y = kGroundThirdY - 50 - m_playerSize.y;
+			m_pos.y = kGroundThirdY - 50;// -m_playerSize.y;
 			m_isInvaliDown = true;//下に移動できない
 			return 1;
 		}
@@ -642,7 +642,7 @@ int PlayerMapMove::FieldJudgement()
 		if ((kGroundSecondBottomY > m_pos.y) &&
 			(kGroundSecondY       < m_pos.y + 60))
 		{
-			m_pos.y = kGroundSecondY - 50 - m_playerSize.y;
+			m_pos.y = kGroundSecondY - 50;// -m_playerSize.y;
 			m_isInvaliDown = true;//下に移動できない
 			return 1;
 		}

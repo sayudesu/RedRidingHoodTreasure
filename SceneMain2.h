@@ -15,6 +15,12 @@ public:
 	virtual SceneBase* Update() override;
 	virtual void Draw();
 private:
+
+	int m_hPlayer;
+	int m_hPlayerIdle;
+	int m_hPlayerLighting;
+	int m_hPlayerHealthBer;
+
 	DrawMapStage2* m_pStage;
 	PlayerNew* m_pPlayer;
 	Collision* m_pCollision;

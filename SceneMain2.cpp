@@ -4,9 +4,14 @@
 #include "PlayerNew.h"
 #include "Collision.h"
 #include "game.h"
+#include "Image.h"
 #include <Dxlib.h>
 
 SceneMain2::SceneMain2():
+	m_hPlayer(-1),
+	m_hPlayerIdle(-1),
+	m_hPlayerLighting(-1),
+	m_hPlayerHealthBer(-1),
 	m_pStage(nullptr),
 	m_pPlayer(nullptr),
 	m_pCollision(nullptr)
@@ -27,6 +32,18 @@ void SceneMain2::Init()
 {
 	m_pPlayer->Init();
 	m_pCollision->Init();
+
+	//プレイヤー画像
+	m_hPlayer = LoadGraph(Image::kPlayerImage);
+	m_hPlayerIdle = LoadGraph(Image::kPlayerImageIdle);
+	m_hPlayerLighting = LoadGraph(Image::kPlayerLighting);
+	m_hPlayerHealthBer = LoadGraph(Image::kPlayerHealthBer);
+
+	//プレイヤー画像
+	m_pPlayer->SetHandle(m_hPlayer);
+	m_pPlayer->SetHandleIdle(m_hPlayerIdle);
+	m_pPlayer->SetHandleLighting(m_hPlayerLighting);
+	m_pPlayer->SetHandleHealthBer(m_hPlayerHealthBer);
 }
 
 void SceneMain2::End()
@@ -36,10 +53,7 @@ void SceneMain2::End()
 
 SceneBase* SceneMain2::Update()
 {
-	m_pPlayer->Update();
 	m_pCollision->Update();
-
-	m_pPlayer->GetGravity(m_pCollision->GetGravity());
 
 	if (CheckHitKey(KEY_INPUT_Z))
 	{

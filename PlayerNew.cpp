@@ -29,71 +29,6 @@ namespace
 	//アニメーションフレーム数
 	constexpr int kAnimationFrame = 3;
 
-	////////////////////
-	///*地面　2座標*///
-	////////////////////
-	constexpr int kGroundSecondX = 100;
-	constexpr int kGroundSecondY = Game::kScreenHeight - 40 - 160;
-	constexpr int kGroundSecondBottomX = Game::kScreenWidth;
-	constexpr int kGroundSecondBottomY = kGroundSecondY + 20;
-
-	////////////////////
-	///*地面　3座標*///
-	////////////////////
-	constexpr int kGroundThirdX = 0;
-	constexpr int kGroundThirdY = kGroundSecondY - 125;
-	constexpr int kGroundThirdBottomX = Game::kScreenWidth - 100;
-	constexpr int kGroundThirdBottomY = kGroundThirdY + 20;
-
-	////////////////////
-	///*地面　4座標*////
-	////////////////////
-	constexpr int kGroundFourthX = 100;
-	constexpr int kGroundFourthY = kGroundThirdY - 125;
-	constexpr int kGroundFourthBottomX = Game::kScreenWidth;
-	constexpr int kGroundFourthBottomY = kGroundFourthY + 20;
-
-	////////////////////
-	///*はしご 1座標*///
-	////////////////////
-	constexpr int kLadderX = Game::kScreenWidth - 100;
-	constexpr int kLadderY = kGroundSecondY - 10;
-	constexpr int kLadderXBottom = Game::kScreenWidth - 90;
-	constexpr int kLadderYBottom = kGroundSecondY + 80;
-
-	////////////////////
-	///*はしご 2座標*///
-	////////////////////
-	constexpr int kLadderSecondX = 150;
-	constexpr int kLadderSecondY = kGroundThirdY - 10;
-	constexpr int kLadderBottomSecondX = kLadderSecondX + 10;
-	constexpr int kLadderBottomSecondY = kLadderSecondY + 80;
-
-	////////////////////
-	///*はしご 3座標*///
-	////////////////////
-	constexpr int kLadderThirdX = Game::kScreenWidth - 150;
-	constexpr int kLadderThirdY = kGroundFourthY - 10;
-	constexpr int kLadderBottomThirdX = kLadderThirdX + 10;
-	constexpr int kLadderBottomThirdY = kLadderThirdY + 80;
-
-	////////////////////
-	///*　　ゴール　*///
-	////////////////////
-
-	constexpr int kGoalX = Game::kScreenWidth - 100;
-	constexpr int kGoalY = 550;
-	constexpr int kGoalBottomX = kGoalX + 50;
-	constexpr int kGoalBottomY = kGoalY + 80;
-
-	////////////////////////
-	///*アイテムボックス*///
-	///////////////////////
-	constexpr int kBoxPosX = Game::kScreenWidth / 2 + 300;
-	constexpr int kBoxPosY = Game::kScreenHeight - 100;
-	constexpr int kBoxPosBottomX = 50;
-	constexpr int kBoxPosBottomY = 50;
-
 }
 //コンストラクタ
 PlayerNew::PlayerNew() :
@@ -163,6 +98,7 @@ PlayerNew::PlayerNew() :
 	m_isItemDropTip(false),
 	m_isUpTip(false),
 	m_isGravity(false),
+	m_isFall(false),
 	m_playerSize(0.0f, 0.0f),
 	m_pos(0.0f, 0.0f),
 	m_imagePos(0.0f, 0.0f),
@@ -170,7 +106,8 @@ PlayerNew::PlayerNew() :
 	m_underPos(0.0f, 0.0f),
 	m_attackPos(0.0f, 0.0f),
 	m_attackBottomPos(0.0f, 0.0f),
-	m_vec(0.0f, 0.0f)
+	m_vec(0.0f, 0.0f),
+	m_getPos(0.0f)
 
 {
 	m_charaImagePos = (1344 - kCharaImageRightPos);
@@ -187,7 +124,7 @@ PlayerNew::~PlayerNew()
 //初期化
 void PlayerNew::Init()
 {
-
+	/*
 	m_hierarchy = 1;
 	m_playerHealthBer = 100;
 
@@ -205,7 +142,7 @@ void PlayerNew::Init()
 	m_underPos.y = m_pos.y + 100;
 
 	m_gravity = kGravity;
-
+	
 	m_isEnemyDead = true;
 	m_isStopMove = true;
 	m_isItemTip = true;
@@ -213,6 +150,7 @@ void PlayerNew::Init()
 	m_isUpTip = true;
 
 	GetGraphSizeF(m_hPlayer, &m_playerSize.x, &m_playerSize.y);
+	*/
 }
 //メモリの開放
 void PlayerNew::End()
@@ -227,126 +165,9 @@ void PlayerNew::Update()
 //描画
 void PlayerNew::Draw()
 {
-	DrawMap();
-
-	if (!m_isGetSword)
-	{
-
-		if (m_boxDropCount < 120)//アイテムを揺れて描画
-		{
-			m_stagingBoxX = GetRand(10), m_stagingBoxY = GetRand(10);
-			m_stagingBoxBottomX = GetRand(10), m_stagingBoxBottomY = GetRand(10);
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, GetRand(255));
-			//m_boxPosY++;//ゆっくり下に落とす
-		}
-		else
-		{
-			m_stagingBoxX = 0;
-			m_stagingBoxY = 0;
-			m_stagingBoxBottomX = 0;
-			m_stagingBoxBottomY = 0;
-		}
-		DrawBox(m_boxPosX + m_stagingBoxX, m_boxPosY + m_stagingBoxY, m_boxPosBottomX + m_stagingBoxBottomX, m_boxPosBottomY + m_stagingBoxBottomY, 0x00ff00, true);//アイテムボックス
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	}
-
-	//体力の量表示
-	if (!m_isHealthBer)
-	{
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 230);
-		DrawBox(m_pos.x - 35, m_pos.y - 30, m_pos.x - 35 + 75, m_pos.y - 30 + 10, 0xff0000, true);
-		DrawExtendGraph(m_pos.x - 35, m_pos.y - 30, m_playerHealthSizeX + m_pos.x - 35 + 75, m_playerHealthSizeY + m_pos.y - 30 + 10, m_hHealthBer, true);
-		DrawBox(m_pos.x - 35, m_pos.y - 30, m_pos.x - 35 + 75, m_pos.y - 30 + 10, 0xffffff, false);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	}
-
-	//キャラクター
-	SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 64);
-	for (int i = 0; i < 4; i++)
-	{
-		DrawRotaGraph(m_pos.x - 3 + GetRand(5), m_pos.y + 20 + GetRand(5), 3, 0, m_hPlayerLighting, true, false);
-	}
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-	if (m_isIdleMove && !m_isAttackMove && !m_isDamageMove && !m_isJumpMove && !m_isCrouchingMove)//何もしない
-	{
-
-		DrawRectRotaGraph(static_cast<int>(m_imagePos.x) + static_cast<int>(m_imageBalancePos.x),
-			static_cast<int>(m_imagePos.y) + static_cast<int>(m_imageBalancePos.y),
-			m_charaImageIdlePos, 0, 80, 80, kPlayerSize, 0, m_hPlayerIdle, true, m_isCharaIdleDirection);
-
-	}
-	else if (m_isRunMoveRight && !m_isAttackMove || m_isRunMoveLeft && !m_isAttackMove && !m_isDamageMove && !m_isJumpMove && !m_isCrouchingMove)//走る
-	{
-		DrawRectRotaGraph(static_cast<int>(m_imagePos.x), static_cast<int>(m_imagePos.y),
-			m_charaImagePos, 133, 112, 133, kPlayerSize, 0, m_hPlayer, true, m_isCharaDirection);
-	}
-	if (m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)//剣攻撃
-	{
-		DrawRectRotaGraph(static_cast<int>(m_imagePos.x) + 0,
-			static_cast<int>(m_imagePos.y) + 0,
-			m_charaImageAttackPos, 1197, 112, 133, kPlayerSize, 0, m_hPlayer, true, m_isCharaDirection);
-	}
-	if (m_isDamageMove && !m_isCrouchingMove)//攻撃を受けたら
-	{
-		DrawRectRotaGraph(static_cast<int>(m_imagePos.x) + 0,
-			static_cast<int>(m_imagePos.y) + 0,
-			m_charaImageDamagePos, 1330, 112, 133, kPlayerSize, 0, m_hPlayer, true, m_isCharaDirection);
-	}
-	if (m_isJumpMove && !m_isCrouchingMove)//ジャンプをしたら
-	{
-		DrawRectRotaGraph(static_cast<int>(m_imagePos.x) + 0,
-			static_cast<int>(m_imagePos.y) + 0,
-			m_charaImageJumpPos, 399, 112, 133, kPlayerSize, 0, m_hPlayer, true, m_isCharaDirection);
-	}
-
-	if (m_isCrouchingMove)
-	{
-		DrawRectRotaGraph(static_cast<int>(m_imagePos.x) + 0,
-			static_cast<int>(m_imagePos.y) + 0,
-			m_charaImageCrouching, 532, 112, 133, kPlayerSize, 0, m_hPlayer, true, m_isCharaDirection);
-	}
-
-	//死んだ場合のメニュー画面
-	if (m_isDead)
-	{
-		int x = 650;
-		int y = 400;
-		int bx = x + 550;
-		int by = y + 300;
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);//透過
-		DrawBox(x, y, bx, by, 0x0000ff, true);//背景
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-		DrawBox(x, y, bx, by, 0xffffff, false);//枠
-		DrawString(Game::kScreenWidth / 2 - 100, Game::kScreenHeight / 2 - 100, "あなたは死にました", 0xff0000);
-		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2 - 30, "受け入れる", 0xffffff);
-		DrawString(Game::kScreenWidth / 2 + 50, Game::kScreenHeight / 2 - 30, "受け入れる", 0xffffff);
-		DrawString(Game::kScreenWidth / 2 - 200 + 35, Game::kScreenHeight / 2, "Y", 0xffffff);
-		DrawString(Game::kScreenWidth / 2 + 50 + 40, Game::kScreenHeight / 2, "Y", 0xffffff);
-	}
-
-	//メニュー画面
-	if (m_isMenu)
-	{
-		int x = 650;
-		int y = 400;
-		int bx = x + 550;
-		int by = y + 300;
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);//透過
-		DrawBox(x, y, bx, by, 0x0000ff, true);//背景
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-		DrawBox(x, y, bx, by, 0xffffff, false);//枠
-
-		DrawString(Game::kScreenWidth / 2 - 100, Game::kScreenHeight / 2 - 100, "メインメニュー", 0xffffff);
-		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2 - 30, "タイトルに戻る:: Z ", 0xffffff);
-		DrawString(Game::kScreenWidth / 2 + 50, Game::kScreenHeight / 2 - 30, "ゲームを閉じる:: Q ", 0xffffff);
-
-	}
-	//ヒントを表示
-	DrawTip();
+	DrawRectRotaGraph(static_cast<int>(m_imagePos.x) + static_cast<int>(m_imageBalancePos.x),
+		static_cast<int>(m_imagePos.y) + static_cast<int>(m_imageBalancePos.y),
+		m_charaImageIdlePos, 0, 80, 80, kPlayerSize, 0, m_hPlayerIdle, true, m_isCharaIdleDirection);
 
 	////////////////////
 	///*判定の確認用*///
@@ -360,9 +181,6 @@ void PlayerNew::Draw()
 	{
 		DrawBox(m_attackPos.x, m_attackPos.y, m_attackBottomPos.x, m_attackBottomPos.y, 0x0000ff, false);
 	}
-
-	//printfDx("%f\n", m_pos.y);
-	printfDx("%d\n", m_playerHealthBer);
 
 #endif
 }
@@ -381,372 +199,65 @@ void PlayerNew::Operation()
 	if (CheckHitKey(KEY_INPUT_RIGHT) && !m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)//右
 	{
 		m_pos.x += kMoveSpeed;
-		m_underPos.x += kMoveSpeed;
-		m_isCharaDirection = true;//画像反転
-		m_isRunMoveRight = true;
-		m_isIdleMove = false;
-		m_isCharaIdleDirection = false;
 	}
 	if (CheckHitKey(KEY_INPUT_LEFT) && !m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)//左
 	{
 		m_pos.x -= kMoveSpeed;
-		m_underPos.x -= kMoveSpeed;
-		m_isCharaDirection = false;//画像反転
-		m_isRunMoveLeft = true;
-		m_isIdleMove = false;
-		m_isCharaIdleDirection = true;
 	}
-
-	//アップダウン
-	if (CheckHitKey(KEY_INPUT_UP)&& !m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)//梯子上り
+	/*
+	if (CheckHitKey(KEY_INPUT_UP))
 	{
 		m_vec.y = 0.0f;
 		m_pos.y -= kMoveSpeed;
-		m_isIdleMove = false;
-
 	}
-	if (m_isInvaliDown && !m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)
-	{
-		if (CheckHitKey(KEY_INPUT_DOWN))//梯子下り
-		{
-			m_vec.y = 0.0f;
-			m_pos.y += kMoveSpeed;
-			m_isIdleMove = false;
-		}
-	}
-
+	*/
 	//ジャンプ
-	if (Pad::isTrigger(KEY_INPUT_UP) && !m_isAttackMove && !m_isDamageMove)//上
+	if (Pad::isTrigger(KEY_INPUT_UP))//上
 	{
-	
-		
-			printfDx("ジャンプ\n");
-			m_vec.y = kJump;//ジャンプ開始
-			m_isJumpMove = true;
-			//m_isIdleMove = false;
+		m_vec.y = 0.0f;
+		//m_isGravity = false;
+		printfDx("ジャンプ\n");
+		m_vec.y = kJump;//ジャンプ開始
 		
 	}
-
+	
 	if (CheckHitKey(KEY_INPUT_DOWN))
 	{
-		m_isCrouchingMove = true;
-	}
-
-	//攻撃
-	if (m_isGetSword && !m_isDamageMove && !m_isCrouchingMove)
-	{
-		if (CheckHitKey(KEY_INPUT_V))
-		{
-			m_isAttackMove = true;
-		}
-	}
-
-	//ポーズメニュー
-	if (CheckHitKey(KEY_INPUT_P))
-	{
-		m_isStopMove = false;
-		//m_isEnemyDead = false;
-		m_isMenu = true;
-		m_func = &PlayerNew::MenuStop;
-	}
-
-}
-
-//プレイヤーの体力を管理
-void PlayerNew::HealthControl()
-{
-	m_playerHealthBerCount += 1;
-	if (m_playerHealthBerCount == 1)
-	{
-		m_playerHealthBer -= 20;
-		m_playerHealthSizeX -= 20;
-	}
-
-	if (m_playerHealthBer <= 0)
-	{
-		m_playerHealthBer = 1;
-		printfDx("死亡\n");
-		m_playerHealthSizeX = 0;
-		m_isHealthBer = true;
-		//ポーズメニュー
-
-		m_func = &PlayerNew::DeathMenu;
-
-	}
-
-}
-//マップを描画
-void PlayerNew::DrawMap()
-{
-	//////////////////////////////////////
-	//*　　　　　マップ背景　　　　　　*//
-	//////////////////////////////////////
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapFirst, true);
-	DrawExtendGraph(-10 + GetRand(10), 0 + GetRand(5), Game::kScreenWidth + GetRand(10), Game::kScreenHeight + GetRand(5), m_hMapSecond, true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapThird, true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapFourth, true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMapFifth, true);
-
-	//////////////////////////////////////
-	//*　　　　　　ゴール　　　　　　　*//
-	//////////////////////////////////////
-
-	DrawBox(kGoalX, kGoalY, kGoalBottomX, kGoalBottomY, 0x000000, true);
-
-
-	//////////////////////////////////////
-	//*　　　　　マップチップ　　　　　*//
-	//////////////////////////////////////
-
-		//2階の梯子
-	DrawRectExtendGraph(
-		kLadderThirdX - 50, kLadderThirdY, kLadderBottomThirdX + 20, kLadderBottomThirdY + 60,
-		683, 400, 21 + 10, 80 + 10,
-		m_hMapChipSecond, true);
-
-	//2階の梯子
-	DrawRectExtendGraph(
-		kLadderSecondX - 50, kLadderSecondY, kLadderBottomSecondX + 20, kLadderBottomSecondY + 60,
-		683, 400, 21 + 10, 80 + 10,
-		m_hMapChipSecond, true);
-
-	//1階の梯子
-	DrawRectExtendGraph(
-		kLadderX - 50, kLadderY, kLadderXBottom + 20, kLadderYBottom + 60,
-		683, 400, 21 + 10, 80 + 10,
-		m_hMapChipSecond, true);
-
-	//4階
-	DrawRectExtendGraph(
-		kGroundFourthX, kGroundFourthY,
-		kGroundFourthBottomX, kGroundFourthBottomY,
-		16, 224, 160, 32,
-		m_hMapChip, true);
-
-	//3階
-	DrawRectExtendGraph(
-		kGroundThirdX, kGroundThirdY,
-		kGroundThirdBottomX, kGroundThirdBottomY,
-		16, 224, 160, 32,
-		m_hMapChip, true);
-	//2階
-	DrawRectExtendGraph(
-		kGroundSecondX, kGroundSecondY,
-		kGroundSecondBottomX, kGroundSecondBottomY,
-		16, 224, 160, 32,
-		m_hMapChip, true);
-	//1階
-	DrawRectExtendGraph(
-		0, Game::kScreenHeight - 40, Game::kScreenWidth + 1, Game::kScreenHeight - 20,
-		16, 224, 160, 32,
-		m_hMapChip, true);
-
-
-	//////////////////////////////////////
-	//*地面は下から順番に数えていきます*//
-	//////////////////////////////////////
-
-	//梯子3
-	DrawBox(kLadderThirdX, kLadderThirdY, kLadderBottomThirdX, kLadderBottomThirdY, 0xff0000, true);
-	//     　 left,  　　top,  　　 right,   　　　bottom,
-	//梯子2
-	DrawBox(kLadderSecondX, kLadderSecondY, kLadderBottomSecondX, kLadderBottomSecondY, 0xff0000, true);
-	//     　 left,  　　top,  　　 right,   　　　bottom,
-	//梯子1
-	DrawBox(kLadderX, kLadderY, kLadderXBottom, kLadderYBottom, 0xff0000, true);
-	//     　 left,  　　top,  　　 right,   　　　bottom,
-
-	//地面3
-	DrawBox(kGroundThirdX, kGroundThirdY,
-		kGroundThirdBottomX, kGroundThirdBottomY, 0x00ff00, false);
-
-	//地面3
-	DrawBox(kGroundThirdX, kGroundThirdY,
-		kGroundThirdBottomX, kGroundThirdBottomY, 0x00ff00, false);
-
-	//地面2
-	DrawBox(kGroundSecondX, kGroundSecondY,
-		kGroundSecondBottomX, kGroundSecondBottomY, 0x00ff00, false);
-
-	//地面１
-	DrawBox(0, Game::kScreenHeight - 40, Game::kScreenWidth + 1, Game::kScreenHeight - 20, 0x00ff00, false);
-}
-//ヒントを表示
-void PlayerNew::DrawTip()
-{
-	//武器入手
-	if (m_tip == 1)
-	{
-		int x = 650;
-		int y = 400;
-		int bx = x + 550;
-		int by = y + 300;
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);//透過
-		DrawBox(x, y, bx, by, 0x0000ff, true);//背景
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-		DrawBox(x, y, bx, by, 0xffffff, false);//枠
-		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2 - 100, "あなたは近接武器を入手しました", 0x6FFFBF);
-		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2, "V　を入力することで攻撃できます", 0xffffff);
-		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2 + 100, "SPACE 押して ゲームに戻る", 0xffffff);
-		m_isItemTip = false;
-	}
-	//アイテムをドロップ
-	if (m_tip == 2)
-	{
-		int x = 650;
-		int y = 400;
-		int bx = x + 550;
-		int by = y + 300;
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);//透過
-		DrawBox(x, y, bx, by, 0x0000ff, true);//背景
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-		DrawBox(x, y, bx, by, 0xffffff, false);//枠
-		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2 - 100, "せっかく入手したアイテムを落としてしまった！", 0xffffff);
-		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2, "もう一度アイテムに当たると使うことができる！", 0xffffff);
-		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2 + 100, "SPACE 押して ゲームに戻る", 0xffffff);
-		m_isItemDropTip = false;
-	}
-	//梯子を移動
-	if (m_tip == 3)
-	{
-		int x = 650;
-		int y = 400;
-		int bx = x + 550;
-		int by = y + 300;
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);//透過
-		DrawBox(x, y, bx, by, 0x0000ff, true);//背景
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-		DrawBox(x, y, bx, by, 0xffffff, false);//枠
-		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2 - 100, "ツタを利用して上下に移動しよう！", 0xffffff);
-		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2, "十字キー上下で移動できる！", 0xffffff);
-		DrawString(Game::kScreenWidth / 2 - 200, Game::kScreenHeight / 2 + 100, "SPACE 押して ゲームに戻る", 0xffffff);
-		m_isUpTip = false;
+		m_pos.y += kMoveSpeed;
 	}
 }
-
 //アップデート処理
 void PlayerNew::UpdateMove()
 {
-	//clsDx();
-	if (m_isGravity)
+	//操作
+	Operation();
+	if (!m_isFall)//地面に当たっていなかったら
 	{
 		//重力
-		m_vec.y += m_gravity;
+		m_vec.y += kGravity;
 	}
+	else//地面に当たっていたら
+	{
+	//	m_vec.y = 0.0f;
+		m_pos.y = m_getPos;
 
+		//プレイヤーの位置座標
+	}
+	
+	//プレイヤー位置
+	m_pos += m_vec;
+
+#if true	
 	m_playerLeft = static_cast<int>(m_pos.x) - 15;
 	m_playerTop = static_cast<int>(m_pos.y) + 10;
 	m_playerRight = m_playerLeft + 40;
 	m_playerBottom = m_playerTop + 40;
+#else
+	m_playerLeft = static_cast<int>(m_pos.x) - 25;
+	m_playerTop = static_cast<int>(m_pos.y) + 10;
+	m_playerRight = static_cast<int>(m_pos.x) + 25;
+	m_playerBottom = static_cast<int>(m_pos.y) + 60;
+#endif
 
-	//プレイヤー攻撃範囲
-	if (m_isCharaDirection)
-	{
-		m_attackPos.x = m_pos.x - 20.0f;
-		m_attackPos.y = m_pos.y - 20.0f;
-		m_attackBottomPos.x = m_attackPos.x + 60.0f;
-		m_attackBottomPos.y = m_attackPos.y + 70.0f;
-	}
-	else
-	{
-		m_attackPos.x = m_pos.x - 40.0f;
-		m_attackPos.y = m_pos.y - 20.0f;
-		m_attackBottomPos.x = m_attackPos.x + 60.0f;
-		m_attackBottomPos.y = m_attackPos.y + 70.0f;
-	}
-
-
-	//プレイヤー位置
-	m_imagePos = m_pos;
-	m_pos += m_vec;
-	m_underPos += m_vec;
-
-	////////////////////
-	////*当たり判定*////
-	///////////////////
-
-	if (!m_isGetSword)
-	{
-		m_boxDropCount++;
-
-	}
-
-	if (m_boxDropCount >= 120)
-	{
-		m_boxDropCount = 120;
-
-	}
-
-	//操作
-	Operation();
-
-
-	if (m_tip == 1 || m_tip == 2 || m_tip == 3)
-	{
-		m_func = &PlayerNew::Description;
-	}
-}
-//ポーズ画面
-void PlayerNew::MenuStop()
-{
-	if (CheckHitKey(KEY_INPUT_O))
-	{
-		m_isMenu = false;
-		m_isStopMove = true;
-		m_func = &PlayerNew::UpdateMove;
-	}
-	if (CheckHitKey(KEY_INPUT_Z))
-	{
-		m_isTitle = true;
-		/*
-		m_isMenu = false;
-		m_isReset = true;
-		*/
-	}
-	if (CheckHitKey(KEY_INPUT_Q))
-	{
-		/*
-		m_isMenu = false;
-		m_isTitle = true;
-		*/
-		DxLib_End();
-	}
-}
-//死んだ場合のMenu
-void PlayerNew::DeathMenu()
-{
-	m_isDead = true;
-
-	if (CheckHitKey(KEY_INPUT_Y))
-	{
-		m_isReset = true;
-	}
-
-}
-//ゴールに到達した場合
-void PlayerNew::Goal()
-{
-	m_pos.x = kGoalX + 30;
-	m_imagePos.x = kGoalX + 30;
-	m_pos.y -= 8.0f;
-	m_imagePos.y -= 8.0f;
-	//上まで行くとマップ移動
-	if (m_pos.y <= 0.0f)
-	{
-		DrawString(300, 300, "移動", 0xffffff);
-		m_isStageClear = true;
-	}
-}
-
-void PlayerNew::Description()
-{
-	if (CheckHitKey(KEY_INPUT_SPACE))
-	{
-		m_tip = 10;
-		m_func = &PlayerNew::UpdateMove;
-	}
-
+	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xffffff, true);
 }

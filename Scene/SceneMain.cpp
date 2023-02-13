@@ -8,7 +8,7 @@
 #include "Enemy.h"
 #include "game.h"
 #include <DxLib.h>
-#include <Image.h>
+#include "Image.h"
 
 SceneMain::SceneMain() :
 	m_test(0),

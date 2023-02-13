@@ -12,7 +12,7 @@ namespace
 	constexpr float kPosX = 100.0f;//20.0f;
 	constexpr float kPosY = 0.0f;//700.0f;
 	//“®‚­‘¬‚³
-	constexpr float kMoveSpeed = 7.0f;
+	constexpr float kMoveSpeed = 3.0f;
 	// ƒWƒƒƒ“ƒv—Í
 	constexpr float kJump = -11.0f;
 	// d—Í

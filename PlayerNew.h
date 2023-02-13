@@ -14,40 +14,31 @@ public:
 	virtual void Draw();
 
 public:
+
+	void SetHandle(int handle) { m_hPlayer = handle; }
+	void SetHandleIdle(int handle) { m_hPlayerIdle = handle; }
+	void SetHandleLighting(int handle) { m_hPlayerLighting = handle; }
+	void SetHandleHealthBer(int handle) { m_hHealthBer = handle; }
+
 	float GetPlayerLeft  () { return static_cast<float>(m_playerLeft);   }
 	float GetPlayerTop   () { return static_cast<float>(m_playerTop);    }
 	float GetPlayerRight () { return static_cast<float>(m_playerRight);  }
 	float GetPlayerBottom() { return static_cast<float>(m_playerBottom); }
 
-	Vec2 GetPos() { return m_pos; }
+	//Vec2 GetPos() { return m_pos; }
 
-	bool GetGravity(bool gravity) { m_isGravity = gravity; }
+	void GetGravity(bool gravity) { m_isGravity = gravity; }
+	void GetPos(float pos) { m_getPos = pos; }
+
+	void GetScaffold(bool fall) { m_isFall = fall; }
 
 private:
-
 	//操作
 	void Operation();
-
-	//HP管理
-	void HealthControl();
-
-	//マップを表示
-	void DrawMap();
-	//ヒントを表示
-	void DrawTip();
-
 private:
 
 	//更新画面
 	void UpdateMove();
-	//ポーズ画面
-	void MenuStop();
-	//死んだ場合
-	void DeathMenu();
-	//ステージクリア
-	void Goal();
-	//ゲーム説明
-	void Description();
 
 private:
 
@@ -143,6 +134,7 @@ private:
 	bool m_isUpTip;
 
 	bool m_isGravity;
+	bool m_isFall;
 	//プレイヤーグラフィックサイズ
 	Vec2 m_playerSize;
 	//キャラクターの位置
@@ -156,6 +148,8 @@ private:
 	Vec2 m_attackBottomPos;
 	//方向
 	Vec2 m_vec;
+
+	float m_getPos;
 
 	void (PlayerNew::* m_func)();
 

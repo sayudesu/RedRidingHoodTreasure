@@ -223,7 +223,7 @@ void PlayerMapMove::End()
 //アップデート処理
 void PlayerMapMove::Update()
 {
-	if (GetLifeEnemy() && GetEnemyMove() &&!m_isItemTip &&!m_isItemDropTip &&!m_isUpTip)
+	if (GetLifeEnemy() && GetEnemyMove())
 	{
 		m_pEnemy->Update();
 	}

@@ -283,7 +283,7 @@ void Player::Draw()
 	//キャラクター
 	SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 64);
-	for (int i = 0; i < 4 ; i++)
+	for (int i = 0; i < 4 ; i++)//背景ライト
 	{
 		DrawRotaGraph(m_pos.x - 3 + GetRand(5), m_pos.y + 20 + GetRand(5), 3, 0, m_hPlayerLighting, true, false);
 	}
@@ -320,7 +320,7 @@ void Player::Draw()
 			m_charaImageJumpPos, 399, 112, 133, 2, 0, m_hPlayer, true, m_isCharaDirection);
 	}
 
-	if(m_isCrouchingMove)
+	if(m_isCrouchingMove)//しゃがみ
 	{
 		DrawRectRotaGraph(static_cast<int>(m_imagePos.x) + 0,
 			static_cast<int>(m_imagePos.y) + 0,
@@ -540,7 +540,7 @@ void Player::Condition()
 			}
 		}
 	}
-
+	//地面にいる場合のしゃがみ
 	if (m_isCrouchingMove)
 	{
 		m_frameCount++;
@@ -708,18 +708,6 @@ int Player::CheckHit()
 			{
 				//m_pos.x = (10 + kLadderX);
 			}
-
-			/*
-			if (static_cast<int>(m_pos.y) <= 680)
-			{
-				m_hierarchy = 1;
-			}
-
-			if (static_cast<int>(m_pos.y) <= 580)
-			{
-				m_hierarchy = 2;
-			}
-			*/
 			return 1;
 		}
 	}

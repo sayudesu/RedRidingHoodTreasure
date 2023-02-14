@@ -11,8 +11,14 @@ public:
 
 	void Init();
 	void Update();
-	bool HitObject();//オブジェクトとの当たり判定
 	void Draw();
+
+//当たり判定
+public:
+	bool HitObject();//地面との当たり判定
+	bool HItLadder();//梯子との当たり判定
+
+//渡し
 public:
 	bool GetGravity() { return m_isGravity; }
 
@@ -21,6 +27,8 @@ private:
 	bool m_isGravity;
 
 	float m_posY;
+
+	float m_landingPos;//着地位置
 
 	PlayerNew* m_pPlayer;
 	DrawMapStage2* m_pMap;

@@ -15,22 +15,22 @@ public:
 
 public:
 
-	void SetHandle(int handle) { m_hPlayer = handle; }
-	void SetHandleIdle(int handle) { m_hPlayerIdle = handle; }
-	void SetHandleLighting(int handle) { m_hPlayerLighting = handle; }
-	void SetHandleHealthBer(int handle) { m_hHealthBer = handle; }
+	void SetHandle         (int handle) { m_hPlayer         = handle; }
+	void SetHandleIdle     (int handle) { m_hPlayerIdle     = handle; }
+	void SetHandleLighting (int handle) { m_hPlayerLighting = handle; }
+	void SetHandleHealthBer(int handle) { m_hHealthBer      = handle; }
 
-	float GetPlayerLeft  () { return static_cast<float>(m_playerLeft);   }
-	float GetPlayerTop   () { return static_cast<float>(m_playerTop);    }
-	float GetPlayerRight () { return static_cast<float>(m_playerRight);  }
+	float GetPlayerLeft  () { return static_cast<float>(m_playerLeft  ); }
+	float GetPlayerTop   () { return static_cast<float>(m_playerTop   ); }
+	float GetPlayerRight () { return static_cast<float>(m_playerRight ); }
 	float GetPlayerBottom() { return static_cast<float>(m_playerBottom); }
 
 	//Vec2 GetPos() { return m_pos; }
 
-	void GetGravity(bool gravity) { m_isGravity = gravity; }
-	void GetPos(float pos) { m_getPos = pos; }
-
-	void GetScaffold(bool fall) { m_isFall = fall; }
+	//void GetGravity (bool gravity)   { m_isGravity = gravity;   }//地面にいるかどうか
+	void GetPos     (float pos)      { m_getPos    = pos;       }//地面にいる場合の座標.y
+	void GetLadder  (bool ladderHit) { m_isLadder  = ladderHit; }//梯子に当たっているかどうか
+	void GetScaffold(bool fall)      { m_isFall    = fall;      }//地面にいるかどうか
 
 private:
 	//操作

@@ -1,5 +1,5 @@
 #pragma once
-
+#include "game.h"
 //#define _DEBUG 
 
 namespace Game
@@ -37,6 +37,7 @@ namespace Stage2
 	constexpr int BoxHeight = 20;
 	//段差
 	constexpr int BoxStep = 5;
+	constexpr int BoxStep2 = 12;
 
 	//一階
 	constexpr int Box1X = 0;                                   //左
@@ -85,4 +86,52 @@ namespace Stage2
 	constexpr int Box8Y = Box7Y - BoxStep;
 	constexpr int BoxBottom8X = Box8X + BoxWidth;
 	constexpr int BoxBottom8Y = Box8Y + BoxHeight;
+
+	//二階
+	constexpr int Box1Xs = Game::kScreenWidth / 2 + 200;
+	constexpr int Box1Ys = Box8Y - 200;
+	constexpr int BoxBottom1Xs = Game::kScreenWidth - 100;
+	constexpr int BoxBottom1Ys = Box1Ys + BoxHeight;
+	//二階右から一段差
+	constexpr int Box2Xs = Box1Xs - BoxWidth;
+	constexpr int Box2Ys = Box1Ys + BoxStep2;
+	constexpr int BoxBottom2Xs = Box1Xs;
+	constexpr int BoxBottom2Ys = Box2Ys - BoxHeight;
+	//二階右から二段差
+	constexpr int Box3Xs = Box2Xs - BoxWidth;
+	constexpr int Box3Ys = Box2Ys - BoxStep2;
+	constexpr int BoxBottom3Xs = Box2Xs;
+	constexpr int BoxBottom3Ys = Box3Ys - BoxHeight;
+	//二階右から三段差
+	constexpr int Box4Xs = Box3Xs - BoxWidth;
+	constexpr int Box4Ys = Box3Ys - BoxStep2;
+	constexpr int BoxBottom4Xs = Box3Xs;
+	constexpr int BoxBottom4Ys = Box4Ys - BoxHeight;
+	//二階右から四段差
+	constexpr int Box5Xs = Box4Xs - BoxWidth;
+	constexpr int Box5Ys = Box4Ys - BoxStep2;
+	constexpr int BoxBottom5Xs = Box4Xs;
+	constexpr int BoxBottom5Ys = Box5Ys - BoxHeight;
+	//二階右から五段差
+	constexpr int Box6Xs = Box5Xs - BoxWidth;
+	constexpr int Box6Ys = Box5Ys - BoxStep2;
+	constexpr int BoxBottom6Xs = Box5Xs;
+	constexpr int BoxBottom6Ys = Box6Ys - BoxHeight;
+	//二階右から六段差
+	constexpr int Box7Xs = Box6Xs - BoxWidth;
+	constexpr int Box7Ys = Box6Ys - BoxStep2;
+	constexpr int BoxBottom7Xs = Box6Xs;
+	constexpr int BoxBottom7Ys = Box7Ys - BoxHeight;
+	//二階右から七段差
+	constexpr int Box8Xs = Box7Xs - BoxWidth;
+	constexpr int Box8Ys = Box7Ys - BoxStep2;
+	constexpr int BoxBottom8Xs = Box7Xs;
+	constexpr int BoxBottom8Ys = Box8Ys - BoxHeight;
+
+
+	//梯子
+	constexpr int Ladder1X = Game::kScreenWidth - 150;
+	constexpr int Ladder1Y = Game::kScreenHeight - 300;
+	constexpr int LadderBottom1X = Ladder1X + 10;
+	constexpr int LadderBottom1Y = Ladder1Y + 150;
 }

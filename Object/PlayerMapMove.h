@@ -17,6 +17,7 @@ public:
 	virtual void Update();
 	virtual void Draw();
 
+
 public:
 	bool IsDead      () { return m_isReset;     }
 	bool IsTitle     () { return m_isTitle;     }

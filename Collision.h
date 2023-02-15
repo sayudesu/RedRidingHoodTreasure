@@ -20,8 +20,6 @@ public:
 
 //“n‚µ
 public:
-	bool GetGravity() { return m_isGravity; }
-
 	float GetPos() { return m_posY; }
 private:
 	bool m_isGravity;

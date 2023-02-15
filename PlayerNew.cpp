@@ -184,9 +184,17 @@ void PlayerNew::Draw()
 
 #endif
 }
+void PlayerNew::PlayerPosSet()
+{
+	if (m_pos.x < 0.0f) m_pos.x = 1.0f;
+	if (m_pos.x > Game::kScreenWidth ) m_pos.x = static_cast<float>(Game::kScreenWidth) - 1.0f;
+	if (m_pos.y < 0.0f) m_pos.y = 1.0f;
+	if (m_pos.y > Game::kScreenHeight) m_pos.y = static_cast<float>(Game::kScreenHeight) - 1.0f;
+}
 //ëÄçÏ
 void PlayerNew::Operation()
 {
+	PlayerPosSet();
 	//ì¸óÕîªíË
 	Pad::update();
 
@@ -272,5 +280,5 @@ void PlayerNew::UpdateMove()
 	m_playerRight  = m_playerLeft + 40;
 	m_playerBottom = m_playerTop  + 40;
 
-	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xffffff, true);
+	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xff0000, true);
 }

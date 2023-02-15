@@ -33,6 +33,8 @@ public:
 	void GetScaffold(bool fall)      { m_isFall    = fall;      }//地面にいるかどうか
 
 private:
+	//プレイヤー位置補正
+	void PlayerPosSet();
 	//操作
 	void Operation();
 private:

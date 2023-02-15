@@ -32,106 +32,165 @@ namespace Game
 namespace Stage2
 {
 	//î†ÇÃâ°ïù
-	constexpr int BoxWidth = 150;
+	constexpr int kBoxWidth = 150;
 	//î†ÇÃçÇÇ≥
-	constexpr int BoxHeight = 20;
+	constexpr int kBoxHeight = 20;
 	//íiç∑
-	constexpr int BoxStep = 5;
-	constexpr int BoxStep2 = 12;
+	constexpr int kBoxStep = 5;
+	constexpr int kBoxStep2 = 5;//12;
 
-	//àÍäK
-	constexpr int Box1X = 0;                                   //ç∂
-	constexpr int Box1Y = Game::kScreenHeight - 60;            //è„
-	constexpr int BoxBottom1X = Box1X + Game::kScreenWidth / 2;//âE
-	constexpr int BoxBottom1Y = Box1Y + BoxHeight;             //â∫
+	//àÍäK////////////////////////////////////////////////////////////////////////////////
+	constexpr int kBox1X = 0;                                   //ç∂
+	constexpr int kBox1Y = Game::kScreenHeight - 60;            //è„
+	constexpr int kBoxBottom1X = kBox1X + Game::kScreenWidth / 2;//âE
+	constexpr int kBoxBottom1Y = kBox1Y + kBoxHeight;             //â∫
 
 	//àÍäKàÍíiç∑
-	constexpr int Box2X = BoxBottom1X;
-	constexpr int Box2Y = Box1Y - BoxStep;
-	constexpr int BoxBottom2X = Box2X + BoxWidth;
-	constexpr int BoxBottom2Y = Box2Y + BoxHeight;
+	constexpr int kBox2X = kBoxBottom1X;
+	constexpr int kBox2Y = kBox1Y - kBoxStep;
+	constexpr int kBoxBottom2X = kBox2X + kBoxWidth;
+	constexpr int kBoxBottom2Y = kBox2Y + kBoxHeight;
 
 	//àÍäKìÒíiç∑
-	constexpr int Box3X = BoxBottom2X;
-	constexpr int Box3Y = Box2Y - BoxStep;
-	constexpr int BoxBottom3X = Box3X + BoxWidth;
-	constexpr int BoxBottom3Y = Box3Y + BoxHeight;
+	constexpr int kBox3X = kBoxBottom2X;
+	constexpr int kBox3Y = kBox2Y - kBoxStep;
+	constexpr int kBoxBottom3X = kBox3X + kBoxWidth;
+	constexpr int kBoxBottom3Y = kBox3Y + kBoxHeight;
 
 	//àÍäKéOíiç∑
-	constexpr int Box4X = BoxBottom3X;
-	constexpr int Box4Y = Box3Y - BoxStep;
-	constexpr int BoxBottom4X = Box4X + BoxWidth;
-	constexpr int BoxBottom4Y = Box4Y + BoxHeight;
+	constexpr int kBox4X = kBoxBottom3X;
+	constexpr int kBox4Y = kBox3Y - kBoxStep;
+	constexpr int kBoxBottom4X = kBox4X + kBoxWidth;
+	constexpr int kBoxBottom4Y = kBox4Y + kBoxHeight;
 
 	//àÍäKélíiç∑
-	constexpr int Box5X = BoxBottom4X;
-	constexpr int Box5Y = Box4Y - BoxStep;
-	constexpr int BoxBottom5X = Box5X + BoxWidth;
-	constexpr int BoxBottom5Y = Box5Y + BoxHeight;
+	constexpr int kBox5X = kBoxBottom4X;
+	constexpr int kBox5Y = kBox4Y - kBoxStep;
+	constexpr int kBoxBottom5X = kBox5X + kBoxWidth;
+	constexpr int kBoxBottom5Y = kBox5Y + kBoxHeight;
 
 	//àÍäKå‹íiç∑
-	constexpr int Box6X = BoxBottom5X;
-	constexpr int Box6Y = Box5Y - BoxStep;
-	constexpr int BoxBottom6X = Box6X + BoxWidth;
-	constexpr int BoxBottom6Y = Box6Y + BoxHeight;
+	constexpr int kBox6X = kBoxBottom5X;
+	constexpr int kBox6Y = kBox5Y - kBoxStep;
+	constexpr int kBoxBottom6X = kBox6X + kBoxWidth;
+	constexpr int kBoxBottom6Y = kBox6Y + kBoxHeight;
 
 	//àÍäKòZíiç∑
-	constexpr int Box7X = BoxBottom6X;
-	constexpr int Box7Y = Box6Y - BoxStep;
-	constexpr int BoxBottom7X = Box7X + BoxWidth;
-	constexpr int BoxBottom7Y = Box7Y + BoxHeight;
+	constexpr int kBox7X = kBoxBottom6X;
+	constexpr int kBox7Y = kBox6Y - kBoxStep;
+	constexpr int kBoxBottom7X = kBox7X + kBoxWidth;
+	constexpr int kBoxBottom7Y = kBox7Y + kBoxHeight;
 
 	//àÍäKéµíiç∑
-	constexpr int Box8X = BoxBottom7X;
-	constexpr int Box8Y = Box7Y - BoxStep;
-	constexpr int BoxBottom8X = Box8X + BoxWidth;
-	constexpr int BoxBottom8Y = Box8Y + BoxHeight;
+	constexpr int kBox8X = kBoxBottom7X;
+	constexpr int kBox8Y = kBox7Y - kBoxStep;
+	constexpr int kBoxBottom8X = kBox8X + kBoxWidth;
+	constexpr int kBoxBottom8Y = kBox8Y + kBoxHeight;
 
-	//ìÒäK
-	constexpr int Box1Xs = Game::kScreenWidth / 2 + 200;
-	constexpr int Box1Ys = Box8Y - 200;
-	constexpr int BoxBottom1Xs = Game::kScreenWidth - 100;
-	constexpr int BoxBottom1Ys = Box1Ys + BoxHeight;
-	//ìÒäKâEÇ©ÇÁàÍíiç∑
-	constexpr int Box2Xs = Box1Xs - BoxWidth;
-	constexpr int Box2Ys = Box1Ys + BoxStep2;
-	constexpr int BoxBottom2Xs = Box1Xs;
-	constexpr int BoxBottom2Ys = Box2Ys - BoxHeight;
-	//ìÒäKâEÇ©ÇÁìÒíiç∑
-	constexpr int Box3Xs = Box2Xs - BoxWidth;
-	constexpr int Box3Ys = Box2Ys - BoxStep2;
-	constexpr int BoxBottom3Xs = Box2Xs;
-	constexpr int BoxBottom3Ys = Box3Ys - BoxHeight;
-	//ìÒäKâEÇ©ÇÁéOíiç∑
-	constexpr int Box4Xs = Box3Xs - BoxWidth;
-	constexpr int Box4Ys = Box3Ys - BoxStep2;
-	constexpr int BoxBottom4Xs = Box3Xs;
-	constexpr int BoxBottom4Ys = Box4Ys - BoxHeight;
-	//ìÒäKâEÇ©ÇÁélíiç∑
-	constexpr int Box5Xs = Box4Xs - BoxWidth;
-	constexpr int Box5Ys = Box4Ys - BoxStep2;
-	constexpr int BoxBottom5Xs = Box4Xs;
-	constexpr int BoxBottom5Ys = Box5Ys - BoxHeight;
-	//ìÒäKâEÇ©ÇÁå‹íiç∑
-	constexpr int Box6Xs = Box5Xs - BoxWidth;
-	constexpr int Box6Ys = Box5Ys - BoxStep2;
-	constexpr int BoxBottom6Xs = Box5Xs;
-	constexpr int BoxBottom6Ys = Box6Ys - BoxHeight;
-	//ìÒäKâEÇ©ÇÁòZíiç∑
-	constexpr int Box7Xs = Box6Xs - BoxWidth;
-	constexpr int Box7Ys = Box6Ys - BoxStep2;
-	constexpr int BoxBottom7Xs = Box6Xs;
-	constexpr int BoxBottom7Ys = Box7Ys - BoxHeight;
-	//ìÒäKâEÇ©ÇÁéµíiç∑
-	constexpr int Box8Xs = Box7Xs - BoxWidth;
-	constexpr int Box8Ys = Box7Ys - BoxStep2;
-	constexpr int BoxBottom8Xs = Box7Xs;
-	constexpr int BoxBottom8Ys = Box8Ys - BoxHeight;
+	//ìÒäK///////////////////////////////////////////////////////////////////////////
+
+	constexpr int kBox1Xs = 100;
+	constexpr int kBox1Ys = Game::kScreenHeight - 250;
+	constexpr int kBoxBottom1Xs = kBox1Xs + kBoxWidth;
+	constexpr int koxBottom1Ys = kBox1Ys + kBoxHeight;
+
+	constexpr int kBox2Xs = kBoxBottom1Xs;
+	constexpr int kBox2Ys = kBox1Ys + kBoxStep;
+	constexpr int kBoxBottom2Xs = kBox2Xs + kBoxWidth;
+	constexpr int kBoxBottom2Ys = kBox2Ys + kBoxHeight;
+
+	constexpr int kBox3Xs = kBoxBottom2Xs;
+	constexpr int kBox3Ys = kBox2Ys + kBoxStep;
+	constexpr int kBoxBottom3Xs = kBox3Xs + kBoxWidth;
+	constexpr int kBoxBottom3Ys = kBox3Ys + kBoxHeight;
 
 
-	//íÚéq
-	constexpr int Ladder1X = Game::kScreenWidth - 150;
-	constexpr int Ladder1Y = Game::kScreenHeight - 300;
-	constexpr int LadderBottom1X = Ladder1X + 10;
-	constexpr int LadderBottom1Y = Ladder1Y + 150;
+	constexpr int kBox4Xs = kBoxBottom3Xs;
+	constexpr int kBox4Ys = kBox3Ys + kBoxStep;
+	constexpr int kBoxBottom4Xs = kBox4Xs + kBoxWidth;
+	constexpr int kBoxBottom4Ys = kBox4Ys + kBoxHeight;
+
+
+	constexpr int kBox5Xs = kBoxBottom4Xs;
+	constexpr int kBox5Ys = kBox4Ys + kBoxStep;
+	constexpr int kBoxBottom5Xs = kBox5Xs + kBoxWidth;
+	constexpr int kBoxBottom5Ys = kBox5Ys + kBoxHeight;
+
+
+	constexpr int kBox6Xs = kBoxBottom5Xs;
+	constexpr int kBox6Ys = kBox5Ys + kBoxStep;
+	constexpr int kBoxBottom6Xs = kBox6Xs + kBoxWidth;
+	constexpr int kBoxBottom6Ys = kBox6Ys + kBoxHeight;
+
+
+	constexpr int kBox7Xs = kBoxBottom6Xs;
+	constexpr int kBox7Ys = kBox6Ys + kBoxStep;
+	constexpr int kBoxBottom7Xs = kBox7Xs + kBoxWidth;
+	constexpr int kBoxBottom7Ys = kBox7Ys + kBoxHeight;
+
+
+	constexpr int kBox8Xs = kBoxBottom7Xs;
+	constexpr int kBox8Ys = kBox7Ys + kBoxStep;
+	constexpr int kBoxBottom8Xs = Game::kScreenWidth - 100;
+	constexpr int kBoxBottom8Ys = kBox8Ys + kBoxHeight;
+
+	//éOäK//////////////////////////////////////////////////////////////////////////////////////////////
+	constexpr int kBox1Xt = 200;                                   //ç∂
+	constexpr int kBox1Yt = Game::kScreenHeight - 370;             //è„
+	constexpr int kBoxBottom1Xt = kBox1Xt + Game::kScreenWidth / 2;//âE
+	constexpr int kBoxBottom1Yt = kBox1Yt + kBoxHeight;            //â∫
+
+	//àÍäKàÍíiç∑
+	constexpr int kBox2Xt = kBoxBottom1Xt;
+	constexpr int kBox2Yt = kBox1Yt - kBoxStep;
+	constexpr int kBoxBottom2Xt = kBox2Xt + kBoxWidth;
+	constexpr int kBoxBottom2Yt = kBox2Yt + kBoxHeight;
+
+	//àÍäKìÒíiç∑
+	constexpr int kBox3Xt = kBoxBottom2Xt;
+	constexpr int kBox3Yt = kBox2Yt - kBoxStep;
+	constexpr int kBoxBottom3Xt = kBox3Xt + kBoxWidth;
+	constexpr int kBoxBottom3Yt = kBox3Yt + kBoxHeight;
+
+	//àÍäKéOíiç∑
+	constexpr int kBox4Xt = kBoxBottom3Xt;
+	constexpr int kBox4Yt = kBox3Yt - kBoxStep;
+	constexpr int kBoxBottom4Xt = kBox4Xt + kBoxWidth;
+	constexpr int kBoxBottom4Yt = kBox4Yt + kBoxHeight;
+
+	//àÍäKélíiç∑
+	constexpr int kBox5Xt = kBoxBottom4Xt;
+	constexpr int kBox5Yt = kBox4Yt - kBoxStep;
+	constexpr int kBoxBottom5Xt = kBox5Xt + kBoxWidth;
+	constexpr int kBoxBottom5Yt = kBox5Yt + kBoxHeight;
+
+	//àÍäKå‹íiç∑
+	constexpr int kBox6Xt = kBoxBottom5Xt;
+	constexpr int kBox6Yt = kBox5Yt - kBoxStep;
+	constexpr int kBoxBottom6Xt = kBox6Xt + kBoxWidth;
+	constexpr int kBoxBottom6Yt = kBox6Yt + kBoxHeight;
+
+	//àÍäKòZíiç∑
+	constexpr int kBox7Xt = kBoxBottom6Xt;
+	constexpr int kBox7Yt = kBox6Yt - kBoxStep;
+	constexpr int kBoxBottom7Xt = kBox7Xt + kBoxWidth;
+	constexpr int kBoxBottom7Yt = kBox7Yt + kBoxHeight;
+
+	//àÍäKéµíiç∑
+	constexpr int kBox8Xt = kBoxBottom7Xt;
+	constexpr int kBox8Yt = kBox7Yt - kBoxStep;
+	constexpr int kBoxBottom8Xt = kBox8Xt + kBoxWidth;
+	constexpr int kBoxBottom8Yt = kBox8Yt + kBoxHeight;
+
+	//íÚéq///////////////////////////////////////////////////////////////////////////////
+	//ëÊàÍíÚéq
+	constexpr int kLadder1X = Game::kScreenWidth - 150;
+	constexpr int kLadder1Y = Game::kScreenHeight - 250;
+	constexpr int kLadderBottom1X = kLadder1X + 10;
+	constexpr int kLadderBottom1Y = kLadder1Y + 150;
+	//ëÊìÒíÚéq
+	constexpr int kLadder2X = 300;
+	constexpr int kLadder2Y = Game::kScreenHeight - 400;
+	constexpr int kLadderBottom2X = kLadder2X + 10;
+	constexpr int kLadderBottom2Y = kLadder2Y + 150;
 }

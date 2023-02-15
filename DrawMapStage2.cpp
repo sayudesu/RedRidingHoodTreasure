@@ -25,26 +25,38 @@ void DrawMapStage2::Update()
 void DrawMapStage2::Draw()
 {
 	//1ŠK’n–Ê
-	DrawBox(Stage2::Box1X, Stage2::Box1Y, Stage2::BoxBottom1X, Stage2::BoxBottom1Y, 0xffffff, true);
-	DrawBox(Stage2::Box2X, Stage2::Box2Y, Stage2::BoxBottom2X, Stage2::BoxBottom2Y, 0xffffff, true);
-	DrawBox(Stage2::Box3X, Stage2::Box3Y, Stage2::BoxBottom3X, Stage2::BoxBottom3Y, 0xffffff, true);
-	DrawBox(Stage2::Box4X, Stage2::Box4Y, Stage2::BoxBottom4X, Stage2::BoxBottom4Y, 0xffffff, true);
-	DrawBox(Stage2::Box5X, Stage2::Box5Y, Stage2::BoxBottom5X, Stage2::BoxBottom5Y, 0xffffff, true);
-	DrawBox(Stage2::Box6X, Stage2::Box6Y, Stage2::BoxBottom6X, Stage2::BoxBottom6Y, 0xffffff, true);
-	DrawBox(Stage2::Box7X, Stage2::Box7Y, Stage2::BoxBottom7X, Stage2::BoxBottom7Y, 0xffffff, true);
-	DrawBox(Stage2::Box8X, Stage2::Box8Y, Stage2::BoxBottom8X, Stage2::BoxBottom8Y, 0xffffff, true);
+	DrawBox(Stage2::kBox1X, Stage2::kBox1Y, Stage2::kBoxBottom1X, Stage2::kBoxBottom1Y, 0xffffff, true);
+	DrawBox(Stage2::kBox2X, Stage2::kBox2Y, Stage2::kBoxBottom2X, Stage2::kBoxBottom2Y, 0xffffff, true);
+	DrawBox(Stage2::kBox3X, Stage2::kBox3Y, Stage2::kBoxBottom3X, Stage2::kBoxBottom3Y, 0xffffff, true);
+	DrawBox(Stage2::kBox4X, Stage2::kBox4Y, Stage2::kBoxBottom4X, Stage2::kBoxBottom4Y, 0xffffff, true);
+	DrawBox(Stage2::kBox5X, Stage2::kBox5Y, Stage2::kBoxBottom5X, Stage2::kBoxBottom5Y, 0xffffff, true);
+	DrawBox(Stage2::kBox6X, Stage2::kBox6Y, Stage2::kBoxBottom6X, Stage2::kBoxBottom6Y, 0xffffff, true);
+	DrawBox(Stage2::kBox7X, Stage2::kBox7Y, Stage2::kBoxBottom7X, Stage2::kBoxBottom7Y, 0xffffff, true);
+	DrawBox(Stage2::kBox8X, Stage2::kBox8Y, Stage2::kBoxBottom8X, Stage2::kBoxBottom8Y, 0xffffff, true);
 
 	//2ŠK’n–Ê
-	DrawBox(Stage2::Box1Xs, Stage2::Box1Ys, Stage2::BoxBottom1Xs, Stage2::BoxBottom1Ys, 0xffffff, true);
-	DrawBox(Stage2::Box2Xs, Stage2::Box2Ys, Stage2::BoxBottom2Xs, Stage2::BoxBottom2Ys, 0xffffff, true);
-	DrawBox(Stage2::Box3Xs, Stage2::Box3Ys, Stage2::BoxBottom3Xs, Stage2::BoxBottom3Ys, 0xffffff, true);
-	DrawBox(Stage2::Box4Xs, Stage2::Box4Ys, Stage2::BoxBottom4Xs, Stage2::BoxBottom4Ys, 0xffffff, true);
-	DrawBox(Stage2::Box5Xs, Stage2::Box5Ys, Stage2::BoxBottom5Xs, Stage2::BoxBottom5Ys, 0xffffff, true);
-	DrawBox(Stage2::Box6Xs, Stage2::Box6Ys, Stage2::BoxBottom6Xs, Stage2::BoxBottom6Ys, 0xffffff, true);
-	DrawBox(Stage2::Box7Xs, Stage2::Box7Ys, Stage2::BoxBottom7Xs, Stage2::BoxBottom7Ys, 0xffffff, true);
-	DrawBox(Stage2::Box8Xs, Stage2::Box8Ys, Stage2::BoxBottom8Xs, Stage2::BoxBottom8Ys, 0xffffff, true);
+	DrawBox(Stage2::kBox1Xs, Stage2::kBox1Ys, Stage2::kBoxBottom1Xs, Stage2::koxBottom1Ys, 0xffffff, true);
+	DrawBox(Stage2::kBox2Xs, Stage2::kBox2Ys, Stage2::kBoxBottom2Xs, Stage2::kBoxBottom2Ys, 0xffffff, true);
+	DrawBox(Stage2::kBox3Xs, Stage2::kBox3Ys, Stage2::kBoxBottom3Xs, Stage2::kBoxBottom3Ys, 0xffffff, true);
+	DrawBox(Stage2::kBox4Xs, Stage2::kBox4Ys, Stage2::kBoxBottom4Xs, Stage2::kBoxBottom4Ys, 0xffffff, true);
+	DrawBox(Stage2::kBox5Xs, Stage2::kBox5Ys, Stage2::kBoxBottom5Xs, Stage2::kBoxBottom5Ys, 0xffffff, true);
+	DrawBox(Stage2::kBox6Xs, Stage2::kBox6Ys, Stage2::kBoxBottom6Xs, Stage2::kBoxBottom6Ys, 0xffffff, true);
+	DrawBox(Stage2::kBox7Xs, Stage2::kBox7Ys, Stage2::kBoxBottom7Xs, Stage2::kBoxBottom7Ys, 0xffffff, true);
+	DrawBox(Stage2::kBox8Xs, Stage2::kBox8Ys, Stage2::kBoxBottom8Xs, Stage2::kBoxBottom8Ys, 0xffffff, true);
+
+	//3ŠK’n–Ê
+	DrawBox(Stage2::kBox1Xt, Stage2::kBox1Yt, Stage2::kBoxBottom1Xt, Stage2::kBoxBottom1Yt, 0xffffff, true);
+	DrawBox(Stage2::kBox2Xt, Stage2::kBox2Yt, Stage2::kBoxBottom2Xt, Stage2::kBoxBottom2Yt, 0xffffff, true);
+	DrawBox(Stage2::kBox3Xt, Stage2::kBox3Yt, Stage2::kBoxBottom3Xt, Stage2::kBoxBottom3Yt, 0xffffff, true);
+	DrawBox(Stage2::kBox4Xt, Stage2::kBox4Yt, Stage2::kBoxBottom4Xt, Stage2::kBoxBottom4Yt, 0xffffff, true);
+	DrawBox(Stage2::kBox5Xt, Stage2::kBox5Yt, Stage2::kBoxBottom5Xt, Stage2::kBoxBottom5Yt, 0xffffff, true);
+	DrawBox(Stage2::kBox6Xt, Stage2::kBox6Yt, Stage2::kBoxBottom6Xt, Stage2::kBoxBottom6Yt, 0xffffff, true);
+	DrawBox(Stage2::kBox7Xt, Stage2::kBox7Yt, Stage2::kBoxBottom7Xt, Stage2::kBoxBottom7Yt, 0xffffff, true);
+	DrawBox(Stage2::kBox8Xt, Stage2::kBox8Yt, Stage2::kBoxBottom8Xt, Stage2::kBoxBottom8Yt, 0xffffff, true);
 
 
-	//’òŽq
-	DrawBox(Stage2::Ladder1X, Stage2::Ladder1Y, Stage2::LadderBottom1X, Stage2::LadderBottom1Y, 0xffffff, true);
+	//‘æˆê’òŽq
+	DrawBox(Stage2::kLadder1X, Stage2::kLadder1Y, Stage2::kLadderBottom1X, Stage2::kLadderBottom1Y, 0xffffff, true);
+	//‘æ“ñ’òŽq
+	DrawBox(Stage2::kLadder2X, Stage2::kLadder2Y, Stage2::kLadderBottom2X, Stage2::kLadderBottom2Y, 0xffffff, true);
 }

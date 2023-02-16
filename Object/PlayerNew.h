@@ -30,7 +30,8 @@ public:
 	void GetPos     (float pos     ) { m_getPos       = pos;       }//地面にいる場合の座標.y
 	void GetLadder  (bool ladderHit) { m_isLadder     = ladderHit; }//梯子に当たっているかどうか
 	void GetScaffold(bool fall     ) { m_isFall       = fall;      }//地面にいるかどうか
-	void GetGoal(bool goal)          { m_isStageClear = goal;      }//ステージクリア
+	void GetGoal    (bool goal     ) { m_isStageClear = goal;      }//ステージクリア
+	void GetEnemyHit(bool hit      ) { m_isDamage     = hit;       }//敵に当たる
 
 private:
 	//プレイヤー位置補正
@@ -38,6 +39,7 @@ private:
 	//操作
 	void Operation        ();//操作全体
 	void OperationStandard();//基本操作
+	void OperationAttack();//攻撃操作
 	void OperationJump    ();//ジャンプ
 	void OperationLadder  ();//梯子での操作
 private:
@@ -157,6 +159,8 @@ private:
 	Vec2 m_vec;
 
 	float m_getPos;
+
+	bool m_isDamage;
 
 	void (PlayerNew::* m_func)();
 

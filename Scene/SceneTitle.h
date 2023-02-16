@@ -2,6 +2,8 @@
 #include "SceneBase.h"
 #include "Vec2.h"
 
+class TitleCursor;
+class TitleCollision;
 class SceneTitle : public SceneBase
 {
 public:
@@ -13,9 +15,7 @@ public:
 
 	virtual SceneBase* Update() override;
 	virtual void Draw();
-private:
-	void DrawPadCursor();
-	void DrawSelection();
+
 private:
 	//画像ハンドル
 	int m_hImagePlayer;
@@ -23,8 +23,12 @@ private:
 	int m_charaImagePos;
 	//カウント
 	int m_frameCount;
-	int m_sceneChangeCount;
+	int m_sceneChangeCountDemo;
+	int m_sceneChangeCountStage1;
+	int m_sceneChangeCountEnd;
 
-	Vec2 m_padPos;
 	Vec2 m_imagePos;
+
+	TitleCursor* m_pCursor;
+	TitleCollision* m_pCollsion;
 };

@@ -50,9 +50,9 @@ void DrawMapStage2::Draw()
 	DrawBox(Stage2::kBox3Xt, Stage2::kBox3Yt, Stage2::kBoxBottom3Xt, Stage2::kBoxBottom3Yt, 0xffffff, true);
 	DrawBox(Stage2::kBox4Xt, Stage2::kBox4Yt, Stage2::kBoxBottom4Xt, Stage2::kBoxBottom4Yt, 0xffffff, true);
 	DrawBox(Stage2::kBox5Xt, Stage2::kBox5Yt, Stage2::kBoxBottom5Xt, Stage2::kBoxBottom5Yt, 0xffffff, true);
-	DrawBox(Stage2::kBox6Xt, Stage2::kBox6Yt, Stage2::kBoxBottom6Xt, Stage2::kBoxBottom6Yt, 0xffffff, true);
-	DrawBox(Stage2::kBox7Xt, Stage2::kBox7Yt, Stage2::kBoxBottom7Xt, Stage2::kBoxBottom7Yt, 0xffffff, true);
-	DrawBox(Stage2::kBox8Xt, Stage2::kBox8Yt, Stage2::kBoxBottom8Xt, Stage2::kBoxBottom8Yt, 0xffffff, true);
+	//DrawBox(Stage2::kBox6Xt, Stage2::kBox6Yt, Stage2::kBoxBottom6Xt, Stage2::kBoxBottom6Yt, 0xffffff, true);
+	//DrawBox(Stage2::kBox7Xt, Stage2::kBox7Yt, Stage2::kBoxBottom7Xt, Stage2::kBoxBottom7Yt, 0xffffff, true);
+	//DrawBox(Stage2::kBox8Xt, Stage2::kBox8Yt, Stage2::kBoxBottom8Xt, Stage2::kBoxBottom8Yt, 0xffffff, true);
 
 	//4ŠK’n–Ê
 	DrawBox(Stage2::kBox1Xf, Stage2::kBox1Yf, Stage2::kBoxBottom1Xf, Stage2::kBoxBottom1Yf, 0xffffff, true);
@@ -71,8 +71,8 @@ void DrawMapStage2::Draw()
 	DrawBox(Stage2::kBox4XFi, Stage2::kBox4YFi, Stage2::kBoxBottom4XFi, Stage2::kBoxBottom4YFi, 0xffffff, true);
 	DrawBox(Stage2::kBox5XFi, Stage2::kBox5YFi, Stage2::kBoxBottom5XFi, Stage2::kBoxBottom5YFi, 0xffffff, true);
 	DrawBox(Stage2::kBox6XFi, Stage2::kBox6YFi, Stage2::kBoxBottom6XFi, Stage2::kBoxBottom6YFi, 0xffffff, true);
-	DrawBox(Stage2::kBox7XFi, Stage2::kBox7YFi, Stage2::kBoxBottom7XFi, Stage2::kBoxBottom7YFi, 0xffffff, true);
-	DrawBox(Stage2::kBox8XFi, Stage2::kBox8YFi, Stage2::kBoxBottom8XFi, Stage2::kBoxBottom8YFi, 0xffffff, true);
+	//DrawBox(Stage2::kBox7XFi, Stage2::kBox7YFi, Stage2::kBoxBottom7XFi, Stage2::kBoxBottom7YFi, 0xffffff, true);
+	//DrawBox(Stage2::kBox8XFi, Stage2::kBox8YFi, Stage2::kBoxBottom8XFi, Stage2::kBoxBottom8YFi, 0xffffff, true);
 
 	//‘æˆê’òŽq
 	DrawBox(Stage2::kLadder1X, Stage2::kLadder1Y, Stage2::kLadderBottom1X, Stage2::kLadderBottom1Y, 0xff0000, true);

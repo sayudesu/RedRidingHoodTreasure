@@ -3,6 +3,7 @@
 
 class PlayerNew;
 class DrawMapStage2;
+class EnemyStage1;
 class Collision
 {
 public:
@@ -18,6 +19,7 @@ public:
 	bool HitObject();//地面との当たり判定
 	bool HItLadder();//梯子との当たり判定
 	bool HitGoal();//ゴールとの判定
+	bool HitEnemy();//プレイヤーと敵の当たり判定
 //渡し
 public:
 	float GetPos() { return m_posY; }
@@ -29,5 +31,6 @@ private:
 
 	PlayerNew* m_pPlayer;
 	DrawMapStage2* m_pMap;
+	EnemyStage1* m_pEnemy;
 };
 

@@ -131,7 +131,7 @@ namespace Stage2
 
 	constexpr int kBox8Xs = kBoxBottom7Xs;
 	constexpr int kBox8Ys = kBox7Ys + kBoxStep;
-	constexpr int kBoxBottom8Xs = Game::kScreenWidth - 120;
+	constexpr int kBoxBottom8Xs = Game::kScreenWidth - 100;
 	constexpr int kBoxBottom8Ys = kBox8Ys + kBoxHeight;
 
 	//ŽOŠK//////////////////////////////////////////////////////////////////////////////////////////////
@@ -221,7 +221,7 @@ namespace Stage2
 
 	constexpr int kBox8Xf = kBoxBottom7Xf;
 	constexpr int kBox8Yf = kBox7Yf + kBoxStep;
-	constexpr int kBoxBottom8Xf = Game::kScreenWidth - 120;
+	constexpr int kBoxBottom8Xf = Game::kScreenWidth - 100;
 	constexpr int kBoxBottom8Yf = kBox8Yf + kBoxHeight;
 
 	//ŒÜŠK//////////////////////////////////////////////////////////////////////////////////////////////
@@ -284,7 +284,7 @@ namespace Stage2
 	constexpr int kLadderBottom2X = kLadder2X + 10;
 	constexpr int kLadderBottom2Y = kLadder2Y + 150;
 	//‘æŽO’òŽq
-	constexpr int kLadder3X = Game::kScreenWidth - 150;
+	constexpr int kLadder3X = Game::kScreenWidth - 200;
 	constexpr int kLadder3Y = Game::kScreenHeight - 620;
 	constexpr int kLadderBottom3X = kLadder3X + 10;
 	constexpr int kLadderBottom3Y = kLadder3Y + 150;
@@ -299,4 +299,28 @@ namespace Stage2
 	constexpr int kGoalY = 200;
 	constexpr int kGoalBottomX = kGoalX + 100;
 	constexpr int kGoalBottomY = kGoalY + 100;
+}
+
+namespace TitleMenu
+{
+	constexpr int kAnimationFrame = 3;
+	constexpr int kCharaImageRightPos = 112; //‰EˆÚ“®
+
+	constexpr int kSelection1X = Game::kScreenWidth / 2 - 150;
+	constexpr int kSelection1Y = Game::kScreenHeight / 2 + 100;
+	constexpr int kSelectionBottom1X = kSelection1X + 300;
+	constexpr int kSelectionBottom1Y = kSelection1Y + 50;
+
+	constexpr int kSelection2X = Game::kScreenWidth / 2 - 150;
+	constexpr int kSelection2Y = kSelection1Y + 70;
+	constexpr int kSelectionBottom2X = kSelection2X + 300;
+	constexpr int kSelectionBottom2Y = kSelection2Y + 50;
+
+	constexpr int kSelection3X = Game::kScreenWidth / 2 - 150;
+	constexpr int kSelection3Y = kSelection2Y + 200;
+	constexpr int kSelectionBottom3X = kSelection3X + 300;
+	constexpr int kSelectionBottom3Y = kSelection3Y + 50;
+
+	//DrawBox(kSelection1X, kSelection1Y, kSelectionBottom1X, kSelectionBottom1Y, 0xffffff, true);
+
 }

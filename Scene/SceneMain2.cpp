@@ -3,6 +3,7 @@
 #include "DrawMapStage2.h"
 #include "PlayerNew.h"
 #include "Collision.h"
+#include "EnemyStage1.h"
 #include "game.h"
 #include "Image.h"
 #include <Dxlib.h>
@@ -14,11 +15,13 @@ SceneMain2::SceneMain2():
 	m_hPlayerHealthBer(-1),
 	m_pStage(nullptr),
 	m_pPlayer(nullptr),
-	m_pCollision(nullptr)
+	m_pCollision(nullptr),
+	m_pEnemy(nullptr)
 {
 	m_pStage = new DrawMapStage2;
 	m_pPlayer = new PlayerNew;
 	m_pCollision = new Collision;
+	m_pEnemy = new EnemyStage1;
 }
 
 SceneMain2::~SceneMain2()
@@ -26,12 +29,15 @@ SceneMain2::~SceneMain2()
 	delete m_pStage;
 	delete m_pPlayer;
 	delete m_pCollision;
+	delete m_pEnemy;
 }
 
 void SceneMain2::Init()
 {
 	m_pPlayer->Init();
 	m_pCollision->Init();
+	m_pEnemy->Init();
+
 
 	//ƒvƒŒƒCƒ„[‰æ‘œ
 	m_hPlayer = LoadGraph(Image::kPlayerImage);
@@ -54,6 +60,9 @@ void SceneMain2::End()
 SceneBase* SceneMain2::Update()
 {
 	m_pCollision->Update();
+	m_pEnemy->Update();
+
+	m_pCollision->HitEnemy();
 
 	if (CheckHitKey(KEY_INPUT_Z))
 	{
@@ -67,4 +76,5 @@ void SceneMain2::Draw()
 	m_pStage->Draw();
 	m_pPlayer->Draw();
 	m_pCollision->Draw();
+	m_pEnemy->Draw();
 }

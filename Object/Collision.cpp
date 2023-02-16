@@ -1,6 +1,7 @@
 #include "Collision.h"
 #include "PlayerNew.h"
 #include "DrawMapStage2.h"
+#include "EnemyStage1.h"
 #include "game.h"
 #include <Dxlib.h>
 
@@ -16,11 +17,12 @@ Collision::Collision():
 	m_posY(0.0f),
 	m_landingPos(0.0f),
 	m_pPlayer(nullptr),
-	m_pMap(nullptr)
+	m_pMap(nullptr),
+	m_pEnemy(nullptr)
 {
 	m_pPlayer = new PlayerNew;
 	m_pMap = new DrawMapStage2;
-
+	m_pEnemy = new EnemyStage1;
 	m_landingPos = 70.0f;
 }
 
@@ -28,6 +30,7 @@ Collision::~Collision()
 {
 	delete m_pPlayer;
 	delete m_pMap;
+	delete m_pEnemy;
 }
 
 void Collision::Init()
@@ -39,16 +42,17 @@ void Collision::Update()
 {
 	m_pPlayer->Update();
 
+	m_pEnemy->Update();
+
 	m_pPlayer->GetScaffold(HitObject()); //重力.y
 	m_pPlayer->GetLadder(HItLadder());//位置.y.z
 	m_pPlayer->GetPos(m_posY);//位置.y
 	m_pPlayer->GetGoal(HitGoal());//ゴールしたかどうか
+	m_pPlayer->GetEnemyHit(HitEnemy());//プレイヤーを攻撃する
 
 }
 void Collision::Draw()
 {
-	DrawFormatString(1000, 0, 0xffffff, "位置Left%f", m_pPlayer->GetPlayerLeft());
-	DrawFormatString(1000, 100, 0xffffff, "位置Top%f", m_pPlayer->GetPlayerTop());
 
 }
 bool Collision::HitObject()
@@ -145,7 +149,6 @@ bool Collision::HitObject()
 			return true;
 		}
 	}
-
 
 	//2階の判定///////////////////////////////////////////////////////////////////////////////////////////
 	if ((Stage2::kBoxBottom1Xs > m_pPlayer->GetPlayerLeft()) &&
@@ -291,39 +294,39 @@ bool Collision::HitObject()
 			return true;
 		}
 	}
-	//5段差
-	if ((Stage2::kBoxBottom6Xt > m_pPlayer->GetPlayerLeft()) &&
-		(Stage2::kBox6Xt < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage2::kBoxBottom6Yt > m_pPlayer->GetPlayerTop()) &&
-			(Stage2::kBox6Yt < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage2::kBox6Yt - kPlayerPosY + kPlayerPosPulsY;
-			return true;
-		}
-	}
-	//6段差
-	if ((Stage2::kBoxBottom7Xt > m_pPlayer->GetPlayerLeft()) &&
-		(Stage2::kBox7Xt < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage2::kBoxBottom7Yt > m_pPlayer->GetPlayerTop()) &&
-			(Stage2::kBox7Yt < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage2::kBox7Yt - kPlayerPosY + kPlayerPosPulsY;
-			return true;
-		}
-	}
-	//7段差
-	if ((Stage2::kBoxBottom8Xt > m_pPlayer->GetPlayerLeft()) &&
-		(Stage2::kBox8Xt < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage2::kBoxBottom8Yt > m_pPlayer->GetPlayerTop()) &&
-			(Stage2::kBox8Yt < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage2::kBox8Yt - kPlayerPosY + kPlayerPosPulsY;
-			return true;
-		}
-	}
+	////5段差
+	//if ((Stage2::kBoxBottom6Xt > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage2::kBox6Xt < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage2::kBoxBottom6Yt > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage2::kBox6Yt < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage2::kBox6Yt - kPlayerPosY + kPlayerPosPulsY;
+	//		return true;
+	//	}
+	//}
+	////6段差
+	//if ((Stage2::kBoxBottom7Xt > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage2::kBox7Xt < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage2::kBoxBottom7Yt > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage2::kBox7Yt < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage2::kBox7Yt - kPlayerPosY + kPlayerPosPulsY;
+	//		return true;
+	//	}
+	//}
+	////7段差
+	//if ((Stage2::kBoxBottom8Xt > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage2::kBox8Xt < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage2::kBoxBottom8Yt > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage2::kBox8Yt < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage2::kBox8Yt - kPlayerPosY + kPlayerPosPulsY;
+	//		return true;
+	//	}
+	//}
 
 	//4階の判定///////////////////////////////////////////////////////////////////////////////////////////
 	if ((Stage2::kBoxBottom1Xf > m_pPlayer->GetPlayerLeft()) &&
@@ -480,34 +483,33 @@ bool Collision::HitObject()
 			return true;
 		}
 	}
-	//6段差
-	if ((Stage2::kBoxBottom7XFi > m_pPlayer->GetPlayerLeft()) &&
-		(Stage2::kBox7XFi < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage2::kBoxBottom7YFi > m_pPlayer->GetPlayerTop()) &&
-			(Stage2::kBox7YFi < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage2::kBox7YFi - kPlayerPosY + kPlayerPosPulsY;
-			return true;
-		}
-	}
-	//7段差
-	if ((Stage2::kBoxBottom8XFi > m_pPlayer->GetPlayerLeft()) &&
-		(Stage2::kBox8XFi < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage2::kBoxBottom8YFi > m_pPlayer->GetPlayerTop()) &&
-			(Stage2::kBox8YFi < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage2::kBox8YFi - kPlayerPosY + kPlayerPosPulsY;
-			return true;
-		}
-	}
+	////6段差
+	//if ((Stage2::kBoxBottom7XFi > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage2::kBox7XFi < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage2::kBoxBottom7YFi > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage2::kBox7YFi < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage2::kBox7YFi - kPlayerPosY + kPlayerPosPulsY;
+	//		return true;
+	//	}
+	//}
+	////7段差
+	//if ((Stage2::kBoxBottom8XFi > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage2::kBox8XFi < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage2::kBoxBottom8YFi > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage2::kBox8YFi < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage2::kBox8YFi - kPlayerPosY + kPlayerPosPulsY;
+	//		return true;
+	//	}
+	//}
 
 	DrawBox(static_cast<int>(m_pPlayer->GetPlayerLeft()), static_cast<int>(m_pPlayer->GetPlayerTop()),
 		static_cast<int>(m_pPlayer->GetPlayerRight()), static_cast<int>(m_pPlayer->GetPlayerBottom()), 0x00ff00, true);
 	return false;
 }
-
 //梯子の判定
 bool Collision::HItLadder()
 {
@@ -560,12 +562,25 @@ bool Collision::HItLadder()
 //ゴール判定
 bool Collision::HitGoal()
 {
-	//一階の判定
 	if ((Stage2::kGoalBottomX > m_pPlayer->GetPlayerLeft()) &&
 		(Stage2::kGoalX < m_pPlayer->GetPlayerRight()))
 	{
 		if ((Stage2::kGoalBottomY > m_pPlayer->GetPlayerTop()) &&
 			(Stage2::kGoalY < m_pPlayer->GetPlayerBottom()))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+//プレイヤーとエネミーの当たり判定
+bool Collision::HitEnemy()
+{
+	if ((m_pEnemy->GetRight() > m_pPlayer->GetPlayerLeft()) &&
+		(m_pEnemy->GetLeft() < m_pPlayer->GetPlayerRight()))
+	{
+		if ((m_pEnemy->GetBottom() > m_pPlayer->GetPlayerTop()) &&
+			(m_pEnemy->GetTop() < m_pPlayer->GetPlayerBottom()))
 		{
 			return true;
 		}

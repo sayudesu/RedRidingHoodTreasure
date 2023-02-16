@@ -108,6 +108,7 @@ PlayerNew::PlayerNew() :
 	m_attackPos(0.0f, 0.0f),
 	m_attackBottomPos(0.0f, 0.0f),
 	m_vec(0.0f, 0.0f),
+	m_isDamage(false),
 	m_getPos(0.0f)
 
 {
@@ -166,27 +167,11 @@ void PlayerNew::Update()
 //描画
 void PlayerNew::Draw()
 {
-	DrawRectRotaGraph(static_cast<int>(m_imagePos.x) + static_cast<int>(m_imageBalancePos.x),
-		static_cast<int>(m_imagePos.y) + static_cast<int>(m_imageBalancePos.y),
-		m_charaImageIdlePos, 0, 80, 80, kPlayerSize, 0, m_hPlayerIdle, true, m_isCharaIdleDirection);
-
-	
-
-	////////////////////
-	///*判定の確認用*///
-	////////////////////
-#if true	
-
-	//キャラクター
-	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xff0000, false);
-
+	printfDx("a");
 	if (m_isAttack)
 	{
-		DrawBox(static_cast<int>(m_attackPos.x), static_cast<int>(m_attackPos.y),
-			static_cast<int>(m_attackBottomPos.x), static_cast<int>(m_attackBottomPos.y), 0x0000ff, false);
+		DrawBox(m_pos.x - 10, m_pos.y - 10, m_pos.x + 50 + 10, m_pos.x + 50 + 10, 0xffffff, true);
 	}
-
-#endif
 }
 //プレイヤーの行動範囲
 void PlayerNew::PlayerPosSet()
@@ -199,9 +184,10 @@ void PlayerNew::PlayerPosSet()
 //操作全体
 void PlayerNew::Operation()
 {
-	OperationStandard();
-	OperationJump();
-	OperationLadder();
+	OperationStandard();//基本操作
+	OperationAttack();//攻撃操作
+	OperationJump();//ジャンプ操作
+	OperationLadder();//梯子での操作
 }
 //基本操作
 void PlayerNew::OperationStandard()
@@ -214,6 +200,16 @@ void PlayerNew::OperationStandard()
 	if (CheckHitKey(KEY_INPUT_LEFT) || (m_padInput & PAD_INPUT_LEFT))//左
 	{
 		m_pos.x -= kMoveSpeed;
+	}
+}
+//攻撃操作
+void PlayerNew::OperationAttack()
+{
+	//m_isAttack = false;//攻撃停止
+	if (Pad::isTrigger(PAD_INPUT_1))//攻撃
+	{
+		printfDx("攻撃\n");
+		m_isAttack = true;//攻撃開始
 	}
 }
 //ジャンプ操作
@@ -244,12 +240,15 @@ void PlayerNew::OperationLadder()
 //アップデート処理
 void PlayerNew::UpdateMove()
 {
+
+
 	Pad::update();//入力判定
 	m_padInput = GetJoypadInputState(DX_INPUT_KEY_PAD1);//ジョイパッドの入力状態を得る
 	OperationStandard();//操作::移動
 	
-
 	PlayerPosSet();//移動可能範囲
+
+	OperationAttack();//攻撃
 
 	if (!m_isFall)//地面に当たっていなかったら
 	{
@@ -276,13 +275,20 @@ void PlayerNew::UpdateMove()
 		DrawBox(Stage2::kGoalX, Stage2::kGoalY, Stage2::kGoalBottomX, Stage2::kGoalBottomY, GetColor(GetRand(255), GetRand(255), GetRand(255)), true);
 	}
 
+	if (m_isDamage)
+	{
+		printfDx("攻撃HIT");
+	}
+
 	m_pos += m_vec;//プレイヤー位置
 
-	//プレイヤーの座標
-	m_playerLeft   = static_cast<int>(m_pos.x) - 15;
-	m_playerTop    = static_cast<int>(m_pos.y) + 10;
-	m_playerRight  = m_playerLeft + 40;
-	m_playerBottom = m_playerTop  + 40;
+		//プレイヤーの座標
+	m_playerLeft = static_cast<int>(m_pos.x) - 15;
+	m_playerTop = static_cast<int>(m_pos.y) + 10;
+	m_playerRight = m_playerLeft + 40;
+	m_playerBottom = m_playerTop + 40;
 
 	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xff0000, true);
+
+
 }

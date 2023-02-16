@@ -17,14 +17,13 @@ public:
 public:
 	bool HitObject();//地面との当たり判定
 	bool HItLadder();//梯子との当たり判定
-
+	bool HitGoal();//ゴールとの判定
 //渡し
 public:
 	float GetPos() { return m_posY; }
 private:
-	bool m_isGravity;
 
-	float m_posY;
+	float m_posY;//プレイヤーのY座標
 
 	float m_landingPos;//着地位置
 

@@ -43,6 +43,7 @@ PlayerNew::PlayerNew() :
 	m_hMapFifth(-1),
 	m_hMapChip(-1),
 	m_hMapChipSecond(-1),
+	m_padInput(0),
 	m_playerLeft(0),
 	m_playerTop(0),
 	m_playerRight(0),
@@ -169,6 +170,8 @@ void PlayerNew::Draw()
 		static_cast<int>(m_imagePos.y) + static_cast<int>(m_imageBalancePos.y),
 		m_charaImageIdlePos, 0, 80, 80, kPlayerSize, 0, m_hPlayerIdle, true, m_isCharaIdleDirection);
 
+	
+
 	////////////////////
 	///*判定の確認用*///
 	////////////////////
@@ -179,11 +182,13 @@ void PlayerNew::Draw()
 
 	if (m_isAttack)
 	{
-		DrawBox(m_attackPos.x, m_attackPos.y, m_attackBottomPos.x, m_attackBottomPos.y, 0x0000ff, false);
+		DrawBox(static_cast<int>(m_attackPos.x), static_cast<int>(m_attackPos.y),
+			static_cast<int>(m_attackBottomPos.x), static_cast<int>(m_attackBottomPos.y), 0x0000ff, false);
 	}
 
 #endif
 }
+//プレイヤーの行動範囲
 void PlayerNew::PlayerPosSet()
 {
 	if (m_pos.x < 0.0f) m_pos.x = 1.0f;
@@ -191,55 +196,47 @@ void PlayerNew::PlayerPosSet()
 	if (m_pos.y < 0.0f) m_pos.y = 1.0f;
 	if (m_pos.y > Game::kScreenHeight) m_pos.y = static_cast<float>(Game::kScreenHeight) - 1.0f;
 }
-//操作
+//操作全体
 void PlayerNew::Operation()
 {
-	PlayerPosSet();
-	//入力判定
-	Pad::update();
-
-	m_isCrouchingMove = false;//しゃがんでいるかどうか
-	m_isRunMoveRight = false;//右に動いているかどうか
-	m_isRunMoveLeft = false;//左に動いているかどうか
-	m_isIdleMove = true;//動いているかどうか
-
+	OperationStandard();
+	OperationJump();
+	OperationLadder();
+}
+//基本操作
+void PlayerNew::OperationStandard()
+{
 	//移動
-	if (CheckHitKey(KEY_INPUT_RIGHT) && !m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)//右
+	if (CheckHitKey(KEY_INPUT_RIGHT)|| (m_padInput & PAD_INPUT_RIGHT))//右
 	{
 		m_pos.x += kMoveSpeed;
 	}
-	if (CheckHitKey(KEY_INPUT_LEFT) && !m_isAttackMove && !m_isDamageMove && !m_isCrouchingMove)//左
+	if (CheckHitKey(KEY_INPUT_LEFT) || (m_padInput & PAD_INPUT_LEFT))//左
 	{
 		m_pos.x -= kMoveSpeed;
 	}
-	/*
-	if (CheckHitKey(KEY_INPUT_UP))
+}
+//ジャンプ操作
+void PlayerNew::OperationJump()
+{
+	//地面にいる場合&&梯子にいない場合
+	//ジャンプ
+	if (Pad::isTrigger(PAD_INPUT_2))//上
 	{
 		m_vec.y = 0.0f;
+		printfDx("ジャンプ\n");
+		m_vec.y = kJump;//ジャンプ開始
+
+	}
+}
+//梯子操作
+void PlayerNew::OperationLadder()
+{
+	if (CheckHitKey(KEY_INPUT_UP) || (m_padInput & PAD_INPUT_UP))
+	{
 		m_pos.y -= kMoveSpeed;
 	}
-	*/
-	if (m_isLadder)
-	{
-		if (CheckHitKey(KEY_INPUT_UP))
-		{
-			m_pos.y -= kMoveSpeed;
-		}
-	}
-	if(/*m_isFall&&!m_isLadder*/true)//地面にいる場合&&梯子にいない場合
-	{
-		//ジャンプ
-		if (Pad::isTrigger(KEY_INPUT_UP))//上
-		{
-			m_vec.y = 0.0f;
-			//m_isGravity = false;
-			printfDx("ジャンプ\n");
-			m_vec.y = kJump;//ジャンプ開始
-		
-		}
-	}
-	
-	if (CheckHitKey(KEY_INPUT_DOWN))
+	if (CheckHitKey(KEY_INPUT_DOWN) || (m_padInput & PAD_INPUT_DOWN))
 	{
 		m_pos.y += kMoveSpeed;
 	}
@@ -247,34 +244,41 @@ void PlayerNew::Operation()
 //アップデート処理
 void PlayerNew::UpdateMove()
 {
-	//操作
-	Operation();
-	if (m_isLadder)
-	{
-		//m_getPos = 0;
-		m_vec.y = 0.0f;
-		m_vec.x = 0.0f;
+	Pad::update();//入力判定
+	m_padInput = GetJoypadInputState(DX_INPUT_KEY_PAD1);//ジョイパッドの入力状態を得る
+	OperationStandard();//操作::移動
+	
 
-	}
+	PlayerPosSet();//移動可能範囲
 
 	if (!m_isFall)//地面に当たっていなかったら
 	{
 		//重力
 		m_vec.y += kGravity;
 	}
-
-	if (m_isFall)//地面に当たっていたら
+	if (m_isLadder)//梯子にいる場合
 	{
-
+		OperationLadder();//操作::梯子移動
 		m_vec.y = 0.0f;
-		//プレイヤーの位置座標
-		m_pos.y = m_getPos;
+		m_vec.x = 0.0f;
 
 	}
+	else if (m_isFall)//地面に当たっていたら
+	{
+		m_vec.y = 0.0f;
+		OperationJump();//操作::ジャンプ
+		m_pos.y = m_getPos;//プレイヤーの位置座標
 
-	//プレイヤー位置
-	m_pos += m_vec;
+	}
+	
+	if (m_isStageClear)//ステージクリアかどうか
+	{
+		DrawBox(Stage2::kGoalX, Stage2::kGoalY, Stage2::kGoalBottomX, Stage2::kGoalBottomY, GetColor(GetRand(255), GetRand(255), GetRand(255)), true);
+	}
 
+	m_pos += m_vec;//プレイヤー位置
+
+	//プレイヤーの座標
 	m_playerLeft   = static_cast<int>(m_pos.x) - 15;
 	m_playerTop    = static_cast<int>(m_pos.y) + 10;
 	m_playerRight  = m_playerLeft + 40;

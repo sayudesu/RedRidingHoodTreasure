@@ -14,29 +14,32 @@ public:
 	virtual void Draw();
 
 public:
-
+	//画像
 	void SetHandle         (int handle) { m_hPlayer         = handle; }
 	void SetHandleIdle     (int handle) { m_hPlayerIdle     = handle; }
 	void SetHandleLighting (int handle) { m_hPlayerLighting = handle; }
 	void SetHandleHealthBer(int handle) { m_hHealthBer      = handle; }
 
+	//プレイヤーの座標
 	float GetPlayerLeft  () { return static_cast<float>(m_playerLeft  ); }
 	float GetPlayerTop   () { return static_cast<float>(m_playerTop   ); }
 	float GetPlayerRight () { return static_cast<float>(m_playerRight ); }
 	float GetPlayerBottom() { return static_cast<float>(m_playerBottom); }
 
-	//Vec2 GetPos() { return m_pos; }
-
-	//void GetGravity (bool gravity)   { m_isGravity = gravity;   }//地面にいるかどうか
-	void GetPos     (float pos)      { m_getPos    = pos;       }//地面にいる場合の座標.y
-	void GetLadder  (bool ladderHit) { m_isLadder  = ladderHit; }//梯子に当たっているかどうか
-	void GetScaffold(bool fall)      { m_isFall    = fall;      }//地面にいるかどうか
+	//プレイヤーの状態
+	void GetPos     (float pos     ) { m_getPos       = pos;       }//地面にいる場合の座標.y
+	void GetLadder  (bool ladderHit) { m_isLadder     = ladderHit; }//梯子に当たっているかどうか
+	void GetScaffold(bool fall     ) { m_isFall       = fall;      }//地面にいるかどうか
+	void GetGoal(bool goal)          { m_isStageClear = goal;      }//ステージクリア
 
 private:
 	//プレイヤー位置補正
 	void PlayerPosSet();
 	//操作
-	void Operation();
+	void Operation        ();//操作全体
+	void OperationStandard();//基本操作
+	void OperationJump    ();//ジャンプ
+	void OperationLadder  ();//梯子での操作
 private:
 
 	//更新画面
@@ -57,6 +60,8 @@ private:
 	int m_hMapFifth;
 	int m_hMapChip;
 	int m_hMapChipSecond;
+	//操作用
+	int m_padInput;
 	//プレイヤー判定用
 	int m_playerLeft;
 	int m_playerTop;

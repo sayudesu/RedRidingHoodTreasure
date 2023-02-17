@@ -128,18 +128,6 @@
     <ClInclude Include="resource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Player.h">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Enemy.h">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\PlayerImage.h">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\PlayerMapMove.h">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\SceneMain2.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
@@ -148,12 +136,6 @@
     </ClInclude>
     <ClInclude Include="Scene\SceneGameOver.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\DrawMapStage2.h">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\PlayerNew.h">
-      <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="Object\Collision.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -164,8 +146,26 @@
     <ClInclude Include="Object\TitleCursor.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Object\DrawMapStage2.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Enemy.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
     <ClInclude Include="Object\EnemyStage1.h">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Player.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\PlayerImage.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\PlayerMapMove.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\PlayerNew.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

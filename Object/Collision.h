@@ -17,6 +17,7 @@ public:
 //当たり判定
 public:
 	bool HitObject();//地面との当たり判定
+	bool HitEnemyObject();//敵と地面との当たり判定
 	bool HItLadder();//梯子との当たり判定
 	bool HitGoal();//ゴールとの判定
 	bool HitEnemy();//プレイヤーと敵の当たり判定
@@ -27,6 +28,7 @@ public:
 private:
 
 	float m_posY;//プレイヤーのY座標
+	int m_enemyPosY;//プレイヤーのY座標
 
 	float m_landingPos;//着地位置
 

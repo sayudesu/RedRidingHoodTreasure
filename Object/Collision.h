@@ -20,6 +20,7 @@ public:
 	bool HItLadder();//梯子との当たり判定
 	bool HitGoal();//ゴールとの判定
 	bool HitEnemy();//プレイヤーと敵の当たり判定
+	bool HitPlayer();//プレイヤーと敵の当たり判定
 //渡し
 public:
 	float GetPos() { return m_posY; }

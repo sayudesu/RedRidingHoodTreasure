@@ -45,16 +45,17 @@ void Collision::Update()
 	m_pEnemy->Update();
 
 	m_pPlayer->GetScaffold(HitObject()); //重力.y
-	m_pPlayer->GetLadder(HItLadder());//位置.y.z
-	m_pPlayer->GetPos(m_posY);//位置.y
-	m_pPlayer->GetGoal(HitGoal());//ゴールしたかどうか
-	m_pPlayer->GetEnemyHit(HitEnemy());//プレイヤーを攻撃する
-
+	m_pPlayer->GetLadder(HItLadder());   //位置.y.z
+	m_pPlayer->GetPos(m_posY);           //位置.y
+	m_pPlayer->GetGoal(HitGoal());       //ゴールしたかどうか
+	m_pPlayer->GetEnemyHit(HitEnemy());  //エネミーがプレイヤーを攻撃する
+	m_pPlayer->GetPlayerHit(HitPlayer());//プレイヤーがエネミーを攻撃したかどうか
 }
 void Collision::Draw()
 {
 
 }
+//地面の判定
 bool Collision::HitObject()
 {
 
@@ -573,7 +574,7 @@ bool Collision::HitGoal()
 	}
 	return false;
 }
-//プレイヤーとエネミーの当たり判定
+//プレイヤーとエネミーの当たり判定::エネミーがプレイヤーを攻撃
 bool Collision::HitEnemy()
 {
 	if ((m_pEnemy->GetRight() > m_pPlayer->GetPlayerLeft()) &&
@@ -587,5 +588,35 @@ bool Collision::HitEnemy()
 	}
 	return false;
 }
+
+//プレイヤーとエネミーの当たり判定::プレイヤーがエネミーを攻撃
+bool Collision::HitPlayer()
+{
+	if ((m_pEnemy->GetRight() > m_pPlayer->GetAttackPlayerLeft()) &&
+		(m_pEnemy->GetLeft() < m_pPlayer->GetAttackPlayerRight()))
+	{
+		if ((m_pEnemy->GetBottom() > m_pPlayer->GeAttacktPlayerTop()) &&
+			(m_pEnemy->GetTop() < m_pPlayer->GetAttackPlayerBottom()))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+////プレイヤーとエネミーの当たり判定::エネミーがプレイヤーを攻撃
+//bool Collision::HitPlayer()
+//{
+//	if ((m_pEnemy->GetRight() > m_pPlayer->GetPlayerLeft() - 10.0f) &&
+//		(m_pEnemy->GetLeft() < m_pPlayer->GetPlayerRight()) + 10.0f)
+//	{
+//		if ((m_pEnemy->GetBottom() > m_pPlayer->GetPlayerTop() - 10.0f) &&
+//			(m_pEnemy->GetTop() < m_pPlayer->GetPlayerBottom()) + 10.0f)
+//		{
+//			return false;
+//		}
+//	}
+//	return true;
+//}
 
 

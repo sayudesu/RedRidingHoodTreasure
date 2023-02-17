@@ -48,6 +48,10 @@ PlayerNew::PlayerNew() :
 	m_playerTop(0),
 	m_playerRight(0),
 	m_playerBottom(0),
+	m_attackPlayerLeft(0),
+	m_attackPlayerTop(0),
+	m_attackPlayerRight(0),
+	m_attackPlayerBottom(0),
 	m_charaImagePos(0),
 	m_charaImageIdlePos(0),
 	m_charaImageAttackPos(0),
@@ -109,7 +113,8 @@ PlayerNew::PlayerNew() :
 	m_attackBottomPos(0.0f, 0.0f),
 	m_vec(0.0f, 0.0f),
 	m_isDamage(false),
-	m_getPos(0.0f)
+	m_getPos(0.0f),
+	m_isAttackHit(false)
 
 {
 	m_charaImagePos = (1344 - kCharaImageRightPos);
@@ -162,16 +167,20 @@ void PlayerNew::End()
 //アップデート処理
 void PlayerNew::Update()
 {
+	Draw();
 	(this->*m_func)();
 }
 //描画
 void PlayerNew::Draw()
 {
-	printfDx("a");
+	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xff0000, true);
+
 	if (m_isAttack)
 	{
-		DrawBox(m_pos.x - 10, m_pos.y - 10, m_pos.x + 50 + 10, m_pos.x + 50 + 10, 0xffffff, true);
+		DrawBox(m_attackPlayerLeft, m_attackPlayerTop, m_attackPlayerRight, m_attackPlayerBottom, 0xffffff, true);
+		//DrawBox(GetAttackPlayerLeft(), GeAttacktPlayerTop(), GetAttackPlayerRight(), GetAttackPlayerBottom(), 0xffffff, false);
 	}
+	m_isAttack = false;
 }
 //プレイヤーの行動範囲
 void PlayerNew::PlayerPosSet()
@@ -209,6 +218,8 @@ void PlayerNew::OperationAttack()
 	if (Pad::isTrigger(PAD_INPUT_1))//攻撃
 	{
 		printfDx("攻撃\n");
+		//プレイヤーの攻撃範
+
 		m_isAttack = true;//攻撃開始
 	}
 }
@@ -275,20 +286,36 @@ void PlayerNew::UpdateMove()
 		DrawBox(Stage2::kGoalX, Stage2::kGoalY, Stage2::kGoalBottomX, Stage2::kGoalBottomY, GetColor(GetRand(255), GetRand(255), GetRand(255)), true);
 	}
 
-	if (m_isDamage)
+	if (m_isDamage)//攻撃をくらったからどうか
 	{
-		printfDx("攻撃HIT");
+		printfDx("Enemyの攻撃HIT\n");
+	}
+	if (m_isAttackHit)//攻撃をくらったからどうか
+	{
+		printfDx("Playerの攻撃HIT\n");
 	}
 
 	m_pos += m_vec;//プレイヤー位置
 
-		//プレイヤーの座標
-	m_playerLeft = static_cast<int>(m_pos.x) - 15;
+	//プレイヤーの座標
+	m_playerLeft = static_cast<int>(m_pos.x) + 10;
 	m_playerTop = static_cast<int>(m_pos.y) + 10;
 	m_playerRight = m_playerLeft + 40;
 	m_playerBottom = m_playerTop + 40;
 
-	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xff0000, true);
-
+	if(m_isAttack)//プレイヤーが攻撃した時の範囲
+	{
+		m_attackPlayerLeft = m_playerLeft - 10;
+		m_attackPlayerTop = m_playerTop - 10;
+		m_attackPlayerRight = m_playerRight + 10;
+		m_attackPlayerBottom = m_playerBottom + 10;
+	}
+	else
+	{
+		m_attackPlayerLeft   = - 10;
+		m_attackPlayerTop    = - 10;
+		m_attackPlayerRight  = + 10;
+		m_attackPlayerBottom = + 10;
+	}
 
 }

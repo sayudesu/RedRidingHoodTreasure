@@ -20,18 +20,26 @@ public:
 	void SetHandleLighting (int handle) { m_hPlayerLighting = handle; }
 	void SetHandleHealthBer(int handle) { m_hHealthBer      = handle; }
 
+
 	//プレイヤーの座標
-	float GetPlayerLeft  () { return static_cast<float>(m_playerLeft  ); }
-	float GetPlayerTop   () { return static_cast<float>(m_playerTop   ); }
-	float GetPlayerRight () { return static_cast<float>(m_playerRight ); }
+	float GetPlayerLeft  () { return static_cast<float>(m_playerLeft);   }
+	float GetPlayerTop   () { return static_cast<float>(m_playerTop);    }
+	float GetPlayerRight () { return static_cast<float>(m_playerRight);  }
 	float GetPlayerBottom() { return static_cast<float>(m_playerBottom); }
 
+	//プレイヤーの座標
+	float GetAttackPlayerLeft  () { return static_cast<float>(m_attackPlayerLeft  ); }
+	float GeAttacktPlayerTop   () { return static_cast<float>(m_attackPlayerTop   ); }
+	float GetAttackPlayerRight () { return static_cast<float>(m_attackPlayerRight ); }
+	float GetAttackPlayerBottom() { return static_cast<float>(m_attackPlayerBottom); }
+
 	//プレイヤーの状態
-	void GetPos     (float pos     ) { m_getPos       = pos;       }//地面にいる場合の座標.y
-	void GetLadder  (bool ladderHit) { m_isLadder     = ladderHit; }//梯子に当たっているかどうか
-	void GetScaffold(bool fall     ) { m_isFall       = fall;      }//地面にいるかどうか
-	void GetGoal    (bool goal     ) { m_isStageClear = goal;      }//ステージクリア
-	void GetEnemyHit(bool hit      ) { m_isDamage     = hit;       }//敵に当たる
+	void GetPos      (float pos     ) { m_getPos       = pos;       }//地面にいる場合の座標.y
+	void GetLadder   (bool ladderHit) { m_isLadder     = ladderHit; }//梯子に当たっているかどうか
+	void GetScaffold (bool fall     ) { m_isFall       = fall;      }//地面にいるかどうか
+	void GetGoal     (bool goal     ) { m_isStageClear = goal;      }//ステージクリア
+	void GetEnemyHit (bool hit      ) { m_isDamage     = hit;       }//敵に当たる
+	void GetPlayerHit(bool attack   ) { m_isAttackHit  = attack;    }//敵に攻撃を与える
 
 private:
 	//プレイヤー位置補正
@@ -39,7 +47,7 @@ private:
 	//操作
 	void Operation        ();//操作全体
 	void OperationStandard();//基本操作
-	void OperationAttack();//攻撃操作
+	void OperationAttack  ();//攻撃操作
 	void OperationJump    ();//ジャンプ
 	void OperationLadder  ();//梯子での操作
 private:
@@ -69,6 +77,11 @@ private:
 	int m_playerTop;
 	int m_playerRight;
 	int m_playerBottom;
+	//プレイヤー攻撃範囲判定用
+	int m_attackPlayerLeft;
+	int m_attackPlayerTop;
+	int m_attackPlayerRight;
+	int m_attackPlayerBottom;
 	//キャラクター画像位置
 	int m_charaImagePos;
 	int m_charaImageIdlePos;
@@ -161,6 +174,7 @@ private:
 	float m_getPos;
 
 	bool m_isDamage;
+	bool m_isAttackHit;
 
 	void (PlayerNew::* m_func)();
 

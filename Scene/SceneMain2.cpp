@@ -62,8 +62,6 @@ SceneBase* SceneMain2::Update()
 	m_pCollision->Update();
 	m_pEnemy->Update();
 
-	m_pCollision->HitEnemy();
-
 	if (CheckHitKey(KEY_INPUT_Z))
 	{
 		return(new SceneTitle);

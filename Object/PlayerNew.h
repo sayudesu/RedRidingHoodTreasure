@@ -54,6 +54,8 @@ private:
 
 	//更新画面
 	void UpdateMove();
+	//死亡処理
+	void UpdateDead();
 
 private:
 
@@ -70,6 +72,9 @@ private:
 	int m_hMapFifth;
 	int m_hMapChip;
 	int m_hMapChipSecond;
+	//サウンドハンドル
+	int m_hFxJump;
+
 	//操作用
 	int m_padInput;
 	//プレイヤー判定用

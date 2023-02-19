@@ -305,17 +305,17 @@ namespace TitleMenu
 {
 	constexpr int kAnimationFrame = 3;
 	constexpr int kCharaImageRightPos = 112; //右移動
-
+	//チュートリアル
 	constexpr int kSelection1X = Game::kScreenWidth / 2 - 150;
 	constexpr int kSelection1Y = Game::kScreenHeight / 2 + 100;
 	constexpr int kSelectionBottom1X = kSelection1X + 300;
-	constexpr int kSelectionBottom1Y = kSelection1Y + 50;
-
+	constexpr int kSelectionBottom1Y = kSelection1Y + 30;
+	//ステージ１
 	constexpr int kSelection2X = Game::kScreenWidth / 2 - 150;
 	constexpr int kSelection2Y = kSelection1Y + 70;
 	constexpr int kSelectionBottom2X = kSelection2X + 300;
-	constexpr int kSelectionBottom2Y = kSelection2Y + 50;
-
+	constexpr int kSelectionBottom2Y = kSelection2Y + 30;
+	//ゲーム終了
 	constexpr int kSelection3X = Game::kScreenWidth / 2 - 150;
 	constexpr int kSelection3Y = kSelection2Y + 200;
 	constexpr int kSelectionBottom3X = kSelection3X + 300;

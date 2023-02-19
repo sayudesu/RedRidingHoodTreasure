@@ -27,3 +27,11 @@ namespace Image
 	const char* const kEnemyEye = "Data/Enemy/EyeBall Monster-Sheet.png";
 
 }
+
+namespace FX
+{
+	const char* const kBgm1 = "Data/Sound/BGM/DavidKBD - Pink Bloom Pack - 09 - Lightyear City.ogg";
+	const char* const kBgm2 = "Data/Sound/BGM/DavidKBD - Pink Bloom Pack - 08 - Lost Spaceship's Signal.ogg";
+
+	const char* const kJump = "Data/Sound/FX/Deep Cut.mp3";
+}

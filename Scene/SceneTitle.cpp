@@ -18,12 +18,16 @@ namespace
 SceneTitle::SceneTitle():
 	m_hImagePlayer(-1),
 	m_hImageMap(-1),
+	m_hMusicBgm1(-1),
 	m_charaImagePos(0),
 	m_frameCount(0),
 	m_sceneChangeCountDemo(0),
 	m_sceneChangeCountStage1(0),
 	m_sceneChangeCountEnd(0),
 	m_imagePos(0.0f,0.0f),
+	m_isSceneFocus1(false),
+	m_isSceneFocus2(false),
+	m_isSceneFocus3(false),
 	m_pCursor(nullptr),
 	m_pCollsion(nullptr)
 {
@@ -35,12 +39,19 @@ SceneTitle::~SceneTitle()
 {
 	DeleteGraph(m_hImagePlayer);
 	DeleteGraph(m_hImageMap);
+
+	DeleteSoundMem(m_hMusicBgm1);
 }
 
 void SceneTitle::Init()
 {
 	m_hImagePlayer = LoadGraph(Image::kPlayerImage);
 	m_hImageMap    = LoadGraph(Image::kMapFirst);
+
+	m_hMusicBgm1 = LoadSoundMem(FX::kBgm1);
+	PlaySoundMem(m_hMusicBgm1, DX_SOUNDTYPE_STREAMSTYLE);
+	// 音量の設定
+	ChangeVolumeSoundMem(255 / 3, m_hMusicBgm1);
 
 	m_imagePos.x   = Game::kScreenWidth / 2;
 	m_imagePos.y   = Game::kScreenHeight / 2 - 250;
@@ -63,66 +74,71 @@ SceneBase* SceneTitle::Update()
 
 	if (m_pCollsion->CollsionDemo())//シーン切り替え::チュートリアル
 	{
+		m_isSceneFocus1 = true;//フォーカスを合わせた場合
 		if (padState & PAD_INPUT_2)
 		{
-			m_sceneChangeCountDemo += 5;
-			if (m_sceneChangeCountDemo == 300)
+			m_sceneChangeCountDemo += 5;//長押し時間
+			if (m_sceneChangeCountDemo == 300)//長押し決定
 			{
 				m_sceneChangeCountDemo = 0;
-				return(new SceneMain);
+				return(new SceneMain);//シーン切り替え
 			}
 		}
 		else
 		{
-			m_sceneChangeCountDemo = 0;
+			m_sceneChangeCountDemo = 0;//長押しをやめたらメーターをリセット
 		}
-
 	}
 	else
 	{
-		m_sceneChangeCountDemo = 0;
+		m_isSceneFocus1 = false;//フォーカスを外した場合
+		m_sceneChangeCountDemo = 0;//メーターをリセット
 	}
 
-	if (m_pCollsion->CollsionStage1())//シーン切り替え::チュートリアル
+	if (m_pCollsion->CollsionStage1())//シーン切り替え::ゲームプレイ
 	{
+		m_isSceneFocus2 = true;//フォーカスを合わせた場合
 		if (padState & PAD_INPUT_2)
 		{
-			m_sceneChangeCountStage1 += 5;
-			if (m_sceneChangeCountStage1 == 300)
+			m_sceneChangeCountStage1 += 5;//長押し時間
+			if (m_sceneChangeCountStage1 == 300)//長押し決定
 			{
 				m_sceneChangeCountStage1 = 0;
-				return(new SceneMain2);
+				return(new SceneMain2);//シーン切り替え
 			}
 		}
 		else
 		{
-			m_sceneChangeCountStage1 = 0;
+			m_sceneChangeCountStage1 = 0;//長押しをやめたらメーターをリセット
 		}
 	}
 	else
 	{
-		m_sceneChangeCountStage1 = 0;
+		m_isSceneFocus2 = false;//フォーカスを外した場合
+		m_sceneChangeCountStage1 = 0;//メーターをリセット
 	}
 
 	if (m_pCollsion->CollsionEnd())//シーン切り替え::デスクトップに戻る
 	{
+		m_isSceneFocus3 = true;//フォーカスを合わせた場合
 		if (padState & PAD_INPUT_2)
 		{
-			m_sceneChangeCountEnd += 5;
-			if (m_sceneChangeCountEnd == 300)
+			m_sceneChangeCountEnd += 5;//長押し時間
+			if (m_sceneChangeCountEnd == 300)//長押し決定
 			{
 				m_sceneChangeCountEnd = 0;
-				DxLib_End();
+				DxLib_End();//ゲーム終了
 			}
 		}
 		else
 		{
-			m_sceneChangeCountEnd = 0;
+			m_sceneChangeCountEnd = 0;//長押しをやめたらメーターをリセット
 		}
 	}
 	else
 	{
-		m_sceneChangeCountEnd = 0;
+		m_isSceneFocus3 = false;//フォーカスを外した場合
+		m_sceneChangeCountEnd = 0;//メーターをリセット
 	}
 
 
@@ -166,11 +182,27 @@ void SceneTitle::Draw()
 		, TitleMenu::kSelectionBottom3Y, 0xff0000, true);
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
 	//枠組み
 	DrawBox(TitleMenu::kSelection1X - 1, TitleMenu::kSelection1Y - 1, TitleMenu::kSelectionBottom1X + 1, TitleMenu::kSelectionBottom1Y + 1, 0x0000ff, false);
 	DrawBox(TitleMenu::kSelection2X -1, TitleMenu::kSelection2Y - 1, TitleMenu::kSelectionBottom2X + 1, TitleMenu::kSelectionBottom2Y + 1, 0x0000ff, false);
 	DrawBox(TitleMenu::kSelection3X - 1, TitleMenu::kSelection3Y - 1, TitleMenu::kSelectionBottom3X + 1, TitleMenu::kSelectionBottom3Y + 1, 0x0000ff, false);
 
+	if (m_isSceneFocus1)
+	{
+		DrawBox(TitleMenu::kSelection1X - 1, TitleMenu::kSelection1Y - 1, TitleMenu::kSelectionBottom1X + 1, TitleMenu::kSelectionBottom1Y + 1, 0xff00ff, false);
+	}
+	if (m_isSceneFocus2)
+	{
+
+		DrawBox(TitleMenu::kSelection2X - 1, TitleMenu::kSelection2Y - 1, TitleMenu::kSelectionBottom2X + 1, TitleMenu::kSelectionBottom2Y + 1, 0xff00ff, false);
+	}
+	if (m_isSceneFocus3)
+	{
+		DrawBox(TitleMenu::kSelection3X - 1, TitleMenu::kSelection3Y - 1, TitleMenu::kSelectionBottom3X + 1, TitleMenu::kSelectionBottom3Y + 1, 0xff00ff, false);
+	}
+
+	//文字
 	DrawString(TitleMenu::kSelection1X, TitleMenu::kSelection1Y, "チュートリアル", 0x0000ff);
 	DrawString(TitleMenu::kSelection2X, TitleMenu::kSelection2Y, "ゲームスタート", 0x0000ff);
 	DrawString(TitleMenu::kSelection3X, TitleMenu::kSelection3Y, "デスクトップに戻る", 0x0000ff);

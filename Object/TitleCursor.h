@@ -12,6 +12,7 @@ public:
 	void Update();
 	void Draw();
 private:
+	void PosSet();
 	void DrawPadCursor();
 	void DrawSelection();
 public:

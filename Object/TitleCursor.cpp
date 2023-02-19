@@ -22,6 +22,8 @@ void TitleCursor::Update()
 {
 	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
+	PosSet();
+
 	if (padState & PAD_INPUT_RIGHT)//右
 	{
 		m_padPos.x += 10;
@@ -47,6 +49,16 @@ void TitleCursor::Draw()
 	//パッドのカーソルを表示
 	DrawPadCursor();
 }
+
+//プレイヤーの行動範囲
+void TitleCursor::PosSet()
+{
+	if (m_padPos.x < 0.0f) m_padPos.x = 1.0f;
+	if (m_padPos.x > Game::kScreenWidth) m_padPos.x = static_cast<float>(Game::kScreenWidth) - 1.0f;
+	if (m_padPos.y < 0.0f) m_padPos.y = 1.0f;
+	if (m_padPos.y > Game::kScreenHeight) m_padPos.y = static_cast<float>(Game::kScreenHeight) - 1.0f;
+}
+
 void TitleCursor::DrawPadCursor()
 {
 	DrawCircle(m_padPos.x, m_padPos.y, 20, 0x00ffff, false);

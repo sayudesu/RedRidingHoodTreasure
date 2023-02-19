@@ -22,6 +22,8 @@ private:
 	int m_hPlayerLighting;
 	int m_hPlayerHealthBer;
 
+	int m_hMusicBgm1;
+
 	DrawMapStage2* m_pStage;
 	PlayerNew* m_pPlayer;
 	Collision* m_pCollision;

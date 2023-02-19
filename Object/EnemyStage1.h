@@ -13,9 +13,12 @@ public:
 	void Draw();
 
 private:
+	
+	void BarrelMove();//’M‚Ì“®‚«
 
-	void BarrelMove();
+	void fireBallMove();//’M‚Ì“®‚«
 
+	void npcPos();//“G‚ÌƒLƒƒƒ‰æ“¾
 public:
 
 	int  GetLeft()   { return m_posLeft;   }
@@ -27,11 +30,15 @@ public:
 	int  GetBarrelTop   () { return m_barrelTop;    }
 	int  GetBarrelRight () { return m_barrelRight;  }
 	int  GetBarrelBottom() { return m_barrelBottom; }
+	
 
 public:
 
-	void GetHitFall(int fall) { m_isFall = fall; }
-	void GetPos(int posY) { m_getPos = posY; }
+	void GetHitFall(int fall) { m_fall = fall; }
+
+	void GetPos(float posY) { m_getPos = posY; }
+
+	void GetEnemyLadder(int num) { m_ladderNum = num; }
 
 private:
 	int m_posLeft;
@@ -44,10 +51,15 @@ private:
 	int m_barrelRight;
 	int m_barrelBottom;
 
-	int m_getPos;//y²ŒÅ’èÀ•W
+	int m_fall;//’n–Ê‚Æ‚Ì”»’è
 
-	bool m_firstMove;//‰“®“®ì
-	bool m_isFall;//’n–Ê‚Æ‚Ì”»’è
+	int m_ladderNum;
+
+	float m_getPos;//y²ŒÅ’èÀ•W
+
+	bool m_isFirstMove;//‰“®“®ì
+
+	bool m_isCourse;
 
 	Vec2 m_pos;
 	Vec2 m_barrelPos;//’M

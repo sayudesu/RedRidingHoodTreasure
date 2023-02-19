@@ -21,11 +21,18 @@ private:
 	int m_hImagePlayer;
 	int m_hImageMap;
 	int m_charaImagePos;
+
+	int m_hMusicBgm1;
+
 	//ƒJƒEƒ“ƒg
 	int m_frameCount;
 	int m_sceneChangeCountDemo;
 	int m_sceneChangeCountStage1;
 	int m_sceneChangeCountEnd;
+
+	bool m_isSceneFocus1;
+	bool m_isSceneFocus2;
+	bool m_isSceneFocus3;
 
 	Vec2 m_imagePos;
 

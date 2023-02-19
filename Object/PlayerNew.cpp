@@ -3,6 +3,7 @@
 #include <DxLib.h>
 #include "Pad.h"
 #include "game.h"
+#include "image.h"
 
 //定数
 namespace
@@ -43,6 +44,7 @@ PlayerNew::PlayerNew() :
 	m_hMapFifth(-1),
 	m_hMapChip(-1),
 	m_hMapChipSecond(-1),
+	m_hFxJump(-1),
 	m_padInput(0),
 	m_playerLeft(0),
 	m_playerTop(0),
@@ -120,7 +122,7 @@ PlayerNew::PlayerNew() :
 	m_charaImagePos = (1344 - kCharaImageRightPos);
 	m_func = &PlayerNew::UpdateMove;
 
-
+	DeleteSoundMem(m_hFxJump);
 
 }
 //デストラクタ
@@ -158,6 +160,11 @@ void PlayerNew::Init()
 
 	GetGraphSizeF(m_hPlayer, &m_playerSize.x, &m_playerSize.y);
 	*/
+	// 再生形式をファイルからストリーム再生する、に設定
+//SetCreateSoundDataType(DX_SOUNDDATATYPE_FILE);
+	//m_hFxJump = LoadSoundMem(FX::kJump);
+	// 音量の設定
+	//ChangeVolumeSoundMem(255, m_hFxJump);
 }
 //メモリの開放
 void PlayerNew::End()
@@ -230,10 +237,10 @@ void PlayerNew::OperationJump()
 	//ジャンプ
 	if (Pad::isTrigger(PAD_INPUT_2))//上
 	{
+		//PlaySoundMem(m_hFxJump, DX_PLAYTYPE_BACK);
 		m_vec.y = 0.0f;
 		printfDx("ジャンプ\n");
 		m_vec.y = kJump;//ジャンプ開始
-
 	}
 }
 //梯子操作
@@ -252,6 +259,7 @@ void PlayerNew::OperationLadder()
 void PlayerNew::UpdateMove()
 {
 
+	//PlaySoundMem(m_hFxJump, DX_PLAYTYPE_BACK);
 
 	Pad::update();//入力判定
 	m_padInput = GetJoypadInputState(DX_INPUT_KEY_PAD1);//ジョイパッドの入力状態を得る
@@ -289,6 +297,8 @@ void PlayerNew::UpdateMove()
 	if (m_isDamage)//攻撃をくらったからどうか
 	{
 		printfDx("Enemyの攻撃HIT\n");
+
+		m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
 	}
 	if (m_isAttackHit)//攻撃をくらったからどうか
 	{
@@ -317,5 +327,10 @@ void PlayerNew::UpdateMove()
 		m_attackPlayerRight  = + 10;
 		m_attackPlayerBottom = + 10;
 	}
+
+}
+
+void PlayerNew::UpdateDead()
+{
 
 }

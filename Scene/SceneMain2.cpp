@@ -13,6 +13,7 @@ SceneMain2::SceneMain2():
 	m_hPlayerIdle(-1),
 	m_hPlayerLighting(-1),
 	m_hPlayerHealthBer(-1),
+	m_hMusicBgm1(-1),
 	m_pStage(nullptr),
 	m_pPlayer(nullptr),
 	m_pCollision(nullptr),
@@ -30,6 +31,7 @@ SceneMain2::~SceneMain2()
 	delete m_pPlayer;
 	delete m_pCollision;
 	delete m_pEnemy;
+	DeleteSoundMem(m_hMusicBgm1);
 }
 
 void SceneMain2::Init()
@@ -38,6 +40,12 @@ void SceneMain2::Init()
 	m_pCollision->Init();
 	m_pEnemy->Init();
 
+	// 再生形式をファイルからストリーム再生する、に設定
+	//SetCreateSoundDataType(DX_SOUNDDATATYPE_FILE);
+	m_hMusicBgm1 = LoadSoundMem(FX::kBgm2);
+	//PlaySoundMem(m_hMusicBgm1, DX_SOUNDTYPE_STREAMSTYLE);
+	// 音量の設定
+	ChangeVolumeSoundMem(255 / 3 , m_hMusicBgm1);
 
 	//プレイヤー画像
 	m_hPlayer = LoadGraph(Image::kPlayerImage);
@@ -60,7 +68,8 @@ void SceneMain2::End()
 SceneBase* SceneMain2::Update()
 {
 	m_pCollision->Update();
-	m_pEnemy->Update();
+
+	//m_pEnemy->Update();
 
 	if (CheckHitKey(KEY_INPUT_Z))
 	{
@@ -74,5 +83,5 @@ void SceneMain2::Draw()
 	m_pStage->Draw();
 	m_pPlayer->Draw();
 	m_pCollision->Draw();
-	m_pEnemy->Draw();
+	//m_pEnemy->Draw();
 }

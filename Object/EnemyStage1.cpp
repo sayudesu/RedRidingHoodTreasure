@@ -30,25 +30,43 @@ EnemyStage1::EnemyStage1():
 	m_fallenTop(0),
 	m_fallenRight(0),
 	m_fallenBottom(0),
+	m_fallen2Left(0),
+	m_fallen2Top(0),
+	m_fallen2Right(0),
+	m_fallen2Bottom(0),
 	m_fallenRangeLeft(0),
 	m_fallenRangeTop(0),
 	m_fallenRangeRight(0),
 	m_fallenRangeBottom(0),
+	m_fallenRange2Left(0),
+	m_fallenRange2Top(0),
+	m_fallenRange2Right(0),
+	m_fallenRange2Bottom(0),
 	m_fall(0),
 	m_fallFireBall(0),
+	m_fallenRange(0),
+	m_fallenRange2(0),
+	m_fallenCount(0),
+	m_fallenCount2(0),
 	m_ladderNum(0),
 	m_getPos(0.0f),
 	m_getFireBallPos(0),
 	m_isFirstMove(false),
 	m_isCourse(false),
 	m_isFireBallCourse(false),
+	m_isFallenDrop(false),
+	m_isCanFallen(false),
+	m_isFallenDrop2(false),
+	m_isCanFallen2(false),
 	m_pos(0.0f, 0.0f),
 	m_barrelPos(0.0f,0.0f),//樽
 	m_fallenPos(0.0f, 0.0f),//ドッスン的な奴
+	m_fallen2Pos(0.0f, 0.0f),//ドッスン的な奴
 	m_vec(0.0f,0.0f)
 {
 	m_isFirstMove = true;//初動動作
-
+	m_isCanFallen = true;
+	m_isCanFallen2 = true;
 	//ファイアボール初期位置
 	m_pos.x = Game::kScreenWidth - 400;
 	m_pos.y = Game::kScreenHeight - 400;
@@ -58,6 +76,9 @@ EnemyStage1::EnemyStage1():
 	//どっすん
 	m_fallenPos.x = Stage2::kBox2Xt;
 	m_fallenPos.y = Stage2::kBoxBottom8Yf;
+
+	m_fallen2Pos.x = Stage2::kBox4Xt;
+	m_fallen2Pos.y = Stage2::kBoxBottom8Yf;
 
 }
 
@@ -93,8 +114,15 @@ void EnemyStage1::Draw()
 	DrawBox(m_barrelLeft, m_barrelTop, m_barrelRight, m_barrelBottom, 0xffff00, true);
 	//どっすん
 	DrawBox(m_fallenLeft, m_fallenTop, m_fallenRight, m_fallenBottom, 0xffff00, true);
+	//どっすん2
+	DrawBox(m_fallenLeft, m_fallenTop, m_fallenRight, m_fallenBottom, 0xffff00, true);
 	//範囲
 	DrawBox(m_fallenRangeLeft, m_fallenRangeTop, m_fallenRangeRight, m_fallenRangeBottom, 0xffff00, false);
+
+	//どっすん2
+	DrawBox(m_fallen2Left, m_fallen2Top, m_fallen2Right, m_fallen2Bottom, 0xffff00, true);
+	//範囲
+	DrawBox(m_fallenRange2Left, m_fallenRange2Top, m_fallenRange2Right, m_fallenRange2Bottom, 0xffff00, false);
 }
 //樽の動き
 void EnemyStage1::BarrelMove()
@@ -199,7 +227,89 @@ void EnemyStage1::fireBallMove()
 //どっすん動き
 void EnemyStage1::falleMove()
 {
-	
+	//一体目
+	if (m_isCanFallen)//初期の位置にいるかどうか
+	{
+		if (m_fallenRange == 1)//範囲内だったら
+		{
+			m_isFallenDrop = true;
+			m_isCanFallen = false;
+		}
+	}
+
+	if (m_isFallenDrop)//落ちもの揺れる
+	{
+		m_fallenCount++;//震える時間
+		//揺れる
+		m_fallenPos.x = Stage2::kBox2Xt + GetRand(10);
+		m_fallenPos.y = Stage2::kBoxBottom8Yf  + GetRand(10);
+
+		if (m_fallenCount >= 30)//3秒後
+		{
+			//ポジションをリセット
+			m_fallenPos.x = Stage2::kBox2Xt;
+			m_fallenPos.y = Stage2::kBoxBottom8Yf;
+		}
+	}
+
+	if (m_fallenCount >= 45)
+	{
+		m_isFallenDrop = false;
+		//落下開始
+		m_fallenPos.y += 10;//落下スピード
+		if (m_fallenPos.y >= Stage2::kBox2Yt)//落ちる場所制限
+		{
+			m_fallenCount = 0;//カウントリセット
+
+			//初期ポジションに戻す
+			m_fallenPos.x = Stage2::kBox2Xt;
+			m_fallenPos.y = Stage2::kBoxBottom8Yf;
+			m_isCanFallen = true;
+
+		}
+	}
+
+	//二体目
+	if (m_isCanFallen2)//初期の位置にいるかどうか
+	{
+		if (m_fallenRange == 2)//範囲内だったら
+		{
+			m_isFallenDrop2 = true;
+			m_isCanFallen2 = false;
+		}
+	}
+
+	if (m_isFallenDrop2)//落ちもの揺れる
+	{
+		m_fallenCount2++;//震える時間
+		//揺れる
+		m_fallen2Pos.x = Stage2::kBox4Xt + GetRand(10);
+		m_fallen2Pos.y = Stage2::kBoxBottom8Yf + GetRand(10);
+
+		if (m_fallenCount2 >= 30)//3秒後
+		{
+			//ポジションをリセット
+			m_fallen2Pos.x = Stage2::kBox4Xt;
+			m_fallen2Pos.y = Stage2::kBoxBottom8Yf;
+		}
+	}
+
+	if (m_fallenCount2 >= 45)
+	{
+		m_isFallenDrop2 = false;
+		//落下開始
+		m_fallen2Pos.y += 10;//落下スピード
+		if (m_fallen2Pos.y >= Stage2::kBox4Yt)//落ちる場所制限
+		{
+			m_fallenCount2 = 0;//カウントリセット
+
+			//初期ポジションに戻す
+			m_fallen2Pos.x = Stage2::kBox4Xt;
+			m_fallen2Pos.y = Stage2::kBoxBottom8Yf;
+			m_isCanFallen2 = true;
+
+		}
+	}
 }
 //敵のキャラ座標取得
 void EnemyStage1::npcPos()
@@ -219,11 +329,22 @@ void EnemyStage1::npcPos()
 	//ドッスン
 	m_fallenLeft = m_fallenPos.x;
 	m_fallenTop = m_fallenPos.y;
-	m_fallenRight = m_fallenLeft  + Stage2::kBoxWidth;
+	m_fallenRight = m_fallenLeft  + 150;
 	m_fallenBottom = m_fallenTop  +10;
 
-	m_fallenRangeLeft = m_fallenLeft - 50;
-	m_fallenRangeTop = m_fallenTop + 30;
-	m_fallenRangeRight = m_fallenRight + 50;
-	m_fallenRangeBottom = m_fallenRangeTop + 100;
+	m_fallenRangeLeft =1110;
+	m_fallenRangeTop = 550;
+	m_fallenRangeRight = m_fallenRangeLeft+ 250;
+	m_fallenRangeBottom = m_fallenRangeTop + 120;
+
+	//ドッスン
+	m_fallen2Left = m_fallen2Pos.x;
+	m_fallen2Top = m_fallen2Pos.y;
+	m_fallen2Right = m_fallen2Left + 150;
+	m_fallen2Bottom = m_fallen2Top + 10;
+
+	m_fallenRange2Left = 1110 + 150 + 150;
+	m_fallenRange2Top = 550;
+	m_fallenRange2Right = m_fallenRange2Left + 250;
+	m_fallenRange2Bottom = m_fallenRange2Top + 120;
 }

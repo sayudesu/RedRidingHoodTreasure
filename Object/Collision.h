@@ -23,8 +23,12 @@ public:
 
     int HitEnemyObject();//敵と地面との当たり判定
 	int HItEnemyLadder();//梯子とエネミーの当たり判定
+
 	int HitEnemyFireBall();//炎球と地面の当たり判定
 	bool HitEnemy();//プレイヤーと敵の当たり判定
+
+	int HitFallenRange();//落ちる敵の範囲
+	bool HitFallen();//落ちるやつとプレイヤーの判定
 //渡し
 public:
 	float GetPos() { return m_posY; }

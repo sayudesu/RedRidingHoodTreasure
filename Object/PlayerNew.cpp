@@ -115,6 +115,7 @@ PlayerNew::PlayerNew() :
 	m_attackBottomPos(0.0f, 0.0f),
 	m_vec(0.0f, 0.0f),
 	m_isDamage(false),
+	m_isDamageFallen(false),
 	m_getPos(0.0f),
 	m_isAttackHit(false)
 
@@ -294,10 +295,16 @@ void PlayerNew::UpdateMove()
 		DrawBox(Stage2::kGoalX, Stage2::kGoalY, Stage2::kGoalBottomX, Stage2::kGoalBottomY, GetColor(GetRand(255), GetRand(255), GetRand(255)), true);
 	}
 
-	if (m_isDamage)//UŒ‚‚ğ‚­‚ç‚Á‚½‚©‚ç‚Ç‚¤‚©
+	if (m_isDamage||m_isDamageFallen)//UŒ‚‚ğ‚­‚ç‚Á‚½‚©‚ç‚Ç‚¤‚©
 	{
-		printfDx("Player€–S\n");
-
+		if (m_isDamage)
+		{
+			printfDx("Player€–S\n");
+		}
+		if (m_isDamageFallen)
+		{
+			printfDx("PlayerFallen€–S\n");
+		}
 		//m_func = &PlayerNew::UpdateDead;//€–SƒV[ƒ“Ø‚è‘Ö‚¦
 	}
 	if (m_isAttackHit)//UŒ‚‚ğ‚­‚ç‚Á‚½‚©‚ç‚Ç‚¤‚©

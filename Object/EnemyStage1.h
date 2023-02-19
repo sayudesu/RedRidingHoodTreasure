@@ -44,16 +44,28 @@ public:
 	int  GetFallenRangeTop   () { return m_fallenRangeTop;    }
 	int  GetFallenRangeRight () { return m_fallenRangeRight;  }
 	int  GetFallenRangeBottom() { return m_fallenRangeBottom; }
+	//どっすん2
+	int  GetFallen2Left() { return m_fallen2Left; }
+	int  GetFallen2Top() { return m_fallen2Top; }
+	int  GetFallen2Right() { return m_fallen2Right; }
+	int  GetFallen2Bottom() { return m_fallen2Bottom; }
+	//どっすん2範囲
+	int  GetFallenRange2Left() { return m_fallenRange2Left; }
+	int  GetFallenRange2Top() { return m_fallenRange2Top; }
+	int  GetFallenRange2Right() { return m_fallenRange2Right; }
+	int  GetFallenRange2Bottom() { return m_fallenRange2Bottom; }
 	
 public:
 
 	void GetHitFall(int fall  ) { m_fall = fall; }
 	void GetPos    (float posY) { m_getPos = posY; }
+	void GetEnemyLadder(int num) { m_ladderNum = num; }
 
 	void GetHitFireBallFall(int fall  ) { m_fallFireBall = fall; }
 	void GetFireBallPos    (float posY) { m_getFireBallPos = posY; }
 
-	void GetEnemyLadder(int num) { m_ladderNum = num; }
+	void GetFallenRange(int range) { m_fallenRange = range; }
+	void GetFallenRange2(int range) { m_fallenRange2 = range; }
 
 private:
 
@@ -72,14 +84,30 @@ private:
 	int m_fallenRight;
 	int m_fallenBottom;
 
+	int m_fallen2Left;
+	int m_fallen2Top;
+	int m_fallen2Right;
+	int m_fallen2Bottom;
+
 	int m_fallenRangeLeft;
 	int m_fallenRangeTop;
 	int m_fallenRangeRight;
 	int m_fallenRangeBottom;
 
+	int m_fallenRange2Left;
+	int m_fallenRange2Top;
+	int m_fallenRange2Right;
+	int m_fallenRange2Bottom;
+
 	int m_fall;//地面との判定
 	int m_fallFireBall;//地面との判定
 
+	int m_fallenRange;//落ちもの敵の範囲判定
+	int m_fallenRange2;//落ちもの敵の範囲判定
+
+	int m_fallenCount;
+	int m_fallenCount2;
+	
 	int m_ladderNum;
 	float m_getPos;//y軸固定座標
 	int m_getFireBallPos;//y軸固定座標
@@ -89,9 +117,16 @@ private:
 	bool m_isCourse;//動く向き
 	bool m_isFireBallCourse;//動く向き
 
+	bool m_isFallenDrop;
+	bool m_isCanFallen;
+
+	bool m_isFallenDrop2;
+	bool m_isCanFallen2;
+
 	Vec2 m_pos;//ファイアーボール
 	Vec2 m_barrelPos;//樽
 	Vec2 m_fallenPos;//ドッスン的なやつ
+	Vec2 m_fallen2Pos;//ドッスン的なやつ
 	Vec2 m_vec;
 
 

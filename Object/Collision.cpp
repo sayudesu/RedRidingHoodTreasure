@@ -54,14 +54,20 @@ void Collision::Update()
 	m_pPlayer->GetPos(m_posY);           //位置.y
 	m_pPlayer->GetGoal(HitGoal());       //ゴールしたかどうか
 	m_pPlayer->GetEnemyHit(HitEnemy());  //エネミーがプレイヤーを攻撃する
+	m_pPlayer->GetEnemyFallenHit(HitFallen());  //エネミーがプレイヤーを攻撃する
 	m_pPlayer->GetPlayerHit(HitPlayer());//プレイヤーがエネミーを攻撃したかどうか
+
 
 	m_pEnemy->GetHitFall(HitEnemyObject()); //重力.y
 	m_pEnemy->GetEnemyLadder(HItEnemyLadder());   //位置.y
 	m_pEnemy->GetPos(m_enemyPosY);           //位置.y
-
+	//炎玉エネミー判定
 	m_pEnemy->GetHitFireBallFall(HitEnemyFireBall()); //重力.y
 	m_pEnemy->GetFireBallPos(m_enemyFireBallPosY); //位置.y
+	//落ちるエネミー判定
+	m_pEnemy->GetFallenRange(HitFallenRange());//範囲に入っているかどうか
+	m_pEnemy->GetFallenRange2(HitFallenRange());//範囲に入っているかどうか
+	
 }
 //描画
 void Collision::Draw()
@@ -673,7 +679,6 @@ bool Collision::HitEnemy()
 	return false;
 }
 
-
 //プレイヤーとエネミーの当たり判定::プレイヤーがエネミーを攻撃
 bool Collision::HitPlayer()
 {
@@ -690,7 +695,6 @@ bool Collision::HitPlayer()
 	return false;
 
 }
-
 
 //地面の判定
 int Collision::HitEnemyObject()
@@ -1146,3 +1150,55 @@ int Collision::HitEnemyObject()
 	return 0;
 }
 
+//落ちる敵の範囲
+int Collision::HitFallenRange()
+{
+	if ((m_pEnemy->GetFallenRangeRight() > m_pPlayer->GetPlayerLeft()) &&
+		(m_pEnemy->GetFallenRangeLeft() < m_pPlayer->GetPlayerRight()))
+	{
+		if ((m_pEnemy->GetFallenRangeBottom() > m_pPlayer->GetPlayerTop()) &&
+			(m_pEnemy->GetFallenRangeTop() < m_pPlayer->GetPlayerBottom()))
+		{
+			return 1;
+		}
+	}
+
+	if ((m_pEnemy->GetFallenRange2Right() > m_pPlayer->GetPlayerLeft()) &&
+		(m_pEnemy->GetFallenRange2Left() < m_pPlayer->GetPlayerRight()))
+	{
+		if ((m_pEnemy->GetFallenRange2Bottom() > m_pPlayer->GetPlayerTop()) &&
+			(m_pEnemy->GetFallenRange2Top() < m_pPlayer->GetPlayerBottom()))
+		{
+			return 2;
+		}
+	}
+
+	return 0;
+}
+
+//落ちるやつとプレイヤーの判定
+bool Collision::HitFallen()
+{
+
+	if ((m_pEnemy->GetFallenRight() > m_pPlayer->GetPlayerLeft()) &&
+		(m_pEnemy->GetFallenLeft() < m_pPlayer->GetPlayerRight()))
+	{
+		if ((m_pEnemy->GetFallenBottom() > m_pPlayer->GetPlayerTop()) &&
+			(m_pEnemy->GetFallenTop() < m_pPlayer->GetPlayerBottom()))
+		{
+			return true;
+		}
+	}
+
+	if ((m_pEnemy->GetFallen2Right() > m_pPlayer->GetPlayerLeft()) &&
+		(m_pEnemy->GetFallen2Left() < m_pPlayer->GetPlayerRight()))
+	{
+		if ((m_pEnemy->GetFallen2Bottom() > m_pPlayer->GetPlayerTop()) &&
+			(m_pEnemy->GetFallen2Top() < m_pPlayer->GetPlayerBottom()))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}

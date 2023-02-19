@@ -39,6 +39,7 @@ public:
 	void GetScaffold (bool fall     ) { m_isFall       = fall;      }//地面にいるかどうか
 	void GetGoal     (bool goal     ) { m_isStageClear = goal;      }//ステージクリア
 	void GetEnemyHit (bool hit      ) { m_isDamage     = hit;       }//敵に当たる
+	void GetEnemyFallenHit(bool hit) { m_isDamageFallen = hit; }//敵に当たる
 	void GetPlayerHit(bool attack   ) { m_isAttackHit  = attack;    }//敵に攻撃を与える
 
 private:
@@ -179,6 +180,7 @@ private:
 	float m_getPos;
 
 	bool m_isDamage;
+	bool m_isDamageFallen;
 	bool m_isAttackHit;
 
 	void (PlayerNew::* m_func)();

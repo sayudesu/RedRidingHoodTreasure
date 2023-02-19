@@ -15,7 +15,7 @@ namespace
 	constexpr float kPosX = 0.0f;
 	constexpr float kPosY = static_cast<float>(Game::kScreenHeight) - 50.0f - 300.0f;//デバック用に-300移動
 	//動く速さ
-	constexpr float kMoveSpeed = 15.0f; //もっと下げたほうが面白い！修正待ち
+	constexpr float kMoveSpeed = 5.0f; //もっと下げたほうが面白い！修正待ち
 	// ジャンプ力
 	constexpr float kJump = -10.0f;
 	// 重力
@@ -296,13 +296,13 @@ void PlayerNew::UpdateMove()
 
 	if (m_isDamage)//攻撃をくらったからどうか
 	{
-		printfDx("Enemyの攻撃HIT\n");
+		printfDx("Player死亡\n");
 
-		m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
+		//m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
 	}
 	if (m_isAttackHit)//攻撃をくらったからどうか
 	{
-		printfDx("Playerの攻撃HIT\n");
+		printfDx("Enemy死亡\n");
 	}
 
 	m_pos += m_vec;//プレイヤー位置

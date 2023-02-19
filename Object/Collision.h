@@ -33,6 +33,7 @@ private:
 
 	float m_posY;//プレイヤーのY座標
 	float m_enemyPosY;//プレイヤーのY座標
+	int m_enemyFireBallPosY;//プレイヤーのY座標
 
 	float m_landingPos;//着地位置
 

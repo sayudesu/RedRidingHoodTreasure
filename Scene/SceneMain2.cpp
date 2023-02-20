@@ -1,5 +1,6 @@
 #include "SceneMain2.h"
 #include "SceneTitle.h"
+#include "SceneResult.h"
 #include "DrawMapStage2.h"
 #include "PlayerNew.h"
 #include "Collision.h"
@@ -69,7 +70,10 @@ SceneBase* SceneMain2::Update()
 {
 	m_pCollision->Update();
 
-	//m_pEnemy->Update();
+	if (m_pCollision->m_isStageClear)
+	{
+		return(new SceneResult);
+	}
 
 	if (CheckHitKey(KEY_INPUT_Z))
 	{

@@ -22,6 +22,7 @@ Collision::Collision():
 	m_landingPos(0.0f),
 	m_enemyFireBallPosY(0),
 	m_isPlayerPos(false),
+	m_isStageClear(false),
 	m_pPlayer(nullptr),
 	m_pMap(nullptr),
 	m_pEnemy(nullptr)
@@ -72,7 +73,10 @@ void Collision::Update()
 	m_pEnemy->GetPlayerPos(m_pPlayer->GetkPlayerPos());
 	m_pEnemy->GetRush(m_isPlayerPos);
 	m_pPlayer->GetEnemyChageHit(HitCharge());//プレイヤーとチャージエネミーの当たり判定
-	
+	m_pPlayer->GetEnemyChageBlink(m_pEnemy->GetRushBlink());//プレイヤーとチャージエネミーの当たり判定
+
+	GetGoal(m_pPlayer->GetGameClear());
+
 }
 //描画
 void Collision::Draw()

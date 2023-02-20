@@ -56,6 +56,8 @@ EnemyStage1::EnemyStage1():
 	m_rushCount(0),
 	m_getPos(0.0f),
 	m_rad(0.0f),
+	m_chargeSpeed(0.0f),
+	m_length(0.0f),
 	m_getFireBallPos(0),
 	m_isFirstMove(false),
 	m_isCourse(false),
@@ -65,6 +67,7 @@ EnemyStage1::EnemyStage1():
 	m_isFallenDrop2(false),
 	m_isCanFallen2(false),
 	m_isRush(false),
+	m_isRushBlink(false),
 	m_pos(0.0f, 0.0f),
 	m_barrelPos(0.0f,0.0f),//樽
 	m_fallenPos(0.0f, 0.0f),//ドッスン的な奴
@@ -93,6 +96,8 @@ EnemyStage1::EnemyStage1():
 	m_chargePos.x = Stage2::kBox1Xf;
 	m_chargePos.y = Stage2::kBox1Yf - 50;
 
+	m_chargeSpeed = 10.0f;
+
 }
 
 EnemyStage1::~EnemyStage1()
@@ -114,7 +119,7 @@ void EnemyStage1::Update()
 	fireBallMove();//ファイアボールの動き
 	falleMove();//ドッスン動き
 	npcPos();//敵のサイズ取得
-	ChargeMove();
+	ChargeMove();//チャージエネミーの動き
 }
 //描画
 void EnemyStage1::Draw()
@@ -329,41 +334,48 @@ void EnemyStage1::ChargeMove()
 {
 	if (m_isRush)//動けるかどうか
 	{
+
 		//プレイヤーに突進する
 		Vec2 toPlayer{ 0.0f,0.0f };
 
 		m_rushCount++;
-
 		if (m_rushCount == 1)
 		{
 			m_playerSavePos = m_playerPos;//少し前のプレイヤー座標を取得する
+			//m_chargeSpeed = 30.0f;
 		}
 		if (m_rushCount >= 120)
 		{
-
+			m_isRushBlink = true;
 			toPlayer.x = m_playerSavePos.x - m_chargePos.x;
 			toPlayer.y = m_playerSavePos.y - m_chargePos.y;
 
+			m_length = toPlayer.length();//長さを取得
+			
 			toPlayer = toPlayer.normalize();//
-			m_chargePos += toPlayer * 10.0f;//プレイヤーの方向に直線で移動
+			//m_chargeSpeed = 0.0f;
 
 		}
-		else
+
+		m_chargePos += toPlayer * m_chargeSpeed;//プレイヤーの方向に直線で移動
+
+		if (m_length >= m_chargePos.length())
 		{
-			//
+			printfDx("%f\n", m_playerSavePos.length());
+		//	printfDx("%f\n", m_length);
+			m_rushCount = 0;
+			m_isRushBlink = false;
 		}
 
+		//printfDx("%f.y\n", toPlayer.y);
+		
 		if (m_rushCount == 120 * 2)//追跡できる時間をリセット
 		{
 			m_rushCount = 0;
+			m_isRushBlink = false;
 		}
+		
 
-	}
-
-	if (m_chargePos.x == m_playerSavePos.x || m_chargePos.y == m_playerSavePos.y)
-	{
-		m_chargePos.x = m_playerSavePos.x;
-		m_chargePos.y = m_playerSavePos.y;
 	}
 
 }

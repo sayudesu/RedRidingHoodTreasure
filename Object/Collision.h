@@ -33,8 +33,10 @@ public:
 	bool HitCharge();//追跡する敵とプレイヤーの判定
 //渡し
 public:
-	float GetPos() { return m_posY; }
-
+	float GetPos () { return m_posY; }
+	void GetGoal(bool stageClear) { m_isStageClear = stageClear; }
+	bool m_isStageClear;
+	//void  GetGoal2() { m_pPlayer->GetGameClear(); }
 private:
 
 	float m_posY;//プレイヤーのY座標
@@ -44,6 +46,7 @@ private:
 	float m_landingPos;//着地位置
 
 	bool m_isPlayerPos;
+
 
 	PlayerNew* m_pPlayer;
 	DrawMapStage2* m_pMap;

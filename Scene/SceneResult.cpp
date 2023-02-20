@@ -19,7 +19,7 @@ void SceneResult::End()
 
 SceneBase* SceneResult::Update()
 {
-
+	printfDx("ƒQ[ƒ€ƒNƒŠƒA\n");
 	return this;
 }
 

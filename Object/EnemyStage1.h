@@ -30,7 +30,7 @@ public:
 	int  GetLeft()   { return m_posLeft;   }
 	int  GetTop()    { return m_posTop;    }
 	int  GetRight()  { return m_posRight;  }
-	int  GetBottom() { return m_posBottom; }
+	int  GetBottom() { return m_posBottom; }	
 	//樽
 	int  GetBarrelLeft  () { return m_barrelLeft;   }
 	int  GetBarrelTop   () { return m_barrelTop;    }
@@ -56,12 +56,14 @@ public:
 	int  GetFallenRange2Top() { return m_fallenRange2Top; }
 	int  GetFallenRange2Right() { return m_fallenRange2Right; }
 	int  GetFallenRange2Bottom() { return m_fallenRange2Bottom; }
+
 	//チャージエネミー
 	int  GetChargeLeft() { return m_chargeLeft; }
 	int  GetChargeTop() { return m_chargeTop; }
 	int  GetChargeRight() { return m_chargeRight; }
 	int  GetChargeBottom() { return m_chargeBottom; }
 	
+	bool GetRushBlink() { return m_isRushBlink; }//チャージエネミーに当たると死ぬかどうか
 public:
 
 	void GetHitFall(int fall  ) { m_fall = fall; }
@@ -76,6 +78,7 @@ public:
 
 	void GetPlayerPos(Vec2 pos) { m_playerPos = pos; }//プレイヤーの座標
 	void GetRush(bool rush) { m_isRush = rush; }
+
 
 private:
 
@@ -130,6 +133,8 @@ private:
 
 	float m_getPos;//y軸固定座標
 	float m_rad;//角度ラジアン
+	float m_chargeSpeed;
+	float m_length;
 
 	bool m_isFirstMove;//初動動作
 

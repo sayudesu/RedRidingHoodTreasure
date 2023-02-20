@@ -100,6 +100,7 @@ PlayerNew::PlayerNew() :
 	m_isCharaDirection(false),
 	m_isCharaIdleDirection(false),
 	m_isStageClear(false),
+	m_isStageClearChangeScene(false),
 	m_isMenu(false),
 	m_isItemTip(false),
 	m_isItemDropTip(false),
@@ -118,7 +119,8 @@ PlayerNew::PlayerNew() :
 	m_isDamageFallen(false),
 	m_getPos(0.0f),
 	m_isAttackHit(false),
-	m_isDamageCharge(false)
+	m_isDamageCharge(false),
+	m_isRushBlink(false)
 
 {
 	m_charaImagePos = (1344 - kCharaImageRightPos);
@@ -176,6 +178,10 @@ void PlayerNew::End()
 //アップデート処理
 void PlayerNew::Update()
 {
+	if (m_isStageClear)//ステージクリアかどうか
+	{
+		m_isStageClearChangeScene = true;
+	}
 	Draw();
 	(this->*m_func)();
 }
@@ -226,7 +232,7 @@ void PlayerNew::OperationAttack()
 	//m_isAttack = false;//攻撃停止
 	if (Pad::isTrigger(PAD_INPUT_1))//攻撃
 	{
-		//printfDx("攻撃\n");
+		printfDx("攻撃\n");
 		//プレイヤーの攻撃範
 
 		m_isAttack = true;//攻撃開始
@@ -241,7 +247,7 @@ void PlayerNew::OperationJump()
 	{
 		//PlaySoundMem(m_hFxJump, DX_PLAYTYPE_BACK);
 		m_vec.y = 0.0f;
-		//printfDx("ジャンプ\n");
+		printfDx("ジャンプ\n");
 		m_vec.y = kJump;//ジャンプ開始
 	}
 }
@@ -293,6 +299,7 @@ void PlayerNew::UpdateMove()
 	
 	if (m_isStageClear)//ステージクリアかどうか
 	{
+		m_isStageClearChangeScene = true;
 		DrawBox(Stage2::kGoalX, Stage2::kGoalY, Stage2::kGoalBottomX, Stage2::kGoalBottomY, GetColor(GetRand(255), GetRand(255), GetRand(255)), true);
 	}
 
@@ -300,22 +307,22 @@ void PlayerNew::UpdateMove()
 	{
 		if (m_isDamage)
 		{
-			//printfDx("Player死亡\n");
+			printfDx("Player死亡\n");
 		}
 		if (m_isDamageFallen)
 		{
-			//printfDx("PlayerFallen死亡\n");
+			printfDx("PlayerFallen死亡\n");
 		}
-		if (m_isDamageCharge)
+		if (m_isDamageCharge && m_isRushBlink)//見えている間に当たると死ぬ
 		{
-			//printfDx("PlayerChage死亡\n");
+			printfDx("PlayerChage死亡\n");
 		}
-		printfDx("死亡\n");
+		//printfDx("死亡\n");
 		//m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
 	}
 	if (m_isAttackHit)//攻撃をくらったからどうか
 	{
-		//printfDx("Enemy死亡\n");
+		printfDx("Enemy死亡\n");
 	}
 
 	m_pos += m_vec;//プレイヤー位置

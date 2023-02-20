@@ -32,18 +32,22 @@ public:
 	float GeAttacktPlayerTop   () { return static_cast<float>(m_attackPlayerTop   ); }
 	float GetAttackPlayerRight () { return static_cast<float>(m_attackPlayerRight ); }
 	float GetAttackPlayerBottom() { return static_cast<float>(m_attackPlayerBottom); }
+
+	bool GetGameClear          () { return m_isStageClearChangeScene; }
+	
 	//Vec2でのプレイヤー座標
 	Vec2 GetkPlayerPos() { return m_pos; }
 
 	//プレイヤーの状態
-	void GetPos			  (float pos     ) { m_getPos         = pos;       }//地面にいる場合の座標.y
-	void GetLadder		  (bool ladderHit) { m_isLadder       = ladderHit; }//梯子に当たっているかどうか
-	void GetScaffold	  (bool fall     ) { m_isFall         = fall;      }//地面にいるかどうか
-	void GetGoal		  (bool goal     ) { m_isStageClear   = goal;      }//ステージクリア
-	void GetEnemyHit	  (bool hit      ) { m_isDamage       = hit;       }//敵に当たる
-	void GetEnemyFallenHit(bool hit      ) { m_isDamageFallen = hit;       }//敵に当たる
-	void GetPlayerHit	  (bool attack   ) { m_isAttackHit    = attack;    }//敵に攻撃を与える
-	void GetEnemyChageHit (bool attack   ) { m_isDamageCharge = attack;    }//チャージエネミーから攻撃を受ける
+	void GetPos			   (float pos     ) { m_getPos         = pos;       }//地面にいる場合の座標.y
+	void GetLadder		   (bool ladderHit) { m_isLadder       = ladderHit; }//梯子に当たっているかどうか
+	void GetScaffold	   (bool fall     ) { m_isFall         = fall;      }//地面にいるかどうか
+	void GetGoal		   (bool goal     ) { m_isStageClear   = goal;      }//ステージクリア
+	void GetEnemyHit	   (bool hit      ) { m_isDamage       = hit;       }//敵に当たる
+	void GetEnemyFallenHit (bool hit      ) { m_isDamageFallen = hit;       }//敵に当たる
+	void GetPlayerHit	   (bool attack   ) { m_isAttackHit    = attack;    }//敵に攻撃を与える
+	void GetEnemyChageHit  (bool attack   ) { m_isDamageCharge = attack;    }//チャージエネミーから攻撃を受ける
+	void GetEnemyChageBlink(bool blink    ) { m_isRushBlink    = blink;     }//チャージエネミーから攻撃を受ける
 
 private:
 	//プレイヤー位置補正
@@ -158,6 +162,10 @@ private:
 	bool m_isCharaIdleDirection;
 	//ステージクリア判定
 	bool m_isStageClear;
+	
+	//ゲームクリアシーン切り替え条件 true = クリア/false = 未クリア
+	bool m_isStageClearChangeScene;
+
 	bool m_isMenu;
 	//ゲームヒント
 	bool m_isItemTip;
@@ -186,6 +194,7 @@ private:
 	bool m_isDamageFallen;
 	bool m_isAttackHit;
 	bool m_isDamageCharge;
+	bool m_isRushBlink;
 
 	void (PlayerNew::* m_func)();
 

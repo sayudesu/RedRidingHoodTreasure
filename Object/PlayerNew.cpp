@@ -117,7 +117,8 @@ PlayerNew::PlayerNew() :
 	m_isDamage(false),
 	m_isDamageFallen(false),
 	m_getPos(0.0f),
-	m_isAttackHit(false)
+	m_isAttackHit(false),
+	m_isDamageCharge(false)
 
 {
 	m_charaImagePos = (1344 - kCharaImageRightPos);
@@ -225,7 +226,7 @@ void PlayerNew::OperationAttack()
 	//m_isAttack = false;//UŒ‚’â~
 	if (Pad::isTrigger(PAD_INPUT_1))//UŒ‚
 	{
-		printfDx("UŒ‚\n");
+		//printfDx("UŒ‚\n");
 		//ƒvƒŒƒCƒ„[‚ÌUŒ‚”Í
 
 		m_isAttack = true;//UŒ‚ŠJn
@@ -240,7 +241,7 @@ void PlayerNew::OperationJump()
 	{
 		//PlaySoundMem(m_hFxJump, DX_PLAYTYPE_BACK);
 		m_vec.y = 0.0f;
-		printfDx("ƒWƒƒƒ“ƒv\n");
+		//printfDx("ƒWƒƒƒ“ƒv\n");
 		m_vec.y = kJump;//ƒWƒƒƒ“ƒvŠJn
 	}
 }
@@ -295,21 +296,26 @@ void PlayerNew::UpdateMove()
 		DrawBox(Stage2::kGoalX, Stage2::kGoalY, Stage2::kGoalBottomX, Stage2::kGoalBottomY, GetColor(GetRand(255), GetRand(255), GetRand(255)), true);
 	}
 
-	if (m_isDamage||m_isDamageFallen)//UŒ‚‚ğ‚­‚ç‚Á‚½‚©‚ç‚Ç‚¤‚©
+	if (m_isDamage||m_isDamageFallen||m_isDamageCharge)//UŒ‚‚ğ‚­‚ç‚Á‚½‚©‚ç‚Ç‚¤‚©
 	{
 		if (m_isDamage)
 		{
-			printfDx("Player€–S\n");
+			//printfDx("Player€–S\n");
 		}
 		if (m_isDamageFallen)
 		{
-			printfDx("PlayerFallen€–S\n");
+			//printfDx("PlayerFallen€–S\n");
 		}
+		if (m_isDamageCharge)
+		{
+			//printfDx("PlayerChage€–S\n");
+		}
+		printfDx("€–S\n");
 		//m_func = &PlayerNew::UpdateDead;//€–SƒV[ƒ“Ø‚è‘Ö‚¦
 	}
 	if (m_isAttackHit)//UŒ‚‚ğ‚­‚ç‚Á‚½‚©‚ç‚Ç‚¤‚©
 	{
-		printfDx("Enemy€–S\n");
+		//printfDx("Enemy€–S\n");
 	}
 
 	m_pos += m_vec;//ƒvƒŒƒCƒ„[ˆÊ’u
@@ -339,5 +345,5 @@ void PlayerNew::UpdateMove()
 
 void PlayerNew::UpdateDead()
 {
-
+	printfDx("€–S‚µ‚Ü‚µ‚½B\n");
 }

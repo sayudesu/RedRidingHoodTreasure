@@ -21,6 +21,7 @@ Collision::Collision():
 	m_enemyPosY(0),
 	m_landingPos(0.0f),
 	m_enemyFireBallPosY(0),
+	m_isPlayerPos(false),
 	m_pPlayer(nullptr),
 	m_pMap(nullptr),
 	m_pEnemy(nullptr)
@@ -67,6 +68,10 @@ void Collision::Update()
 	//落ちるエネミー判定
 	m_pEnemy->GetFallenRange(HitFallenRange());//範囲に入っているかどうか
 	m_pEnemy->GetFallenRange2(HitFallenRange());//範囲に入っているかどうか
+	//プレイヤーのx.y座標
+	m_pEnemy->GetPlayerPos(m_pPlayer->GetkPlayerPos());
+	m_pEnemy->GetRush(m_isPlayerPos);
+	m_pPlayer->GetEnemyChageHit(HitCharge());//プレイヤーとチャージエネミーの当たり判定
 	
 }
 //描画
@@ -323,6 +328,7 @@ bool Collision::HitObject()
 			(Stage2::kBox1Yf < m_pPlayer->GetPlayerBottom()))
 		{
 			m_posY = Stage2::kBox1Yf - kPlayerPosY + kPlayerPosPulsY;
+			m_isPlayerPos = true;//突進を有効にする
 			return true;
 		}
 	}
@@ -334,6 +340,7 @@ bool Collision::HitObject()
 			(Stage2::kBox2Yf < m_pPlayer->GetPlayerBottom()))
 		{
 			m_posY = Stage2::kBox2Yf - kPlayerPosY + kPlayerPosPulsY;
+			m_isPlayerPos = true;//突進を有効にする
 			return true;
 		}
 	}
@@ -400,6 +407,7 @@ bool Collision::HitObject()
 			(Stage2::kBox8Yf < m_pPlayer->GetPlayerBottom()))
 		{
 			m_posY = Stage2::kBox8Yf - kPlayerPosY + kPlayerPosPulsY;
+			m_isPlayerPos = true;//突進を有効にする
 			return true;
 		}
 	}
@@ -412,6 +420,7 @@ bool Collision::HitObject()
 			(Stage2::kBox1YFi < m_pPlayer->GetPlayerBottom()))
 		{
 			m_posY = Stage2::kBox1YFi - kPlayerPosY + kPlayerPosPulsY;
+			m_isPlayerPos = false;//突進を無効にする
 			return true;
 		}
 	}
@@ -1195,6 +1204,22 @@ bool Collision::HitFallen()
 	{
 		if ((m_pEnemy->GetFallen2Bottom() > m_pPlayer->GetPlayerTop()) &&
 			(m_pEnemy->GetFallen2Top() < m_pPlayer->GetPlayerBottom()))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+//落ちるやつとプレイヤーの判定
+bool Collision::HitCharge()
+{
+	if ((m_pEnemy->GetChargeRight() > m_pPlayer->GetPlayerLeft()) &&
+		(m_pEnemy->GetChargeLeft() < m_pPlayer->GetPlayerRight()))
+	{
+		if ((m_pEnemy->GetChargeBottom() > m_pPlayer->GetPlayerTop()) &&
+			(m_pEnemy->GetChargeTop() < m_pPlayer->GetPlayerBottom()))
 		{
 			return true;
 		}

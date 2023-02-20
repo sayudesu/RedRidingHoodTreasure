@@ -81,7 +81,7 @@ SceneBase* SceneMain2::Update()
 void SceneMain2::Draw()
 {
 	m_pStage->Draw();
-	m_pPlayer->Draw();
 	m_pCollision->Draw();
+	m_pPlayer->Draw();
 	//m_pEnemy->Draw();
 }

@@ -20,6 +20,8 @@ private:
 
 	void falleMove();//どっすん動き
 
+	void ChargeMove();//チャージする敵動き
+
 	void npcPos();//敵のキャラ座標取得
 
 public:
@@ -54,6 +56,11 @@ public:
 	int  GetFallenRange2Top() { return m_fallenRange2Top; }
 	int  GetFallenRange2Right() { return m_fallenRange2Right; }
 	int  GetFallenRange2Bottom() { return m_fallenRange2Bottom; }
+	//チャージエネミー
+	int  GetChargeLeft() { return m_chargeLeft; }
+	int  GetChargeTop() { return m_chargeTop; }
+	int  GetChargeRight() { return m_chargeRight; }
+	int  GetChargeBottom() { return m_chargeBottom; }
 	
 public:
 
@@ -66,6 +73,9 @@ public:
 
 	void GetFallenRange(int range) { m_fallenRange = range; }
 	void GetFallenRange2(int range) { m_fallenRange2 = range; }
+
+	void GetPlayerPos(Vec2 pos) { m_playerPos = pos; }//プレイヤーの座標
+	void GetRush(bool rush) { m_isRush = rush; }
 
 private:
 
@@ -99,6 +109,11 @@ private:
 	int m_fallenRange2Right;
 	int m_fallenRange2Bottom;
 
+	int m_chargeLeft;
+	int m_chargeTop;
+	int m_chargeRight;
+	int m_chargeBottom;
+
 	int m_fall;//地面との判定
 	int m_fallFireBall;//地面との判定
 
@@ -109,8 +124,12 @@ private:
 	int m_fallenCount2;
 	
 	int m_ladderNum;
-	float m_getPos;//y軸固定座標
 	int m_getFireBallPos;//y軸固定座標
+
+	int m_rushCount;
+
+	float m_getPos;//y軸固定座標
+	float m_rad;//角度ラジアン
 
 	bool m_isFirstMove;//初動動作
 
@@ -123,11 +142,18 @@ private:
 	bool m_isFallenDrop2;
 	bool m_isCanFallen2;
 
+	bool m_isRush;
+	bool m_isRushBlink;
+
 	Vec2 m_pos;//ファイアーボール
 	Vec2 m_barrelPos;//樽
 	Vec2 m_fallenPos;//ドッスン的なやつ
 	Vec2 m_fallen2Pos;//ドッスン的なやつ
+	Vec2 m_chargePos;//チャージする敵
 	Vec2 m_vec;
+
+	Vec2 m_playerPos;
+	Vec2 m_playerSavePos;
 
 
 };

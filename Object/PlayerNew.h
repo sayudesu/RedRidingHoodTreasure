@@ -32,15 +32,18 @@ public:
 	float GeAttacktPlayerTop   () { return static_cast<float>(m_attackPlayerTop   ); }
 	float GetAttackPlayerRight () { return static_cast<float>(m_attackPlayerRight ); }
 	float GetAttackPlayerBottom() { return static_cast<float>(m_attackPlayerBottom); }
+	//Vec2でのプレイヤー座標
+	Vec2 GetkPlayerPos() { return m_pos; }
 
 	//プレイヤーの状態
-	void GetPos      (float pos     ) { m_getPos       = pos;       }//地面にいる場合の座標.y
-	void GetLadder   (bool ladderHit) { m_isLadder     = ladderHit; }//梯子に当たっているかどうか
-	void GetScaffold (bool fall     ) { m_isFall       = fall;      }//地面にいるかどうか
-	void GetGoal     (bool goal     ) { m_isStageClear = goal;      }//ステージクリア
-	void GetEnemyHit (bool hit      ) { m_isDamage     = hit;       }//敵に当たる
-	void GetEnemyFallenHit(bool hit) { m_isDamageFallen = hit; }//敵に当たる
-	void GetPlayerHit(bool attack   ) { m_isAttackHit  = attack;    }//敵に攻撃を与える
+	void GetPos			  (float pos     ) { m_getPos         = pos;       }//地面にいる場合の座標.y
+	void GetLadder		  (bool ladderHit) { m_isLadder       = ladderHit; }//梯子に当たっているかどうか
+	void GetScaffold	  (bool fall     ) { m_isFall         = fall;      }//地面にいるかどうか
+	void GetGoal		  (bool goal     ) { m_isStageClear   = goal;      }//ステージクリア
+	void GetEnemyHit	  (bool hit      ) { m_isDamage       = hit;       }//敵に当たる
+	void GetEnemyFallenHit(bool hit      ) { m_isDamageFallen = hit;       }//敵に当たる
+	void GetPlayerHit	  (bool attack   ) { m_isAttackHit    = attack;    }//敵に攻撃を与える
+	void GetEnemyChageHit (bool attack   ) { m_isDamageCharge = attack;    }//チャージエネミーから攻撃を受ける
 
 private:
 	//プレイヤー位置補正
@@ -182,6 +185,7 @@ private:
 	bool m_isDamage;
 	bool m_isDamageFallen;
 	bool m_isAttackHit;
+	bool m_isDamageCharge;
 
 	void (PlayerNew::* m_func)();
 

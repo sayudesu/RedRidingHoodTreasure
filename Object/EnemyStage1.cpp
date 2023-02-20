@@ -42,6 +42,10 @@ EnemyStage1::EnemyStage1():
 	m_fallenRange2Top(0),
 	m_fallenRange2Right(0),
 	m_fallenRange2Bottom(0),
+	m_chargeLeft(0),
+	m_chargeTop(0),
+	m_chargeRight(0),
+	m_chargeBottom(0),
 	m_fall(0),
 	m_fallFireBall(0),
 	m_fallenRange(0),
@@ -49,7 +53,9 @@ EnemyStage1::EnemyStage1():
 	m_fallenCount(0),
 	m_fallenCount2(0),
 	m_ladderNum(0),
+	m_rushCount(0),
 	m_getPos(0.0f),
+	m_rad(0.0f),
 	m_getFireBallPos(0),
 	m_isFirstMove(false),
 	m_isCourse(false),
@@ -58,11 +64,15 @@ EnemyStage1::EnemyStage1():
 	m_isCanFallen(false),
 	m_isFallenDrop2(false),
 	m_isCanFallen2(false),
+	m_isRush(false),
 	m_pos(0.0f, 0.0f),
 	m_barrelPos(0.0f,0.0f),//樽
 	m_fallenPos(0.0f, 0.0f),//ドッスン的な奴
 	m_fallen2Pos(0.0f, 0.0f),//ドッスン的な奴
-	m_vec(0.0f,0.0f)
+	m_chargePos(0.0f, 0.0f),//チャージする敵
+	m_vec(0.0f,0.0f),
+	m_playerPos(0.0f, 0.0f),
+	m_playerSavePos(0.0f, 0.0f)
 {
 	m_isFirstMove = true;//初動動作
 	m_isCanFallen = true;
@@ -76,9 +86,12 @@ EnemyStage1::EnemyStage1():
 	//どっすん
 	m_fallenPos.x = Stage2::kBox2Xt;
 	m_fallenPos.y = Stage2::kBoxBottom8Yf;
-
+	//どっすん2
 	m_fallen2Pos.x = Stage2::kBox4Xt;
 	m_fallen2Pos.y = Stage2::kBoxBottom8Yf;
+	//チャージする敵
+	m_chargePos.x = Stage2::kBox1Xf;
+	m_chargePos.y = Stage2::kBox1Yf - 50;
 
 }
 
@@ -101,6 +114,7 @@ void EnemyStage1::Update()
 	fireBallMove();//ファイアボールの動き
 	falleMove();//ドッスン動き
 	npcPos();//敵のサイズ取得
+	ChargeMove();
 }
 //描画
 void EnemyStage1::Draw()
@@ -114,15 +128,14 @@ void EnemyStage1::Draw()
 	DrawBox(m_barrelLeft, m_barrelTop, m_barrelRight, m_barrelBottom, 0xffff00, true);
 	//どっすん
 	DrawBox(m_fallenLeft, m_fallenTop, m_fallenRight, m_fallenBottom, 0xffff00, true);
-	//どっすん2
-	DrawBox(m_fallenLeft, m_fallenTop, m_fallenRight, m_fallenBottom, 0xffff00, true);
-	//範囲
+	//どっすん範囲
 	DrawBox(m_fallenRangeLeft, m_fallenRangeTop, m_fallenRangeRight, m_fallenRangeBottom, 0xffff00, false);
-
 	//どっすん2
 	DrawBox(m_fallen2Left, m_fallen2Top, m_fallen2Right, m_fallen2Bottom, 0xffff00, true);
-	//範囲
+	//どっすん2範囲
 	DrawBox(m_fallenRange2Left, m_fallenRange2Top, m_fallenRange2Right, m_fallenRange2Bottom, 0xffff00, false);
+	//チャージエネミー
+	DrawBox(m_chargeLeft, m_chargeTop, m_chargeRight, m_chargeBottom, 0xffff00, false);
 }
 //樽の動き
 void EnemyStage1::BarrelMove()
@@ -311,6 +324,49 @@ void EnemyStage1::falleMove()
 		}
 	}
 }
+//敵に突進する
+void EnemyStage1::ChargeMove()
+{
+	if (m_isRush)//動けるかどうか
+	{
+		//プレイヤーに突進する
+		Vec2 toPlayer{ 0.0f,0.0f };
+
+		m_rushCount++;
+
+		if (m_rushCount == 1)
+		{
+			m_playerSavePos = m_playerPos;//少し前のプレイヤー座標を取得する
+		}
+		if (m_rushCount >= 120)
+		{
+
+			toPlayer.x = m_playerSavePos.x - m_chargePos.x;
+			toPlayer.y = m_playerSavePos.y - m_chargePos.y;
+
+			toPlayer = toPlayer.normalize();//
+			m_chargePos += toPlayer * 10.0f;//プレイヤーの方向に直線で移動
+
+		}
+		else
+		{
+			//
+		}
+
+		if (m_rushCount == 120 * 2)//追跡できる時間をリセット
+		{
+			m_rushCount = 0;
+		}
+
+	}
+
+	if (m_chargePos.x == m_playerSavePos.x || m_chargePos.y == m_playerSavePos.y)
+	{
+		m_chargePos.x = m_playerSavePos.x;
+		m_chargePos.y = m_playerSavePos.y;
+	}
+
+}
 //敵のキャラ座標取得
 void EnemyStage1::npcPos()
 {
@@ -331,20 +387,25 @@ void EnemyStage1::npcPos()
 	m_fallenTop = m_fallenPos.y;
 	m_fallenRight = m_fallenLeft  + 150;
 	m_fallenBottom = m_fallenTop  +10;
-
+	//ドッスン反応判定
 	m_fallenRangeLeft =1110;
 	m_fallenRangeTop = 550;
 	m_fallenRangeRight = m_fallenRangeLeft+ 250;
 	m_fallenRangeBottom = m_fallenRangeTop + 120;
-
-	//ドッスン
+	//ドッスン2
 	m_fallen2Left = m_fallen2Pos.x;
 	m_fallen2Top = m_fallen2Pos.y;
 	m_fallen2Right = m_fallen2Left + 150;
 	m_fallen2Bottom = m_fallen2Top + 10;
-
+	//ドッスン2反応判定
 	m_fallenRange2Left = 1110 + 150 + 150;
 	m_fallenRange2Top = 550;
 	m_fallenRange2Right = m_fallenRange2Left + 250;
 	m_fallenRange2Bottom = m_fallenRange2Top + 120;
+
+	//チャージエネミー
+	m_chargeLeft = m_chargePos.x;
+	m_chargeTop = m_chargePos.y;
+	m_chargeRight = m_chargeLeft + 30;
+	m_chargeBottom = m_chargeTop + 30;
 }

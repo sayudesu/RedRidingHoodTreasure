@@ -54,6 +54,8 @@ EnemyStage1::EnemyStage1():
 	m_fallenCount2(0),
 	m_ladderNum(0),
 	m_rushCount(0),
+	m_fallenUpSpeed(0.0f),
+	m_fallenUpSpeed2(0.0f),
 	m_getPos(0.0f),
 	m_rad(0.0f),
 	m_chargeSpeed(0.0f),
@@ -66,6 +68,8 @@ EnemyStage1::EnemyStage1():
 	m_isCanFallen(false),
 	m_isFallenDrop2(false),
 	m_isCanFallen2(false),
+	m_isFallenUp(false),
+	m_isFallenUp2(false),
 	m_isRush(false),
 	m_isRushBlink(false),
 	m_pos(0.0f, 0.0f),
@@ -133,14 +137,19 @@ void EnemyStage1::Draw()
 	DrawBox(m_barrelLeft, m_barrelTop, m_barrelRight, m_barrelBottom, 0xffff00, true);
 	//どっすん
 	DrawBox(m_fallenLeft, m_fallenTop, m_fallenRight, m_fallenBottom, 0xffff00, true);
-	//どっすん範囲
-	DrawBox(m_fallenRangeLeft, m_fallenRangeTop, m_fallenRangeRight, m_fallenRangeBottom, 0xffff00, false);
 	//どっすん2
 	DrawBox(m_fallen2Left, m_fallen2Top, m_fallen2Right, m_fallen2Bottom, 0xffff00, true);
+	//チャージエネミー
+	if (m_isRushBlink)//止まってる間は見えない
+	{
+		DrawBox(m_chargeLeft, m_chargeTop, m_chargeRight, m_chargeBottom, 0xffff00, false);
+	}
+#if false	
+	//どっすん範囲
+	DrawBox(m_fallenRangeLeft, m_fallenRangeTop, m_fallenRangeRight, m_fallenRangeBottom, 0xffff00, false);
 	//どっすん2範囲
 	DrawBox(m_fallenRange2Left, m_fallenRange2Top, m_fallenRange2Right, m_fallenRange2Bottom, 0xffff00, false);
-	//チャージエネミー
-	DrawBox(m_chargeLeft, m_chargeTop, m_chargeRight, m_chargeBottom, 0xffff00, false);
+#endif
 }
 //樽の動き
 void EnemyStage1::BarrelMove()
@@ -158,10 +167,10 @@ void EnemyStage1::BarrelMove()
 
 	}
 
-	if (m_ladderNum == 4)//梯子を降りる
-	{
-		m_barrelPos.y += 10;
-	}
+	//if (m_ladderNum == 4)//梯子を降りる
+	//{
+	//	m_barrelPos.y += 10;
+	//}
 	else if (m_fall == 4)//地面に当たったら
 	{
 		m_isCourse = true;
@@ -253,6 +262,7 @@ void EnemyStage1::falleMove()
 			m_isFallenDrop = true;
 			m_isCanFallen = false;
 		}
+
 	}
 
 	if (m_isFallenDrop)//落ちもの揺れる
@@ -261,32 +271,36 @@ void EnemyStage1::falleMove()
 		//揺れる
 		m_fallenPos.x = Stage2::kBox2Xt + GetRand(10);
 		m_fallenPos.y = Stage2::kBoxBottom8Yf  + GetRand(10);
-
-		if (m_fallenCount >= 30)//3秒後
-		{
-			//ポジションをリセット
-			m_fallenPos.x = Stage2::kBox2Xt;
-			m_fallenPos.y = Stage2::kBoxBottom8Yf;
-		}
 	}
 
 	if (m_fallenCount >= 45)
 	{
 		m_isFallenDrop = false;
 		//落下開始
-		m_fallenPos.y += 10;//落下スピード
+		m_fallenUpSpeed = 10.0f;//今だけ後で書き換える
+		m_fallenPos.y += m_fallenUpSpeed;//落下スピード
 		if (m_fallenPos.y >= Stage2::kBox2Yt)//落ちる場所制限
 		{
-			m_fallenCount = 0;//カウントリセット
-
-			//初期ポジションに戻す
-			m_fallenPos.x = Stage2::kBox2Xt;
-			m_fallenPos.y = Stage2::kBoxBottom8Yf;
-			m_isCanFallen = true;
-
+			m_isFallenUp = true;//上に戻す処理
 		}
 	}
+	
+	if (m_isFallenUp)//天井
+	{
+		m_fallenUpSpeed = 15.0f;//今だけ後で書き換える
+		m_fallenPos.y -= m_fallenUpSpeed;
 
+		if (m_fallenPos.y <= Stage2::kBoxBottom8Yf)
+		{
+			m_fallenCount = 0;//カウントリセット
+			m_isFallenUp = false;
+			m_isCanFallen = true;//再度落ちるための処理
+
+			m_fallenPos.x = Stage2::kBox2Xt;
+			m_fallenPos.y = Stage2::kBoxBottom8Yf;
+		}
+	}
+	
 	//二体目
 	if (m_isCanFallen2)//初期の位置にいるかどうか
 	{
@@ -295,6 +309,7 @@ void EnemyStage1::falleMove()
 			m_isFallenDrop2 = true;
 			m_isCanFallen2 = false;
 		}
+
 	}
 
 	if (m_isFallenDrop2)//落ちもの揺れる
@@ -303,31 +318,78 @@ void EnemyStage1::falleMove()
 		//揺れる
 		m_fallen2Pos.x = Stage2::kBox4Xt + GetRand(10);
 		m_fallen2Pos.y = Stage2::kBoxBottom8Yf + GetRand(10);
-
-		if (m_fallenCount2 >= 30)//3秒後
-		{
-			//ポジションをリセット
-			m_fallen2Pos.x = Stage2::kBox4Xt;
-			m_fallen2Pos.y = Stage2::kBoxBottom8Yf;
-		}
 	}
 
 	if (m_fallenCount2 >= 45)
 	{
 		m_isFallenDrop2 = false;
 		//落下開始
-		m_fallen2Pos.y += 10;//落下スピード
+		m_fallenUpSpeed2 = 10.0f;//今だけ後で書き換える
+		m_fallen2Pos.y += m_fallenUpSpeed2;//落下スピード
 		if (m_fallen2Pos.y >= Stage2::kBox4Yt)//落ちる場所制限
 		{
-			m_fallenCount2 = 0;//カウントリセット
-
-			//初期ポジションに戻す
-			m_fallen2Pos.x = Stage2::kBox4Xt;
-			m_fallen2Pos.y = Stage2::kBoxBottom8Yf;
-			m_isCanFallen2 = true;
-
+			m_isFallenUp2 = true;//上に戻す処理
 		}
 	}
+
+	if (m_isFallenUp2)//天井
+	{
+		m_fallenUpSpeed2 = 15.0f;//今だけ後で書き換える
+		m_fallen2Pos.y -= m_fallenUpSpeed2;
+
+		if (m_fallen2Pos.y <= Stage2::kBoxBottom8Yf)
+		{
+			m_fallenCount2 = 0;//カウントリセット
+			m_isFallenUp2 = false;
+			m_isCanFallen2 = true;//再度落ちるための処理
+
+			m_fallen2Pos.x = Stage2::kBox4Xt;
+			m_fallen2Pos.y = Stage2::kBoxBottom8Yf;
+		}
+	}
+
+
+	////二体目
+	//if (m_isCanFallen2)//初期の位置にいるかどうか
+	//{
+	//	if (m_fallenRange == 2)//範囲内だったら
+	//	{
+	//		m_isFallenDrop2 = true;
+	//		m_isCanFallen2 = false;
+	//	}
+	//}
+
+	//if (m_isFallenDrop2)//落ちもの揺れる
+	//{
+	//	m_fallenCount2++;//震える時間
+	//	//揺れる
+	//	m_fallen2Pos.x = Stage2::kBox4Xt + GetRand(10);
+	//	m_fallen2Pos.y = Stage2::kBoxBottom8Yf + GetRand(10);
+
+	//	if (m_fallenCount2 >= 30)//3秒後
+	//	{
+	//		//ポジションをリセット
+	//		m_fallen2Pos.x = Stage2::kBox4Xt;
+	//		m_fallen2Pos.y = Stage2::kBoxBottom8Yf;
+	//	}
+	//}
+
+	//if (m_fallenCount2 >= 45)
+	//{
+	//	m_isFallenDrop2 = false;
+	//	//落下開始
+	//	m_fallen2Pos.y += 10;//落下スピード
+	//	if (m_fallen2Pos.y >= Stage2::kBox4Yt)//落ちる場所制限
+	//	{
+	//		m_fallenCount2 = 0;//カウントリセット
+
+	//		//初期ポジションに戻す
+	//		m_fallen2Pos.x = Stage2::kBox4Xt;
+	//		m_fallen2Pos.y = Stage2::kBoxBottom8Yf;
+	//		m_isCanFallen2 = true;
+
+	//	}
+	//}
 }
 //敵に突進する
 void EnemyStage1::ChargeMove()
@@ -358,7 +420,7 @@ void EnemyStage1::ChargeMove()
 		}
 
 		m_chargePos += toPlayer * m_chargeSpeed;//プレイヤーの方向に直線で移動
-
+		/*
 		if (m_length >= m_chargePos.length())
 		{
 			printfDx("%f\n", m_playerSavePos.length());
@@ -366,8 +428,7 @@ void EnemyStage1::ChargeMove()
 			m_rushCount = 0;
 			m_isRushBlink = false;
 		}
-
-		//printfDx("%f.y\n", toPlayer.y);
+		*/
 		
 		if (m_rushCount == 120 * 2)//追跡できる時間をリセット
 		{
@@ -376,6 +437,10 @@ void EnemyStage1::ChargeMove()
 		}
 		
 
+	}
+	else//違う階層にいる場合
+	{
+		m_isRushBlink = false;//違う階層にいる場合は判定なし
 	}
 
 }

@@ -1,13 +1,12 @@
 #pragma once
 #include "SceneBase.h"
+#include "Vec2.h"
 
 class SceneResult : public SceneBase
 {
 public:
-	SceneResult()
-	{
-		m_isEnd = false;
-	}
+	SceneResult();
+
 	virtual ~SceneResult() {}
 
 	virtual void Init();
@@ -15,11 +14,21 @@ public:
 
 	virtual SceneBase* Update() override;
 	virtual void Draw();
-
-	virtual bool IsEnd() { return m_isEnd; }
 private:
+	int handle;
 
-	bool m_isEnd;
+	int left;
 
+	int top;
+
+	int rigth;
+
+	int bottom;
+	
+	int frameCount;
+
+	bool changeY;
+
+	Vec2 m_pos;
 };
 

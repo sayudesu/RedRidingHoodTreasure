@@ -21,6 +21,7 @@ Collision::Collision():
 	m_enemyPosY(0),
 	m_landingPos(0.0f),
 	m_enemyFireBallPosY(0),
+	m_isGameOver(false),
 	m_isPlayerPos(false),
 	m_isStageClear(false),
 	m_pPlayer(nullptr),
@@ -47,10 +48,10 @@ void Collision::Init()
 //更新
 void Collision::Update()
 {
-	m_pPlayer->Update();
+	m_pPlayer->Update();//プレイヤー更新処理
 
-	m_pEnemy->Update();
-
+	if (!m_isGameOver) m_pEnemy->Update();//プレイヤーが死んだら敵の処理を止める
+	//プレイヤー判定
 	m_pPlayer->GetScaffold(HitObject()); //重力.y
 	m_pPlayer->GetLadder(HItLadder());   //位置.y.z
 	m_pPlayer->GetPos(m_posY);           //位置.y
@@ -59,29 +60,35 @@ void Collision::Update()
 	m_pPlayer->GetEnemyFallenHit(HitFallen());  //エネミーがプレイヤーを攻撃する
 	m_pPlayer->GetPlayerHit(HitPlayer());//プレイヤーがエネミーを攻撃したかどうか
 
-
+	//樽エネミー判定
 	m_pEnemy->GetHitFall(HitEnemyObject()); //重力.y
 	m_pEnemy->GetEnemyLadder(HItEnemyLadder());   //位置.y
 	m_pEnemy->GetPos(m_enemyPosY);           //位置.y
+
 	//炎玉エネミー判定
 	m_pEnemy->GetHitFireBallFall(HitEnemyFireBall()); //重力.y
 	m_pEnemy->GetFireBallPos(m_enemyFireBallPosY); //位置.y
+
 	//落ちるエネミー判定
 	m_pEnemy->GetFallenRange(HitFallenRange());//範囲に入っているかどうか
 	m_pEnemy->GetFallenRange2(HitFallenRange());//範囲に入っているかどうか
+
 	//プレイヤーのx.y座標
 	m_pEnemy->GetPlayerPos(m_pPlayer->GetkPlayerPos());
 	m_pEnemy->GetRush(m_isPlayerPos);
 	m_pPlayer->GetEnemyChageHit(HitCharge());//プレイヤーとチャージエネミーの当たり判定
 	m_pPlayer->GetEnemyChageBlink(m_pEnemy->GetRushBlink());//プレイヤーとチャージエネミーの当たり判定
 
-	GetGoal(m_pPlayer->GetGameClear());
+	//重要イベント発生条件判定
+	GetGoal(m_pPlayer->GetGameClear());//ゲームクリア条件を満たしているか
+	GetDead(m_pPlayer->GetGameOver());//死ぬだ場合
 
 }
 //描画
 void Collision::Draw()
 {
-	m_pEnemy->Draw();
+	m_pPlayer->Draw();//プレイヤーを描画
+	m_pEnemy->Draw();//エネミーを描画
 }
 //地面の判定
 bool Collision::HitObject()
@@ -320,6 +327,31 @@ bool Collision::HitObject()
 			(Stage2::kBox5Yt < m_pPlayer->GetPlayerBottom()))
 		{
 			m_posY = Stage2::kBox5Yt - kPlayerPosY + kPlayerPosPulsY;
+			m_isPlayerPos = false;//
+			return true;
+		}
+	}
+	//4段差
+	if ((Stage2::kBoxBottom6Xt > m_pPlayer->GetPlayerLeft()) &&
+		(Stage2::kBox5Xt < m_pPlayer->GetPlayerRight()))
+	{
+		if ((Stage2::kBoxBottom6Yt > m_pPlayer->GetPlayerTop()) &&
+			(Stage2::kBox6Yt < m_pPlayer->GetPlayerBottom()))
+		{
+			m_posY = Stage2::kBox6Yt - kPlayerPosY + kPlayerPosPulsY;
+			m_isPlayerPos = false;//
+			return true;
+		}
+	}
+	//4段差
+	if ((Stage2::kBoxBottom7Xt > m_pPlayer->GetPlayerLeft()) &&
+		(Stage2::kBox7Xt < m_pPlayer->GetPlayerRight()))
+	{
+		if ((Stage2::kBoxBottom7Yt > m_pPlayer->GetPlayerTop()) &&
+			(Stage2::kBox7Yt < m_pPlayer->GetPlayerBottom()))
+		{
+			m_posY = Stage2::kBox7Yt - kPlayerPosY + kPlayerPosPulsY;
+			m_isPlayerPos = false;//
 			return true;
 		}
 	}

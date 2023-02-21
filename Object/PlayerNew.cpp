@@ -182,13 +182,13 @@ void PlayerNew::Update()
 	{
 		m_isStageClearChangeScene = true;
 	}
-	Draw();
+	//Draw();
 	(this->*m_func)();
 }
 //•`‰æ
 void PlayerNew::Draw()
 {
-	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xff0000, true);
+	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xaaaaaa, true);
 
 	if (m_isAttack)
 	{
@@ -267,6 +267,11 @@ void PlayerNew::OperationLadder()
 void PlayerNew::UpdateMove()
 {
 
+	if (m_isRushBlink)
+	{
+		printfDx("now");
+	}
+
 	//PlaySoundMem(m_hFxJump, DX_PLAYTYPE_BACK);
 
 	Pad::update();//“ü—Í”»’è
@@ -316,9 +321,9 @@ void PlayerNew::UpdateMove()
 		if (m_isDamageCharge && m_isRushBlink)//Œ©‚¦‚Ä‚¢‚éŠÔ‚É“–‚½‚é‚Æ€‚Ê
 		{
 			printfDx("PlayerChage€–S\n");
+			m_func = &PlayerNew::UpdateDead;//€–SƒV[ƒ“Ø‚è‘Ö‚¦
 		}
 		//printfDx("€–S\n");
-		//m_func = &PlayerNew::UpdateDead;//€–SƒV[ƒ“Ø‚è‘Ö‚¦
 	}
 	if (m_isAttackHit)//UŒ‚‚ğ‚­‚ç‚Á‚½‚©‚ç‚Ç‚¤‚©
 	{
@@ -352,5 +357,5 @@ void PlayerNew::UpdateMove()
 
 void PlayerNew::UpdateDead()
 {
-	printfDx("€–S‚µ‚Ü‚µ‚½B\n");
+	m_isDead = true;
 }

@@ -33,9 +33,11 @@ public:
 	bool HitCharge();//’ÇÕ‚·‚é“G‚ÆƒvƒŒƒCƒ„[‚Ì”»’è
 //“n‚µ
 public:
+	bool m_isStageClear;
+	bool m_isGameOver;
 	float GetPos () { return m_posY; }
 	void GetGoal(bool stageClear) { m_isStageClear = stageClear; }
-	bool m_isStageClear;
+	void GetDead(bool dead) { m_isGameOver = dead; }
 	//void  GetGoal2() { m_pPlayer->GetGameClear(); }
 private:
 

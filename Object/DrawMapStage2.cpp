@@ -50,8 +50,8 @@ void DrawMapStage2::Draw()
 	DrawBox(Stage2::kBox3Xt, Stage2::kBox3Yt, Stage2::kBoxBottom3Xt, Stage2::kBoxBottom3Yt, 0xffffff, true);
 	DrawBox(Stage2::kBox4Xt, Stage2::kBox4Yt, Stage2::kBoxBottom4Xt, Stage2::kBoxBottom4Yt, 0xffffff, true);
 	DrawBox(Stage2::kBox5Xt, Stage2::kBox5Yt, Stage2::kBoxBottom5Xt, Stage2::kBoxBottom5Yt, 0xffffff, true);
-	//DrawBox(Stage2::kBox6Xt, Stage2::kBox6Yt, Stage2::kBoxBottom6Xt, Stage2::kBoxBottom6Yt, 0xffffff, true);
-	//DrawBox(Stage2::kBox7Xt, Stage2::kBox7Yt, Stage2::kBoxBottom7Xt, Stage2::kBoxBottom7Yt, 0xffffff, true);
+	DrawBox(Stage2::kBox6Xt, Stage2::kBox6Yt, Stage2::kBoxBottom6Xt, Stage2::kBoxBottom6Yt, 0xffffff, true);
+	DrawBox(Stage2::kBox7Xt, Stage2::kBox7Yt, Stage2::kBoxBottom7Xt, Stage2::kBoxBottom7Yt, 0xffffff, true);
 	//DrawBox(Stage2::kBox8Xt, Stage2::kBox8Yt, Stage2::kBoxBottom8Xt, Stage2::kBoxBottom8Yt, 0xffffff, true);
 
 	//4ŠK’n–Ê

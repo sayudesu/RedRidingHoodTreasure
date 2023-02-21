@@ -33,8 +33,9 @@ public:
 	float GetAttackPlayerRight () { return static_cast<float>(m_attackPlayerRight ); }
 	float GetAttackPlayerBottom() { return static_cast<float>(m_attackPlayerBottom); }
 
-	bool GetGameClear          () { return m_isStageClearChangeScene; }
-	
+	bool GetGameClear() { return m_isStageClearChangeScene; }
+	bool GetGameOver () { return m_isDead; }
+
 	//Vec2でのプレイヤー座標
 	Vec2 GetkPlayerPos() { return m_pos; }
 

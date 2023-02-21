@@ -1,6 +1,7 @@
 #include "SceneMain2.h"
 #include "SceneTitle.h"
 #include "SceneResult.h"
+#include "SceneGameOver.h"
 #include "DrawMapStage2.h"
 #include "PlayerNew.h"
 #include "Collision.h"
@@ -64,15 +65,22 @@ void SceneMain2::Init()
 void SceneMain2::End()
 {
 	m_pPlayer->End();
+	m_pEnemy->End();
 }
 
 SceneBase* SceneMain2::Update()
 {
 	m_pCollision->Update();
 
-	if (m_pCollision->m_isStageClear)
+	if (m_pCollision->m_isStageClear)//ステージをクリアした場合
 	{
 		return(new SceneResult);
+	}
+
+	if (m_pCollision->m_isGameOver)//敵やトラップに当たって死んだ場合
+	{
+		printfDx("dead");
+		return(new SceneGameOver);
 	}
 
 	if (CheckHitKey(KEY_INPUT_Z))
@@ -84,8 +92,8 @@ SceneBase* SceneMain2::Update()
 
 void SceneMain2::Draw()
 {
-	m_pStage->Draw();
+	m_pStage->Draw();//ステージを描画
+
+	//プレイヤー、エネミーを表示
 	m_pCollision->Draw();
-	m_pPlayer->Draw();
-	//m_pEnemy->Draw();
 }

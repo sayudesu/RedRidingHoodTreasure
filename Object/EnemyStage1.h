@@ -81,37 +81,37 @@ public:
 
 
 private:
-
+	//炎の玉のサイズ
 	int m_posLeft;
 	int m_posTop;
 	int m_posRight;
 	int m_posBottom;
-
+	//樽のサイズ
 	int m_barrelLeft;
 	int m_barrelTop;
 	int m_barrelRight;
 	int m_barrelBottom;
-
+	//ドッスンのサイズ
 	int m_fallenLeft;
 	int m_fallenTop;
 	int m_fallenRight;
 	int m_fallenBottom;
-
+	//ドッスン２のサイズ
 	int m_fallen2Left;
 	int m_fallen2Top;
 	int m_fallen2Right;
 	int m_fallen2Bottom;
-
+	//ドッスンの当たり判定のサイズ
 	int m_fallenRangeLeft;
 	int m_fallenRangeTop;
 	int m_fallenRangeRight;
 	int m_fallenRangeBottom;
-
+	//ドッスン２の当たり判定のサイズ
 	int m_fallenRange2Left;
 	int m_fallenRange2Top;
 	int m_fallenRange2Right;
 	int m_fallenRange2Bottom;
-
+	//尾行する敵のサイズ
 	int m_chargeLeft;
 	int m_chargeTop;
 	int m_chargeRight;
@@ -129,12 +129,14 @@ private:
 	int m_ladderNum;
 	int m_getFireBallPos;//y軸固定座標
 
-	int m_rushCount;
+	float m_fallenUpSpeed;//
+	float m_fallenUpSpeed2;//
 
 	float m_getPos;//y軸固定座標
 	float m_rad;//角度ラジアン
 	float m_chargeSpeed;
 	float m_length;
+	int m_rushCount;
 
 	bool m_isFirstMove;//初動動作
 
@@ -146,9 +148,12 @@ private:
 
 	bool m_isFallenDrop2;
 	bool m_isCanFallen2;
+	bool m_isFallenUp;
+	bool m_isFallenUp2;
 
-	bool m_isRush;
-	bool m_isRushBlink;
+	bool m_isRush;//突進する敵が動けるかどうか
+	bool m_isRushBlink;//突進する敵が見えているか
+
 
 	Vec2 m_pos;//ファイアーボール
 	Vec2 m_barrelPos;//樽

@@ -21,14 +21,28 @@ private:
 	int m_hImagePlayer;
 	int m_hImageMap;
 	int m_charaImagePos;
+	int m_hButtonUi;
 
 	int m_hMusicBgm1;
+
+	int m_colorA;
+	int m_colorX;
 
 	//ƒJƒEƒ“ƒg
 	int m_frameCount;
 	int m_sceneChangeCountDemo;
 	int m_sceneChangeCountStage1;
 	int m_sceneChangeCountEnd;
+
+	int m_buttonALeft;
+	int m_buttonATop;
+	int m_buttonARigth;
+	int m_buttonABottom;
+
+	int m_buttonXLeft;
+	int m_buttonXTop;
+	int m_buttonXRigth;
+	int m_buttonXBottom;
 
 	bool m_isSceneFocus1;
 	bool m_isSceneFocus2;

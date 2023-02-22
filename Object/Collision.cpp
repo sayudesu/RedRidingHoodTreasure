@@ -83,6 +83,12 @@ void Collision::Update()
 	GetGoal(m_pPlayer->GetGameClear());//ゲームクリア条件を満たしているか
 	GetDead(m_pPlayer->GetGameOver());//死ぬだ場合
 
+	if (m_pPlayer->GetkPlayerPos().y < m_pEnemy->GetBarrelTop() - 70)//樽がプレイヤーから下に一定距離離れると
+	{
+		printfDx("下にいます\n");
+		m_pEnemy->GetBarrelSpeed(1000);//スピード
+	}
+
 }
 //描画
 void Collision::Draw()

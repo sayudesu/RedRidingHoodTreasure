@@ -14,17 +14,31 @@ namespace
 	constexpr int kAnimationFrame = 3;
 	constexpr int kCharaImageRightPos = 112; //右移動
 
+	constexpr int kColorWhite = 0x000000;//白色
+	constexpr int kColorRed = 0xff0000;//赤色
+
 }
 
 SceneTitle::SceneTitle():
 	m_hImagePlayer(-1),
 	m_hImageMap(-1),
 	m_hMusicBgm1(-1),
+	m_hButtonUi(-1),
+	m_colorA(0),
+	m_colorX(0),
 	m_charaImagePos(0),
 	m_frameCount(0),
 	m_sceneChangeCountDemo(0),
 	m_sceneChangeCountStage1(0),
 	m_sceneChangeCountEnd(0),
+	m_buttonALeft(0),
+	m_buttonATop(0),
+	m_buttonARigth(0),
+	m_buttonABottom(0),
+	m_buttonXLeft(0),
+	m_buttonXTop(0),
+	m_buttonXRigth(0),
+	m_buttonXBottom(0),
 	m_imagePos(0.0f,0.0f),
 	m_isSceneFocus1(false),
 	m_isSceneFocus2(false),
@@ -40,6 +54,7 @@ SceneTitle::~SceneTitle()
 {
 	DeleteGraph(m_hImagePlayer);
 	DeleteGraph(m_hImageMap);
+	DeleteGraph(m_hButtonUi);
 
 	DeleteSoundMem(m_hMusicBgm1);
 }
@@ -48,7 +63,7 @@ void SceneTitle::Init()
 {
 	m_hImagePlayer = LoadGraph(Image::kPlayerImage);
 	m_hImageMap    = LoadGraph(Image::kMapFirst);
-
+	m_hButtonUi = LoadGraph(UI::kButton);
 	m_hMusicBgm1 = LoadSoundMem(FX::kBgm1);
 	PlaySoundMem(m_hMusicBgm1, DX_SOUNDTYPE_STREAMSTYLE);
 	// 音量の設定
@@ -57,6 +72,20 @@ void SceneTitle::Init()
 	m_imagePos.x   = Game::kScreenWidth / 2;
 	m_imagePos.y   = Game::kScreenHeight / 2 - 250;
 
+	//Aボタン押していない状態（画像）
+	m_buttonALeft = 16 + 16 + 16;
+	m_buttonATop = 16 + 16;
+	m_buttonARigth = 16;
+	m_buttonABottom = 16 ;
+
+	//Xボタン押していない状態（画像）
+	m_buttonXLeft = 16 + 16 + 16;
+	m_buttonXTop = 16 + 16 + 16;
+	m_buttonXRigth = 16;
+	m_buttonXBottom = 16;
+
+	m_colorA = kColorWhite;
+	m_colorX = kColorWhite;
 	//m_charaImagePos = (1344 );
 }
 void SceneTitle::End()
@@ -72,6 +101,30 @@ SceneBase* SceneTitle::Update()
 	m_pCursor->Update();
 	m_pCollsion->Update();
 	Pad::update();
+
+	if (padState & PAD_INPUT_1)//Aボタン押した場合
+	{
+		m_buttonALeft = 16 + 16 + 16 + 16 + 16;//画像表示位置を変更
+		m_colorA = kColorRed;//文字の色を変更
+	}
+	else
+	{
+		m_buttonALeft = 16 + 16 + 16;//画像表示位置を変更
+		m_colorA = kColorWhite;//文字の色を変更
+	}
+
+	if (padState & PAD_INPUT_2)//Xボタン押した場合
+	{
+		m_buttonXLeft = 16 + 16 + 16 + 16 + 16;//画像表示位置を変更
+		m_colorX = kColorRed;//文字の色を変更
+	}
+	else
+	{
+		m_buttonXLeft = 16 + 16 + 16;//画像表示位置を変更
+		m_colorX = kColorWhite;//文字の色を変更
+	}
+
+
 
 	if (m_pCollsion->CollsionDemo())//シーン切り替え::チュートリアル
 	{
@@ -169,7 +222,7 @@ void SceneTitle::Draw()
 	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, 0x0000ff, true);//背景
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);//色を薄くする
 	//チュートリアル
 	DrawBox(TitleMenu::kSelection1X, TitleMenu::kSelection1Y, TitleMenu::kSelectionBottom1X, TitleMenu::kSelectionBottom1Y, 0xffffff, true);
 	DrawBox(TitleMenu::kSelection1X, TitleMenu::kSelection1Y, TitleMenu::kSelectionBottom1X + m_sceneChangeCountDemo - 300
@@ -183,14 +236,14 @@ void SceneTitle::Draw()
 	DrawBox(TitleMenu::kSelection3X, TitleMenu::kSelection3Y, TitleMenu::kSelectionBottom3X + m_sceneChangeCountEnd - 300
 		, TitleMenu::kSelectionBottom3Y, 0xff0000, true);
 
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);//色を戻す
 
-	//枠組み
+	//枠組み（青色）
 	DrawBox(TitleMenu::kSelection1X - 1, TitleMenu::kSelection1Y - 1, TitleMenu::kSelectionBottom1X + 1, TitleMenu::kSelectionBottom1Y + 1, 0x0000ff, false);
 	DrawBox(TitleMenu::kSelection2X -1, TitleMenu::kSelection2Y - 1, TitleMenu::kSelectionBottom2X + 1, TitleMenu::kSelectionBottom2Y + 1, 0x0000ff, false);
 	DrawBox(TitleMenu::kSelection3X - 1, TitleMenu::kSelection3Y - 1, TitleMenu::kSelectionBottom3X + 1, TitleMenu::kSelectionBottom3Y + 1, 0x0000ff, false);
 
-	if (m_isSceneFocus1)
+	if (m_isSceneFocus1)//フォーカスを合わせるを周りの枠の色を切り替える（赤色にする）
 	{
 		DrawBox(TitleMenu::kSelection1X - 1, TitleMenu::kSelection1Y - 1, TitleMenu::kSelectionBottom1X + 1, TitleMenu::kSelectionBottom1Y + 1, 0xff00ff, false);
 	}
@@ -208,9 +261,23 @@ void SceneTitle::Draw()
 	DrawString(TitleMenu::kSelection1X, TitleMenu::kSelection1Y, "チュートリアル", 0x0000ff);
 	DrawString(TitleMenu::kSelection2X, TitleMenu::kSelection2Y, "ゲームスタート", 0x0000ff);
 	DrawString(TitleMenu::kSelection3X, TitleMenu::kSelection3Y, "デスクトップに戻る", 0x0000ff);
+	SetFontSize(64);//文字サイズ変更
+	DrawString(Game::kScreenWidth /2 - 150, Game::kScreenHeight/2 - 150, "ものよけ", 0xffff00);//タイトル
+	SetFontSize(17);//文字サイス変更
+
+	//X
+	DrawRectRotaGraph(200,200,
+		m_buttonALeft, m_buttonATop, m_buttonARigth, m_buttonABottom, 5, 0, m_hButtonUi, true, false);
+	DrawString(200 + 50, 200, "で攻撃する", m_colorA);
+	//A
+	DrawRectRotaGraph(230, 300,
+		m_buttonXLeft, m_buttonXTop, m_buttonXRigth, m_buttonXBottom, 5, 0, m_hButtonUi, true, false);
+	DrawString(230 + 50 , 300, "を長押しで選択する", m_colorX);
+
 
 	m_pCursor->Draw();
 }
+
 
 
 

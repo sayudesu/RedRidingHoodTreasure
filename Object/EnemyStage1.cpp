@@ -46,6 +46,7 @@ EnemyStage1::EnemyStage1():
 	m_chargeTop(0),
 	m_chargeRight(0),
 	m_chargeBottom(0),
+	m_barrelSpeed(0),
 	m_fall(0),
 	m_fallFireBall(0),
 	m_fallenRange(0),
@@ -203,7 +204,7 @@ void EnemyStage1::BarrelMove()
 		m_isCourse = false;
 		m_vec.y = 0.0f;//下に落ちないように
 		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
-		m_barrelPos.x -= Enemy::kBarrelSpeed;//とりあえず右に移動
+		m_barrelPos.x -= m_barrelSpeed - Enemy::kBarrelSpeed;//とりあえず右に移動
 
 	}
 
@@ -404,6 +405,7 @@ void EnemyStage1::ChargeMove()
 		if (m_rushCount == 1)
 		{
 			m_playerSavePos = m_playerPos;//少し前のプレイヤー座標を取得する
+			//m_chargeSpeed
 			//m_chargeSpeed = 30.0f;
 		}
 		if (m_rushCount >= 120)
@@ -414,12 +416,13 @@ void EnemyStage1::ChargeMove()
 
 			m_length = toPlayer.length();//長さを取得
 			
-			toPlayer = toPlayer.normalize();//
+			toPlayer = toPlayer.normalize();//正規化
 			//m_chargeSpeed = 0.0f;
 
 		}
 
 		m_chargePos += toPlayer * m_chargeSpeed;//プレイヤーの方向に直線で移動
+
 		/*
 		if (m_length >= m_chargePos.length())
 		{
@@ -429,7 +432,14 @@ void EnemyStage1::ChargeMove()
 			m_isRushBlink = false;
 		}
 		*/
-		
+		/*
+		if (static_cast<int>(m_playerSavePos.x) == m_chargeLeft)
+		{
+			toPlayer.x = 0.0f;
+			toPlayer.y = 0.0f;
+			m_chargeSpeed = 0.0f;
+		}
+		*/
 		if (m_rushCount == 120 * 2)//追跡できる時間をリセット
 		{
 			m_rushCount = 0;
@@ -437,11 +447,17 @@ void EnemyStage1::ChargeMove()
 		}
 		
 
+		DrawFormatString(100, 45, 0xffffff, "プレイヤーまでの距離 %f", toPlayer);
 	}
 	else//違う階層にいる場合
 	{
 		m_isRushBlink = false;//違う階層にいる場合は判定なし
 	}
+
+	//printfDx("%d\n", m_chargeLeft);
+	DrawFormatString(100,0,0xffffff,    "敵の右上座標         m_chargeLeft   -> %d", m_chargeLeft);
+	DrawFormatString(100, 15, 0xffffff, "プレイヤー右上座標   m_playerSavePos-> %f", m_playerSavePos.x);
+	DrawFormatString(100, 30, 0xffffff, "プレイヤーまでの距離 m_length       -> %f", m_length);
 
 }
 //敵のキャラ座標取得

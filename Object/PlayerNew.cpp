@@ -266,12 +266,6 @@ void PlayerNew::OperationLadder()
 //アップデート処理
 void PlayerNew::UpdateMove()
 {
-
-	if (m_isRushBlink)
-	{
-		printfDx("now");
-	}
-
 	//PlaySoundMem(m_hFxJump, DX_PLAYTYPE_BACK);
 
 	Pad::update();//入力判定
@@ -313,10 +307,12 @@ void PlayerNew::UpdateMove()
 		if (m_isDamage)
 		{
 			printfDx("Player死亡\n");
+			m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
 		}
 		if (m_isDamageFallen)
 		{
 			printfDx("PlayerFallen死亡\n");
+			m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
 		}
 		if (m_isDamageCharge && m_isRushBlink)//見えている間に当たると死ぬ
 		{

@@ -28,6 +28,11 @@ namespace Image
 
 }
 
+namespace UI
+{
+	const char* const kButton = "Data/UI/gdb-xbox-2.png";
+}
+
 namespace FX
 {
 	const char* const kBgm1 = "Data/Sound/BGM/DavidKBD - Pink Bloom Pack - 09 - Lightyear City.ogg";

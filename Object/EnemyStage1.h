@@ -36,6 +36,8 @@ public:
 	int  GetBarrelTop   () { return m_barrelTop;    }
 	int  GetBarrelRight () { return m_barrelRight;  }
 	int  GetBarrelBottom() { return m_barrelBottom; }
+	//樽スピード
+	void  GetBarrelSpeed(int speed) { m_barrelSpeed = speed; }
 	//どっすん
 	int  GetFallenLeft  () { return m_fallenLeft;   }
 	int  GetFallenTop   () { return m_fallenTop;    }
@@ -116,6 +118,8 @@ private:
 	int m_chargeTop;
 	int m_chargeRight;
 	int m_chargeBottom;
+
+	int m_barrelSpeed;//樽の速度
 
 	int m_fall;//地面との判定
 	int m_fallFireBall;//地面との判定

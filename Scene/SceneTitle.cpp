@@ -22,12 +22,17 @@ namespace
 SceneTitle::SceneTitle():
 	m_hImagePlayer(-1),
 	m_hImageMap(-1),
+	m_charaImagePos(0),
 	m_hMusicBgm1(-1),
 	m_hButtonUi(-1),
+	m_hSoundSelect(-1),
+	m_hSoundSelect2(-1),
 	m_colorA(0),
 	m_colorX(0),
-	m_charaImagePos(0),
 	m_frameCount(0),
+	m_soundCount1(0),
+	m_soundCount2(0),
+	m_soundCount3(0),
 	m_sceneChangeCountDemo(0),
 	m_sceneChangeCountStage1(0),
 	m_sceneChangeCountEnd(0),
@@ -57,6 +62,8 @@ SceneTitle::~SceneTitle()
 	DeleteGraph(m_hButtonUi);
 
 	DeleteSoundMem(m_hMusicBgm1);
+	DeleteSoundMem(m_hSoundSelect);
+	DeleteSoundMem(m_hSoundSelect2);
 }
 
 void SceneTitle::Init()
@@ -65,6 +72,8 @@ void SceneTitle::Init()
 	m_hImageMap    = LoadGraph(Image::kMapFirst);
 	m_hButtonUi = LoadGraph(UI::kButton);
 	m_hMusicBgm1 = LoadSoundMem(FX::kBgm1);
+	m_hSoundSelect = LoadSoundMem(FX::kSelect);
+	m_hSoundSelect2 = LoadSoundMem(FX::kSelect2);
 	PlaySoundMem(m_hMusicBgm1, DX_SOUNDTYPE_STREAMSTYLE);
 	// 音量の設定
 	ChangeVolumeSoundMem(255 / 3, m_hMusicBgm1);
@@ -101,22 +110,28 @@ SceneBase* SceneTitle::Update()
 	m_pCursor->Update();
 	m_pCollsion->Update();
 	Pad::update();
-
-	if (padState & PAD_INPUT_1)//Aボタン押した場合
+	if (padState & PAD_INPUT_1)
 	{
-		m_buttonALeft = 16 + 16 + 16 + 16 + 16;//画像表示位置を変更
-		m_colorA = kColorRed;//文字の色を変更
+		if (Pad::isTrigger(PAD_INPUT_1))//Aボタン押した場合
+		{
+			PlaySoundMem(m_hSoundSelect, DX_PLAYTYPE_BACK);//押している音を再生
+			m_buttonALeft = 16 + 16 + 16 + 16 + 16;//画像表示位置を変更
+			m_colorA = kColorRed;//文字の色を変更
+		}
 	}
 	else
 	{
 		m_buttonALeft = 16 + 16 + 16;//画像表示位置を変更
 		m_colorA = kColorWhite;//文字の色を変更
 	}
-
-	if (padState & PAD_INPUT_2)//Xボタン押した場合
+	if (padState & PAD_INPUT_2)
 	{
-		m_buttonXLeft = 16 + 16 + 16 + 16 + 16;//画像表示位置を変更
-		m_colorX = kColorRed;//文字の色を変更
+		if (Pad::isTrigger(PAD_INPUT_2))//Xボタン押した場合
+		{
+			PlaySoundMem(m_hSoundSelect, DX_PLAYTYPE_BACK);//押している音を再生
+			m_buttonXLeft = 16 + 16 + 16 + 16 + 16;//画像表示位置を変更
+			m_colorX = kColorRed;//文字の色を変更
+		}
 	}
 	else
 	{
@@ -124,10 +139,13 @@ SceneBase* SceneTitle::Update()
 		m_colorX = kColorWhite;//文字の色を変更
 	}
 
-
-
 	if (m_pCollsion->CollsionDemo())//シーン切り替え::チュートリアル
 	{
+		m_soundCount1++;
+		if (m_soundCount1 == 1)
+		{
+			PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
+		}
 		m_isSceneFocus1 = true;//フォーカスを合わせた場合
 		if (padState & PAD_INPUT_2)
 		{
@@ -146,12 +164,18 @@ SceneBase* SceneTitle::Update()
 	}
 	else
 	{
+		m_soundCount1 = 0;
 		m_isSceneFocus1 = false;//フォーカスを外した場合
 		m_sceneChangeCountDemo = 0;//メーターをリセット
 	}
 
 	if (m_pCollsion->CollsionStage1())//シーン切り替え::ゲームプレイ
 	{
+		m_soundCount2++;
+		if (m_soundCount2 == 1)
+		{
+			PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
+		}
 		m_isSceneFocus2 = true;//フォーカスを合わせた場合
 		if (padState & PAD_INPUT_2)
 		{
@@ -169,12 +193,18 @@ SceneBase* SceneTitle::Update()
 	}
 	else
 	{
+		m_soundCount2 = 0;
 		m_isSceneFocus2 = false;//フォーカスを外した場合
 		m_sceneChangeCountStage1 = 0;//メーターをリセット
 	}
 
 	if (m_pCollsion->CollsionEnd())//シーン切り替え::デスクトップに戻る
 	{
+		m_soundCount3++;
+		if (m_soundCount3 == 1)
+		{
+			PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
+		}
 		m_isSceneFocus3 = true;//フォーカスを合わせた場合
 		if (padState & PAD_INPUT_2)
 		{
@@ -192,6 +222,7 @@ SceneBase* SceneTitle::Update()
 	}
 	else
 	{
+		m_soundCount3 = 0;
 		m_isSceneFocus3 = false;//フォーカスを外した場合
 		m_sceneChangeCountEnd = 0;//メーターをリセット
 	}
@@ -272,9 +303,9 @@ void SceneTitle::Draw()
 	//A
 	DrawRectRotaGraph(230, 300,
 		m_buttonXLeft, m_buttonXTop, m_buttonXRigth, m_buttonXBottom, 5, 0, m_hButtonUi, true, false);
-	DrawString(230 + 50 , 300, "を長押しで選択する", m_colorX);
-
-
+	DrawString(230 + 50, 290, "でジャンプ", m_colorX);
+	DrawString(230 + 50 , 320, "を長押しで選択する", m_colorX);
+	//カーソルの位置を描画
 	m_pCursor->Draw();
 }
 

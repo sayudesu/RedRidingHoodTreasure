@@ -79,7 +79,7 @@ SceneBase* SceneMain2::Update()
 
 	if (m_pCollision->m_isGameOver)//敵やトラップに当たって死んだ場合
 	{
-		printfDx("dead");
+		printfDx("敵やトラップに当たって死んだ");
 		return(new SceneGameOver);
 	}
 

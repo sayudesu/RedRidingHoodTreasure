@@ -24,12 +24,17 @@ private:
 	int m_hButtonUi;
 
 	int m_hMusicBgm1;
+	int m_hSoundSelect;
+	int m_hSoundSelect2;
 
 	int m_colorA;
 	int m_colorX;
 
 	//ƒJƒEƒ“ƒg
 	int m_frameCount;
+	int m_soundCount1;
+	int m_soundCount2;
+	int m_soundCount3;
 	int m_sceneChangeCountDemo;
 	int m_sceneChangeCountStage1;
 	int m_sceneChangeCountEnd;

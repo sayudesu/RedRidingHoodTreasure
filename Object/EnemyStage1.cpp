@@ -164,20 +164,15 @@ void EnemyStage1::BarrelMove()
 		m_isCourse = false;
 		m_vec.y = 0.0f;//下に落ちないように
 		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
-		m_barrelPos.x -= Enemy::kBarrelSpeed;//とりあえず右に移動
+		m_barrelPos.x -= Enemy::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
 
 	}
-
-	//if (m_ladderNum == 4)//梯子を降りる
-	//{
-	//	m_barrelPos.y += 10;
-	//}
 	else if (m_fall == 4)//地面に当たったら
 	{
 		m_isCourse = true;
 		m_vec.y = 0.0f;//下に落ちないように
 		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
-		m_barrelPos.x += Enemy::kBarrelSpeed;//左に移動
+		m_barrelPos.x += Enemy::kBarrelSpeed * m_barrelSpeed;//左に移動
 
 	}
 
@@ -186,7 +181,7 @@ void EnemyStage1::BarrelMove()
 		m_isCourse = false;
 		m_vec.y = 0.0f;//下に落ちないように
 		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
-		m_barrelPos.x -= Enemy::kBarrelSpeed;//とりあえず右に移動
+		m_barrelPos.x -= Enemy::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
 
 	}
 
@@ -195,7 +190,7 @@ void EnemyStage1::BarrelMove()
 		m_isCourse = true;
 		m_vec.y = 0.0f;//下に落ちないように
 		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
-		m_barrelPos.x += Enemy::kBarrelSpeed;//左に移動
+		m_barrelPos.x += Enemy::kBarrelSpeed * m_barrelSpeed;//左に移動
 
 	}
 
@@ -204,11 +199,16 @@ void EnemyStage1::BarrelMove()
 		m_isCourse = false;
 		m_vec.y = 0.0f;//下に落ちないように
 		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
-		m_barrelPos.x -= m_barrelSpeed - Enemy::kBarrelSpeed;//とりあえず右に移動
+		m_barrelPos.x -= Enemy::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
 
 	}
 
 	if (m_barrelRight < 0)//樽が画面左に消えると最初の位置に戻っていく
+	{
+		m_barrelPos.x = Enemy::kBossPosLeft;
+		m_barrelPos.y = Enemy::kBossPosTop;
+	}
+	else if (m_barrelRight > Game::kScreenWidth + 100)//樽が画面右に消えると最初の位置に戻っていく
 	{
 		m_barrelPos.x = Enemy::kBossPosLeft;
 		m_barrelPos.y = Enemy::kBossPosTop;

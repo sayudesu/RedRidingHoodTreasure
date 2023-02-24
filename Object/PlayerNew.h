@@ -83,7 +83,13 @@ private:
 	int m_hMapChipSecond;
 	//サウンドハンドル
 	int m_hFxJump;
-
+	int m_hRun;
+	int m_hLadder;
+	int m_hAttack;
+	int m_hDead;
+	//カウント
+	int m_CountLadderSound;//梯子を上る音を再生するフレームカウント
+	int m_CountRunSound;//足音を再生するフレームカウント
 	//操作用
 	int m_padInput;
 	//プレイヤー判定用
@@ -156,6 +162,7 @@ private:
 	bool m_isFloorOne;
 	//梯子判定
 	bool m_isLadder;
+	bool m_isLadderNow;//今梯子に触っているか
 	//下に移動できない
 	bool m_isInvaliDown;
 	//キャラクターの向き

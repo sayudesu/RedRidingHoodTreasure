@@ -38,5 +38,11 @@ namespace FX
 	const char* const kBgm1 = "Data/Sound/BGM/DavidKBD - Pink Bloom Pack - 09 - Lightyear City.ogg";
 	const char* const kBgm2 = "Data/Sound/BGM/DavidKBD - Pink Bloom Pack - 08 - Lost Spaceship's Signal.ogg";
 
-	const char* const kJump = "Data/Sound/FX/Deep Cut.mp3";
+	const char* const kJump = "Data/Sound/FX/Eat.mp3";//ジャンプサウンド
+	const char* const kSelect = "Data/Sound/FX/Item Drop.mp3";//ボタン押すサウンド
+	const char* const kSelect2 = "Data/Sound/FX/Blocked.mp3";//選択中のサウンド
+	const char* const kAttack = "Data/Sound/FX/Power Hit.mp3";//プレイヤーが攻撃した場合のサウンド
+	const char* const kDead = "Data/Sound/FX/Move/need edit.wav";//死んだ場合のサウンド
+	const char* const kRun = "Data/Sound/FX/Run/Concrete 2.wav";//走っているサウンド
+	const char* const kLadder = "Data/Sound/FX/Move/animal curious.wav";//走っているサウンド
 }

@@ -10,7 +10,7 @@ namespace
 {
 	constexpr float kGravity = 1.0f;
 	constexpr float kGravityZero = 0.0f;
-	constexpr float kPlayerPosY = 50.0f;
+	constexpr float kPlayerPosY = 40.0f;
 	constexpr float kPlayerPosPulsY = 1.0f;
 
 	constexpr float kEnemyPosY = 40.0f;
@@ -85,8 +85,11 @@ void Collision::Update()
 
 	if (m_pPlayer->GetkPlayerPos().y < m_pEnemy->GetBarrelTop() - 70)//樽がプレイヤーから下に一定距離離れると
 	{
-		printfDx("下にいます\n");
-		m_pEnemy->GetBarrelSpeed(1000);//スピード
+		m_pEnemy->GetBarrelSpeed(5);//スピード
+	}
+	else//通常スピードに戻す
+	{
+		m_pEnemy->GetBarrelSpeed(1);//スピード
 	}
 
 }

@@ -15,7 +15,7 @@ namespace
 	constexpr float kPosX = 0.0f;
 	constexpr float kPosY = static_cast<float>(Game::kScreenHeight) - 50.0f - 300.0f;//デバック用に-300移動
 	//動く速さ
-	constexpr float kMoveSpeed = 5.0f; //もっと下げたほうが面白い！修正待ち
+	constexpr float kMoveSpeed = 5.0f;
 	// ジャンプ力
 	constexpr float kJump = -10.0f;
 	// 重力
@@ -33,10 +33,17 @@ namespace
 }
 //コンストラクタ
 PlayerNew::PlayerNew() :
-	m_hPlayer(-1),
+	m_hPlayer(-1),//画像
 	m_hPlayerIdle(-1),
 	m_hPlayerLighting(-1),
 	m_hHealthBer(-1),
+	m_hAttack(-1),//サウンド
+	m_hFxJump(-1),
+	m_hLadder(-1),
+	m_hRun(-1),
+	m_hDead(-1),
+	m_CountRunSound(-1),
+	m_CountLadderSound(-1),
 	m_hMapFirst(-1),
 	m_hMapSecond(-1),
 	m_hMapThird(-1),
@@ -44,7 +51,6 @@ PlayerNew::PlayerNew() :
 	m_hMapFifth(-1),
 	m_hMapChip(-1),
 	m_hMapChipSecond(-1),
-	m_hFxJump(-1),
 	m_padInput(0),
 	m_playerLeft(0),
 	m_playerTop(0),
@@ -96,6 +102,7 @@ PlayerNew::PlayerNew() :
 	m_isItemDrop(false),
 	m_isFloorOne(false),
 	m_isLadder(false),
+	m_isLadderNow(false),
 	m_isInvaliDown(false),
 	m_isCharaDirection(false),
 	m_isCharaIdleDirection(false),
@@ -126,13 +133,25 @@ PlayerNew::PlayerNew() :
 	m_charaImagePos = (1344 - kCharaImageRightPos);
 	m_func = &PlayerNew::UpdateMove;
 
-	DeleteSoundMem(m_hFxJump);
+	m_pos.x = kPosX;
+	m_pos.y = kPosY;
+
+	m_hFxJump = LoadSoundMem(FX::kJump);//ジャンプサウンド読み込み
+	m_hRun = LoadSoundMem(FX::kRun);//攻撃サウンド読み込み
+	m_hAttack = LoadSoundMem(FX::kAttack);//攻撃サウンド読み込み
+	m_hDead = LoadSoundMem(FX::kDead);//攻撃サウンド読み込み
+	m_hLadder = LoadSoundMem(FX::kLadder);
 
 }
 //デストラクタ
 PlayerNew::~PlayerNew()
 {
-
+	//サウンドメモリ開放
+	DeleteSoundMem(m_hFxJump);
+	DeleteSoundMem(m_hRun);
+	DeleteSoundMem(m_hLadder);
+	DeleteSoundMem(m_hAttack);
+	DeleteSoundMem(m_hDead);
 }
 //初期化
 void PlayerNew::Init()
@@ -219,10 +238,23 @@ void PlayerNew::OperationStandard()
 	//移動
 	if (CheckHitKey(KEY_INPUT_RIGHT)|| (m_padInput & PAD_INPUT_RIGHT))//右
 	{
+		
+		m_CountRunSound++;
+		if (m_CountRunSound >= 13)//13フレームに一度だけ足音を再生
+		{
+			PlaySoundMem(m_hRun, DX_PLAYTYPE_BACK);
+			m_CountRunSound = 0;
+		}
 		m_pos.x += kMoveSpeed;
 	}
 	if (CheckHitKey(KEY_INPUT_LEFT) || (m_padInput & PAD_INPUT_LEFT))//左
 	{
+		m_CountRunSound++;
+		if (m_CountRunSound >= 13)//13フレームに一度だけ足音を再生
+		{
+			PlaySoundMem(m_hRun, DX_PLAYTYPE_BACK);
+			m_CountRunSound = 0;
+		}
 		m_pos.x -= kMoveSpeed;
 	}
 }
@@ -233,6 +265,7 @@ void PlayerNew::OperationAttack()
 	if (Pad::isTrigger(PAD_INPUT_1))//攻撃
 	{
 		printfDx("攻撃\n");
+		PlaySoundMem(m_hAttack, DX_PLAYTYPE_BACK);
 		//プレイヤーの攻撃範
 
 		m_isAttack = true;//攻撃開始
@@ -245,22 +278,41 @@ void PlayerNew::OperationJump()
 	//ジャンプ
 	if (Pad::isTrigger(PAD_INPUT_2))//上
 	{
-		//PlaySoundMem(m_hFxJump, DX_PLAYTYPE_BACK);
+		PlaySoundMem(m_hFxJump, DX_PLAYTYPE_BACK);
 		m_vec.y = 0.0f;
-		printfDx("ジャンプ\n");
 		m_vec.y = kJump;//ジャンプ開始
 	}
 }
 //梯子操作
 void PlayerNew::OperationLadder()
 {
+
 	if (CheckHitKey(KEY_INPUT_UP) || (m_padInput & PAD_INPUT_UP))
 	{
+		m_isLadderNow = true;//プレイヤーが梯子に触る
+		m_CountLadderSound++;
+		if (m_CountLadderSound >= 13)
+		{
+			PlaySoundMem(m_hLadder, DX_PLAYTYPE_BACK);
+			m_CountLadderSound = 0;
+		}
 		m_pos.y -= kMoveSpeed;
 	}
 	if (CheckHitKey(KEY_INPUT_DOWN) || (m_padInput & PAD_INPUT_DOWN))
 	{
+		m_isLadderNow = true;//プレイヤーが梯子に触る
+		m_CountLadderSound++;
+		if (m_CountLadderSound >= 13)
+		{
+			PlaySoundMem(m_hLadder, DX_PLAYTYPE_BACK);
+			m_CountLadderSound = 0;
+		}
 		m_pos.y += kMoveSpeed;
+	}
+	if (m_isLadderNow)//プレイヤーが梯子に触っている場合
+	{
+		m_vec.x = 0.0f;//ベクトルをリセット
+		m_vec.y = 0.0f;
 	}
 }
 //アップデート処理
@@ -281,43 +333,48 @@ void PlayerNew::UpdateMove()
 		//重力
 		m_vec.y += kGravity;
 	}
+
 	if (m_isLadder)//梯子にいる場合
 	{
 		OperationLadder();//操作::梯子移動
-		m_vec.y = 0.0f;
-		m_vec.x = 0.0f;
-
 	}
 	else if (m_isFall)//地面に当たっていたら
 	{
 		m_vec.y = 0.0f;
 		OperationJump();//操作::ジャンプ
 		m_pos.y = m_getPos;//プレイヤーの位置座標
+		m_isLadderNow = false;//プレイヤーは梯子に触っていない状態
 
 	}
 	
+	
 	if (m_isStageClear)//ステージクリアかどうか
 	{
-		m_isStageClearChangeScene = true;
-		DrawBox(Stage2::kGoalX, Stage2::kGoalY, Stage2::kGoalBottomX, Stage2::kGoalBottomY, GetColor(GetRand(255), GetRand(255), GetRand(255)), true);
+		m_isStageClearChangeScene = true;//クリア
+		DrawBox(Stage2::kGoalX, Stage2::kGoalY,Stage2::kGoalBottomX, Stage2::kGoalBottomY, GetColor(GetRand(255), GetRand(255), GetRand(255)), true);
 	}
 
 	if (m_isDamage||m_isDamageFallen||m_isDamageCharge)//攻撃をくらったからどうか
 	{
-		if (m_isDamage)
+		//PlaySoundMem(m_hDead, DX_PLAYTYPE_NORMAL);//死んだ場合のサウンド再生
+
+		if(CheckSoundMem(m_hDead) == 0)//音でなくなったら
 		{
-			printfDx("Player死亡\n");
-			m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
-		}
-		if (m_isDamageFallen)
-		{
-			printfDx("PlayerFallen死亡\n");
-			m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
-		}
-		if (m_isDamageCharge && m_isRushBlink)//見えている間に当たると死ぬ
-		{
-			printfDx("PlayerChage死亡\n");
-			m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
+			if (m_isDamage)//火の玉敵
+			{
+				printfDx("Player死亡\n");
+				m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
+			}
+			if (m_isDamageFallen)//落ちモノ敵
+			{
+				printfDx("PlayerFallen死亡\n");
+				m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
+			}
+			if (m_isDamageCharge && m_isRushBlink)//見えている間に当たると死ぬ敵
+			{
+				printfDx("PlayerChage死亡\n");
+				m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
+			}
 		}
 		//printfDx("死亡\n");
 	}
@@ -329,8 +386,8 @@ void PlayerNew::UpdateMove()
 	m_pos += m_vec;//プレイヤー位置
 
 	//プレイヤーの座標
-	m_playerLeft = static_cast<int>(m_pos.x) + 10;
-	m_playerTop = static_cast<int>(m_pos.y) + 10;
+	m_playerLeft = static_cast<int>(m_pos.x);
+	m_playerTop = static_cast<int>(m_pos.y);
 	m_playerRight = m_playerLeft + 40;
 	m_playerBottom = m_playerTop + 40;
 

@@ -1,5 +1,6 @@
 #include "SceneMain2.h"
 #include "PlayerNew.h"
+#include "PlayerAnimation.h"
 #include <DxLib.h>
 #include "Pad.h"
 #include "game.h"
@@ -34,7 +35,7 @@ namespace
 //コンストラクタ
 PlayerNew::PlayerNew() :
 	m_hPlayer(-1),//画像
-	m_hPlayerIdle(-1),
+	m_hPlayerIdle(-1),//何もしていない状態
 	m_hPlayerLighting(-1),
 	m_hHealthBer(-1),
 	m_hAttack(-1),//サウンド
@@ -127,19 +128,20 @@ PlayerNew::PlayerNew() :
 	m_getPos(0.0f),
 	m_isAttackHit(false),
 	m_isDamageCharge(false),
-	m_isRushBlink(false)
+	m_isRushBlink(false),
+	m_pAnimation(nullptr)
 
 {
 	m_charaImagePos = (1344 - kCharaImageRightPos);
 	m_func = &PlayerNew::UpdateMove;
-
+	m_pAnimation = new PlayerAnimation;
 	m_pos.x = kPosX;
 	m_pos.y = kPosY;
 
 	m_hFxJump = LoadSoundMem(FX::kJump);//ジャンプサウンド読み込み
-	m_hRun = LoadSoundMem(FX::kRun);//攻撃サウンド読み込み
+	m_hRun    = LoadSoundMem(FX::kRun);//攻撃サウンド読み込み
 	m_hAttack = LoadSoundMem(FX::kAttack);//攻撃サウンド読み込み
-	m_hDead = LoadSoundMem(FX::kDead);//攻撃サウンド読み込み
+	m_hDead   = LoadSoundMem(FX::kDead);//攻撃サウンド読み込み
 	m_hLadder = LoadSoundMem(FX::kLadder);
 
 }
@@ -197,6 +199,13 @@ void PlayerNew::End()
 //アップデート処理
 void PlayerNew::Update()
 {
+	m_pAnimation->Update();
+
+	m_pAnimation->GetPosLeft(m_playerLeft);
+	m_pAnimation->GetPosTop(m_playerTop);
+
+	m_pAnimation->GetPosY(m_getPos);
+
 	if (m_isStageClear)//ステージクリアかどうか
 	{
 		m_isStageClearChangeScene = true;
@@ -212,8 +221,8 @@ void PlayerNew::Draw()
 	if (m_isAttack)
 	{
 		DrawBox(m_attackPlayerLeft, m_attackPlayerTop, m_attackPlayerRight, m_attackPlayerBottom, 0xffffff, true);
-		//DrawBox(GetAttackPlayerLeft(), GeAttacktPlayerTop(), GetAttackPlayerRight(), GetAttackPlayerBottom(), 0xffffff, false);
 	}
+	m_pAnimation->Draw();
 	m_isAttack = false;
 }
 //プレイヤーの行動範囲
@@ -224,6 +233,7 @@ void PlayerNew::PlayerPosSet()
 	if (m_pos.y < 0.0f) m_pos.y = 1.0f;
 	if (m_pos.y > Game::kScreenHeight) m_pos.y = static_cast<float>(Game::kScreenHeight) - 1.0f;
 }
+
 //操作全体
 void PlayerNew::Operation()
 {
@@ -318,7 +328,6 @@ void PlayerNew::OperationLadder()
 //アップデート処理
 void PlayerNew::UpdateMove()
 {
-	//PlaySoundMem(m_hFxJump, DX_PLAYTYPE_BACK);
 
 	Pad::update();//入力判定
 	m_padInput = GetJoypadInputState(DX_INPUT_KEY_PAD1);//ジョイパッドの入力状態を得る
@@ -346,7 +355,8 @@ void PlayerNew::UpdateMove()
 		m_isLadderNow = false;//プレイヤーは梯子に触っていない状態
 
 	}
-	
+
+	//Animation();//キャラクターのアニメーション
 	
 	if (m_isStageClear)//ステージクリアかどうか
 	{
@@ -398,7 +408,7 @@ void PlayerNew::UpdateMove()
 		m_attackPlayerRight = m_playerRight + 10;
 		m_attackPlayerBottom = m_playerBottom + 10;
 	}
-	else
+	else//攻撃していない場合の範囲
 	{
 		m_attackPlayerLeft   = - 10;
 		m_attackPlayerTop    = - 10;
@@ -410,5 +420,5 @@ void PlayerNew::UpdateMove()
 
 void PlayerNew::UpdateDead()
 {
-	m_isDead = true;
+	m_isDead = true;//死亡
 }

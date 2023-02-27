@@ -5,6 +5,8 @@ class DrawMapStage2;
 class PlayerNew;
 class Collision;
 class EnemyStage1;
+class PlayerAnimation;
+
 class SceneMain2 : public SceneBase
 {
 public:
@@ -28,6 +30,7 @@ private:
 	PlayerNew* m_pPlayer;
 	Collision* m_pCollision;
 	EnemyStage1* m_pEnemy;
+	PlayerAnimation* m_pAnimation;
 };
 
 

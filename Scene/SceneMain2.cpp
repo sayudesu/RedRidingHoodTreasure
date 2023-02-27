@@ -6,6 +6,7 @@
 #include "PlayerNew.h"
 #include "Collision.h"
 #include "EnemyStage1.h"
+#include "PlayerAnimation.h"
 #include "game.h"
 #include "Image.h"
 #include <Dxlib.h>
@@ -19,12 +20,14 @@ SceneMain2::SceneMain2():
 	m_pStage(nullptr),
 	m_pPlayer(nullptr),
 	m_pCollision(nullptr),
-	m_pEnemy(nullptr)
+	m_pEnemy(nullptr),
+	m_pAnimation(nullptr)
 {
-	m_pStage = new DrawMapStage2;
-	m_pPlayer = new PlayerNew;
+	m_pStage     = new DrawMapStage2;
+	m_pPlayer    = new PlayerNew;
 	m_pCollision = new Collision;
-	m_pEnemy = new EnemyStage1;
+	m_pEnemy     = new EnemyStage1;
+	m_pAnimation = new PlayerAnimation;
 }
 
 SceneMain2::~SceneMain2()
@@ -33,6 +36,8 @@ SceneMain2::~SceneMain2()
 	delete m_pPlayer;
 	delete m_pCollision;
 	delete m_pEnemy;
+	delete m_pAnimation;
+
 	DeleteSoundMem(m_hMusicBgm1);
 }
 
@@ -56,21 +61,25 @@ void SceneMain2::Init()
 	m_hPlayerHealthBer = LoadGraph(Image::kPlayerHealthBer);
 
 	//プレイヤー画像
-	m_pPlayer->SetHandle(m_hPlayer);
-	m_pPlayer->SetHandleIdle(m_hPlayerIdle);
-	m_pPlayer->SetHandleLighting(m_hPlayerLighting);
-	m_pPlayer->SetHandleHealthBer(m_hPlayerHealthBer);
+	m_pAnimation->SetHandle(m_hPlayer);
+	m_pAnimation->SetHandleIdle(m_hPlayerIdle);
 }
 
 void SceneMain2::End()
 {
 	m_pPlayer->End();
+	m_pCollision->Init();
 	m_pEnemy->End();
+
+	DeleteGraph(m_hPlayer);
+	DeleteGraph(m_hPlayerIdle);
 }
 
 SceneBase* SceneMain2::Update()
 {
 	m_pCollision->Update();
+
+	//m_pPlayer->Update();
 
 	if (m_pCollision->m_isStageClear)//ステージをクリアした場合
 	{
@@ -93,7 +102,8 @@ SceneBase* SceneMain2::Update()
 void SceneMain2::Draw()
 {
 	m_pStage->Draw();//ステージを描画
-
 	//プレイヤー、エネミーを表示
 	m_pCollision->Draw();
+
+	//m_pAnimation->Draw();//アニメーションを再生
 }

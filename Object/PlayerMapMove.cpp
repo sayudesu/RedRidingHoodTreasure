@@ -280,7 +280,7 @@ void PlayerMapMove::Draw()
 
 	if (m_isIdleMove && !m_isAttackMove && !m_isDamageMove && !m_isJumpMove && !m_isCrouchingMove)//‰½‚à‚µ‚È‚¢
 	{
-
+		
 		DrawRectRotaGraph(static_cast<int>(m_imagePos.x) + static_cast<int>(m_imageBalancePos.x),
 			static_cast<int>(m_imagePos.y) + static_cast<int>(m_imageBalancePos.y),
 			m_charaImageIdlePos, 0, 80, 80, kPlayerSize, 0, m_hPlayerIdle, true, m_isCharaIdleDirection);

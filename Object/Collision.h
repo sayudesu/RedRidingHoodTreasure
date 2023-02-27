@@ -4,6 +4,8 @@
 class PlayerNew;
 class DrawMapStage2;
 class EnemyStage1;
+class PlayerAnimation;
+
 class Collision
 {
 public:
@@ -39,9 +41,11 @@ public:
 	void GetGoal(bool stageClear) { m_isStageClear = stageClear; }
 	void GetDead(bool dead) { m_isGameOver = dead; }
 	//void  GetGoal2() { m_pPlayer->GetGameClear(); }
-private:
 
 	float m_posY;//プレイヤーのY座標
+
+private:
+
 	float m_enemyPosY;//プレイヤーのY座標
 	int m_enemyFireBallPosY;//プレイヤーのY座標
 
@@ -53,5 +57,6 @@ private:
 	PlayerNew* m_pPlayer;
 	DrawMapStage2* m_pMap;
 	EnemyStage1* m_pEnemy;
+	PlayerAnimation* m_pAnimation;
 };
 

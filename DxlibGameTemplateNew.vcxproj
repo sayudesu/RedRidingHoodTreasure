@@ -173,6 +173,7 @@
     <ClCompile Include="Object\PlayerImage.cpp" />
     <ClCompile Include="Object\PlayerMapMove.cpp" />
     <ClCompile Include="Object\PlayerNew.cpp" />
+    <ClCompile Include="PlayerAnimation.cpp" />
     <ClCompile Include="Scene\SceneGameOver.cpp" />
     <ClCompile Include="Scene\SceneMain2.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="Object\PlayerImage.h" />
     <ClInclude Include="Object\PlayerMapMove.h" />
     <ClInclude Include="Object\PlayerNew.h" />
+    <ClInclude Include="PlayerAnimation.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\SceneGameOver.h" />
     <ClInclude Include="Scene\SceneMain2.h" />

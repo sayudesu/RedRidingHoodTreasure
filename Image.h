@@ -30,7 +30,7 @@ namespace Image
 
 namespace UI
 {
-	const char* const kButton = "Data/UI/gdb-xbox-2.png";
+	const char* const kButton = "Data/UI/gdb-xbox-2.png";//コントローラー画像
 }
 
 namespace FX

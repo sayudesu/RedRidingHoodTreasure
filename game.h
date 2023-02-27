@@ -277,22 +277,22 @@ namespace Stage2
 	constexpr int kLadder1X = Game::kScreenWidth - 150;
 	constexpr int kLadder1Y = Game::kScreenHeight - 220;
 	constexpr int kLadderBottom1X = kLadder1X + 10;
-	constexpr int kLadderBottom1Y = kLadder1Y + 100;
+	constexpr int kLadderBottom1Y = kLadder1Y + 150;
 	//第二梯子
 	constexpr int kLadder2X = 300;
 	constexpr int kLadder2Y = Game::kScreenHeight - 410;
 	constexpr int kLadderBottom2X = kLadder2X + 10;
-	constexpr int kLadderBottom2Y = kLadder2Y + 100;
+	constexpr int kLadderBottom2Y = kLadder2Y + 185;
 	//第三梯子
 	constexpr int kLadder3X = Game::kScreenWidth - 200;
 	constexpr int kLadder3Y = Game::kScreenHeight - 570;
 	constexpr int kLadderBottom3X = kLadder3X + 10;
-	constexpr int kLadderBottom3Y = kLadder3Y + 100;
+	constexpr int kLadderBottom3Y = kLadder3Y + 150;
 	//第四梯子
 	constexpr int kLadder4X = 300;
 	constexpr int kLadder4Y = Game::kScreenHeight - 760;
 	constexpr int kLadderBottom4X = kLadder4X + 10;
-	constexpr int kLadderBottom4Y = kLadder4Y + 100;
+	constexpr int kLadderBottom4Y = kLadder4Y + 185;
 
 	//ゲームクリア条件位置//////////////////////////////////////////////////////////////////////////
 	constexpr int kGoalX = Game::kScreenWidth - 100;

@@ -2,6 +2,7 @@
 #include "PlayerNew.h"
 #include "DrawMapStage2.h"
 #include "EnemyStage1.h"
+#include "PlayerAnimation.h"
 #include "game.h"
 #include <Dxlib.h>
 
@@ -16,7 +17,7 @@ namespace
 	constexpr float kEnemyPosY = 40.0f;
 }
 //コンストラクタ
-Collision::Collision():
+Collision::Collision() :
 	m_posY(0.0f),
 	m_enemyPosY(0),
 	m_landingPos(0.0f),
@@ -26,11 +27,13 @@ Collision::Collision():
 	m_isStageClear(false),
 	m_pPlayer(nullptr),
 	m_pMap(nullptr),
-	m_pEnemy(nullptr)
+	m_pEnemy(nullptr),
+	m_pAnimation(nullptr)
 {
 	m_pPlayer = new PlayerNew;
 	m_pMap = new DrawMapStage2;
 	m_pEnemy = new EnemyStage1;
+	m_pAnimation = new PlayerAnimation;
 	m_landingPos = 70.0f;
 }
 //デストラクタ
@@ -43,7 +46,7 @@ Collision::~Collision()
 //初期化
 void Collision::Init()
 {
-	//m_pPlayer->Init();
+	m_pPlayer->Init();
 }
 //更新
 void Collision::Update()
@@ -91,7 +94,6 @@ void Collision::Update()
 	{
 		m_pEnemy->GetBarrelSpeed(1);//スピード
 	}
-
 }
 //描画
 void Collision::Draw()

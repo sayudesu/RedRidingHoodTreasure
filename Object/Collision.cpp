@@ -27,13 +27,11 @@ Collision::Collision() :
 	m_isStageClear(false),
 	m_pPlayer(nullptr),
 	m_pMap(nullptr),
-	m_pEnemy(nullptr),
-	m_pAnimation(nullptr)
+	m_pEnemy(nullptr)
 {
 	m_pPlayer = new PlayerNew;
 	m_pMap = new DrawMapStage2;
 	m_pEnemy = new EnemyStage1;
-	m_pAnimation = new PlayerAnimation;
 	m_landingPos = 70.0f;
 }
 //デストラクタ

@@ -128,13 +128,11 @@ PlayerNew::PlayerNew() :
 	m_getPos(0.0f),
 	m_isAttackHit(false),
 	m_isDamageCharge(false),
-	m_isRushBlink(false),
-	m_pAnimation(nullptr)
+	m_isRushBlink(false)
 
 {
-	m_charaImagePos = (1344 - kCharaImageRightPos);
+	m_charaImagePos = 0;
 	m_func = &PlayerNew::UpdateMove;
-	m_pAnimation = new PlayerAnimation;
 	m_pos.x = kPosX;
 	m_pos.y = kPosY;
 
@@ -199,12 +197,6 @@ void PlayerNew::End()
 //アップデート処理
 void PlayerNew::Update()
 {
-	m_pAnimation->Update();
-
-	m_pAnimation->GetPosLeft(m_playerLeft);
-	m_pAnimation->GetPosTop(m_playerTop);
-
-	m_pAnimation->GetPosY(m_getPos);
 
 	if (m_isStageClear)//ステージクリアかどうか
 	{
@@ -218,12 +210,52 @@ void PlayerNew::Draw()
 {
 	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xaaaaaa, true);
 
+	//アイドル状態
+	//int a = LoadGraph(Image::kPlayerImageIdle);
+	//int b = LoadGraph(Image::kPlayerImage);
+	////DrawRectRotaGraph(m_playerLeft + 35, m_playerTop + 10, m_charaImageIdlePos, 0, 80, 80,1.5, 0, a, true, false);
+	//DrawRectRotaGraph(m_playerLeft + 15, m_playerTop - 5, m_charaImagePos, 133, 112, 133, 1.5, 0, b, true, true);
+	//DrawFormatString(100, 100, 0xffffff, "%d", m_charaImagePos);
+	//横112
+	//縦133
+	// 
+	//DrawGraph(m_playerLeft, m_playerTop, a, true);
+
+
+
 	if (m_isAttack)
 	{
 		DrawBox(m_attackPlayerLeft, m_attackPlayerTop, m_attackPlayerRight, m_attackPlayerBottom, 0xffffff, true);
 	}
-	m_pAnimation->Draw();
+
 	m_isAttack = false;
+}
+void PlayerNew::Animation()
+{
+	m_boxDropCount++;
+
+	//if (m_boxDropCount >= 3)//画像をずらす
+	//{
+	//	m_charaImageIdlePos += 80;
+	//	m_boxDropCount = 0;
+	//}
+
+	//if (m_charaImageIdlePos >= 1440)//画像が右まで表示されたら左に戻す
+	//{
+	//	m_charaImageIdlePos = 0;
+	//}
+
+	if (m_boxDropCount >= 3)//画像をずらす
+	{
+		m_charaImagePos += 112;
+		m_boxDropCount = 0;
+	}
+
+	if (m_charaImagePos >= 1344)//画像が右まで表示されたら左に戻す
+	{
+		m_charaImagePos = 0;
+	}
+
 }
 //プレイヤーの行動範囲
 void PlayerNew::PlayerPosSet()
@@ -328,7 +360,7 @@ void PlayerNew::OperationLadder()
 //アップデート処理
 void PlayerNew::UpdateMove()
 {
-
+	Animation();//アニメーション
 	Pad::update();//入力判定
 	m_padInput = GetJoypadInputState(DX_INPUT_KEY_PAD1);//ジョイパッドの入力状態を得る
 	OperationStandard();//操作::移動

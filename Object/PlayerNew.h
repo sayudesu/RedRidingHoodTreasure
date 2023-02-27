@@ -1,8 +1,6 @@
 #pragma once
 #include "Vec2.h"
 
-class PlayerAnimation;
-
 class PlayerNew
 {
 public:
@@ -16,6 +14,12 @@ public:
 	virtual void Draw();
 
 public:
+
+	//画像
+	void SetHandle(int handle) { m_hPlayer = handle; }
+	void SetHandleIdle(int handle) { m_hPlayerIdle = handle; }
+	void SetHandleLighting(int handle) { m_hPlayerLighting = handle; }
+	void SetHandleHealthBer(int handle) { m_hHealthBer = handle; }
 
 	//プレイヤーの座標
 	float GetPlayerLeft  () { return static_cast<float>(m_playerLeft);   }
@@ -45,6 +49,8 @@ public:
 	void GetPlayerHit	   (bool attack   ) { m_isAttackHit    = attack;    }//敵に攻撃を与える
 	void GetEnemyChageHit  (bool attack   ) { m_isDamageCharge = attack;    }//チャージエネミーから攻撃を受ける
 	void GetEnemyChageBlink(bool blink    ) { m_isRushBlink    = blink;     }//チャージエネミーから攻撃を受ける
+private:
+	void Animation();
 private:
 	//プレイヤー位置補正
 	void PlayerPosSet();
@@ -197,8 +203,6 @@ private:
 	bool m_isAttackHit;
 	bool m_isDamageCharge;
 	bool m_isRushBlink;
-
-	PlayerAnimation* m_pAnimation;
 
 	void (PlayerNew::* m_func)();
 

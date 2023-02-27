@@ -20,14 +20,12 @@ SceneMain2::SceneMain2():
 	m_pStage(nullptr),
 	m_pPlayer(nullptr),
 	m_pCollision(nullptr),
-	m_pEnemy(nullptr),
-	m_pAnimation(nullptr)
+	m_pEnemy(nullptr)
 {
 	m_pStage     = new DrawMapStage2;
 	m_pPlayer    = new PlayerNew;
 	m_pCollision = new Collision;
 	m_pEnemy     = new EnemyStage1;
-	m_pAnimation = new PlayerAnimation;
 }
 
 SceneMain2::~SceneMain2()
@@ -36,7 +34,6 @@ SceneMain2::~SceneMain2()
 	delete m_pPlayer;
 	delete m_pCollision;
 	delete m_pEnemy;
-	delete m_pAnimation;
 
 	DeleteSoundMem(m_hMusicBgm1);
 }
@@ -61,8 +58,8 @@ void SceneMain2::Init()
 	m_hPlayerHealthBer = LoadGraph(Image::kPlayerHealthBer);
 
 	//ƒvƒŒƒCƒ„[‰æ‘œ
-	m_pAnimation->SetHandle(m_hPlayer);
-	m_pAnimation->SetHandleIdle(m_hPlayerIdle);
+	m_pPlayer->SetHandle(m_hPlayer);
+	m_pPlayer->SetHandleIdle(m_hPlayerIdle);
 }
 
 void SceneMain2::End()

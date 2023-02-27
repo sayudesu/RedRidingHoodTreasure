@@ -4,7 +4,6 @@
 class PlayerNew;
 class DrawMapStage2;
 class EnemyStage1;
-class PlayerAnimation;
 
 class Collision
 {
@@ -57,6 +56,5 @@ private:
 	PlayerNew* m_pPlayer;
 	DrawMapStage2* m_pMap;
 	EnemyStage1* m_pEnemy;
-	PlayerAnimation* m_pAnimation;
 };
 

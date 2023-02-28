@@ -5,6 +5,8 @@ namespace Image
 	//プレイヤー
 	const char* const kPlayerImage    = "Data/Player/red hood itch free Copy-Sheet.png";
 	const char* const kPlayerImageIdle = "Data/Player/idle sheet-Sheet.png";
+	//エネミー
+	const char* const kEnemyFireBall = "Data/Enemy/16_sunburn_spritesheet.png";
 
 	//光
 	const char* const kPlayerLighting = "Data/UI/lighting2.png";

@@ -32,6 +32,7 @@ namespace
 	constexpr int kAnimationFrame = 3;
 
 }
+
 //コンストラクタ
 PlayerNew::PlayerNew() :
 	m_hPlayer(-1),//画像
@@ -53,10 +54,14 @@ PlayerNew::PlayerNew() :
 	m_hMapChip(-1),
 	m_hMapChipSecond(-1),
 	m_padInput(0),
-	m_playerLeft(0),
+	m_playerLeft(0),//プレイヤー判定用
 	m_playerTop(0),
 	m_playerRight(0),
 	m_playerBottom(0),
+	m_scoreLeft(0),//スコア判定用
+	m_scoreTop(0),
+	m_scoreRight(0),
+	m_scoreBottom(0),
 	m_attackPlayerLeft(0),
 	m_attackPlayerTop(0),
 	m_attackPlayerRight(0),
@@ -67,6 +72,10 @@ PlayerNew::PlayerNew() :
 	m_charaImageDamagePos(0),
 	m_charaImageJumpPos(0),
 	m_charaImageCrouching(0),
+	m_charaImageLeft(0),//プレイヤー画像での位置
+	m_charaImageTop(0),
+	m_charaImageRigth(0),
+	m_charaImageBottom(0),
 	m_count(0),
 	m_boxPosX(0),
 	m_boxPosY(0),
@@ -81,17 +90,20 @@ PlayerNew::PlayerNew() :
 	m_playerHealthSizeX(0),
 	m_playerHealthSizeY(0),
 	m_boxDropCount(0),
-	m_frameCount(0),
+	m_frameCount1(0),//フレームカウント
+	m_frameCount2(0),
+	m_frameCount3(0),
 	m_hierarchy(0),
 	m_tip(0),
 	m_gravity(0.0f),
-	m_isRunMoveLeft(false),
-	m_isRunMoveRight(false),
+	m_isRunMove(false),//アニメーション関連bool
+	m_isStopMove(false),
 	m_isIdleMove(false),
 	m_isAttackMove(false),
 	m_isDamageMove(false),
 	m_isJumpMove(false),
 	m_isCrouchingMove(false),
+	m_isJumpImagePos(false),//ジャンプ画像位置
 	m_isHealthBer(false),
 	m_isDead(false),
 	m_isReset(false),
@@ -99,7 +111,6 @@ PlayerNew::PlayerNew() :
 	m_isGetSword(false),
 	m_isAttack(false),
 	m_isEnemyDead(false),
-	m_isStopMove(false),
 	m_isItemDrop(false),
 	m_isFloorOne(false),
 	m_isLadder(false),
@@ -136,11 +147,20 @@ PlayerNew::PlayerNew() :
 	m_pos.x = kPosX;
 	m_pos.y = kPosY;
 
-	m_hFxJump = LoadSoundMem(FX::kJump);//ジャンプサウンド読み込み
-	m_hRun    = LoadSoundMem(FX::kRun);//攻撃サウンド読み込み
+	m_isCharaIdleDirection = true;//プレイヤー右向き
+
+	//画像位置をセット右下座標
+	m_charaImageRigth = 112;
+	m_charaImageBottom = 133;
+
+	m_hPlayer = LoadGraph(Image::kPlayerImage);		   //プレイヤー画像読み込み
+	m_hPlayerIdle = LoadGraph(Image::kPlayerImageIdle);//プレイヤーアイドル状態画像読み込み
+
+	m_hFxJump = LoadSoundMem(FX::kJump);  //ジャンプサウンド読み込み
+	m_hRun    = LoadSoundMem(FX::kRun);   //攻撃サウンド読み込み
 	m_hAttack = LoadSoundMem(FX::kAttack);//攻撃サウンド読み込み
-	m_hDead   = LoadSoundMem(FX::kDead);//攻撃サウンド読み込み
-	m_hLadder = LoadSoundMem(FX::kLadder);
+	m_hDead   = LoadSoundMem(FX::kDead);  //攻撃サウンド読み込み
+	m_hLadder = LoadSoundMem(FX::kLadder);//梯子上りサウンド読み込み
 
 }
 //デストラクタ
@@ -210,50 +230,106 @@ void PlayerNew::Draw()
 {
 	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xaaaaaa, true);
 
-	//アイドル状態
-	//int a = LoadGraph(Image::kPlayerImageIdle);
-	//int b = LoadGraph(Image::kPlayerImage);
-	////DrawRectRotaGraph(m_playerLeft + 35, m_playerTop + 10, m_charaImageIdlePos, 0, 80, 80,1.5, 0, a, true, false);
-	//DrawRectRotaGraph(m_playerLeft + 15, m_playerTop - 5, m_charaImagePos, 133, 112, 133, 1.5, 0, b, true, true);
-	//DrawFormatString(100, 100, 0xffffff, "%d", m_charaImagePos);
-	//横112
-	//縦133
-	// 
-	//DrawGraph(m_playerLeft, m_playerTop, a, true);
+	//テスト
+	//int a = LoadGraph(Image::kPlayerImageIdle);//止まっている状態
+	//int b = LoadGraph(Image::kPlayerImage);    //動いている状態
 
+	if (m_isRunMove || m_isJumpMove)//動いていいる場合の画像
+	{
+		DrawRectRotaGraph(m_playerLeft + 15, m_playerTop - 5,
+			m_charaImageLeft + m_charaImagePos, m_charaImageTop, m_charaImageRigth, m_charaImageBottom,
+			1.5, 0, m_hPlayer, true, m_isCharaDirection);
+		//画像の１キャラ分の大きさ
+		//横112
+		//縦133
+	}
+	else if (m_isStopMove)//止まっている場合の画像
+	{
+		DrawRectRotaGraph(m_imagePos.x + m_imageBalancePos.x, m_imagePos.y + 10.0f,
+			m_charaImageIdlePos, 0, 80, 80,
+			1.5, 0, m_hPlayerIdle, true, m_isCharaIdleDirection);
+		//画像の１キャラ分の大きさ
+		//横80
+		//縦80
+	}
 
-
-	if (m_isAttack)
+	if (m_isAttack)//攻撃した場合の画像（未実装）
 	{
 		DrawBox(m_attackPlayerLeft, m_attackPlayerTop, m_attackPlayerRight, m_attackPlayerBottom, 0xffffff, true);
 	}
 
-	m_isAttack = false;
+	m_isAttack = false;//攻撃していない
 }
+//アニメーションを再生
 void PlayerNew::Animation()
 {
-	m_boxDropCount++;
-
-	//if (m_boxDropCount >= 3)//画像をずらす
-	//{
-	//	m_charaImageIdlePos += 80;
-	//	m_boxDropCount = 0;
-	//}
-
-	//if (m_charaImageIdlePos >= 1440)//画像が右まで表示されたら左に戻す
-	//{
-	//	m_charaImageIdlePos = 0;
-	//}
-
-	if (m_boxDropCount >= 3)//画像をずらす
+	if (m_isStopMove)//動いていない場合
 	{
-		m_charaImagePos += 112;
-		m_boxDropCount = 0;
+		m_frameCount1++;
+		if (m_frameCount1 >= 3)//画像をずらす
+		{
+			m_charaImageIdlePos += 80;
+			m_frameCount1 = 0;
+		}
+
+		if (m_charaImageIdlePos >= 1440)//画像が右まで表示されたら左に戻す
+		{
+			m_charaImageIdlePos = 0;
+		}
+	}
+	else
+	{
+		m_frameCount1 = 0;
+		m_charaImageIdlePos = 0;
 	}
 
-	if (m_charaImagePos >= 1344)//画像が右まで表示されたら左に戻す
+	if (m_isJumpMove)//ジャンプアニメーション
 	{
-		m_charaImagePos = 0;
+		
+		if (m_isJumpImagePos)//画像位置をジャンプに変更
+		{
+			m_charaImageTop = 133 * 3;//画像位置をずらす
+			m_isJumpImagePos = false;
+		}
+
+		m_frameCount3++;//１フレームカウント
+		if (m_frameCount3 >= 2)//画像をずらす
+		{
+			m_charaImagePos += 112;//画像を１１２ピクセル動かす
+			m_frameCount3 = 0;//カウントリセット
+		}
+
+		if (m_charaImagePos >= 1344)//画像が右まで表示されたら左に戻す
+		{
+			m_charaImagePos = 0;//画像位置を右にリセット
+		}
+	}
+	else if (m_isRunMove)//左右に動いている場合
+	{
+		//走り画像位置に変更
+		if (m_isRunImagePos)
+		{
+			m_charaImageTop = 133;
+			m_isRunImagePos = false;
+		}
+
+		m_frameCount2++;
+		if (m_frameCount2 >= 2)//画像をずらす
+		{
+			m_charaImagePos += 112;
+			m_frameCount2 = 0;
+		}
+
+		if (m_charaImagePos >= 1344)//画像が右まで表示されたら左に戻す
+		{
+			m_charaImagePos = 0;
+		}
+	}
+	else//ジャンプアニメーションを再生していない場合
+	{
+		m_frameCount2 = 0;//使っていない間はカウントリセット
+		m_frameCount3 = 0;//使っていない間はカウントリセット
+		m_charaImagePos = 0;//使っていない間は位置をリセット
 	}
 
 }
@@ -265,7 +341,6 @@ void PlayerNew::PlayerPosSet()
 	if (m_pos.y < 0.0f) m_pos.y = 1.0f;
 	if (m_pos.y > Game::kScreenHeight) m_pos.y = static_cast<float>(Game::kScreenHeight) - 1.0f;
 }
-
 //操作全体
 void PlayerNew::Operation()
 {
@@ -277,27 +352,51 @@ void PlayerNew::Operation()
 //基本操作
 void PlayerNew::OperationStandard()
 {
+	m_imagePos = m_pos; //画像用の座標
+	m_isRunMove = false;//動いていない場合は非表示
+	m_isStopMove = true;//動いてない場合は表示
 	//移動
 	if (CheckHitKey(KEY_INPUT_RIGHT)|| (m_padInput & PAD_INPUT_RIGHT))//右
 	{
-		
-		m_CountRunSound++;
-		if (m_CountRunSound >= 13)//13フレームに一度だけ足音を再生
+		m_isRunMove = true;            //走っているプレイヤーを表示
+		m_isRunImagePos = true;//走っている場合の画像位置
+		m_isCharaIdleDirection = false;//プレイヤーの向きを変更
+		m_isCharaDirection = true;     //プレイヤーの向きを変更
+		m_isStopMove = false;          //動いていたら非表示
+		m_CountRunSound++;             //サウンド再生までカウント
+		if (m_CountRunSound >= 25)     //13フレームに一度だけ足音を再生
 		{
 			PlaySoundMem(m_hRun, DX_PLAYTYPE_BACK);
 			m_CountRunSound = 0;
 		}
-		m_pos.x += kMoveSpeed;
+		m_pos.x += kMoveSpeed;//座標を移動
 	}
 	if (CheckHitKey(KEY_INPUT_LEFT) || (m_padInput & PAD_INPUT_LEFT))//左
 	{
-		m_CountRunSound++;
-		if (m_CountRunSound >= 13)//13フレームに一度だけ足音を再生
+		m_isRunMove = true;           //走っているプレイヤーを表示
+		m_isRunImagePos = true;//走っている場合の画像位置
+		m_isCharaIdleDirection = true;//プレイヤーの向きを変更
+		m_isCharaDirection = false;   //プレイヤーの向きを変更
+		m_isStopMove = false;         //動いていたら非表示
+		m_CountRunSound++;            //サウンド再生までカウント
+		if (m_CountRunSound >= 25)    //13フレームに一度だけ足音を再生
 		{
 			PlaySoundMem(m_hRun, DX_PLAYTYPE_BACK);
 			m_CountRunSound = 0;
 		}
-		m_pos.x -= kMoveSpeed;
+
+		
+		m_pos.x -= kMoveSpeed;//座標を移動
+
+	}
+
+	if (!m_isCharaIdleDirection)//プレイヤーの画像の位置を調整する
+	{
+		m_imageBalancePos.x = + 35.0f;//画像を右にずらす
+	}
+	else
+	{
+		m_imageBalancePos.x = +0.0f;
 	}
 }
 //攻撃操作
@@ -314,12 +413,13 @@ void PlayerNew::OperationAttack()
 	}
 }
 //ジャンプ操作
-void PlayerNew::OperationJump()
+void PlayerNew::OperationJump()////地面にいる場合&&梯子にいない場合
 {
-	//地面にいる場合&&梯子にいない場合
 	//ジャンプ
 	if (Pad::isTrigger(PAD_INPUT_2))//上
 	{
+		m_isJumpMove = true;//ジャンプアニメーション再生
+		m_isJumpImagePos = true;//ジャンプ画像位置
 		PlaySoundMem(m_hFxJump, DX_PLAYTYPE_BACK);
 		m_vec.y = 0.0f;
 		m_vec.y = kJump;//ジャンプ開始
@@ -328,7 +428,6 @@ void PlayerNew::OperationJump()
 //梯子操作
 void PlayerNew::OperationLadder()
 {
-
 	if (CheckHitKey(KEY_INPUT_UP) || (m_padInput & PAD_INPUT_UP))
 	{
 		m_isLadderNow = true;//プレイヤーが梯子に触る
@@ -357,9 +456,17 @@ void PlayerNew::OperationLadder()
 		m_vec.y = 0.0f;
 	}
 }
+void PlayerNew::Score()
+{
+	//printfDx("%d\n",m_score);
+}
+
 //アップデート処理
 void PlayerNew::UpdateMove()
 {
+
+	Score();//スコア表示
+
 	Animation();//アニメーション
 	Pad::update();//入力判定
 	m_padInput = GetJoypadInputState(DX_INPUT_KEY_PAD1);//ジョイパッドの入力状態を得る
@@ -382,9 +489,10 @@ void PlayerNew::UpdateMove()
 	else if (m_isFall)//地面に当たっていたら
 	{
 		m_vec.y = 0.0f;
-		OperationJump();//操作::ジャンプ
 		m_pos.y = m_getPos;//プレイヤーの位置座標
 		m_isLadderNow = false;//プレイヤーは梯子に触っていない状態
+		m_isJumpMove = false;//ジャンプ（落下）アニメーションを再生しない
+		OperationJump();//操作::ジャンプ
 
 	}
 
@@ -428,10 +536,16 @@ void PlayerNew::UpdateMove()
 	m_pos += m_vec;//プレイヤー位置
 
 	//プレイヤーの座標
-	m_playerLeft = static_cast<int>(m_pos.x);
-	m_playerTop = static_cast<int>(m_pos.y);
-	m_playerRight = m_playerLeft + 40;
+	m_playerLeft   = static_cast<int>(m_pos.x);
+	m_playerTop    = static_cast<int>(m_pos.y);
+	m_playerRight  = m_playerLeft + 40;
 	m_playerBottom = m_playerTop + 40;
+
+	//スコア判定座標
+	//m_scoreLeft   = m_playerLeft;
+	//m_scoreTop    = m_playerBottom;
+	//m_scoreRight  = m_scoreLeft;
+	//m_scoreBottom = m_scoreTop;
 
 	if(m_isAttack)//プレイヤーが攻撃した時の範囲
 	{

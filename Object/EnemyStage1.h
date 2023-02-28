@@ -25,6 +25,9 @@ private:
 	void npcPos();//敵のキャラ座標取得
 
 public:
+	//画像
+	//ファイアボールの画像
+	void SetHandleFireBall(int handle) { m_hFireBall = handle; }
 
 	//ファイアーボール
 	int  GetLeft()   { return m_posLeft;   }
@@ -66,6 +69,7 @@ public:
 	int  GetChargeBottom() { return m_chargeBottom; }
 	
 	bool GetRushBlink() { return m_isRushBlink; }//チャージエネミーに当たると死ぬかどうか
+
 public:
 
 	void GetHitFall(int fall  ) { m_fall = fall; }
@@ -83,6 +87,8 @@ public:
 
 
 private:
+	//エネミー画像
+	int m_hFireBall;
 	//炎の玉のサイズ
 	int m_posLeft;
 	int m_posTop;
@@ -119,6 +125,10 @@ private:
 	int m_chargeRight;
 	int m_chargeBottom;
 
+	//ファイアボールの画像位置
+	int m_fireBallImagePosX;
+	int m_fireBallImagePosY;
+
 	int m_barrelSpeed;//樽の速度
 
 	int m_fall;//地面との判定
@@ -133,11 +143,12 @@ private:
 	int m_ladderNum;
 	int m_getFireBallPos;//y軸固定座標
 
+	int m_fireRad;//角度ラジアン
+
 	float m_fallenUpSpeed;//
 	float m_fallenUpSpeed2;//
 
 	float m_getPos;//y軸固定座標
-	float m_rad;//角度ラジアン
 	float m_chargeSpeed;
 	float m_length;
 	int m_rushCount;

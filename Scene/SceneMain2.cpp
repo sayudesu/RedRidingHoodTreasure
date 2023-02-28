@@ -16,6 +16,7 @@ SceneMain2::SceneMain2():
 	m_hPlayerIdle(-1),
 	m_hPlayerLighting(-1),
 	m_hPlayerHealthBer(-1),
+	m_hEnemyFireBall(-1),
 	m_hMusicBgm1(-1),
 	m_pStage(nullptr),
 	m_pPlayer(nullptr),
@@ -34,15 +35,14 @@ SceneMain2::~SceneMain2()
 	delete m_pPlayer;
 	delete m_pCollision;
 	delete m_pEnemy;
-
-	DeleteSoundMem(m_hMusicBgm1);
 }
 
 void SceneMain2::Init()
 {
 	m_pPlayer->Init();
 	m_pCollision->Init();
-	m_pEnemy->Init();
+	m_pStage->Init();
+	//m_pEnemy->Init();
 
 	// 再生形式をファイルからストリーム再生する、に設定
 	//SetCreateSoundDataType(DX_SOUNDDATATYPE_FILE);
@@ -52,30 +52,39 @@ void SceneMain2::Init()
 	ChangeVolumeSoundMem(255 / 3 , m_hMusicBgm1);
 
 	//プレイヤー画像
-	m_hPlayer = LoadGraph(Image::kPlayerImage);
-	m_hPlayerIdle = LoadGraph(Image::kPlayerImageIdle);
+	//m_hPlayer = LoadGraph(Image::kPlayerImage);
+	//m_hPlayerIdle = LoadGraph(Image::kPlayerImageIdle);
 	m_hPlayerLighting = LoadGraph(Image::kPlayerLighting);
 	m_hPlayerHealthBer = LoadGraph(Image::kPlayerHealthBer);
+	//エネミー画像
+	m_hEnemyFireBall = LoadGraph(Image::kEnemyFireBall);
 
 	//プレイヤー画像
 	m_pPlayer->SetHandle(m_hPlayer);
 	m_pPlayer->SetHandleIdle(m_hPlayerIdle);
+	//エネミー画像
+	m_pEnemy->SetHandleFireBall(m_hEnemyFireBall);
 }
 
 void SceneMain2::End()
 {
 	m_pPlayer->End();
-	m_pCollision->Init();
-	m_pEnemy->End();
+	m_pStage->End();
 
+	//m_pEnemy->End();
+	//プレイヤー画像
 	DeleteGraph(m_hPlayer);
 	DeleteGraph(m_hPlayerIdle);
+	//エネミー画像
+	DeleteGraph(m_hEnemyFireBall);
+
+	DeleteSoundMem(m_hMusicBgm1);
 }
 
 SceneBase* SceneMain2::Update()
 {
 	m_pCollision->Update();
-
+	//m_pEnemy->Update();
 	//m_pPlayer->Update();
 
 	if (m_pCollision->m_isStageClear)//ステージをクリアした場合
@@ -101,6 +110,6 @@ void SceneMain2::Draw()
 	m_pStage->Draw();//ステージを描画
 	//プレイヤー、エネミーを表示
 	m_pCollision->Draw();
-
+	//m_pEnemy->Draw();
 	//m_pAnimation->Draw();//アニメーションを再生
 }

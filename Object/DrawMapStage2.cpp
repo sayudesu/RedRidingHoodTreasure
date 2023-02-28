@@ -1,9 +1,14 @@
 #include "DrawMapStage2.h"
 #include "game.h"
+#include "Image.h"
 #include <Dxlib.h>
 
-DrawMapStage2::DrawMapStage2()
+DrawMapStage2::DrawMapStage2():
+	m_hMap1(-1), m_hMap2(-1),//マップ用ハンドル
+	m_hMap3(-1), m_hMap4(-1),
+	m_hMap5(-1)
 {
+
 }
 
 DrawMapStage2::~DrawMapStage2()
@@ -12,10 +17,21 @@ DrawMapStage2::~DrawMapStage2()
 
 void DrawMapStage2::Init()
 {
+	//マップ画像読み込み
+	m_hMap1 = LoadGraph(Image::kMapFirst);
+	m_hMap2 = LoadGraph(Image::kMapSecond);
+	m_hMap3 = LoadGraph(Image::kMapThird);
+	m_hMap4 = LoadGraph(Image::kMapFourth);
+	m_hMap5 = LoadGraph(Image::kMapFifth);
 }
 
 void DrawMapStage2::End()
 {
+	DeleteGraph(m_hMap1);
+	DeleteGraph(m_hMap2);
+	DeleteGraph(m_hMap3);
+	DeleteGraph(m_hMap4);
+	DeleteGraph(m_hMap5);
 }
 
 void DrawMapStage2::Update()
@@ -23,6 +39,36 @@ void DrawMapStage2::Update()
 }
 
 void DrawMapStage2::Draw()
+{
+
+
+	DrawBackground();//マップの背景を表示
+	DrawMap();//マップ表示
+
+	//第一梯子
+	DrawBox(Stage2::kLadder1X, Stage2::kLadder1Y, Stage2::kLadderBottom1X, Stage2::kLadderBottom1Y, 0xff0000, true);
+	//第二梯子
+	DrawBox(Stage2::kLadder2X, Stage2::kLadder2Y, Stage2::kLadderBottom2X, Stage2::kLadderBottom2Y, 0xff0000, true);
+	//第三梯子
+	DrawBox(Stage2::kLadder3X, Stage2::kLadder3Y, Stage2::kLadderBottom3X, Stage2::kLadderBottom3Y, 0xff0000, true);
+	//第四梯子
+	DrawBox(Stage2::kLadder4X, Stage2::kLadder4Y, Stage2::kLadderBottom4X, Stage2::kLadderBottom4Y, 0xff0000, true);
+
+	//ゴール
+	DrawBox(Stage2::kGoalX, Stage2::kGoalY, Stage2::kGoalBottomX, Stage2::kGoalBottomY, 0xff00ff, false);
+
+}
+
+void DrawMapStage2::DrawBackground()
+{
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap1, true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap2, true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap3, true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap4, true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap5, true);
+}
+
+void DrawMapStage2::DrawMap()
 {
 	//1階地面
 	DrawBox(Stage2::kBox1X, Stage2::kBox1Y, Stage2::kBoxBottom1X, Stage2::kBoxBottom1Y, 0xffffff, true);
@@ -71,19 +117,7 @@ void DrawMapStage2::Draw()
 	DrawBox(Stage2::kBox4XFi, Stage2::kBox4YFi, Stage2::kBoxBottom4XFi, Stage2::kBoxBottom4YFi, 0xffffff, true);
 	DrawBox(Stage2::kBox5XFi, Stage2::kBox5YFi, Stage2::kBoxBottom5XFi, Stage2::kBoxBottom5YFi, 0xffffff, true);
 	DrawBox(Stage2::kBox6XFi, Stage2::kBox6YFi, Stage2::kBoxBottom6XFi, Stage2::kBoxBottom6YFi, 0xffffff, true);
+
 	//DrawBox(Stage2::kBox7XFi, Stage2::kBox7YFi, Stage2::kBoxBottom7XFi, Stage2::kBoxBottom7YFi, 0xffffff, true);
 	//DrawBox(Stage2::kBox8XFi, Stage2::kBox8YFi, Stage2::kBoxBottom8XFi, Stage2::kBoxBottom8YFi, 0xffffff, true);
-
-	//第一梯子
-	DrawBox(Stage2::kLadder1X, Stage2::kLadder1Y, Stage2::kLadderBottom1X, Stage2::kLadderBottom1Y, 0xff0000, true);
-	//第二梯子
-	DrawBox(Stage2::kLadder2X, Stage2::kLadder2Y, Stage2::kLadderBottom2X, Stage2::kLadderBottom2Y, 0xff0000, true);
-	//第三梯子
-	DrawBox(Stage2::kLadder3X, Stage2::kLadder3Y, Stage2::kLadderBottom3X, Stage2::kLadderBottom3Y, 0xff0000, true);
-	//第四梯子
-	DrawBox(Stage2::kLadder4X, Stage2::kLadder4Y, Stage2::kLadderBottom4X, Stage2::kLadderBottom4Y, 0xff0000, true);
-
-	//ゴール
-	DrawBox(Stage2::kGoalX, Stage2::kGoalY, Stage2::kGoalBottomX, Stage2::kGoalBottomY, 0xff00ff, false);
-
 }

@@ -44,7 +44,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		auto fps = GetFPS();// Frame Per Second
 		auto drawcall = GetDrawCallCount();// ï`âÊñΩóﬂêî
-
 		DrawFormatString(200, 200, 0xffffff, "FPS=%2.2f", fps);
 		DrawFormatString(200, 230, 0xffffff, "DC=%d", drawcall);
 

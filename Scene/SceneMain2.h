@@ -18,11 +18,13 @@ public:
 	virtual SceneBase* Update() override;
 	virtual void Draw();
 private:
-
+	//プレイヤー画像
 	int m_hPlayer;
 	int m_hPlayerIdle;
 	int m_hPlayerLighting;
 	int m_hPlayerHealthBer;
+	//エネミー画像
+	int m_hEnemyFireBall;
 
 	int m_hMusicBgm1;
 

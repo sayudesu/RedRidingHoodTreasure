@@ -80,6 +80,8 @@ void Collision::Update()
 	m_pPlayer->GetEnemyChageHit(HitCharge());//プレイヤーとチャージエネミーの当たり判定
 	m_pPlayer->GetEnemyChageBlink(m_pEnemy->GetRushBlink());//プレイヤーとチャージエネミーの当たり判定
 
+	m_pPlayer->GetScore(HitScore());//スコア
+
 	//重要イベント発生条件判定
 	GetGoal(m_pPlayer->GetGameClear());//ゲームクリア条件を満たしているか
 	GetDead(m_pPlayer->GetGameOver());//死ぬだ場合
@@ -601,90 +603,90 @@ int Collision::HItEnemyLadder()
 int Collision::HitEnemyFireBall()
 {
 	//2階の判定///////////////////////////////////////////////////////////////////////////////////////////
-	if ((Stage2::kBoxBottom1Xs > m_pEnemy->GetLeft()) &&
-		(Stage2::kBox1Xs < m_pEnemy->GetRight()))
+	if ((Stage2::kBoxBottom1X > m_pEnemy->GetLeft()) &&
+		(Stage2::kBox1X < m_pEnemy->GetRight()))
 	{
-		if ((Stage2::koxBottom1Ys > m_pEnemy->GetTop()) &&
-			(Stage2::kBox1Ys < m_pEnemy->GetBottom()))
+		if ((Stage2::kBoxBottom1Y > m_pEnemy->GetTop()) &&
+			(Stage2::kBox1Y < m_pEnemy->GetBottom()))
 		{
-			m_enemyFireBallPosY = Stage2::kBox1Ys - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyFireBallPosY = Stage2::kBox1Y - kEnemyPosY + kPlayerPosPulsY;
 			return 2;
 		}
 	}
 	//1段差
-	if ((Stage2::kBoxBottom2Xs > m_pEnemy->GetLeft()) &&
-		(Stage2::kBox2Xs < m_pEnemy->GetRight()))
+	if ((Stage2::kBoxBottom2X > m_pEnemy->GetLeft()) &&
+		(Stage2::kBox2X < m_pEnemy->GetRight()))
 	{
-		if ((Stage2::kBoxBottom2Ys > m_pEnemy->GetTop()) &&
-			(Stage2::kBox2Ys < m_pEnemy->GetBottom()))
+		if ((Stage2::kBoxBottom2Y > m_pEnemy->GetTop()) &&
+			(Stage2::kBox2Y < m_pEnemy->GetBottom()))
 		{
-			m_enemyFireBallPosY = Stage2::kBox2Ys - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyFireBallPosY = Stage2::kBox2Y - kEnemyPosY + kPlayerPosPulsY;
 			return 2;
 		}
 	}
 	//2段差
-	if ((Stage2::kBoxBottom3Xs > m_pEnemy->GetLeft()) &&
-		(Stage2::kBox3Xs < m_pEnemy->GetRight()))
+	if ((Stage2::kBoxBottom3X > m_pEnemy->GetLeft()) &&
+		(Stage2::kBox3X < m_pEnemy->GetRight()))
 	{
-		if ((Stage2::kBoxBottom3Ys > m_pEnemy->GetTop()) &&
-			(Stage2::kBox3Ys < m_pEnemy->GetBottom()))
+		if ((Stage2::kBoxBottom3Y > m_pEnemy->GetTop()) &&
+			(Stage2::kBox3Y < m_pEnemy->GetBottom()))
 		{
-			m_enemyFireBallPosY = Stage2::kBox3Ys - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyFireBallPosY = Stage2::kBox3Y - kEnemyPosY + kPlayerPosPulsY;
 			return 2;
 		}
 	}
 	//3段差
-	if ((Stage2::kBoxBottom4Xs > m_pEnemy->GetLeft()) &&
-		(Stage2::kBox4Xs < m_pEnemy->GetRight()))
+	if ((Stage2::kBoxBottom4X > m_pEnemy->GetLeft()) &&
+		(Stage2::kBox4X < m_pEnemy->GetRight()))
 	{
-		if ((Stage2::kBoxBottom4Ys > m_pEnemy->GetTop()) &&
-			(Stage2::kBox4Ys < m_pEnemy->GetBottom()))
+		if ((Stage2::kBoxBottom4Y > m_pEnemy->GetTop()) &&
+			(Stage2::kBox4Y < m_pEnemy->GetBottom()))
 		{
-			m_enemyFireBallPosY = Stage2::kBox4Ys - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyFireBallPosY = Stage2::kBox4Y - kEnemyPosY + kPlayerPosPulsY;
 			return 2;
 		}
 	}
 	//4段差
-	if ((Stage2::kBoxBottom5Xs > m_pEnemy->GetLeft()) &&
-		(Stage2::kBox5Xs < m_pEnemy->GetRight()))
+	if ((Stage2::kBoxBottom5X > m_pEnemy->GetLeft()) &&
+		(Stage2::kBox5X < m_pEnemy->GetRight()))
 	{
-		if ((Stage2::kBoxBottom5Ys > m_pEnemy->GetTop()) &&
-			(Stage2::kBox5Ys < m_pEnemy->GetBottom()))
+		if ((Stage2::kBoxBottom5Y > m_pEnemy->GetTop()) &&
+			(Stage2::kBox5Y < m_pEnemy->GetBottom()))
 		{
-			m_enemyFireBallPosY = Stage2::kBox5Ys - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyFireBallPosY = Stage2::kBox5Y - kEnemyPosY + kPlayerPosPulsY;
 			return 2;
 		}
 	}
 	//5段差
-	if ((Stage2::kBoxBottom6Xs > m_pEnemy->GetLeft()) &&
-		(Stage2::kBox6Xs < m_pEnemy->GetRight()))
+	if ((Stage2::kBoxBottom6X > m_pEnemy->GetLeft()) &&
+		(Stage2::kBox6X < m_pEnemy->GetRight()))
 	{
-		if ((Stage2::kBoxBottom6Ys > m_pEnemy->GetTop()) &&
-			(Stage2::kBox6Ys < m_pEnemy->GetBottom()))
+		if ((Stage2::kBoxBottom6Y > m_pEnemy->GetTop()) &&
+			(Stage2::kBox6Y < m_pEnemy->GetBottom()))
 		{
-			m_enemyFireBallPosY = Stage2::kBox6Ys - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyFireBallPosY = Stage2::kBox6Y - kEnemyPosY + kPlayerPosPulsY;
 			return 2;
 		}
 	}
 	//6段差
-	if ((Stage2::kBoxBottom7Xs > m_pEnemy->GetLeft()) &&
-		(Stage2::kBox7Xs < m_pEnemy->GetRight()))
+	if ((Stage2::kBoxBottom7X > m_pEnemy->GetLeft()) &&
+		(Stage2::kBox7X < m_pEnemy->GetRight()))
 	{
-		if ((Stage2::kBoxBottom7Ys > m_pEnemy->GetTop()) &&
-			(Stage2::kBox7Ys < m_pEnemy->GetBottom()))
+		if ((Stage2::kBoxBottom7Y > m_pEnemy->GetTop()) &&
+			(Stage2::kBox7Y < m_pEnemy->GetBottom()))
 		{
-			m_enemyFireBallPosY = Stage2::kBox7Ys - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyFireBallPosY = Stage2::kBox7Y - kEnemyPosY + kPlayerPosPulsY;
 			return 2;
 		}
 	}
 	//7段差
-	if ((Stage2::kBoxBottom8Xs > m_pEnemy->GetLeft()) &&
-		(Stage2::kBox8Xs < m_pEnemy->GetRight()))
+	if ((Stage2::kBoxBottom8X > m_pEnemy->GetLeft()) &&
+		(Stage2::kBox8X < m_pEnemy->GetRight()))
 	{
-		if ((Stage2::kBoxBottom8Ys > m_pEnemy->GetTop()) &&
-			(Stage2::kBox8Ys < m_pEnemy->GetBottom()))
+		if ((Stage2::kBoxBottom8Y > m_pEnemy->GetTop()) &&
+			(Stage2::kBox8Y < m_pEnemy->GetBottom()))
 		{
-			m_enemyFireBallPosY = Stage2::kBox8Ys - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyFireBallPosY = Stage2::kBox8Y - kEnemyPosY + kPlayerPosPulsY;
 			return 2;
 		}
 	}
@@ -731,6 +733,32 @@ bool Collision::HitEnemy()
 		}
 	}
 	return false;
+}
+
+//スコア
+int Collision::HitScore()
+{
+	//炎の弾
+	if ((m_pEnemy->GetRight() > m_pPlayer->GetScoreLeft()) &&
+		(m_pEnemy->GetLeft() < m_pPlayer->GetScoreRight()))
+	{
+		if ((m_pEnemy->GetBottom() > m_pPlayer->GetScoreTop()) &&
+			(m_pEnemy->GetTop() < m_pPlayer->GetScoreBottom()))
+		{
+			return 2;
+		}
+	}
+	//樽
+	if ((m_pEnemy->GetBarrelRight() > m_pPlayer->GetScoreLeft()) &&
+		(m_pEnemy->GetBarrelLeft() < m_pPlayer->GetScoreRight()))
+	{
+		if ((m_pEnemy->GetBarrelBottom() > m_pPlayer->GetScoreTop()) &&
+			(m_pEnemy->GetBarrelTop() < m_pPlayer->GetScoreBottom()))
+		{
+			return 1;
+		}
+	}
+	return 0;
 }
 
 //プレイヤーとエネミーの当たり判定::プレイヤーがエネミーを攻撃

@@ -16,16 +16,21 @@ public:
 public:
 
 	//画像
-	void SetHandle(int handle) { m_hPlayer = handle; }
-	void SetHandleIdle(int handle) { m_hPlayerIdle = handle; }
-	void SetHandleLighting(int handle) { m_hPlayerLighting = handle; }
-	void SetHandleHealthBer(int handle) { m_hHealthBer = handle; }
+	void SetHandle         (int handle) { m_hPlayer = handle;         }
+	void SetHandleIdle     (int handle) { m_hPlayerIdle = handle;     }
+	void SetHandleLighting (int handle) { m_hPlayerLighting = handle; }
+	void SetHandleHealthBer(int handle) { m_hHealthBer = handle;      }
 
 	//プレイヤーの座標
 	float GetPlayerLeft  () { return static_cast<float>(m_playerLeft);   }
 	float GetPlayerTop   () { return static_cast<float>(m_playerTop);    }
 	float GetPlayerRight () { return static_cast<float>(m_playerRight);  }
 	float GetPlayerBottom() { return static_cast<float>(m_playerBottom); }
+	//プレイヤーのスコア判定座標
+	float GetScoreLeft  () { return static_cast<float>(m_scoreLeft);   }
+	float GetScoreTop   () { return static_cast<float>(m_scoreTop);    }
+	float GetScoreRight () { return static_cast<float>(m_scoreRight);  }
+	float GetScoreBottom() { return static_cast<float>(m_scoreBottom); }
 
 	//プレイヤーの座標
 	float GetAttackPlayerLeft  () { return static_cast<float>(m_attackPlayerLeft  ); }
@@ -33,8 +38,8 @@ public:
 	float GetAttackPlayerRight () { return static_cast<float>(m_attackPlayerRight ); }
 	float GetAttackPlayerBottom() { return static_cast<float>(m_attackPlayerBottom); }
 
-	bool GetGameClear() { return m_isStageClearChangeScene; }
-	bool GetGameOver () { return m_isDead; }
+	bool GetGameClear() { return m_isStageClearChangeScene; }//ゲームクリアフラグ
+	bool GetGameOver () { return m_isDead;                  }//ゲームオーバーフラグ
 
 	//Vec2でのプレイヤー座標
 	Vec2 GetkPlayerPos() { return m_pos; }
@@ -49,8 +54,10 @@ public:
 	void GetPlayerHit	   (bool attack   ) { m_isAttackHit    = attack;    }//敵に攻撃を与える
 	void GetEnemyChageHit  (bool attack   ) { m_isDamageCharge = attack;    }//チャージエネミーから攻撃を受ける
 	void GetEnemyChageBlink(bool blink    ) { m_isRushBlink    = blink;     }//チャージエネミーから攻撃を受ける
+
+	void GetScore(int score) { m_score = score; }//スコア判定
 private:
-	void Animation();
+	void Animation();//アニメーション再生
 private:
 	//プレイヤー位置補正
 	void PlayerPosSet();
@@ -60,7 +67,10 @@ private:
 	void OperationAttack  ();//攻撃操作
 	void OperationJump    ();//ジャンプ
 	void OperationLadder  ();//梯子での操作
+
+	void Score();//スコア計算
 private:
+
 	//更新画面
 	void UpdateMove();
 	//死亡処理
@@ -97,6 +107,12 @@ private:
 	int m_playerTop;
 	int m_playerRight;
 	int m_playerBottom;
+	//プレイヤースコア判定
+	int m_scoreLeft;
+	int m_scoreTop;
+	int m_scoreRight;
+	int m_scoreBottom;
+	int m_score;//スコア計算
 	//プレイヤー攻撃範囲判定用
 	int m_attackPlayerLeft;
 	int m_attackPlayerTop;
@@ -109,6 +125,11 @@ private:
 	int m_charaImageDamagePos;
 	int m_charaImageJumpPos;
 	int m_charaImageCrouching;
+	//プレイヤー画像での位置
+	int m_charaImageLeft;
+	int m_charaImageTop;
+	int m_charaImageRigth;
+	int m_charaImageBottom;
 	//はしご
 	int m_count;
 	//アイテムボックスサイズ位置
@@ -129,7 +150,9 @@ private:
 	//アイテムボックスドロップ
 	int m_boxDropCount;
 	//フレームカウント
-	int m_frameCount;
+	int m_frameCount1;
+	int m_frameCount2;
+	int m_frameCount3;
 	//現在何階にいるか
 	int m_hierarchy;
 	//説明用
@@ -137,13 +160,16 @@ private:
 	//重力
 	float m_gravity;
 	//アニメーション
-	bool m_isRunMoveLeft;
-	bool m_isRunMoveRight;
+	bool m_isRunMove;
+	bool m_isStopMove;
 	bool m_isIdleMove;
 	bool m_isAttackMove;
 	bool m_isDamageMove;
 	bool m_isJumpMove;
 	bool m_isCrouchingMove;
+	//アニメーション再生画像位置
+	bool m_isRunImagePos;//走っている
+	bool m_isJumpImagePos;//ジャンプしている
 	//HP
 	bool m_isHealthBer;
 	bool m_isDead;
@@ -156,8 +182,6 @@ private:
 	//攻撃判定
 	bool m_isAttack;
 	bool m_isEnemyDead;
-	//ストップ
-	bool m_isStopMove;
 	//階段判定
 	bool m_isFloorOne;
 	//梯子判定

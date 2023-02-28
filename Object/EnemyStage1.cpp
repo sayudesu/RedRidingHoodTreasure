@@ -1,6 +1,7 @@
 #include "EnemyStage1.h"
 #include "SceneMain2.h"
 #include "game.h"
+#include "Image.h"
 #include <DxLib.h>
 
 namespace Enemy
@@ -18,6 +19,7 @@ namespace Enemy
 }
 
 EnemyStage1::EnemyStage1():
+	m_hFireBall(-1),//画像ハンドル
 	m_posLeft(0),
 	m_posTop(0),
 	m_posRight(0),
@@ -46,6 +48,8 @@ EnemyStage1::EnemyStage1():
 	m_chargeTop(0),
 	m_chargeRight(0),
 	m_chargeBottom(0),
+	m_fireBallImagePosX(0),//ファイアボール画像位置
+	m_fireBallImagePosY(0),
 	m_barrelSpeed(0),
 	m_fall(0),
 	m_fallFireBall(0),
@@ -58,7 +62,7 @@ EnemyStage1::EnemyStage1():
 	m_fallenUpSpeed(0.0f),
 	m_fallenUpSpeed2(0.0f),
 	m_getPos(0.0f),
-	m_rad(0.0f),
+	m_fireRad(0),//ファイアボール角度
 	m_chargeSpeed(0.0f),
 	m_length(0.0f),
 	m_getFireBallPos(0),
@@ -87,7 +91,7 @@ EnemyStage1::EnemyStage1():
 	m_isCanFallen2 = true;
 	//ファイアボール初期位置
 	m_pos.x = Game::kScreenWidth - 400;
-	m_pos.y = Game::kScreenHeight - 400;
+	m_pos.y = Game::kScreenHeight - 150;
 	//樽初期位置
 	m_barrelPos.x = Enemy::kBossPosLeft;
 	m_barrelPos.y = Enemy::kBossPosTop;
@@ -102,6 +106,8 @@ EnemyStage1::EnemyStage1():
 	m_chargePos.y = Stage2::kBox1Yf - 50;
 
 	m_chargeSpeed = 10.0f;
+
+	m_hFireBall = LoadGraph(Image::kEnemyFireBall);
 
 }
 
@@ -120,6 +126,22 @@ void EnemyStage1::End()
 
 void EnemyStage1::Update()
 {
+	//ファイアボールの画像調整
+	m_fireBallImagePosX += 100;//画像を右まで動かす
+
+	if (m_fireBallImagePosX >= 800)//画像表示を右まで行ったらY軸を１画像下に下げる
+	{
+		m_fireBallImagePosX = 0;//一番左までリセット
+		m_fireBallImagePosY += 100;//表示する画像を１画像分下に下げる
+
+	}
+	if (m_fireBallImagePosY >= 700 && m_fireBallImagePosX >= 500)//Y軸下まで行ったら画像を一番上まで戻す
+	{
+		m_fireBallImagePosX = 0;//一番左までリセット
+		m_fireBallImagePosY = 0;//Y軸で画像を一番上の画像に戻す
+
+	}
+
 	BarrelMove();//樽の動き
 	fireBallMove();//ファイアボールの動き
 	falleMove();//ドッスン動き
@@ -131,6 +153,12 @@ void EnemyStage1::Draw()
 {
 	//エネミー
 	DrawBox(m_posLeft, m_posTop, m_posRight, m_posBottom, 0xff0000, true);
+	//テスト
+	//int c = LoadGraph(Image::kEnemyFireBall);
+
+	DrawRectRotaGraph(m_posLeft + 20 , m_posTop + 15,
+		m_fireBallImagePosX, m_fireBallImagePosY, 100, 100, 1, m_fireRad, m_hFireBall, true, false);
+
 	//ボス
 	DrawBox(Enemy::kBossPosLeft, Enemy::kBossPosTop,
 		Enemy::kBossPosRight, Enemy::kBossPosBottom, 0xffff00, true);
@@ -231,22 +259,22 @@ void EnemyStage1::fireBallMove()
 
 	if (!m_isFireBallCourse)//右動き
 	{
-		m_pos.x -= 3.0f;
-		if (m_pos.x < Stage2::kBox1Xs)//向きを変更する
+		m_pos.x -= 13.0f;
+		if (m_pos.x < 0)//向きを変更する
 		{
 			m_isFireBallCourse = true;
 		}
 	}
 	else//左動き
 	{
-		m_pos.x += 3.0f;
-		if (m_pos.x > Stage2::kBoxBottom8Xs - 30)//向きを変更する
+		m_pos.x += 13.0f;
+		if (m_pos.x > Game::kScreenWidth)//向きを変更する
 		{
 			m_isFireBallCourse = false;
 		}
 	}
 
-	if (m_fallFireBall== 2)//地面に当たったら
+	if (m_fallFireBall == 2)//地面に当たったら
 	{
 		//m_vec.y = 0.0f;//下に落ちないように
 		m_pos.y = static_cast<float>(m_getFireBallPos) + 10;//プレイヤーの位置座標

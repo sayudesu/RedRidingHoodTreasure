@@ -20,14 +20,16 @@ namespace Enemy
 
 EnemyStage1::EnemyStage1():
 	m_hFireBall(-1),//画像ハンドル
+	m_hBarre(-1),
 	m_posLeft(0),
 	m_posTop(0),
 	m_posRight(0),
 	m_posBottom(0),
-	m_barrelLeft(0),
+	m_barrelLeft(0),//樽サイズ
 	m_barrelTop(0),
 	m_barrelRight(0),
 	m_barrelBottom(0),
+	m_barrelSizePulsX(0),//樽サイズ変更.X
 	m_fallenLeft(0),
 	m_fallenTop(0),
 	m_fallenRight(0),
@@ -50,6 +52,9 @@ EnemyStage1::EnemyStage1():
 	m_chargeBottom(0),
 	m_fireBallImagePosX(0),//ファイアボール画像位置
 	m_fireBallImagePosY(0),
+	m_fireImageDirection(0),
+	m_barreImagePosX(0),//樽（イノシシ）画像位置
+	m_barreImageDirection(false),//樽（いのしし）画像の方向
 	m_barrelSpeed(0),
 	m_fall(0),
 	m_fallFireBall(0),
@@ -57,6 +62,8 @@ EnemyStage1::EnemyStage1():
 	m_fallenRange2(0),
 	m_fallenCount(0),
 	m_fallenCount2(0),
+	m_frameCountBarreImage(0),//樽（いのしし）の画像描画用フレームカウント
+	m_frameCountFireImage(0),
 	m_ladderNum(0),
 	m_rushCount(0),
 	m_fallenUpSpeed(0.0f),
@@ -107,13 +114,15 @@ EnemyStage1::EnemyStage1():
 
 	m_chargeSpeed = 10.0f;
 
-	m_hFireBall = LoadGraph(Image::kEnemyFireBall);
+	m_hFireBall = LoadGraph(Image::kEnemySnail);
+	m_hBarre = LoadGraph(Image::kEnemyBarre);
 
 }
 
 EnemyStage1::~EnemyStage1()
 {
-
+	DeleteGraph(m_hFireBall);
+	DeleteGraph(m_hBarre);
 }
 
 void EnemyStage1::Init()
@@ -126,44 +135,30 @@ void EnemyStage1::End()
 
 void EnemyStage1::Update()
 {
-	//ファイアボールの画像調整
-	m_fireBallImagePosX += 100;//画像を右まで動かす
-
-	if (m_fireBallImagePosX >= 800)//画像表示を右まで行ったらY軸を１画像下に下げる
-	{
-		m_fireBallImagePosX = 0;//一番左までリセット
-		m_fireBallImagePosY += 100;//表示する画像を１画像分下に下げる
-
-	}
-	if (m_fireBallImagePosY >= 700 && m_fireBallImagePosX >= 500)//Y軸下まで行ったら画像を一番上まで戻す
-	{
-		m_fireBallImagePosX = 0;//一番左までリセット
-		m_fireBallImagePosY = 0;//Y軸で画像を一番上の画像に戻す
-
-	}
-
 	BarrelMove();//樽の動き
 	fireBallMove();//ファイアボールの動き
 	falleMove();//ドッスン動き
-	npcPos();//敵のサイズ取得
 	ChargeMove();//チャージエネミーの動き
+	npcPos();//敵のサイズ取得
 }
 //描画
 void EnemyStage1::Draw()
 {
-	//エネミー
-	DrawBox(m_posLeft, m_posTop, m_posRight, m_posBottom, 0xff0000, true);
-	//テスト
-	//int c = LoadGraph(Image::kEnemyFireBall);
-
+	//エネミー炎の玉
 	DrawRectRotaGraph(m_posLeft + 20 , m_posTop + 15,
-		m_fireBallImagePosX, m_fireBallImagePosY, 100, 100, 1, m_fireRad, m_hFireBall, true, false);
+		m_fireBallImagePosX, m_fireBallImagePosY, 48, 32, 1.3, m_fireRad, m_hFireBall, true, m_fireImageDirection);//画像を描画
+	DrawBox(m_posLeft, m_posTop, m_posRight, m_posBottom, 0xff0000, false);//判定確認
+
+	//樽
+	DrawRectRotaGraph(m_barrelLeft + 20, m_barrelTop + 15,
+		m_barreImagePosX, 0, 48, 32, 2, 0, m_hBarre, true, m_barreImageDirection);//画像を描画
+	DrawBox(m_barrelLeft, m_barrelTop, m_barrelRight, m_barrelBottom, 0xffff00, false);//判定確認
+	//横288
+	//縦32
 
 	//ボス
 	DrawBox(Enemy::kBossPosLeft, Enemy::kBossPosTop,
 		Enemy::kBossPosRight, Enemy::kBossPosBottom, 0xffff00, true);
-	//樽
-	DrawBox(m_barrelLeft, m_barrelTop, m_barrelRight, m_barrelBottom, 0xffff00, true);
 	//どっすん
 	DrawBox(m_fallenLeft, m_fallenTop, m_fallenRight, m_fallenBottom, 0xffff00, true);
 	//どっすん2
@@ -187,13 +182,23 @@ void EnemyStage1::BarrelMove()
 
 	m_vec.y += 3.0f;//重力
 
+	m_frameCountBarreImage++;
+	if (m_frameCountBarreImage == 3)//３フレームに一回画像を変更
+	{
+		m_barreImagePosX += 48;
+		m_frameCountBarreImage = 0;
+}
+	if (m_barreImagePosX >= 288)
+	{
+		m_barreImagePosX = 0;
+	}
+
 	if (m_fall == 5)//地面に当たったら
 	{
 		m_isCourse = false;
 		m_vec.y = 0.0f;//下に落ちないように
 		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
 		m_barrelPos.x -= Enemy::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
-
 	}
 	else if (m_fall == 4)//地面に当たったら
 	{
@@ -201,7 +206,7 @@ void EnemyStage1::BarrelMove()
 		m_vec.y = 0.0f;//下に落ちないように
 		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
 		m_barrelPos.x += Enemy::kBarrelSpeed * m_barrelSpeed;//左に移動
-
+		m_barreImageDirection = true;//画像の方向を変更
 	}
 
 	if (m_fall == 3)//地面に当たったら
@@ -210,7 +215,7 @@ void EnemyStage1::BarrelMove()
 		m_vec.y = 0.0f;//下に落ちないように
 		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
 		m_barrelPos.x -= Enemy::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
-
+		m_barreImageDirection = false;//画像の方向を変更
 	}
 
 	if (m_fall == 2)//地面に当たったら
@@ -219,6 +224,7 @@ void EnemyStage1::BarrelMove()
 		m_vec.y = 0.0f;//下に落ちないように
 		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
 		m_barrelPos.x += Enemy::kBarrelSpeed * m_barrelSpeed;//左に移動
+		m_barreImageDirection = true;//画像の方向を変更
 
 	}
 
@@ -228,6 +234,7 @@ void EnemyStage1::BarrelMove()
 		m_vec.y = 0.0f;//下に落ちないように
 		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
 		m_barrelPos.x -= Enemy::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
+		m_barreImageDirection = false;//画像の方向を変更
 
 	}
 
@@ -251,26 +258,59 @@ void EnemyStage1::BarrelMove()
 	{
 		m_barrelPos.x += Enemy::kBarrelSpeed;
 	}
+
+
 }
 //炎球の動き
 void EnemyStage1::fireBallMove()
 {
 	m_pos.y += 3.0f;//重力
 
+	m_frameCountFireImage++;
+	if (m_frameCountFireImage == 3)
+	{
+		m_fireBallImagePosX += 48;
+		m_frameCountFireImage = 0;
+	}
+	if (m_fireBallImagePosX >= 384) 
+	{
+		m_fireBallImagePosX = 0;
+	}
+
+	//ファイアボールの画像調整
+	//m_fireBallImagePosX += 100;//画像を右まで動かす
+
+	//if (m_fireBallImagePosX >= 800)//画像表示を右まで行ったらY軸を１画像下に下げる
+	//{
+	//	m_fireBallImagePosX = 0;//一番左までリセット
+	//	m_fireBallImagePosY += 100;//表示する画像を１画像分下に下げる
+
+	//}
+	//if (m_fireBallImagePosY >= 700 && m_fireBallImagePosX >= 500)//Y軸下まで行ったら画像を一番上まで戻す
+	//{
+	//	m_fireBallImagePosX = 0;//一番左までリセット
+	//	m_fireBallImagePosY = 0;//Y軸で画像を一番上の画像に戻す
+
+	//}
+
 	if (!m_isFireBallCourse)//右動き
 	{
-		m_pos.x -= 13.0f;
+		m_pos.x -= 8.0f;
 		if (m_pos.x < 0)//向きを変更する
 		{
-			m_isFireBallCourse = true;
+			//方向を変更
+			m_isFireBallCourse = true;//移動方向を変更
+			m_fireImageDirection = true;//画像の方向を変更
 		}
 	}
 	else//左動き
 	{
-		m_pos.x += 13.0f;
+		m_pos.x += 8.0f;
 		if (m_pos.x > Game::kScreenWidth)//向きを変更する
 		{
-			m_isFireBallCourse = false;
+			//方向を変更
+			m_isFireBallCourse = false;//移動方向を変更
+			m_fireImageDirection = false;//画像の方向を変更
 		}
 	}
 
@@ -494,13 +534,23 @@ void EnemyStage1::npcPos()
 	//enemyの座標
 	m_posLeft = m_pos.x;
 	m_posTop = m_pos.y;
-	m_posRight = m_posLeft + 30;
+	m_posRight = m_posLeft + 40;
 	m_posBottom = m_posTop + 30;
+
+
+	if (m_isCourse)
+	{
+		m_barrelSizePulsX = 150;
+	}
+	else
+	{
+		m_barrelSizePulsX = 0;
+	}
 
 	//樽
 	m_barrelLeft = m_barrelPos.x;
 	m_barrelTop = m_barrelPos.y;
-	m_barrelRight = m_barrelLeft + 40;
+	m_barrelRight = m_barrelLeft + 50;
 	m_barrelBottom = m_barrelTop + 40;
 
 	//ドッスン

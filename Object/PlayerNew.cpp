@@ -18,7 +18,7 @@ namespace
 	//動く速さ
 	constexpr float kMoveSpeed = 5.0f;
 	// ジャンプ力
-	constexpr float kJump = -10.0f;
+	constexpr float kJump = -9.3f;
 	// 重力
 	constexpr float kGravity = 1.0f;
 
@@ -93,6 +93,7 @@ PlayerNew::PlayerNew() :
 	m_frameCount1(0),//フレームカウント
 	m_frameCount2(0),
 	m_frameCount3(0),
+	m_deadCount(0),
 	m_hierarchy(0),
 	m_tip(0),
 	m_gravity(0.0f),
@@ -119,7 +120,8 @@ PlayerNew::PlayerNew() :
 	m_isCharaDirection(false),
 	m_isCharaIdleDirection(false),
 	m_isStageClear(false),
-	m_isStageClearChangeScene(false),
+	m_isStageClearChangeScene(false),//ステージをクリアしたら
+	m_isStageDeadChangeScene(false),//死んだら
 	m_isMenu(false),
 	m_isItemTip(false),
 	m_isItemDropTip(false),
@@ -228,11 +230,7 @@ void PlayerNew::Update()
 //描画
 void PlayerNew::Draw()
 {
-	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xaaaaaa, true);
-
-	//テスト
-	//int a = LoadGraph(Image::kPlayerImageIdle);//止まっている状態
-	//int b = LoadGraph(Image::kPlayerImage);    //動いている状態
+	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xffffff, false);
 
 	if (m_isRunMove || m_isJumpMove)//動いていいる場合の画像
 	{
@@ -538,7 +536,7 @@ void PlayerNew::UpdateMove()
 	//プレイヤーの座標
 	m_playerLeft   = static_cast<int>(m_pos.x);
 	m_playerTop    = static_cast<int>(m_pos.y);
-	m_playerRight  = m_playerLeft + 40;
+	m_playerRight  = m_playerLeft + 30;
 	m_playerBottom = m_playerTop + 40;
 
 	//スコア判定座標
@@ -566,5 +564,12 @@ void PlayerNew::UpdateMove()
 
 void PlayerNew::UpdateDead()
 {
+	m_deadCount++;
 	m_isDead = true;//死亡
+	if (m_deadCount == 60)
+	{
+		m_deadCount = 0;
+		m_isStageDeadChangeScene = true;
+		m_func = &PlayerNew::UpdateMove;
+	}
 }

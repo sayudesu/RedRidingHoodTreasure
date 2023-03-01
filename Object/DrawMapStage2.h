@@ -21,5 +21,8 @@ private:
 	int m_hMap3;
 	int m_hMap4;
 	int m_hMap5;
+	//マップ地面、梯子
+	int m_hTiles;
+	int m_hBlock;//地面用
 };
 

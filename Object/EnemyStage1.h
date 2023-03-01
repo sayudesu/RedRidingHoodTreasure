@@ -89,6 +89,7 @@ public:
 private:
 	//エネミー画像
 	int m_hFireBall;
+	int m_hBarre;
 	//炎の玉のサイズ
 	int m_posLeft;
 	int m_posTop;
@@ -99,6 +100,8 @@ private:
 	int m_barrelTop;
 	int m_barrelRight;
 	int m_barrelBottom;
+	//樽サイズプラス
+	int m_barrelSizePulsX;
 	//ドッスンのサイズ
 	int m_fallenLeft;
 	int m_fallenTop;
@@ -128,6 +131,10 @@ private:
 	//ファイアボールの画像位置
 	int m_fireBallImagePosX;
 	int m_fireBallImagePosY;
+	bool m_fireImageDirection;//画像の方向
+	//樽（イノシシ）の画像位置
+	int m_barreImagePosX;
+	bool m_barreImageDirection;//画像の方向
 
 	int m_barrelSpeed;//樽の速度
 
@@ -137,8 +144,11 @@ private:
 	int m_fallenRange;//落ちもの敵の範囲判定
 	int m_fallenRange2;//落ちもの敵の範囲判定
 
+	//フレームカウント類
 	int m_fallenCount;
 	int m_fallenCount2;
+	int m_frameCountFireImage;
+	int m_frameCountBarreImage;
 	
 	int m_ladderNum;
 	int m_getFireBallPos;//y軸固定座標
@@ -151,7 +161,7 @@ private:
 	float m_getPos;//y軸固定座標
 	float m_chargeSpeed;
 	float m_length;
-	int m_rushCount;
+	int   m_rushCount;
 
 	bool m_isFirstMove;//初動動作
 

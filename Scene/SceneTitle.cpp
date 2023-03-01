@@ -289,22 +289,22 @@ void SceneTitle::Draw()
 	}
 
 	//文字
-	DrawString(TitleMenu::kSelection1X, TitleMenu::kSelection1Y, "チュートリアル", 0x0000ff);
-	DrawString(TitleMenu::kSelection2X, TitleMenu::kSelection2Y, "ゲームスタート", 0x0000ff);
-	DrawString(TitleMenu::kSelection3X, TitleMenu::kSelection3Y, "デスクトップに戻る", 0x0000ff);
+	DrawString(TitleMenu::kSelection1X + 100, TitleMenu::kSelection1Y + 5 , "Tutorial", 0x0000ff);
+	DrawString(TitleMenu::kSelection2X + 100, TitleMenu::kSelection2Y + 5, "GameStart", 0x0000ff);
+	DrawString(TitleMenu::kSelection3X + 125, TitleMenu::kSelection3Y + 15, "Quit", 0x0000ff);
 	SetFontSize(64);//文字サイズ変更
-	DrawString(Game::kScreenWidth /2 - 150, Game::kScreenHeight/2 - 150, "ものよけ", 0xffff00);//タイトル
+	DrawString(Game::kScreenWidth /2 - 250 + 5, Game::kScreenHeight / 2 - 150 + 5 , "Avoidance-Jump", 0x00000);//タイトル
+	DrawString(Game::kScreenWidth /2 - 250, Game::kScreenHeight/2 - 150, "Avoidance-Jump", 0xffff00);//タイトル
 	SetFontSize(17);//文字サイス変更
 
 	//X
 	DrawRectRotaGraph(200,200,
 		m_buttonALeft, m_buttonATop, m_buttonARigth, m_buttonABottom, 5, 0, m_hButtonUi, true, false);
-	DrawString(200 + 50, 200, "で攻撃する", m_colorA);
+	DrawString(200 + 50, 200, "isAttack", m_colorA);
 	//A
 	DrawRectRotaGraph(230, 300,
 		m_buttonXLeft, m_buttonXTop, m_buttonXRigth, m_buttonXBottom, 5, 0, m_hButtonUi, true, false);
-	DrawString(230 + 50, 290, "でジャンプ", m_colorX);
-	DrawString(230 + 50 , 320, "を長押しで選択する", m_colorX);
+	DrawString(230 + 50, 290, "isJump & Check", m_colorX);
 	//カーソルの位置を描画
 	m_pCursor->Draw();
 }

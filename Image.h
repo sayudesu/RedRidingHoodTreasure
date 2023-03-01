@@ -7,6 +7,8 @@ namespace Image
 	const char* const kPlayerImageIdle = "Data/Player/idle sheet-Sheet.png";
 	//エネミー
 	const char* const kEnemyFireBall = "Data/Enemy/16_sunburn_spritesheet.png";
+	const char* const kEnemySnail = "Data/Enemy/snail all.png";
+	const char* const kEnemyBarre = "Data/Enemy/Run-Sheet-Black.png";
 
 	//光
 	const char* const kPlayerLighting = "Data/UI/lighting2.png";
@@ -20,6 +22,7 @@ namespace Image
 	const char* const kMapThird  = "Data/Map/plx-3.png";
 	const char* const kMapFourth = "Data/Map/plx-4.png";
 	const char* const kMapFifth  = "Data/Map/plx-5.png";
+	const char* const kMapTiles = "Data/Map/Tiles.png";
 
 	//マップチップ
 	const char* const kMapChip       = "Data/Map/jungle tileset.png";

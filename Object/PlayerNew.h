@@ -14,12 +14,15 @@ public:
 	virtual void Draw();
 
 public:
-
+	
 	//画像
 	void SetHandle         (int handle) { m_hPlayer = handle;         }
 	void SetHandleIdle     (int handle) { m_hPlayerIdle = handle;     }
 	void SetHandleLighting (int handle) { m_hPlayerLighting = handle; }
 	void SetHandleHealthBer(int handle) { m_hHealthBer = handle;      }
+
+	//死んだ場合
+	bool SetDead() { return m_isStageDeadChangeScene; }
 
 	//プレイヤーの座標
 	float GetPlayerLeft  () { return static_cast<float>(m_playerLeft);   }
@@ -153,6 +156,8 @@ private:
 	int m_frameCount1;
 	int m_frameCount2;
 	int m_frameCount3;
+	//死んだらそのあとカウント
+	int m_deadCount;
 	//現在何階にいるか
 	int m_hierarchy;
 	//説明用
@@ -197,7 +202,8 @@ private:
 	
 	//ゲームクリアシーン切り替え条件 true = クリア/false = 未クリア
 	bool m_isStageClearChangeScene;
-
+	bool m_isStageDeadChangeScene;//死亡
+	
 	bool m_isMenu;
 	//ゲームヒント
 	bool m_isItemTip;

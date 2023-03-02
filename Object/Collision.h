@@ -41,7 +41,9 @@ public:
 	void GetGoal(bool stageClear) { m_isStageClear = stageClear; }
 	void GetDead(bool dead) { m_isGameOver = dead; }
 	bool SetDead() { return m_isGameOver; }
-	//void  GetGoal2() { m_pPlayer->GetGameClear(); }
+
+	bool m_isDeadSceneChange;//死んだ用シーン切り替え
+    void GetDeadChangeScene(bool deadSceneChange) { m_isDeadSceneChange = deadSceneChange; }//死んだらシーンを切り替え
 
 	float m_posY;//プレイヤーのY座標
 

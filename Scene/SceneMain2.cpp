@@ -92,7 +92,13 @@ SceneBase* SceneMain2::Update()
 		return(new SceneResult);
 	}
 
-	if (m_pPlayer->SetDead())//敵やトラップに当たって死んだ場合
+	//if (m_pCollision->SetDead())
+	//{
+	//	printfDx("敵やトラップに当たって死んだ");
+	//	return(new SceneGameOver);
+	//}
+
+	if (m_pCollision->m_isDeadSceneChange)//敵やトラップに当たって死んだ場合
 	{
 		printfDx("敵やトラップに当たって死んだ");
 		return(new SceneGameOver);
@@ -110,6 +116,7 @@ void SceneMain2::Draw()
 	m_pStage->Draw();//ステージを描画
 	//プレイヤー、エネミーを表示
 	m_pCollision->Draw();
+	//m_pPlayer->Draw();
 	//m_pEnemy->Draw();
 	//m_pAnimation->Draw();//アニメーションを再生
 }

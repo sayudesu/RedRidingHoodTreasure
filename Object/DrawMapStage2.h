@@ -24,5 +24,14 @@ private:
 	//マップ地面、梯子
 	int m_hTiles;
 	int m_hBlock;//地面用
+
+	//マップ背景Forest
+	int m_hForest[9];
+	int m_hForestCut[9];//背景切り取り
+
+
+	//ゴール画像
+	int m_hMapChip1;//画像データ
+	int m_hBox;//箱を描画
 };
 

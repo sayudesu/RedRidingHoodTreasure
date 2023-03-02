@@ -9,6 +9,7 @@ namespace Image
 	const char* const kEnemyFireBall = "Data/Enemy/16_sunburn_spritesheet.png";
 	const char* const kEnemySnail = "Data/Enemy/snail all.png";
 	const char* const kEnemyBarre = "Data/Enemy/Run-Sheet-Black.png";
+	const char* const kEnemyFallen = "Data/Map/Hive.png";
 
 	//光
 	const char* const kPlayerLighting = "Data/UI/lighting2.png";
@@ -23,6 +24,20 @@ namespace Image
 	const char* const kMapFourth = "Data/Map/plx-4.png";
 	const char* const kMapFifth  = "Data/Map/plx-5.png";
 	const char* const kMapTiles = "Data/Map/Tiles.png";
+	const char* const kMapTiles2 = "Data/Map/Buildings.png";
+
+	const char* const kMapForest = "Data/Map/Background.png";
+
+	const char* const kMapForest0 = "Data/Map/Layer_0011_0.png";
+	const char* const kMapForest1 = "Data/Map/Layer_0010_1.png";
+	const char* const kMapForest2 = "Data/Map/Layer_0009_2.png";
+	const char* const kMapForest3 = "Data/Map/Layer_0008_3.png";
+	const char* const kMapForest4 = "Data/Map/Layer_0006_4.png";
+	const char* const kMapForest5 = "Data/Map/Layer_0005_5.png";
+	const char* const kMapForest6 = "Data/Map/Layer_0003_6.png";
+	const char* const kMapForest7 = "Data/Map/Layer_0002_7.png";
+	const char* const kMapForest8 = "Data/Map/Layer_0001_8.png";
+	const char* const kMapForest9 = "Data/Map/Layer_0000_9.png";
 
 	//マップチップ
 	const char* const kMapChip       = "Data/Map/jungle tileset.png";

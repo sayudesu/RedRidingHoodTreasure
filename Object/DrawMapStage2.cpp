@@ -8,7 +8,9 @@ DrawMapStage2::DrawMapStage2():
 	m_hMap3(-1), m_hMap4(-1),
 	m_hMap5(-1),
 	m_hTiles(-1),
-	m_hBlock(-1)
+	m_hBlock(-1),
+	m_hMapChip1(-1),//マップチップデータ
+	m_hBox(-1)//箱画像
 
 {
 
@@ -20,6 +22,13 @@ DrawMapStage2::~DrawMapStage2()
 
 void DrawMapStage2::Init()
 {
+
+	for (int i = 0; i < 9; i++)
+	{
+		m_hForest[i] = 0;
+		m_hForestCut[i] = 0;
+	}
+
 	//マップ画像読み込み
 	m_hMap1 = LoadGraph(Image::kMapFirst);
 	m_hMap2 = LoadGraph(Image::kMapSecond);
@@ -28,9 +37,44 @@ void DrawMapStage2::Init()
 	m_hMap5 = LoadGraph(Image::kMapFifth);
 	m_hTiles = LoadGraph(Image::kMapTiles);//地面画像を読み込み
 
-	//m_hBlock = DerivationGraph(0, 16, 32 + 32 +16, 16, m_hTiles);//地面画像から一部を抽出
+	m_hForest[0] = LoadGraph(Image::kMapForest0);//地面画像を読み込み
+	m_hForest[1] = LoadGraph(Image::kMapForest2);//地面画像を読み込み
+	m_hForest[2] = LoadGraph(Image::kMapForest3);//地面画像を読み込み
+	m_hForest[3] = LoadGraph(Image::kMapForest4);//地面画像を読み込み
+	m_hForest[4] = LoadGraph(Image::kMapForest5);//地面画像を読み込み
+	m_hForest[5] = LoadGraph(Image::kMapForest6);//地面画像を読み込み
+	m_hForest[6] = LoadGraph(Image::kMapForest7);//地面画像を読み込み
+	m_hForest[7] = LoadGraph(Image::kMapForest8);//地面画像を読み込み
+	m_hForest[8] = LoadGraph(Image::kMapForest9);//地面画像を読み込み
+
+
+
 	m_hBlock = DerivationGraph(178 + 1, 236, 32 + 16 - 10 , 16, m_hTiles);//地面画像から一部を抽出
+
+	int sizeX, sizeY;
+	GetGraphSize(m_hForest[0],& sizeX, &sizeY);
+	m_hForestCut[0] = DerivationGraph(0, 250, sizeX, sizeY, m_hForest[0]);//地面画像から一部を抽出
+	GetGraphSize(m_hForest[1], &sizeX, &sizeY);
+	m_hForestCut[1] = DerivationGraph(0,250, sizeX, sizeY, m_hForest[1]);//地面画像から一部を抽出
+	GetGraphSize(m_hForest[2], &sizeX, &sizeY);
+	m_hForestCut[2] = DerivationGraph(0, 250, sizeX, sizeY, m_hForest[2]);//地面画像から一部を抽出
+	GetGraphSize(m_hForest[3], &sizeX, &sizeY);
+	m_hForestCut[3] = DerivationGraph(0, 250, sizeX, sizeY, m_hForest[3]);//地面画像から一部を抽出
+	GetGraphSize(m_hForest[4], &sizeX, &sizeY);
+	m_hForestCut[4] = DerivationGraph(0, 250, sizeX, sizeY, m_hForest[4]);//地面画像から一部を抽出
+	GetGraphSize(m_hForest[5], &sizeX, &sizeY);
+	m_hForestCut[5] = DerivationGraph(0, 250, sizeX, sizeY, m_hForest[5]);//地面画像から一部を抽出
+	GetGraphSize(m_hForest[6], &sizeX, &sizeY);
+	m_hForestCut[6] = DerivationGraph(0, 250, sizeX, sizeY, m_hForest[6]);//地面画像から一部を抽出
+	GetGraphSize(m_hForest[7], &sizeX, &sizeY);
+	m_hForestCut[7] = DerivationGraph(0, 250, sizeX, sizeY, m_hForest[7]);//地面画像から一部を抽出
+	GetGraphSize(m_hForest[8], &sizeX, &sizeY);
+	m_hForestCut[8] = DerivationGraph(0, 250, sizeX, sizeY, m_hForest[8]);//地面画像から一部を抽出
+
 	//m_hTiles = LoadGraph(Image::kMapTiles);
+
+	m_hMapChip1 = LoadGraph(Image::kMapTiles);
+	m_hBox = DerivationGraph(288, 272, 32, 32, m_hMapChip1);//地面画像から一部を抽出
 }
 
 void DrawMapStage2::End()
@@ -42,6 +86,15 @@ void DrawMapStage2::End()
 	DeleteGraph(m_hMap5);
 	DeleteGraph(m_hTiles);
 	DeleteGraph(m_hBlock);
+
+	for (int i = 0; i < 9; i++)
+	{
+		DeleteGraph(m_hForest[i]);
+		DeleteGraph(m_hForestCut[i]);
+	}
+
+	DeleteGraph(m_hMapChip1);
+	DeleteGraph(m_hBox);
 }
 
 void DrawMapStage2::Update()
@@ -51,6 +104,8 @@ void DrawMapStage2::Update()
 void DrawMapStage2::Draw()
 {
 
+
+	DrawGraph(100, 100, m_hBox, true);
 
 	DrawBackground();//マップの背景を表示
 	DrawMap();//マップ表示
@@ -65,6 +120,7 @@ void DrawMapStage2::Draw()
 	DrawBox(Stage2::kLadder4X, Stage2::kLadder4Y, Stage2::kLadderBottom4X, Stage2::kLadderBottom4Y, 0xff0000, true);
 
 	//ゴール
+	DrawExtendGraph(Stage2::kGoalX, Stage2::kGoalY, Stage2::kGoalBottomX, Stage2::kGoalBottomY, m_hBox, true);
 	DrawBox(Stage2::kGoalX, Stage2::kGoalY, Stage2::kGoalBottomX, Stage2::kGoalBottomY, 0xff00ff, false);
 
 }
@@ -76,6 +132,16 @@ void DrawMapStage2::DrawBackground()
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap3, true);
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap4, true);
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap5, true);
+
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[0], true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[1], true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[2], true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[3], true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[4], true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[5], true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[6], true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[7], true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[8], true);
 }
 
 void DrawMapStage2::DrawMap()

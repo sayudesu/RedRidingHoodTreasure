@@ -8,10 +8,10 @@ namespace Enemy
 {
 
 	//ボスの位置
-	constexpr int kBossPosLeft = Game::kScreenWidth - 300;
-	constexpr int kBossPosTop = 200;
-	constexpr int kBossPosRight = kBossPosLeft + 100;
-	constexpr int kBossPosBottom = kBossPosTop + 100;
+	constexpr int kBossPosLeft = Game::kScreenWidth - 200;
+	constexpr int kBossPosTop = 110;
+	constexpr int kBossPosRight = kBossPosLeft + 200;
+	constexpr int kBossPosBottom = kBossPosTop + 200;
 
 	constexpr float kBarrelSpeed = 8.0f;
 
@@ -21,6 +21,10 @@ namespace Enemy
 EnemyStage1::EnemyStage1():
 	m_hFireBall(-1),//画像ハンドル
 	m_hBarre(-1),
+	m_hEnemyImage(-1),
+	m_hNeedle(-1),//地面用
+	m_hTiles(-1),//画像チップ
+	m_hCave(-1),//洞窟画像用
 	m_posLeft(0),
 	m_posTop(0),
 	m_posRight(0),
@@ -114,15 +118,22 @@ EnemyStage1::EnemyStage1():
 
 	m_chargeSpeed = 10.0f;
 
-	m_hFireBall = LoadGraph(Image::kEnemySnail);
-	m_hBarre = LoadGraph(Image::kEnemyBarre);
+	m_hFireBall = LoadGraph(Image::kEnemySnail);//カタツムリ
+	m_hBarre = LoadGraph(Image::kEnemyBarre);//いのしし
+	m_hTiles = LoadGraph(Image::kMapTiles2);//画像チップ（洞窟用）
 
+	m_hEnemyImage = LoadGraph(Image::kEnemyFallen);//落ちてくる罠が入ってる画像
+
+	m_hNeedle = DerivationGraph(0, 160, 32 + 16, 32, m_hEnemyImage);//地面画像から一部を抽出
+	m_hCave = DerivationGraph(272, 208, 128,160, m_hTiles);//地面画像から一部を抽出
 }
 
 EnemyStage1::~EnemyStage1()
 {
-	DeleteGraph(m_hFireBall);
-	DeleteGraph(m_hBarre);
+	DeleteGraph(m_hFireBall);//かたつむり
+	DeleteGraph(m_hBarre);//イノシシ
+	DeleteGraph(m_hEnemyImage);//画像
+	DeleteGraph(m_hNeedle);//落ちてくる敵
 }
 
 void EnemyStage1::Init()
@@ -144,25 +155,66 @@ void EnemyStage1::Update()
 //描画
 void EnemyStage1::Draw()
 {
+	//ボス(洞窟に変更敵のスポーン位置)
+	DrawExtendGraph(Enemy::kBossPosLeft, Enemy::kBossPosTop, Enemy::kBossPosRight, Enemy::kBossPosBottom,
+		m_hCave, true);
+	DrawBox(Enemy::kBossPosLeft, Enemy::kBossPosTop,
+		Enemy::kBossPosRight, Enemy::kBossPosBottom, 0xffff00, false);
 	//エネミー炎の玉
 	DrawRectRotaGraph(m_posLeft + 20 , m_posTop + 15,
 		m_fireBallImagePosX, m_fireBallImagePosY, 48, 32, 1.3, m_fireRad, m_hFireBall, true, m_fireImageDirection);//画像を描画
 	DrawBox(m_posLeft, m_posTop, m_posRight, m_posBottom, 0xff0000, false);//判定確認
 
 	//樽
-	DrawRectRotaGraph(m_barrelLeft + 20, m_barrelTop + 15,
+	DrawRectRotaGraph(m_barrelLeft + 20, m_barrelTop + 15 - 5,
 		m_barreImagePosX, 0, 48, 32, 2, 0, m_hBarre, true, m_barreImageDirection);//画像を描画
 	DrawBox(m_barrelLeft, m_barrelTop, m_barrelRight, m_barrelBottom, 0xffff00, false);//判定確認
 	//横288
 	//縦32
 
-	//ボス
-	DrawBox(Enemy::kBossPosLeft, Enemy::kBossPosTop,
-		Enemy::kBossPosRight, Enemy::kBossPosBottom, 0xffff00, true);
+
+	DrawRectRotaGraph(
+		m_fallenLeft + 30, m_fallenTop + 15,
+		0, 0, 32 + 16, 32,
+		1, DX_PI,
+		m_hNeedle, true, false
+	);
+	DrawRectRotaGraph(
+		m_fallenLeft + 30 + 45, m_fallenTop + 15,
+		0, 0, 32 + 16, 32,
+		1, DX_PI,
+		m_hNeedle, true, false
+	);
+	DrawRectRotaGraph(
+		m_fallenLeft + 30 + 45 + 45, m_fallenTop + 15,
+		0, 0, 32 + 16, 32,
+		1, DX_PI,
+		m_hNeedle, true, false
+	);
 	//どっすん
-	DrawBox(m_fallenLeft, m_fallenTop, m_fallenRight, m_fallenBottom, 0xffff00, true);
+	DrawBox(m_fallenLeft, m_fallenTop, m_fallenRight, m_fallenBottom, 0xffff00, false	);
+
+	DrawRectRotaGraph(
+		m_fallen2Left + 30, m_fallen2Top + 15,
+		0, 0, 32 + 16, 32,
+		1, DX_PI,
+		m_hNeedle, true, false
+	);
+	DrawRectRotaGraph(
+		m_fallen2Left + 30 + 45, m_fallen2Top + 15,
+		0, 0, 32 + 16, 32,
+		1, DX_PI,
+		m_hNeedle, true, false
+	);
+	DrawRectRotaGraph(
+		m_fallen2Left + 30 + 45 + 45, m_fallen2Top + 15,
+		0, 0, 32 + 16, 32,
+		1, DX_PI,
+		m_hNeedle, true, false
+	);
 	//どっすん2
-	DrawBox(m_fallen2Left, m_fallen2Top, m_fallen2Right, m_fallen2Bottom, 0xffff00, true);
+	DrawBox(m_fallen2Left, m_fallen2Top, m_fallen2Right, m_fallen2Bottom, 0xffff00, false);
+
 	//チャージエネミー
 	if (m_isRushBlink)//止まってる間は見えない
 	{
@@ -240,13 +292,13 @@ void EnemyStage1::BarrelMove()
 
 	if (m_barrelRight < 0)//樽が画面左に消えると最初の位置に戻っていく
 	{
-		m_barrelPos.x = Enemy::kBossPosLeft;
-		m_barrelPos.y = Enemy::kBossPosTop;
+		m_barrelPos.x = Enemy::kBossPosLeft + 50;
+		m_barrelPos.y = Enemy::kBossPosTop + 100;
 	}
 	else if (m_barrelRight > Game::kScreenWidth + 100)//樽が画面右に消えると最初の位置に戻っていく
 	{
-		m_barrelPos.x = Enemy::kBossPosLeft;
-		m_barrelPos.y = Enemy::kBossPosTop;
+		m_barrelPos.x = Enemy::kBossPosLeft + 50;
+		m_barrelPos.y = Enemy::kBossPosTop + 100;
 	}
 
 	if (m_fall == 0 && !m_isCourse)//樽が右に移動する場合
@@ -549,7 +601,7 @@ void EnemyStage1::npcPos()
 
 	//樽
 	m_barrelLeft = m_barrelPos.x;
-	m_barrelTop = m_barrelPos.y;
+	m_barrelTop = m_barrelPos.y + 5.0f;
 	m_barrelRight = m_barrelLeft + 50;
 	m_barrelBottom = m_barrelTop + 40;
 

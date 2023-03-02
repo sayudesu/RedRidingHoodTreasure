@@ -295,10 +295,10 @@ namespace Stage2
 	constexpr int kLadderBottom4Y = kLadder4Y + 145;
 
 	//ゲームクリア条件位置//////////////////////////////////////////////////////////////////////////
-	constexpr int kGoalX = Game::kScreenWidth - 100;
-	constexpr int kGoalY = 200;
-	constexpr int kGoalBottomX = kGoalX + 100;
-	constexpr int kGoalBottomY = kGoalY + 100;
+	constexpr int kGoalX = Game::kScreenWidth - 880;
+	constexpr int kGoalY = 280;
+	constexpr int kGoalBottomX = kGoalX + 50;
+	constexpr int kGoalBottomY = kGoalY + 50;
 }
 
 namespace TitleMenu

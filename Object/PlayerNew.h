@@ -21,8 +21,6 @@ public:
 	void SetHandleLighting (int handle) { m_hPlayerLighting = handle; }
 	void SetHandleHealthBer(int handle) { m_hHealthBer = handle;      }
 
-	//死んだ場合
-	bool SetDead() { return m_isStageDeadChangeScene; }
 
 	//プレイヤーの座標
 	float GetPlayerLeft  () { return static_cast<float>(m_playerLeft);   }
@@ -43,6 +41,8 @@ public:
 
 	bool GetGameClear() { return m_isStageClearChangeScene; }//ゲームクリアフラグ
 	bool GetGameOver () { return m_isDead;                  }//ゲームオーバーフラグ
+	//死んだ場合
+	bool SetDead() { return m_isStageDeadChangeScene; }
 
 	//Vec2でのプレイヤー座標
 	Vec2 GetkPlayerPos() { return m_pos; }
@@ -128,6 +128,10 @@ private:
 	int m_charaImageDamagePos;
 	int m_charaImageJumpPos;
 	int m_charaImageCrouching;
+	//プレイヤーが死んだ場合のアニメション
+	int m_charaImageDeadPosX;
+	int m_charaImageDeadPosY;
+	
 	//プレイヤー画像での位置
 	int m_charaImageLeft;
 	int m_charaImageTop;
@@ -156,12 +160,16 @@ private:
 	int m_frameCount1;
 	int m_frameCount2;
 	int m_frameCount3;
+	int m_frameCountDead;
 	//死んだらそのあとカウント
 	int m_deadCount;
 	//現在何階にいるか
 	int m_hierarchy;
 	//説明用
 	int m_tip;
+	//画面加工
+	int m_tempScreenH;//画面サイズを取得
+
 	//重力
 	float m_gravity;
 	//アニメーション
@@ -175,6 +183,8 @@ private:
 	//アニメーション再生画像位置
 	bool m_isRunImagePos;//走っている
 	bool m_isJumpImagePos;//ジャンプしている
+	//プレイヤーの画像角度
+	int m_playerRad;
 	//HP
 	bool m_isHealthBer;
 	bool m_isDead;

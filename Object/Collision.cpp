@@ -23,6 +23,7 @@ Collision::Collision() :
 	m_landingPos(0.0f),
 	m_enemyFireBallPosY(0),
 	m_isGameOver(false),
+	m_isDeadSceneChange(false),//死んだ場合のシーン切り替え
 	m_isPlayerPos(false),
 	m_isStageClear(false),
 	m_pPlayer(nullptr),
@@ -85,6 +86,8 @@ void Collision::Update()
 	//重要イベント発生条件判定
 	GetGoal(m_pPlayer->GetGameClear());//ゲームクリア条件を満たしているか
 	GetDead(m_pPlayer->GetGameOver());//死ぬだ場合
+
+	GetDeadChangeScene(m_pPlayer->SetDead());
 
 	if (m_pPlayer->GetkPlayerPos().y < m_pEnemy->GetBarrelTop() - 70)//樽がプレイヤーから下に一定距離離れると
 	{

@@ -90,6 +90,10 @@ private:
 	//エネミー画像
 	int m_hFireBall;
 	int m_hBarre;
+	int m_hEnemyImage;
+	int m_hNeedle;//地面用
+	int m_hTiles;//画像チップ
+	int m_hCave;//洞窟画像
 	//炎の玉のサイズ
 	int m_posLeft;
 	int m_posTop;

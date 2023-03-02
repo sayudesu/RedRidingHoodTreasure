@@ -5,6 +5,7 @@
 #include "Pad.h"
 #include "game.h"
 #include "image.h"
+#include <cassert>
 
 //定数
 namespace
@@ -72,6 +73,8 @@ PlayerNew::PlayerNew() :
 	m_charaImageDamagePos(0),
 	m_charaImageJumpPos(0),
 	m_charaImageCrouching(0),
+	m_charaImageDeadPosX(0),//プレイヤーが死んだ場合のアニメション
+	m_charaImageDeadPosY(0),
 	m_charaImageLeft(0),//プレイヤー画像での位置
 	m_charaImageTop(0),
 	m_charaImageRigth(0),
@@ -93,9 +96,11 @@ PlayerNew::PlayerNew() :
 	m_frameCount1(0),//フレームカウント
 	m_frameCount2(0),
 	m_frameCount3(0),
+	m_frameCountDead(0),//死んだらそのあとカウント
 	m_deadCount(0),
 	m_hierarchy(0),
 	m_tip(0),
+	m_tempScreenH(0),
 	m_gravity(0.0f),
 	m_isRunMove(false),//アニメーション関連bool
 	m_isStopMove(false),
@@ -105,6 +110,7 @@ PlayerNew::PlayerNew() :
 	m_isJumpMove(false),
 	m_isCrouchingMove(false),
 	m_isJumpImagePos(false),//ジャンプ画像位置
+	m_playerRad(0),//プレイヤーの角度
 	m_isHealthBer(false),
 	m_isDead(false),
 	m_isReset(false),
@@ -154,6 +160,7 @@ PlayerNew::PlayerNew() :
 	//画像位置をセット右下座標
 	m_charaImageRigth = 112;
 	m_charaImageBottom = 133;
+	m_charaImageDeadPosY = m_charaImageBottom * 9;
 
 	m_hPlayer = LoadGraph(Image::kPlayerImage);		   //プレイヤー画像読み込み
 	m_hPlayerIdle = LoadGraph(Image::kPlayerImageIdle);//プレイヤーアイドル状態画像読み込み
@@ -164,10 +171,19 @@ PlayerNew::PlayerNew() :
 	m_hDead   = LoadSoundMem(FX::kDead);  //攻撃サウンド読み込み
 	m_hLadder = LoadSoundMem(FX::kLadder);//梯子上りサウンド読み込み
 
+	int sw, sh, bit;//画面幅　画面高さ　ビット数
+	GetScreenState(&sw, &sh, &bit);//幅と高さ取得しておく
+	m_tempScreenH = MakeScreen(sw, sh);//加工用画面
+	assert(m_tempScreenH >= 0);//作れなかったらここで停止する
+
 }
 //デストラクタ
 PlayerNew::~PlayerNew()
 {
+	DeleteGraph(m_hPlayer);
+	DeleteGraph(m_hPlayerIdle);
+
+
 	//サウンドメモリ開放
 	DeleteSoundMem(m_hFxJump);
 	DeleteSoundMem(m_hRun);
@@ -230,13 +246,14 @@ void PlayerNew::Update()
 //描画
 void PlayerNew::Draw()
 {
+
 	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xffffff, false);
 
 	if (m_isRunMove || m_isJumpMove)//動いていいる場合の画像
 	{
 		DrawRectRotaGraph(m_playerLeft + 15, m_playerTop - 5,
 			m_charaImageLeft + m_charaImagePos, m_charaImageTop, m_charaImageRigth, m_charaImageBottom,
-			1.5, 0, m_hPlayer, true, m_isCharaDirection);
+			1.5, m_playerRad, m_hPlayer, true, m_isCharaDirection);
 		//画像の１キャラ分の大きさ
 		//横112
 		//縦133
@@ -245,7 +262,7 @@ void PlayerNew::Draw()
 	{
 		DrawRectRotaGraph(m_imagePos.x + m_imageBalancePos.x, m_imagePos.y + 10.0f,
 			m_charaImageIdlePos, 0, 80, 80,
-			1.5, 0, m_hPlayerIdle, true, m_isCharaIdleDirection);
+			1.5, m_playerRad, m_hPlayerIdle, true, m_isCharaIdleDirection);
 		//画像の１キャラ分の大きさ
 		//横80
 		//縦80
@@ -257,6 +274,13 @@ void PlayerNew::Draw()
 	}
 
 	m_isAttack = false;//攻撃していない
+
+	if (m_isDead)//死んでいる画面
+	{
+		DrawRectRotaGraph(Game::kScreenWidth/2,Game::kScreenHeight/2 - 300,
+			m_charaImageLeft + m_charaImageDeadPosX, m_charaImageTop + m_charaImageDeadPosY, m_charaImageRigth, m_charaImageBottom,
+			20, m_playerRad, m_hPlayer, true, m_isCharaDirection);
+	}
 }
 //アニメーションを再生
 void PlayerNew::Animation()
@@ -560,16 +584,34 @@ void PlayerNew::UpdateMove()
 		m_attackPlayerBottom = + 10;
 	}
 
+
 }
 
 void PlayerNew::UpdateDead()
 {
-	m_deadCount++;
-	m_isDead = true;//死亡
-	if (m_deadCount == 60)
+	//SetDrawScreen(DX_SCREEN_BACK);
+	//DrawGraph(100, 100, m_tempScreenH, false);
+	//GraphFilter(m_tempScreenH, DX_GRAPH_FILTER_GAUSS, 16, 1400);
+	//SetDrawBlendMode(DX_BLENDMODE_ADD, 32);
+
+	m_isDead = true;//死亡判定で動きを強制停止
+	m_frameCountDead++;
+	if (m_frameCountDead >= 20)//アニメーションを20フレームに1コマで再生
 	{
-		m_deadCount = 0;
-		m_isStageDeadChangeScene = true;
-		m_func = &PlayerNew::UpdateMove;
+		m_charaImageDeadPosX += 112;//画像112ドットを右に動かす
+		m_frameCountDead = 0;//カウントをリセット
+	}
+
+	if (m_charaImageDeadPosX >= 112 + 112)//アニメーションの再生に制限をかける
+	{
+		m_charaImageDeadPosX = 112 + 112;//表示画像を固定
+		m_deadCount++;//シーンを切り替えるまでカウント
+	}
+
+	if (m_deadCount == 60)//60フレームゲームを停止
+	{
+		m_isStageDeadChangeScene = true;//シーンを切り替える
+	
+		m_deadCount = 0;//カウントリセット
 	}
 }

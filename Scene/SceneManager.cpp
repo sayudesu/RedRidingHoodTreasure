@@ -4,6 +4,7 @@
 #include "SceneTitle.h"
 #include "SceneMain.h"
 #include "SceneMain2.h"
+#include "SceneMain3.h"
 #include "SceneResult.h"
 #include "SceneGameOver.h"
 

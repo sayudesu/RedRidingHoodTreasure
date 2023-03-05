@@ -1,11 +1,12 @@
 #pragma once
 #include "Vec2.h"
+#include "EnemyStage1.h"
 
-class EnemyStage1
+class EnemyStage2 : public EnemyStage1
 {
 public:
-	 EnemyStage1();
-	virtual~EnemyStage1();
+	EnemyStage2();
+	virtual~EnemyStage2();
 
 	virtual void Init();
 	virtual void End();
@@ -13,7 +14,7 @@ public:
 	virtual void Draw();
 
 private:
-	
+
 	void BarrelMove();//樽の動き
 
 	void fireBallMove();//樽の動き
@@ -30,26 +31,26 @@ public:
 	void SetHandleFireBall(int handle) { m_hFireBall = handle; }
 
 	//ファイアーボール
-	int  GetLeft()   { return m_posLeft;   }
-	int  GetTop()    { return m_posTop;    }
-	int  GetRight()  { return m_posRight;  }
-	int  GetBottom() { return m_posBottom; }	
+	int  GetLeft() { return m_posLeft; }
+	int  GetTop() { return m_posTop; }
+	int  GetRight() { return m_posRight; }
+	int  GetBottom() { return m_posBottom; }
 	//樽
-	int  GetBarrelLeft  () { return m_barrelLeft;   }
-	int  GetBarrelTop   () { return m_barrelTop;    }
-	int  GetBarrelRight () { return m_barrelRight;  }
+	int  GetBarrelLeft() { return m_barrelLeft; }
+	int  GetBarrelTop() { return m_barrelTop; }
+	int  GetBarrelRight() { return m_barrelRight; }
 	int  GetBarrelBottom() { return m_barrelBottom; }
 	//樽スピード
 	void  GetBarrelSpeed(int speed) { m_barrelSpeed = speed; }
 	//どっすん
-	int  GetFallenLeft  () { return m_fallenLeft;   }
-	int  GetFallenTop   () { return m_fallenTop;    }
-	int  GetFallenRight () { return m_fallenRight;  }
+	int  GetFallenLeft() { return m_fallenLeft; }
+	int  GetFallenTop() { return m_fallenTop; }
+	int  GetFallenRight() { return m_fallenRight; }
 	int  GetFallenBottom() { return m_fallenBottom; }
 	//どっすん範囲
-	int  GetFallenRangeLeft  () { return m_fallenRangeLeft;   }
-	int  GetFallenRangeTop   () { return m_fallenRangeTop;    }
-	int  GetFallenRangeRight () { return m_fallenRangeRight;  }
+	int  GetFallenRangeLeft() { return m_fallenRangeLeft; }
+	int  GetFallenRangeTop() { return m_fallenRangeTop; }
+	int  GetFallenRangeRight() { return m_fallenRangeRight; }
 	int  GetFallenRangeBottom() { return m_fallenRangeBottom; }
 	//どっすん2
 	int  GetFallen2Left() { return m_fallen2Left; }
@@ -67,17 +68,17 @@ public:
 	int  GetChargeTop() { return m_chargeTop; }
 	int  GetChargeRight() { return m_chargeRight; }
 	int  GetChargeBottom() { return m_chargeBottom; }
-	
+
 	bool GetRushBlink() { return m_isRushBlink; }//チャージエネミーに当たると死ぬかどうか
 
 public:
 
-	void GetHitFall(int fall  ) { m_fall = fall; }
-	void GetPos    (float posY) { m_getPos = posY; }
+	void GetHitFall(int fall) { m_fall = fall; }
+	void GetPos(float posY) { m_getPos = posY; }
 	void GetEnemyLadder(int num) { m_ladderNum = num; }
 
-	void GetHitFireBallFall(int fall  ) { m_fallFireBall = fall; }
-	void GetFireBallPos    (float posY) { m_getFireBallPos = posY; }
+	void GetHitFireBallFall(int fall) { m_fallFireBall = fall; }
+	void GetFireBallPos(float posY) { m_getFireBallPos = posY; }
 
 	void GetFallenRange(int range) { m_fallenRange = range; }
 	void GetFallenRange2(int range) { m_fallenRange2 = range; }
@@ -153,7 +154,7 @@ private:
 	int m_fallenCount2;
 	int m_frameCountFireImage;
 	int m_frameCountBarreImage;
-	
+
 	int m_ladderNum;
 	int m_getFireBallPos;//y軸固定座標
 
@@ -196,4 +197,6 @@ private:
 
 
 };
+
+
 

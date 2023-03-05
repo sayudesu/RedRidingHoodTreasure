@@ -160,6 +160,7 @@ void EnemyStage1::Draw()
 		m_hCave, true);
 	DrawBox(Enemy::kBossPosLeft, Enemy::kBossPosTop,
 		Enemy::kBossPosRight, Enemy::kBossPosBottom, 0xffff00, false);
+
 	//エネミー炎の玉
 	DrawRectRotaGraph(m_posLeft + 20 , m_posTop + 15,
 		m_fireBallImagePosX, m_fireBallImagePosY, 48, 32, 1.3, m_fireRad, m_hFireBall, true, m_fireImageDirection);//画像を描画
@@ -574,10 +575,10 @@ void EnemyStage1::ChargeMove()
 		m_isRushBlink = false;//違う階層にいる場合は判定なし
 	}
 
-	//printfDx("%d\n", m_chargeLeft);
-	DrawFormatString(100,0,0xffffff,    "敵の右上座標         m_chargeLeft   -> %d", m_chargeLeft);
-	DrawFormatString(100, 15, 0xffffff, "プレイヤー右上座標   m_playerSavePos-> %f", m_playerSavePos.x);
-	DrawFormatString(100, 30, 0xffffff, "プレイヤーまでの距離 m_length       -> %f", m_length);
+	////printfDx("%d\n", m_chargeLeft);
+	//DrawFormatString(100,0,0xffffff,    "敵の右上座標         m_chargeLeft   -> %d", m_chargeLeft);
+	//DrawFormatString(100, 15, 0xffffff, "プレイヤー右上座標   m_playerSavePos-> %f", m_playerSavePos.x);
+	//DrawFormatString(100, 30, 0xffffff, "プレイヤーまでの距離 m_length       -> %f", m_length);
 
 }
 //敵のキャラ座標取得

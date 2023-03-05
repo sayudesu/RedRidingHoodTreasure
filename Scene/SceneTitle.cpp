@@ -1,6 +1,7 @@
 #include "SceneTitle.h"
 #include "SceneMain.h"
 #include "SceneMain2.h"
+#include "SceneMain3.h"
 #include "SceneResult.h"
 #include "TitleCursor.h"
 #include "TitleCollision.h"
@@ -184,6 +185,7 @@ SceneBase* SceneTitle::Update()
 			{
 				m_sceneChangeCountStage1 = 0;
 				return(new SceneMain2);//シーン切り替え
+				//return(new SceneMain3);//シーン切り替え
 			}
 		}
 		else

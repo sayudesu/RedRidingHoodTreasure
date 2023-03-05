@@ -1,4 +1,4 @@
-#include "Collision.h"
+#include "Collision2.h"
 #include "PlayerNew.h"
 #include "DrawMapStage2.h"
 #include "EnemyStage1.h"
@@ -16,7 +16,7 @@ namespace
 	constexpr float kEnemyPosY = 40.0f;
 }
 //コンストラクタ
-Collision::Collision() :
+Collision2::Collision2():
 	m_posY(0.0f),
 	m_enemyPosY(0),
 	m_landingPos(0.0f),
@@ -29,25 +29,25 @@ Collision::Collision() :
 	m_pMap(nullptr),
 	m_pEnemy(nullptr)
 {
-	m_pPlayer    = new PlayerNew;
-	m_pMap       = new DrawMapStage2;
-	m_pEnemy     = new EnemyStage1;
+	m_pPlayer = new PlayerNew;
+	m_pMap = new DrawMapStage2;
+	m_pEnemy = new EnemyStage1;
 	m_landingPos = 70.0f;
 }
 //デストラクタ
-Collision::~Collision()
+Collision2::~Collision2()
 {
 	delete m_pPlayer;
 	delete m_pMap;
 	delete m_pEnemy;
 }
 //初期化
-void Collision::Init()
+void Collision2::Init()
 {
 	m_pPlayer->Init();
 }
 //更新
-void Collision::Update()
+void Collision2::Update()
 {
 	m_pPlayer->Update();//プレイヤー更新処理
 
@@ -98,13 +98,13 @@ void Collision::Update()
 	}
 }
 //描画
-void Collision::Draw()
+void Collision2::Draw()
 {
 	m_pPlayer->Draw();//プレイヤーを描画
 	m_pEnemy->Draw();//エネミーを描画
 }
 //地面の判定
-bool Collision::HitObject()
+bool Collision2::HitObject()
 {
 	//1階の判定///////////////////////////////////////////////////////////////////////////////////////////
 	if ((Stage2::kBoxBottom1X > m_pPlayer->GetPlayerLeft()) &&
@@ -137,7 +137,7 @@ bool Collision::HitObject()
 			(Stage2::kBox3Y < m_pPlayer->GetPlayerBottom()))
 		{
 			m_posY = Stage2::kBox3Y - kPlayerPosY + kPlayerPosPulsY;
-				- Stage2::kBoxStep;
+			-Stage2::kBoxStep;
 			return true;
 		}
 	}
@@ -149,7 +149,7 @@ bool Collision::HitObject()
 			(Stage2::kBox4Y < m_pPlayer->GetPlayerBottom()))
 		{
 			m_posY = Stage2::kBox4Y - kPlayerPosY + kPlayerPosPulsY;
-				- Stage2::kBoxStep - Stage2::kBoxStep;
+			-Stage2::kBoxStep - Stage2::kBoxStep;
 			return true;
 		}
 	}
@@ -528,14 +528,14 @@ bool Collision::HitObject()
 			return true;
 		}
 	}
-	
+
 	DrawBox(static_cast<int>(m_pPlayer->GetPlayerLeft()), static_cast<int>(m_pPlayer->GetPlayerTop()),
 		static_cast<int>(m_pPlayer->GetPlayerRight()), static_cast<int>(m_pPlayer->GetPlayerBottom()), 0x00ff00, true);
 	return false;
 }
 
 //梯子の判定
-bool Collision::HItLadder()
+bool Collision2::HItLadder()
 {
 	//一階の判定
 	if ((Stage2::kLadderBottom1X > m_pPlayer->GetPlayerLeft()) &&
@@ -585,7 +585,7 @@ bool Collision::HItLadder()
 }
 
 //敵が梯子に当たっているかどうか
-int Collision::HItEnemyLadder()
+int Collision2::HItEnemyLadder()
 {
 	//三階の判定
 	if ((Stage2::kLadderBottom3X > m_pEnemy->GetBarrelLeft()) &&
@@ -602,7 +602,7 @@ int Collision::HItEnemyLadder()
 }
 
 //炎と地面の当たり判定
-int Collision::HitEnemyFireBall()
+int Collision2::HitEnemyFireBall()
 {
 	//2階の判定///////////////////////////////////////////////////////////////////////////////////////////
 	if ((Stage2::kBoxBottom1X > m_pEnemy->GetLeft()) &&
@@ -697,7 +697,7 @@ int Collision::HitEnemyFireBall()
 }
 
 //ゴール判定
-bool Collision::HitGoal()
+bool Collision2::HitGoal()
 {
 	if ((Stage2::kGoalBottomX > m_pPlayer->GetPlayerLeft()) &&
 		(Stage2::kGoalX < m_pPlayer->GetPlayerRight()))
@@ -712,7 +712,7 @@ bool Collision::HitGoal()
 }
 
 //プレイヤーとエネミーの当たり判定::エネミーがプレイヤーを攻撃
-bool Collision::HitEnemy()
+bool Collision2::HitEnemy()
 {
 	//炎の弾
 	if ((m_pEnemy->GetRight() > m_pPlayer->GetPlayerLeft()) &&
@@ -738,7 +738,7 @@ bool Collision::HitEnemy()
 }
 
 //スコア
-int Collision::HitScore()
+int Collision2::HitScore()
 {
 	//炎の弾
 	if ((m_pEnemy->GetRight() > m_pPlayer->GetScoreLeft()) &&
@@ -764,7 +764,7 @@ int Collision::HitScore()
 }
 
 //プレイヤーとエネミーの当たり判定::プレイヤーがエネミーを攻撃
-bool Collision::HitPlayer()
+bool Collision2::HitPlayer()
 {
 	if ((m_pEnemy->GetRight() > m_pPlayer->GetAttackPlayerLeft()) &&
 		(m_pEnemy->GetLeft() < m_pPlayer->GetAttackPlayerRight()))
@@ -781,7 +781,7 @@ bool Collision::HitPlayer()
 }
 
 //地面の判定
-int Collision::HitEnemyObject()
+int Collision2::HitEnemyObject()
 {
 	//1階の判定///////////////////////////////////////////////////////////////////////////////////////////
 	if ((Stage2::kBoxBottom1X > m_pEnemy->GetBarrelLeft()) &&
@@ -1060,7 +1060,7 @@ int Collision::HitEnemyObject()
 		if ((Stage2::kBoxBottom1Yf > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox1Yf < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox1Yf - kEnemyPosY + kPlayerPosPulsY;	
+			m_enemyPosY = Stage2::kBox1Yf - kEnemyPosY + kPlayerPosPulsY;
 			return 4;
 		}
 	}
@@ -1071,7 +1071,7 @@ int Collision::HitEnemyObject()
 		if ((Stage2::kBoxBottom2Yf > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox2Yf < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox2Yf - kEnemyPosY + kPlayerPosPulsY;	
+			m_enemyPosY = Stage2::kBox2Yf - kEnemyPosY + kPlayerPosPulsY;
 			return 4;
 		}
 	}
@@ -1082,7 +1082,7 @@ int Collision::HitEnemyObject()
 		if ((Stage2::kBoxBottom3Yf > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox3Yf < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox3Yf - kEnemyPosY + kPlayerPosPulsY;	
+			m_enemyPosY = Stage2::kBox3Yf - kEnemyPosY + kPlayerPosPulsY;
 			return 4;
 		}
 	}
@@ -1235,7 +1235,7 @@ int Collision::HitEnemyObject()
 }
 
 //落ちる敵の範囲
-int Collision::HitFallenRange()
+int Collision2::HitFallenRange()
 {
 	if ((m_pEnemy->GetFallenRangeRight() > m_pPlayer->GetPlayerLeft()) &&
 		(m_pEnemy->GetFallenRangeLeft() < m_pPlayer->GetPlayerRight()))
@@ -1261,7 +1261,7 @@ int Collision::HitFallenRange()
 }
 
 //落ちるやつとプレイヤーの判定
-bool Collision::HitFallen()
+bool Collision2::HitFallen()
 {
 
 	if ((m_pEnemy->GetFallenRight() > m_pPlayer->GetPlayerLeft()) &&
@@ -1288,7 +1288,7 @@ bool Collision::HitFallen()
 }
 
 //落ちるやつとプレイヤーの判定
-bool Collision::HitCharge()
+bool Collision2::HitCharge()
 {
 	if ((m_pEnemy->GetChargeRight() > m_pPlayer->GetPlayerLeft()) &&
 		(m_pEnemy->GetChargeLeft() < m_pPlayer->GetPlayerRight()))

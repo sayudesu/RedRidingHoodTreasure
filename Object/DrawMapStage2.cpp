@@ -127,12 +127,17 @@ void DrawMapStage2::Draw()
 
 void DrawMapStage2::DrawBackground()
 {
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap1, true);
+	/*DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap1, true);
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap2, true);
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap3, true);
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap4, true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap5, true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap5, true);*/
 
+	for (int i = 0; i < 9; i++)//”wŒi‚ð•`‰æ
+	{
+		DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[i], true);
+	}
+	/*
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[0], true);
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[1], true);
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[2], true);
@@ -142,6 +147,7 @@ void DrawMapStage2::DrawBackground()
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[6], true);
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[7], true);
 	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[8], true);
+	*/
 }
 
 void DrawMapStage2::DrawMap()

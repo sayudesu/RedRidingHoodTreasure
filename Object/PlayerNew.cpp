@@ -1,6 +1,5 @@
 #include "SceneMain2.h"
 #include "PlayerNew.h"
-#include "PlayerAnimation.h"
 #include <DxLib.h>
 #include "Pad.h"
 #include "game.h"
@@ -134,6 +133,7 @@ PlayerNew::PlayerNew() :
 	m_isUpTip(false),
 	m_isGravity(false),
 	m_isFall(false),
+	m_isMenuDraw(false),//メニュー画面を表示しているかどうか
 	m_playerSize(0.0f, 0.0f),
 	m_pos(0.0f, 0.0f),
 	m_imagePos(0.0f, 0.0f),
@@ -190,6 +190,7 @@ PlayerNew::~PlayerNew()
 	DeleteSoundMem(m_hLadder);
 	DeleteSoundMem(m_hAttack);
 	DeleteSoundMem(m_hDead);
+
 }
 //初期化
 void PlayerNew::Init()
@@ -281,6 +282,8 @@ void PlayerNew::Draw()
 			m_charaImageLeft + m_charaImageDeadPosX, m_charaImageTop + m_charaImageDeadPosY, m_charaImageRigth, m_charaImageBottom,
 			20, m_playerRad, m_hPlayer, true, m_isCharaDirection);
 	}
+
+
 }
 //アニメーションを再生
 void PlayerNew::Animation()

@@ -1,6 +1,8 @@
 #pragma once
 #include "Vec2.h"
 
+class SelectMenu;
+
 class PlayerNew
 {
 public:
@@ -76,6 +78,7 @@ private:
 
 	//更新画面
 	void UpdateMove();
+
 	//死亡処理
 	void UpdateDead();
 
@@ -169,7 +172,6 @@ private:
 	int m_tip;
 	//画面加工
 	int m_tempScreenH;//画面サイズを取得
-
 	//重力
 	float m_gravity;
 	//アニメーション
@@ -222,6 +224,8 @@ private:
 
 	bool m_isGravity;
 	bool m_isFall;
+	//メニュー画面用
+	bool m_isMenuDraw;//メニュー画面を表示しているかどうか
 	//プレイヤーグラフィックサイズ
 	Vec2 m_playerSize;
 	//キャラクターの位置

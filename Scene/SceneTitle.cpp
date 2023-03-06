@@ -185,7 +185,7 @@ SceneBase* SceneTitle::Update()
 			{
 				m_sceneChangeCountStage1 = 0;
 				return(new SceneMain2);//シーン切り替え
-				//return(new SceneMain3);//シーン切り替え
+				return(new SceneMain3);//シーン切り替え
 			}
 		}
 		else

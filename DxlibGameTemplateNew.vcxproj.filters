@@ -78,7 +78,7 @@
     <ClCompile Include="Scene\SceneGameOver.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Object\DrawMapStage2.cpp">
+    <ClCompile Include="Object\DrawMapStage1.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
     <ClCompile Include="Object\PlayerNew.cpp">
@@ -99,13 +99,22 @@
     <ClCompile Include="Scene\SceneMain3.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyStage2.cpp">
+    <ClCompile Include="Object\EnemyStage2.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Collision2.cpp">
+    <ClCompile Include="Object\Collision2.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="SelectMenu.cpp">
+    <ClCompile Include="Object\SelectMenu.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\DrawMapStage2.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSceneCollision.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleCursorGame.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
   </ItemGroup>
@@ -149,7 +158,7 @@
     <ClInclude Include="Scene\SceneGameOver.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Object\DrawMapStage2.h">
+    <ClInclude Include="Object\DrawMapStage1.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="Object\Enemy.h">
@@ -182,14 +191,23 @@
     <ClInclude Include="Scene\SceneMain3.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyStage2.h">
+    <ClInclude Include="Object\EnemyStage2.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Collision2.h">
+    <ClInclude Include="Object\Collision2.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="SelectMenu.h">
+    <ClInclude Include="Object\SelectMenu.h">
       <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\DrawMapStage2.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleCursorGame.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSceneCollision.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

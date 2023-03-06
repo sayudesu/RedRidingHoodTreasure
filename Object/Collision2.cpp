@@ -1,7 +1,7 @@
 #include "Collision2.h"
 #include "PlayerNew.h"
-#include "DrawMapStage2.h"
-#include "EnemyStage1.h"
+#include "DrawMapStage1.h"
+#include "EnemyStage2.h"
 #include "game.h"
 #include <Dxlib.h>
 
@@ -30,8 +30,8 @@ Collision2::Collision2():
 	m_pEnemy(nullptr)
 {
 	m_pPlayer = new PlayerNew;
-	m_pMap = new DrawMapStage2;
-	m_pEnemy = new EnemyStage1;
+	m_pMap = new DrawMapStage1;
+	m_pEnemy = new EnemyStage2;
 	m_landingPos = 70.0f;
 }
 //デストラクタ
@@ -60,6 +60,8 @@ void Collision2::Update()
 	m_pPlayer->GetEnemyHit(HitEnemy());  //エネミーがプレイヤーを攻撃する
 	m_pPlayer->GetEnemyFallenHit(HitFallen());  //エネミーがプレイヤーを攻撃する
 	m_pPlayer->GetPlayerHit(HitPlayer());//プレイヤーがエネミーを攻撃したかどうか
+	//トラップに当たってるかどうか
+	m_pPlayer->GetTrapHit(HitTrap());//トラップ
 
 	//樽エネミー判定
 	m_pEnemy->GetHitFall(HitEnemyObject()); //重力.y
@@ -79,6 +81,7 @@ void Collision2::Update()
 	m_pEnemy->GetRush(m_isPlayerPos);
 	m_pPlayer->GetEnemyChageHit(HitCharge());//プレイヤーとチャージエネミーの当たり判定
 	m_pPlayer->GetEnemyChageBlink(m_pEnemy->GetRushBlink());//プレイヤーとチャージエネミーの当たり判定
+
 
 	m_pPlayer->GetScore(HitScore());//スコア
 
@@ -1301,4 +1304,21 @@ bool Collision2::HitCharge()
 	}
 
 	return false;
+}
+
+//トラップに当たているかどうか
+int Collision2::HitTrap()
+{
+	//上下罠とプレイヤーの判定
+	if ((m_pEnemy->GetUpDownRight() > m_pPlayer->GetPlayerLeft()) &&
+		(m_pEnemy->GetUpDownLeft() < m_pPlayer->GetPlayerRight()))
+	{
+		if ((m_pEnemy->GetUpDownBottom() > m_pPlayer->GetPlayerTop()) &&
+			(m_pEnemy->GetUpDownTop() < m_pPlayer->GetPlayerBottom()))
+		{
+			return 1;
+		}
+	}
+
+	return 0;
 }

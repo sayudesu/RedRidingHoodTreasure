@@ -18,10 +18,6 @@ private:
 
 	void fireBallMove();//樽の動き
 
-	void falleMove();//どっすん動き
-
-	void ChargeMove();//チャージする敵動き
-
 	void npcPos();//敵のキャラ座標取得
 
 public:

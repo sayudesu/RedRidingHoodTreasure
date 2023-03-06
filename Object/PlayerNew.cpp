@@ -18,7 +18,7 @@ namespace
 	//動く速さ
 	constexpr float kMoveSpeed = 5.0f;
 	// ジャンプ力
-	constexpr float kJump = -9.3f;
+	constexpr float kJump = -10.3f;
 	// 重力
 	constexpr float kGravity = 1.0f;
 
@@ -147,7 +147,8 @@ PlayerNew::PlayerNew() :
 	m_getPos(0.0f),
 	m_isAttackHit(false),
 	m_isDamageCharge(false),
-	m_isRushBlink(false)
+	m_isRushBlink(false),
+	m_trapHit(0)//トラップに当たって死ぬ
 
 {
 	m_charaImagePos = 0;
@@ -529,7 +530,7 @@ void PlayerNew::UpdateMove()
 		DrawBox(Stage2::kGoalX, Stage2::kGoalY,Stage2::kGoalBottomX, Stage2::kGoalBottomY, GetColor(GetRand(255), GetRand(255), GetRand(255)), true);
 	}
 
-	if (m_isDamage||m_isDamageFallen||m_isDamageCharge)//攻撃をくらったからどうか
+	if (m_isDamage||m_isDamageFallen||m_isDamageCharge|| m_trapHit == 1)//攻撃をくらったからどうか
 	{
 		//PlaySoundMem(m_hDead, DX_PLAYTYPE_NORMAL);//死んだ場合のサウンド再生
 
@@ -548,6 +549,11 @@ void PlayerNew::UpdateMove()
 			if (m_isDamageCharge && m_isRushBlink)//見えている間に当たると死ぬ敵
 			{
 				printfDx("PlayerChage死亡\n");
+				m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
+			}
+			if (m_trapHit == 1)
+			{
+				printfDx("トラップで死亡\n");
 				m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
 			}
 		}

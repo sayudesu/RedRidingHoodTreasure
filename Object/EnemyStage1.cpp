@@ -4,20 +4,6 @@
 #include "Image.h"
 #include <DxLib.h>
 
-namespace Enemy
-{
-
-	//ボスの位置
-	constexpr int kBossPosLeft = Game::kScreenWidth - 200;
-	constexpr int kBossPosTop = 110;
-	constexpr int kBossPosRight = kBossPosLeft + 200;
-	constexpr int kBossPosBottom = kBossPosTop + 200;
-
-	constexpr float kBarrelSpeed = 8.0f;
-
-
-}
-
 EnemyStage1::EnemyStage1():
 	m_hFireBall(-1),//画像ハンドル
 	m_hBarre(-1),
@@ -104,17 +90,17 @@ EnemyStage1::EnemyStage1():
 	m_pos.x = Game::kScreenWidth - 400;
 	m_pos.y = Game::kScreenHeight - 150;
 	//樽初期位置
-	m_barrelPos.x = Enemy::kBossPosLeft;
-	m_barrelPos.y = Enemy::kBossPosTop;
+	m_barrelPos.x = Enemy1::kBossPosLeft;
+	m_barrelPos.y = Enemy1::kBossPosTop;
 	//どっすん
-	m_fallenPos.x = Stage2::kBox2Xt;
-	m_fallenPos.y = Stage2::kBoxBottom8Yf;
+	m_fallenPos.x = Stage1::kBox2Xt;
+	m_fallenPos.y = Stage1::kBoxBottom8Yf;
 	//どっすん2
-	m_fallen2Pos.x = Stage2::kBox4Xt;
-	m_fallen2Pos.y = Stage2::kBoxBottom8Yf;
+	m_fallen2Pos.x = Stage1::kBox4Xt;
+	m_fallen2Pos.y = Stage1::kBoxBottom8Yf;
 	//チャージする敵
-	m_chargePos.x = Stage2::kBox1Xf;
-	m_chargePos.y = Stage2::kBox1Yf - 50;
+	m_chargePos.x = Stage1::kBox1Xf;
+	m_chargePos.y = Stage1::kBox1Yf - 50;
 
 	m_chargeSpeed = 10.0f;
 
@@ -148,18 +134,16 @@ void EnemyStage1::Update()
 {
 	BarrelMove();//樽の動き
 	fireBallMove();//ファイアボールの動き
-	falleMove();//ドッスン動き
-	ChargeMove();//チャージエネミーの動き
 	npcPos();//敵のサイズ取得
 }
 //描画
 void EnemyStage1::Draw()
 {
 	//ボス(洞窟に変更敵のスポーン位置)
-	DrawExtendGraph(Enemy::kBossPosLeft, Enemy::kBossPosTop, Enemy::kBossPosRight, Enemy::kBossPosBottom,
+	DrawExtendGraph(Enemy1::kBossPosLeft, Enemy1::kBossPosTop, Enemy1::kBossPosRight, Enemy1::kBossPosBottom,
 		m_hCave, true);
-	DrawBox(Enemy::kBossPosLeft, Enemy::kBossPosTop,
-		Enemy::kBossPosRight, Enemy::kBossPosBottom, 0xffff00, false);
+	DrawBox(Enemy1::kBossPosLeft, Enemy1::kBossPosTop,
+		Enemy1::kBossPosRight, Enemy1::kBossPosBottom, 0xffff00, false);
 
 	//エネミー炎の玉
 	DrawRectRotaGraph(m_posLeft + 20 , m_posTop + 15,
@@ -173,54 +157,6 @@ void EnemyStage1::Draw()
 	//横288
 	//縦32
 
-
-	DrawRectRotaGraph(
-		m_fallenLeft + 30, m_fallenTop + 15,
-		0, 0, 32 + 16, 32,
-		1, DX_PI,
-		m_hNeedle, true, false
-	);
-	DrawRectRotaGraph(
-		m_fallenLeft + 30 + 45, m_fallenTop + 15,
-		0, 0, 32 + 16, 32,
-		1, DX_PI,
-		m_hNeedle, true, false
-	);
-	DrawRectRotaGraph(
-		m_fallenLeft + 30 + 45 + 45, m_fallenTop + 15,
-		0, 0, 32 + 16, 32,
-		1, DX_PI,
-		m_hNeedle, true, false
-	);
-	//どっすん
-	DrawBox(m_fallenLeft, m_fallenTop, m_fallenRight, m_fallenBottom, 0xffff00, false	);
-
-	DrawRectRotaGraph(
-		m_fallen2Left + 30, m_fallen2Top + 15,
-		0, 0, 32 + 16, 32,
-		1, DX_PI,
-		m_hNeedle, true, false
-	);
-	DrawRectRotaGraph(
-		m_fallen2Left + 30 + 45, m_fallen2Top + 15,
-		0, 0, 32 + 16, 32,
-		1, DX_PI,
-		m_hNeedle, true, false
-	);
-	DrawRectRotaGraph(
-		m_fallen2Left + 30 + 45 + 45, m_fallen2Top + 15,
-		0, 0, 32 + 16, 32,
-		1, DX_PI,
-		m_hNeedle, true, false
-	);
-	//どっすん2
-	DrawBox(m_fallen2Left, m_fallen2Top, m_fallen2Right, m_fallen2Bottom, 0xffff00, false);
-
-	//チャージエネミー
-	if (m_isRushBlink)//止まってる間は見えない
-	{
-		DrawBox(m_chargeLeft, m_chargeTop, m_chargeRight, m_chargeBottom, 0xffff00, false);
-	}
 #if false	
 	//どっすん範囲
 	DrawBox(m_fallenRangeLeft, m_fallenRangeTop, m_fallenRangeRight, m_fallenRangeBottom, 0xffff00, false);
@@ -246,28 +182,12 @@ void EnemyStage1::BarrelMove()
 		m_barreImagePosX = 0;
 	}
 
-	if (m_fall == 5)//地面に当たったら
-	{
-		m_isCourse = false;
-		m_vec.y = 0.0f;//下に落ちないように
-		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
-		m_barrelPos.x -= Enemy::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
-	}
-	else if (m_fall == 4)//地面に当たったら
-	{
-		m_isCourse = true;
-		m_vec.y = 0.0f;//下に落ちないように
-		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
-		m_barrelPos.x += Enemy::kBarrelSpeed * m_barrelSpeed;//左に移動
-		m_barreImageDirection = true;//画像の方向を変更
-	}
-
 	if (m_fall == 3)//地面に当たったら
 	{
 		m_isCourse = false;
 		m_vec.y = 0.0f;//下に落ちないように
 		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
-		m_barrelPos.x -= Enemy::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
+		m_barrelPos.x -= Enemy1::kBarrelSpeed;// * m_barrelSpeed;//とりあえず右に移動
 		m_barreImageDirection = false;//画像の方向を変更
 	}
 
@@ -276,7 +196,7 @@ void EnemyStage1::BarrelMove()
 		m_isCourse = true;
 		m_vec.y = 0.0f;//下に落ちないように
 		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
-		m_barrelPos.x += Enemy::kBarrelSpeed * m_barrelSpeed;//左に移動
+		m_barrelPos.x += Enemy1::kBarrelSpeed;// * m_barrelSpeed;//左に移動
 		m_barreImageDirection = true;//画像の方向を変更
 
 	}
@@ -286,30 +206,30 @@ void EnemyStage1::BarrelMove()
 		m_isCourse = false;
 		m_vec.y = 0.0f;//下に落ちないように
 		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
-		m_barrelPos.x -= Enemy::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
+		m_barrelPos.x -= Enemy1::kBarrelSpeed;// * m_barrelSpeed;//とりあえず右に移動
 		m_barreImageDirection = false;//画像の方向を変更
 
 	}
 
 	if (m_barrelRight < 0)//樽が画面左に消えると最初の位置に戻っていく
 	{
-		m_barrelPos.x = Enemy::kBossPosLeft + 50;
-		m_barrelPos.y = Enemy::kBossPosTop + 100;
+		m_barrelPos.x = Enemy1::kBossPosLeft + 50;
+		m_barrelPos.y = Enemy1::kBossPosTop + 100;
 	}
 	else if (m_barrelRight > Game::kScreenWidth + 100)//樽が画面右に消えると最初の位置に戻っていく
 	{
-		m_barrelPos.x = Enemy::kBossPosLeft + 50;
-		m_barrelPos.y = Enemy::kBossPosTop + 100;
+		m_barrelPos.x = Enemy1::kBossPosLeft + 50;
+		m_barrelPos.y = Enemy1::kBossPosTop + 100;
 	}
 
 	if (m_fall == 0 && !m_isCourse)//樽が右に移動する場合
 	{
-		m_barrelPos.x -= Enemy::kBarrelSpeed;
+		m_barrelPos.x -= Enemy1::kBarrelSpeed;
 	}
 
 	if (m_fall == 0 && m_isCourse)//樽が左に移動する場合
 	{
-		m_barrelPos.x += Enemy::kBarrelSpeed;
+		m_barrelPos.x += Enemy1::kBarrelSpeed;
 	}
 
 
@@ -329,22 +249,6 @@ void EnemyStage1::fireBallMove()
 	{
 		m_fireBallImagePosX = 0;
 	}
-
-	//ファイアボールの画像調整
-	//m_fireBallImagePosX += 100;//画像を右まで動かす
-
-	//if (m_fireBallImagePosX >= 800)//画像表示を右まで行ったらY軸を１画像下に下げる
-	//{
-	//	m_fireBallImagePosX = 0;//一番左までリセット
-	//	m_fireBallImagePosY += 100;//表示する画像を１画像分下に下げる
-
-	//}
-	//if (m_fireBallImagePosY >= 700 && m_fireBallImagePosX >= 500)//Y軸下まで行ったら画像を一番上まで戻す
-	//{
-	//	m_fireBallImagePosX = 0;//一番左までリセット
-	//	m_fireBallImagePosY = 0;//Y軸で画像を一番上の画像に戻す
-
-	//}
 
 	if (!m_isFireBallCourse)//右動き
 	{
@@ -373,214 +277,7 @@ void EnemyStage1::fireBallMove()
 		m_pos.y = static_cast<float>(m_getFireBallPos) + 10;//プレイヤーの位置座標
 	}
 }
-//どっすん動き
-void EnemyStage1::falleMove()
-{
-	//一体目
-	if (m_isCanFallen)//初期の位置にいるかどうか
-	{
-		if (m_fallenRange == 1)//範囲内だったら
-		{
-			m_isFallenDrop = true;
-			m_isCanFallen = false;
-		}
 
-	}
-
-	if (m_isFallenDrop)//落ちもの揺れる
-	{
-		m_fallenCount++;//震える時間
-		//揺れる
-		m_fallenPos.x = Stage2::kBox2Xt + GetRand(10);
-		m_fallenPos.y = Stage2::kBoxBottom8Yf  + GetRand(10);
-	}
-
-	if (m_fallenCount >= 45)
-	{
-		m_isFallenDrop = false;
-		//落下開始
-		m_fallenUpSpeed = 10.0f;//今だけ後で書き換える
-		m_fallenPos.y += m_fallenUpSpeed;//落下スピード
-		if (m_fallenPos.y >= Stage2::kBox2Yt)//落ちる場所制限
-		{
-			m_isFallenUp = true;//上に戻す処理
-		}
-	}
-	
-	if (m_isFallenUp)//天井
-	{
-		m_fallenUpSpeed = 15.0f;//今だけ後で書き換える
-		m_fallenPos.y -= m_fallenUpSpeed;
-
-		if (m_fallenPos.y <= Stage2::kBoxBottom8Yf)
-		{
-			m_fallenCount = 0;//カウントリセット
-			m_isFallenUp = false;
-			m_isCanFallen = true;//再度落ちるための処理
-
-			m_fallenPos.x = Stage2::kBox2Xt;
-			m_fallenPos.y = Stage2::kBoxBottom8Yf;
-		}
-	}
-	
-	//二体目
-	if (m_isCanFallen2)//初期の位置にいるかどうか
-	{
-		if (m_fallenRange == 2)//範囲内だったら
-		{
-			m_isFallenDrop2 = true;
-			m_isCanFallen2 = false;
-		}
-
-	}
-
-	if (m_isFallenDrop2)//落ちもの揺れる
-	{
-		m_fallenCount2++;//震える時間
-		//揺れる
-		m_fallen2Pos.x = Stage2::kBox4Xt + GetRand(10);
-		m_fallen2Pos.y = Stage2::kBoxBottom8Yf + GetRand(10);
-	}
-
-	if (m_fallenCount2 >= 45)
-	{
-		m_isFallenDrop2 = false;
-		//落下開始
-		m_fallenUpSpeed2 = 10.0f;//今だけ後で書き換える
-		m_fallen2Pos.y += m_fallenUpSpeed2;//落下スピード
-		if (m_fallen2Pos.y >= Stage2::kBox4Yt)//落ちる場所制限
-		{
-			m_isFallenUp2 = true;//上に戻す処理
-		}
-	}
-
-	if (m_isFallenUp2)//天井
-	{
-		m_fallenUpSpeed2 = 15.0f;//今だけ後で書き換える
-		m_fallen2Pos.y -= m_fallenUpSpeed2;
-
-		if (m_fallen2Pos.y <= Stage2::kBoxBottom8Yf)
-		{
-			m_fallenCount2 = 0;//カウントリセット
-			m_isFallenUp2 = false;
-			m_isCanFallen2 = true;//再度落ちるための処理
-
-			m_fallen2Pos.x = Stage2::kBox4Xt;
-			m_fallen2Pos.y = Stage2::kBoxBottom8Yf;
-		}
-	}
-
-
-	////二体目
-	//if (m_isCanFallen2)//初期の位置にいるかどうか
-	//{
-	//	if (m_fallenRange == 2)//範囲内だったら
-	//	{
-	//		m_isFallenDrop2 = true;
-	//		m_isCanFallen2 = false;
-	//	}
-	//}
-
-	//if (m_isFallenDrop2)//落ちもの揺れる
-	//{
-	//	m_fallenCount2++;//震える時間
-	//	//揺れる
-	//	m_fallen2Pos.x = Stage2::kBox4Xt + GetRand(10);
-	//	m_fallen2Pos.y = Stage2::kBoxBottom8Yf + GetRand(10);
-
-	//	if (m_fallenCount2 >= 30)//3秒後
-	//	{
-	//		//ポジションをリセット
-	//		m_fallen2Pos.x = Stage2::kBox4Xt;
-	//		m_fallen2Pos.y = Stage2::kBoxBottom8Yf;
-	//	}
-	//}
-
-	//if (m_fallenCount2 >= 45)
-	//{
-	//	m_isFallenDrop2 = false;
-	//	//落下開始
-	//	m_fallen2Pos.y += 10;//落下スピード
-	//	if (m_fallen2Pos.y >= Stage2::kBox4Yt)//落ちる場所制限
-	//	{
-	//		m_fallenCount2 = 0;//カウントリセット
-
-	//		//初期ポジションに戻す
-	//		m_fallen2Pos.x = Stage2::kBox4Xt;
-	//		m_fallen2Pos.y = Stage2::kBoxBottom8Yf;
-	//		m_isCanFallen2 = true;
-
-	//	}
-	//}
-}
-//敵に突進する
-void EnemyStage1::ChargeMove()
-{
-	if (m_isRush)//動けるかどうか
-	{
-
-		//プレイヤーに突進する
-		Vec2 toPlayer{ 0.0f,0.0f };
-
-		m_rushCount++;
-		if (m_rushCount == 1)
-		{
-			m_playerSavePos = m_playerPos;//少し前のプレイヤー座標を取得する
-			//m_chargeSpeed
-			//m_chargeSpeed = 30.0f;
-		}
-		if (m_rushCount >= 120)
-		{
-			m_isRushBlink = true;
-			toPlayer.x = m_playerSavePos.x - m_chargePos.x;
-			toPlayer.y = m_playerSavePos.y - m_chargePos.y;
-
-			m_length = toPlayer.length();//長さを取得
-			
-			toPlayer = toPlayer.normalize();//正規化
-			//m_chargeSpeed = 0.0f;
-
-		}
-
-		m_chargePos += toPlayer * m_chargeSpeed;//プレイヤーの方向に直線で移動
-
-		/*
-		if (m_length >= m_chargePos.length())
-		{
-			printfDx("%f\n", m_playerSavePos.length());
-		//	printfDx("%f\n", m_length);
-			m_rushCount = 0;
-			m_isRushBlink = false;
-		}
-		*/
-		/*
-		if (static_cast<int>(m_playerSavePos.x) == m_chargeLeft)
-		{
-			toPlayer.x = 0.0f;
-			toPlayer.y = 0.0f;
-			m_chargeSpeed = 0.0f;
-		}
-		*/
-		if (m_rushCount == 120 * 2)//追跡できる時間をリセット
-		{
-			m_rushCount = 0;
-			m_isRushBlink = false;
-		}
-		
-
-		DrawFormatString(100, 45, 0xffffff, "プレイヤーまでの距離 %f", toPlayer);
-	}
-	else//違う階層にいる場合
-	{
-		m_isRushBlink = false;//違う階層にいる場合は判定なし
-	}
-
-	////printfDx("%d\n", m_chargeLeft);
-	//DrawFormatString(100,0,0xffffff,    "敵の右上座標         m_chargeLeft   -> %d", m_chargeLeft);
-	//DrawFormatString(100, 15, 0xffffff, "プレイヤー右上座標   m_playerSavePos-> %f", m_playerSavePos.x);
-	//DrawFormatString(100, 30, 0xffffff, "プレイヤーまでの距離 m_length       -> %f", m_length);
-
-}
 //敵のキャラ座標取得
 void EnemyStage1::npcPos()
 {

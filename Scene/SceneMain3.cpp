@@ -74,9 +74,6 @@ void SceneMain3::End()
 
 SceneBase* SceneMain3::Update()
 {
-	
-	printfDx("SceneMain3\n");
-
 	if (!m_pMenu->m_isMenu)//メニューを開いて無かったら
 	{
 		m_pCollision->Update();
@@ -107,6 +104,7 @@ void SceneMain3::Draw()
 	m_pStage->Draw();//ステージを描画
 	//プレイヤー、エネミーを表示
 	m_pCollision->Draw();
+
 	if (m_pMenu->m_isMenu)
 	{
 		m_pMenu->Draw();

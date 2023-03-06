@@ -3,8 +3,8 @@
 #include "Collision.h"
 
 class PlayerNew;
-class DrawMapStage2;
-class EnemyStage1;
+class DrawMapStage1;
+class EnemyStage2;
 
 class Collision2 :public Collision
 {
@@ -35,6 +35,8 @@ public:
 	bool HitFallen();//落ちるやつとプレイヤーの判定
 
 	bool HitCharge();//追跡する敵とプレイヤーの判定
+
+	int HitTrap();//トラップに当たているかどうか
 	//渡し
 public:
 	bool m_isStageClear;
@@ -60,7 +62,7 @@ private:
 
 
 	PlayerNew* m_pPlayer;
-	DrawMapStage2* m_pMap;
-	EnemyStage1* m_pEnemy;
+	DrawMapStage1* m_pMap;
+	EnemyStage2* m_pEnemy;
 };
 

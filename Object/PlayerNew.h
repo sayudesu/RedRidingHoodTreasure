@@ -59,6 +59,7 @@ public:
 	void GetPlayerHit	   (bool attack   ) { m_isAttackHit    = attack;    }//敵に攻撃を与える
 	void GetEnemyChageHit  (bool attack   ) { m_isDamageCharge = attack;    }//チャージエネミーから攻撃を受ける
 	void GetEnemyChageBlink(bool blink    ) { m_isRushBlink    = blink;     }//チャージエネミーから攻撃を受ける
+	void GetTrapHit        (bool hit      ) { m_trapHit        = hit;       }//トラップに当たる
 
 	void GetScore(int score) { m_score = score; }//スコア判定
 private:
@@ -247,6 +248,7 @@ private:
 	bool m_isAttackHit;
 	bool m_isDamageCharge;
 	bool m_isRushBlink;
+	int m_trapHit;//トラップに当たって死ぬ
 
 	void (PlayerNew::* m_func)();
 

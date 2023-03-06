@@ -29,7 +29,7 @@ void TitleCollision::Draw()
 
 bool TitleCollision::CollsionDemo()
 {
-	bool nResult = false;
+	bool result = false;
 	//printfDx("%f\n", m_pCursor->GetCursor().x);
 
 	if ((m_pCursor->GetCursor().x > TitleMenu::kSelection1X - 19) &&//19‚ÍZ‚Ì”¼Œa
@@ -37,7 +37,7 @@ bool TitleCollision::CollsionDemo()
 		(m_pCursor->GetCursor().y > TitleMenu::kSelection1Y - 19) &&
 		(m_pCursor->GetCursor().y < TitleMenu::kSelectionBottom1Y+ 19))
 	{
-		nResult = true;
+		result = true;
 		float fl = 19 * 19;
 
 		// ¶
@@ -49,7 +49,7 @@ bool TitleCollision::CollsionDemo()
 				if ((DistanceSqrf(TitleMenu::kSelection1X, TitleMenu::kSelection1Y,
 					m_pCursor->GetCursor().x, m_pCursor->GetCursor().y) >= fl))
 				{
-					nResult = false;
+					result = false;
 				}
 			}
 			else
@@ -60,7 +60,7 @@ bool TitleCollision::CollsionDemo()
 					if ((DistanceSqrf(TitleMenu::kSelection1X, TitleMenu::kSelectionBottom1Y,
 						m_pCursor->GetCursor().x, m_pCursor->GetCursor().y) >= fl))
 					{
-						nResult = false;
+						result = false;
 					}
 				}
 			}
@@ -76,7 +76,7 @@ bool TitleCollision::CollsionDemo()
 					if ((DistanceSqrf(TitleMenu::kSelectionBottom1X, TitleMenu::kSelection1Y,
 						m_pCursor->GetCursor().x, m_pCursor->GetCursor().y) >= fl))
 					{
-						nResult = false;
+						result = false;
 					}
 				}
 				else
@@ -87,7 +87,7 @@ bool TitleCollision::CollsionDemo()
 						if ((DistanceSqrf(TitleMenu::kSelectionBottom1X, TitleMenu::kSelectionBottom1Y,
 							m_pCursor->GetCursor().x, m_pCursor->GetCursor().y) >= fl))
 						{
-							nResult = false;
+							result = false;
 						}
 					}
 				}
@@ -96,7 +96,7 @@ bool TitleCollision::CollsionDemo()
 		
 	}
 
-	return nResult;
+	return result;
 }
 
 float TitleCollision::DistanceSqrf(const float t_x1, const float t_y1, const float t_x2, const float t_y2)
@@ -109,14 +109,14 @@ float TitleCollision::DistanceSqrf(const float t_x1, const float t_y1, const flo
 
 bool TitleCollision::CollsionStage1()
 {
-	bool nResult = false;
+	bool result = false;
 
 	if ((m_pCursor->GetCursor().x > TitleMenu::kSelection2X - 19) &&//19‚ÍZ‚Ì”¼Œa
 		(m_pCursor->GetCursor().x < TitleMenu::kSelectionBottom2X + 19) &&
 		(m_pCursor->GetCursor().y > TitleMenu::kSelection2Y - 19) &&
 		(m_pCursor->GetCursor().y < TitleMenu::kSelectionBottom2Y + 19))
 	{
-		nResult = true;
+		result = true;
 		float fl = 19 * 19;
 
 		// ¶
@@ -128,7 +128,7 @@ bool TitleCollision::CollsionStage1()
 				if ((DistanceSqrfStage1(TitleMenu::kSelection2X, TitleMenu::kSelection2Y,
 					m_pCursor->GetCursor().x, m_pCursor->GetCursor().y) >= fl))
 				{
-					nResult = false;
+					result = false;
 				}
 			}
 			else
@@ -139,7 +139,7 @@ bool TitleCollision::CollsionStage1()
 					if ((DistanceSqrfStage1(TitleMenu::kSelection2X, TitleMenu::kSelectionBottom2Y,
 						m_pCursor->GetCursor().x, m_pCursor->GetCursor().y) >= fl))
 					{
-						nResult = false;
+						result = false;
 					}
 				}
 			}
@@ -155,7 +155,7 @@ bool TitleCollision::CollsionStage1()
 					if ((DistanceSqrfStage1(TitleMenu::kSelectionBottom2X, TitleMenu::kSelection2Y,
 						m_pCursor->GetCursor().x, m_pCursor->GetCursor().y) >= fl))
 					{
-						nResult = false;
+						result = false;
 					}
 				}
 				else
@@ -166,7 +166,7 @@ bool TitleCollision::CollsionStage1()
 						if ((DistanceSqrfStage1(TitleMenu::kSelectionBottom2X, TitleMenu::kSelectionBottom2Y,
 							m_pCursor->GetCursor().x, m_pCursor->GetCursor().y) >= fl))
 						{
-							nResult = false;
+							result = false;
 						}
 					}
 				}
@@ -175,7 +175,7 @@ bool TitleCollision::CollsionStage1()
 
 	}
 
-	return nResult;
+	return result;
 }
 
 
@@ -190,14 +190,14 @@ float TitleCollision::DistanceSqrfStage1(const float t_x1, const float t_y1, con
 
 bool TitleCollision::CollsionEnd()
 {
-	bool nResult = false;
+	bool result = false;
 
 	if ((m_pCursor->GetCursor().x > TitleMenu::kSelection3X - 19) &&//19‚ÍZ‚Ì”¼Œa
 		(m_pCursor->GetCursor().x < TitleMenu::kSelectionBottom3X + 19) &&
 		(m_pCursor->GetCursor().y > TitleMenu::kSelection3Y - 19) &&
 		(m_pCursor->GetCursor().y < TitleMenu::kSelectionBottom3Y + 19))
 	{
-		nResult = true;
+		result = true;
 		float fl = 19 * 19;
 
 		// ¶
@@ -209,7 +209,7 @@ bool TitleCollision::CollsionEnd()
 				if ((DistanceSqrfEnd(TitleMenu::kSelection3X, TitleMenu::kSelection3Y,
 					m_pCursor->GetCursor().x, m_pCursor->GetCursor().y) >= fl))
 				{
-					nResult = false;
+					result = false;
 				}
 			}
 			else
@@ -220,7 +220,7 @@ bool TitleCollision::CollsionEnd()
 					if ((DistanceSqrfEnd(TitleMenu::kSelection3X, TitleMenu::kSelectionBottom3Y,
 						m_pCursor->GetCursor().x, m_pCursor->GetCursor().y) >= fl))
 					{
-						nResult = false;
+						result = false;
 					}
 				}
 			}
@@ -236,7 +236,7 @@ bool TitleCollision::CollsionEnd()
 					if ((DistanceSqrfEnd(TitleMenu::kSelectionBottom3X, TitleMenu::kSelection3Y,
 						m_pCursor->GetCursor().x, m_pCursor->GetCursor().y) >= fl))
 					{
-						nResult = false;
+						result = false;
 					}
 				}
 				else
@@ -247,7 +247,7 @@ bool TitleCollision::CollsionEnd()
 						if ((DistanceSqrfEnd(TitleMenu::kSelectionBottom3X, TitleMenu::kSelectionBottom3Y,
 							m_pCursor->GetCursor().x, m_pCursor->GetCursor().y) >= fl))
 						{
-							nResult = false;
+							result = false;
 						}
 					}
 				}
@@ -256,7 +256,7 @@ bool TitleCollision::CollsionEnd()
 
 	}
 
-	return nResult;
+	return result;
 }
 
 float TitleCollision::DistanceSqrfEnd(const float t_x1, const float t_y1, const float t_x2, const float t_y2)

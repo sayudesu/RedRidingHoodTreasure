@@ -2,7 +2,7 @@
 #include "Vec2.h"
 
 class PlayerNew;
-class DrawMapStage2;
+class DrawMapStage1;
 class EnemyStage1;
 
 class Collision
@@ -59,7 +59,7 @@ private:
 
 
 	PlayerNew* m_pPlayer;
-	DrawMapStage2* m_pMap;
+	DrawMapStage1* m_pMap;
 	EnemyStage1* m_pEnemy;
 };
 

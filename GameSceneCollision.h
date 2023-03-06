@@ -1,12 +1,14 @@
 #pragma once
-class TitleCursor;
+#include "TitleCollision.h"
 
-class TitleCollision
+class TitleCursorGame;
+
+class GameSceneCollision : public TitleCollision
 {
 public:
 
-	TitleCollision();
-	~TitleCollision();
+	GameSceneCollision();
+	~GameSceneCollision();
 
 	void Init();
 	void Update();
@@ -23,7 +25,7 @@ public:
 
 private:
 
-	TitleCursor* m_pCursor;
+	TitleCursorGame* m_pCursor;
 
 };
 

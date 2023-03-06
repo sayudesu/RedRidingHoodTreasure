@@ -3,12 +3,16 @@
 #include "Image.h"
 #include <Dxlib.h>
 
-DrawMapStage2::DrawMapStage2():
+DrawMapStage2::DrawMapStage2() :
 	m_hMap1(-1), m_hMap2(-1),//マップ用ハンドル
 	m_hMap3(-1), m_hMap4(-1),
 	m_hMap5(-1),
 	m_hTiles(-1),
 	m_hBlock(-1),
+	m_hLadderChip(-1),
+	m_hLadder(-1),//梯子
+	m_hForest(),//マップ背景Forest
+	m_hForestCut(),//背景切り取り
 	m_hMapChip1(-1),//マップチップデータ
 	m_hBox(-1)//箱画像
 
@@ -37,6 +41,7 @@ void DrawMapStage2::Init()
 	m_hMap5 = LoadGraph(Image::kMapFifth);
 	m_hTiles = LoadGraph(Image::kMapTiles);//地面画像を読み込み
 
+
 	m_hForest[0] = LoadGraph(Image::kMapForest0);//地面画像を読み込み
 	m_hForest[1] = LoadGraph(Image::kMapForest2);//地面画像を読み込み
 	m_hForest[2] = LoadGraph(Image::kMapForest3);//地面画像を読み込み
@@ -47,15 +52,13 @@ void DrawMapStage2::Init()
 	m_hForest[7] = LoadGraph(Image::kMapForest8);//地面画像を読み込み
 	m_hForest[8] = LoadGraph(Image::kMapForest9);//地面画像を読み込み
 
-
-
-	m_hBlock = DerivationGraph(178 + 1, 236, 32 + 16 - 10 , 16, m_hTiles);//地面画像から一部を抽出
+	m_hBlock = DerivationGraph(178 + 1, 236, 32 + 16 - 10, 16, m_hTiles);//地面画像から一部を抽出
 
 	int sizeX, sizeY;
-	GetGraphSize(m_hForest[0],& sizeX, &sizeY);
+	GetGraphSize(m_hForest[0], &sizeX, &sizeY);
 	m_hForestCut[0] = DerivationGraph(0, 250, sizeX, sizeY, m_hForest[0]);//地面画像から一部を抽出
 	GetGraphSize(m_hForest[1], &sizeX, &sizeY);
-	m_hForestCut[1] = DerivationGraph(0,250, sizeX, sizeY, m_hForest[1]);//地面画像から一部を抽出
+	m_hForestCut[1] = DerivationGraph(0, 250, sizeX, sizeY, m_hForest[1]);//地面画像から一部を抽出
 	GetGraphSize(m_hForest[2], &sizeX, &sizeY);
 	m_hForestCut[2] = DerivationGraph(0, 250, sizeX, sizeY, m_hForest[2]);//地面画像から一部を抽出
 	GetGraphSize(m_hForest[3], &sizeX, &sizeY);
@@ -75,6 +78,9 @@ void DrawMapStage2::Init()
 
 	m_hMapChip1 = LoadGraph(Image::kMapTiles);
 	m_hBox = DerivationGraph(288, 272, 32, 32, m_hMapChip1);//地面画像から一部を抽出
+
+	m_hLadderChip = LoadGraph(Image::kLadder);//梯子読み込み
+	m_hLadder = DerivationGraph(48, 160, 16, 32, m_hLadderChip);
 }
 
 void DrawMapStage2::End()
@@ -103,53 +109,35 @@ void DrawMapStage2::Update()
 
 void DrawMapStage2::Draw()
 {
-
-
-	DrawGraph(100, 100, m_hBox, true);
-
 	DrawBackground();//マップの背景を表示
 	DrawMap();//マップ表示
-
+	
 	//第一梯子
-	DrawBox(Stage2::kLadder1X, Stage2::kLadder1Y, Stage2::kLadderBottom1X, Stage2::kLadderBottom1Y, 0xff0000, true);
+	DrawExtendGraph(Stage2::kLadder1X - 8, Stage2::kLadder1Y, Stage2::kLadderBottom1X + 8, Stage2::kLadderBottom1Y, m_hLadder, true);//判定確認用
+	DrawBox(Stage2::kLadder1X, Stage2::kLadder1Y, Stage2::kLadderBottom1X, Stage2::kLadderBottom1Y, 0xff0000, false);//梯子表示
 	//第二梯子
-	DrawBox(Stage2::kLadder2X, Stage2::kLadder2Y, Stage2::kLadderBottom2X, Stage2::kLadderBottom2Y, 0xff0000, true);
+	DrawExtendGraph(Stage2::kLadder2X - 8, Stage2::kLadder2Y, Stage2::kLadderBottom2X + 8, Stage2::kLadderBottom2Y, m_hLadder, true);//判定確認用
+	DrawBox(Stage2::kLadder2X, Stage2::kLadder2Y, Stage2::kLadderBottom2X, Stage2::kLadderBottom2Y, 0xff0000, false);//梯子表示
 	//第三梯子
-	DrawBox(Stage2::kLadder3X, Stage2::kLadder3Y, Stage2::kLadderBottom3X, Stage2::kLadderBottom3Y, 0xff0000, true);
+	DrawExtendGraph(Stage2::kLadder3X - 8, Stage2::kLadder3Y, Stage2::kLadderBottom3X + 8, Stage2::kLadderBottom3Y, m_hLadder, true);//判定確認用
+	DrawBox(Stage2::kLadder3X, Stage2::kLadder3Y, Stage2::kLadderBottom3X, Stage2::kLadderBottom3Y, 0xff0000, false);//梯子表示
 	//第四梯子
-	DrawBox(Stage2::kLadder4X, Stage2::kLadder4Y, Stage2::kLadderBottom4X, Stage2::kLadderBottom4Y, 0xff0000, true);
+	DrawExtendGraph(Stage2::kLadder4X - 8, Stage2::kLadder4Y, Stage2::kLadderBottom4X + 8, Stage2::kLadderBottom4Y, m_hLadder, true);//判定確認用
+	DrawBox(Stage2::kLadder4X, Stage2::kLadder4Y, Stage2::kLadderBottom4X, Stage2::kLadderBottom4Y, 0xff0000, false);//梯子表示
 
 	//ゴール
 	DrawExtendGraph(Stage2::kGoalX, Stage2::kGoalY, Stage2::kGoalBottomX, Stage2::kGoalBottomY, m_hBox, true);
 	DrawBox(Stage2::kGoalX, Stage2::kGoalY, Stage2::kGoalBottomX, Stage2::kGoalBottomY, 0xff00ff, false);
-
 }
-
+//背景画像を描画
 void DrawMapStage2::DrawBackground()
 {
-	/*DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap1, true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap2, true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap3, true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap4, true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hMap5, true);*/
-
 	for (int i = 0; i < 9; i++)//背景を描画
 	{
 		DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[i], true);
 	}
-	/*
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[0], true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[1], true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[2], true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[3], true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[4], true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[5], true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[6], true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[7], true);
-	DrawExtendGraph(0, 0, Game::kScreenWidth, Game::kScreenHeight, m_hForestCut[8], true);
-	*/
 }
-
+//地面を描画
 void DrawMapStage2::DrawMap()
 {
 	//1階地面
@@ -227,7 +215,7 @@ void DrawMapStage2::DrawMap()
 
 	DrawExtendGraph(Stage2::kBox1XFi, Stage2::kBox1YFi - 2, Stage2::kBoxBottom1XFi, Stage2::kBoxBottom1YFi, m_hBlock, true);
 	//DrawBox(Stage2::kBox1XFi, Stage2::kBox1YFi, Stage2::kBoxBottom1XFi, Stage2::kBoxBottom1YFi, 0xffffff, false);
-	DrawExtendGraph(Stage2::kBox2XFi, Stage2::kBox2YFi - 2 , Stage2::kBoxBottom2XFi, Stage2::kBoxBottom2YFi, m_hBlock, true);
+	DrawExtendGraph(Stage2::kBox2XFi, Stage2::kBox2YFi - 2, Stage2::kBoxBottom2XFi, Stage2::kBoxBottom2YFi, m_hBlock, true);
 	//DrawBox(Stage2::kBox2XFi, Stage2::kBox2YFi, Stage2::kBoxBottom2XFi, Stage2::kBoxBottom2YFi, 0xffffff, false);
 	DrawExtendGraph(Stage2::kBox3XFi, Stage2::kBox3YFi - 2, Stage2::kBoxBottom3XFi, Stage2::kBoxBottom3YFi, m_hBlock, true);
 	//DrawBox(Stage2::kBox3XFi, Stage2::kBox3YFi, Stage2::kBoxBottom3XFi, Stage2::kBoxBottom3YFi, 0xffffff, false);
@@ -235,9 +223,6 @@ void DrawMapStage2::DrawMap()
 	//DrawBox(Stage2::kBox4XFi, Stage2::kBox4YFi, Stage2::kBoxBottom4XFi, Stage2::kBoxBottom4YFi, 0xffffff, false);
 	DrawExtendGraph(Stage2::kBox5XFi, Stage2::kBox5YFi - 2, Stage2::kBoxBottom5XFi, Stage2::kBoxBottom5YFi, m_hBlock, true);
 	//DrawBox(Stage2::kBox5XFi, Stage2::kBox5YFi, Stage2::kBoxBottom5XFi, Stage2::kBoxBottom5YFi, 0xffffff, false);
-	DrawExtendGraph(Stage2::kBox6XFi, Stage2::kBox6YFi - 2, Stage2::kBoxBottom6XFi, Stage2::kBoxBottom6YFi,m_hBlock, true);
+	DrawExtendGraph(Stage2::kBox6XFi, Stage2::kBox6YFi - 2, Stage2::kBoxBottom6XFi, Stage2::kBoxBottom6YFi, m_hBlock, true);
 	//DrawBox(Stage2::kBox6XFi, Stage2::kBox6YFi, Stage2::kBoxBottom6XFi, Stage2::kBoxBottom6YFi, 0xffffff, false);
-
-	//DrawBox(Stage2::kBox7XFi, Stage2::kBox7YFi, Stage2::kBoxBottom7XFi, Stage2::kBoxBottom7YFi, 0xffffff, true);
-	//DrawBox(Stage2::kBox8XFi, Stage2::kBox8YFi, Stage2::kBoxBottom8XFi, Stage2::kBoxBottom8YFi, 0xffffff, true);
 }

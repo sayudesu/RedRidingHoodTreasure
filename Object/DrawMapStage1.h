@@ -1,10 +1,11 @@
 #pragma once
-#include "DrawMapStage1.h"
-class DrawMapStage2 : public DrawMapStage1
+
+class DrawMapStage1
 {
 public:
-	DrawMapStage2();
-	virtual~DrawMapStage2();
+
+	DrawMapStage1();
+	virtual~DrawMapStage1();
 
 	virtual void Init();
 	virtual void End();
@@ -23,11 +24,9 @@ private:
 	//マップ地面、梯子
 	int m_hTiles;
 	int m_hBlock;//地面用
-	//梯子
-	int m_hLadderChip;
-	int m_hLadder;
 
-	int m_hForest[9];//マップ背景Forest
+	//マップ背景Forest
+	int m_hForest[9];
 	int m_hForestCut[9];//背景切り取り
 
 

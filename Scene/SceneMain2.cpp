@@ -20,9 +20,9 @@ SceneMain2::SceneMain2():
 	m_hPlayerLighting(-1),
 	m_hPlayerHealthBer(-1),
 	m_hMusicBgm1(-1),
-	Color1(0),//選択画面の色
-	Color2(0),
-	Color3(0),
+	m_color1(0),//選択画面の色
+	m_color2(0),
+	m_color3(0),
 	m_isGameClear(false),//ゲームをクリアした場合
 	m_pStage(nullptr),
 	m_pPlayer(nullptr),
@@ -121,13 +121,13 @@ SceneBase* SceneMain2::Update()
 		m_pCursorCollision->Update();//カーソルと選択範囲の当たり判定
 
 		//カーソルが当たっていない場合の文字背景の色
-		Color1 = Color::kWhite;
-		Color2 = Color::kWhite;
-		Color3 = Color::kWhite;
+		m_color1 = Color::kWhite;
+		m_color2 = Color::kWhite;
+		m_color3 = Color::kWhite;
 
 		if (m_pCursorCollision->CollsionDemo())//カーソルと選択範囲に当たっていたら
 		{
-			Color1 = Color::kRed;//カーソルが当たっている場合の文字背景の色
+			m_color1 = Color::kRed;//カーソルが当たっている場合の文字背景の色
 			if (padState & PAD_INPUT_2)//Xボタン
 			{
 				return(new SceneMain3);//新しいステージに移動
@@ -135,7 +135,7 @@ SceneBase* SceneMain2::Update()
 		}
 		if (m_pCursorCollision->CollsionStage1())//カーソルと選択範囲に当たっていたら
 		{
-			Color2 = Color::kRed;//カーソルが当たっている場合の文字背景の色
+			m_color2 = Color::kRed;//カーソルが当たっている場合の文字背景の色
 			if (padState & PAD_INPUT_2)//Xボタン
 			{
 				return(new SceneMain2);//同じステージを繰り返す
@@ -143,7 +143,7 @@ SceneBase* SceneMain2::Update()
 		}
 		if (m_pCursorCollision->CollsionEnd())//カーソルと選択範囲に当たっていたら
 		{
-			Color3 = Color::kRed;//カーソルが当たっている場合の文字背景の色
+			m_color3 = Color::kRed;//カーソルが当たっている場合の文字背景の色
 			if (padState & PAD_INPUT_2)//Xボタン
 			{
 				return(new SceneTitle);//タイトル画面に移動
@@ -211,14 +211,14 @@ void SceneMain2::GameClear()
 	DrawBox(500, 300, Game::kScreenWidth - 500, Game::kScreenHeight - 300, 0xffffff, false);//枠組み
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);//色を薄くする
-	DrawBox(SceneSelect::kSelectLeft,SceneSelect::kSelectTop,SceneSelect::kSelectRight,SceneSelect::kSelectBottom, Color1, true);
-	DrawBox(SceneSelect::kSelectLeft2, SceneSelect::kSelectTop2, SceneSelect::kSelectRight2, SceneSelect::kSelectBottom2, Color2, true);
-	DrawBox(SceneSelect::kSelectLeft3, SceneSelect::kSelectTop3, SceneSelect::kSelectRight3, SceneSelect::kSelectBottom3, Color3, true);
+	DrawBox(SceneSelect::kSelectLeft,SceneSelect::kSelectTop,SceneSelect::kSelectRight,SceneSelect::kSelectBottom, m_color1, true);
+	DrawBox(SceneSelect::kSelectLeft2, SceneSelect::kSelectTop2, SceneSelect::kSelectRight2, SceneSelect::kSelectBottom2, m_color2, true);
+	DrawBox(SceneSelect::kSelectLeft3, SceneSelect::kSelectTop3, SceneSelect::kSelectRight3, SceneSelect::kSelectBottom3, m_color3, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);//色を戻す
 
 	DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop    + 5 , "Next Sgage", 0x0000ff);
 	DrawString(SceneSelect::kSelectLeft2 + 100, SceneSelect::kSelectTop2 + 5,  "Retry", 0x0000ff);
-	DrawString(SceneSelect::kSelectLeft3 + 45, SceneSelect::kSelectTop3  + 5,  "Back to TitleScreen", 0x0000ff);
+	DrawString(SceneSelect::kSelectLeft3 + 75, SceneSelect::kSelectTop3  + 5,  "Back to Title", 0x0000ff);
 
 	m_pCursor->Draw();
 }

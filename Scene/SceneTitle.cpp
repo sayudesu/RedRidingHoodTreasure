@@ -140,38 +140,32 @@ SceneBase* SceneTitle::Update()
 		m_colorX = kColorWhite;//文字の色を変更
 	}
 
-	if (m_pCollsion->CollsionDemo())//シーン切り替え::チュートリアル
-	{
-		m_soundCount1++;
-		if (m_soundCount1 == 1)
-		{
-			PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
-		}
-		m_isSceneFocus1 = true;//フォーカスを合わせた場合
-		if (padState & PAD_INPUT_2)
-		{
-			m_sceneChangeCountDemo += 5;//長押し時間
-			if (m_sceneChangeCountDemo == 300)//長押し決定
-			{
-				m_sceneChangeCountDemo = 0;
-				return(new SceneMain);//シーン切り替え
-				//return(new SceneResult);//シーン切り替え
-			}
-		}
-		else
-		{
-			m_sceneChangeCountDemo = 0;//長押しをやめたらメーターをリセット
-		}
-	}
-	else
-	{
-		m_soundCount1 = 0;
-		m_isSceneFocus1 = false;//フォーカスを外した場合
-		m_sceneChangeCountDemo = 0;//メーターをリセット
-	}
+	//if (m_pCollsion->CollsionDemo())//シーン切り替え::チュートリアル
+	//{
+	//	m_sceneChangeCountDemo = 300;
+	//	m_soundCount1++;
+	//	if (m_soundCount1 == 1)
+	//	{
+	//		PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
+	//	}
+	//	m_isSceneFocus1 = true;//フォーカスを合わせた場合
+	//	if (padState & PAD_INPUT_2)
+	//	{
+	//		return(new SceneMain);//シーン切り替え
+	//		//return(new SceneResult);//シーン切り替え
+	//		
+	//	}
+	//}
+	//else
+	//{
+	//	m_sceneChangeCountDemo = 0;
+	//	m_soundCount1 = 0;
+	//	m_isSceneFocus1 = false;//フォーカスを外した場合
+	//}
 
 	if (m_pCollsion->CollsionStage1())//シーン切り替え::ゲームプレイ
 	{
+		m_sceneChangeCountStage1 = 300;
 		m_soundCount2++;
 		if (m_soundCount2 == 1)
 		{
@@ -180,28 +174,21 @@ SceneBase* SceneTitle::Update()
 		m_isSceneFocus2 = true;//フォーカスを合わせた場合
 		if (padState & PAD_INPUT_2)
 		{
-			m_sceneChangeCountStage1 += 5;//長押し時間
-			if (m_sceneChangeCountStage1 == 300)//長押し決定
-			{
-				m_sceneChangeCountStage1 = 0;
-				return(new SceneMain2);//シーン切り替え
-				return(new SceneMain3);//シーン切り替え
-			}
-		}
-		else
-		{
-			m_sceneChangeCountStage1 = 0;//長押しをやめたらメーターをリセット
+			return(new SceneMain2);//シーン切り替え
+			return(new SceneMain3);//シーン切り替え
+			
 		}
 	}
 	else
-	{
+	{	
+		m_sceneChangeCountStage1 = 0;
 		m_soundCount2 = 0;
 		m_isSceneFocus2 = false;//フォーカスを外した場合
-		m_sceneChangeCountStage1 = 0;//メーターをリセット
 	}
 
 	if (m_pCollsion->CollsionEnd())//シーン切り替え::デスクトップに戻る
 	{
+		m_sceneChangeCountEnd = 300;
 		m_soundCount3++;
 		if (m_soundCount3 == 1)
 		{
@@ -210,25 +197,15 @@ SceneBase* SceneTitle::Update()
 		m_isSceneFocus3 = true;//フォーカスを合わせた場合
 		if (padState & PAD_INPUT_2)
 		{
-			m_sceneChangeCountEnd += 5;//長押し時間
-			if (m_sceneChangeCountEnd == 300)//長押し決定
-			{
-				m_sceneChangeCountEnd = 0;
-				DxLib_End();//ゲーム終了
-			}
-		}
-		else
-		{
-			m_sceneChangeCountEnd = 0;//長押しをやめたらメーターをリセット
+			DxLib_End();//ゲーム終了
 		}
 	}
 	else
 	{
+		m_sceneChangeCountEnd = 0;
 		m_soundCount3 = 0;
 		m_isSceneFocus3 = false;//フォーカスを外した場合
-		m_sceneChangeCountEnd = 0;//メーターをリセット
 	}
-
 
 	//右に移動アニメーション
 	m_frameCount++;
@@ -256,10 +233,10 @@ void SceneTitle::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);//色を薄くする
-	//チュートリアル
-	DrawBox(TitleMenu::kSelection1X, TitleMenu::kSelection1Y, TitleMenu::kSelectionBottom1X, TitleMenu::kSelectionBottom1Y, 0xffffff, true);
-	DrawBox(TitleMenu::kSelection1X, TitleMenu::kSelection1Y, TitleMenu::kSelectionBottom1X + m_sceneChangeCountDemo - 300
-		, TitleMenu::kSelectionBottom1Y, 0xff0000, true);
+	////チュートリアル
+	//DrawBox(TitleMenu::kSelection1X, TitleMenu::kSelection1Y, TitleMenu::kSelectionBottom1X, TitleMenu::kSelectionBottom1Y, 0xffffff, true);
+	//DrawBox(TitleMenu::kSelection1X, TitleMenu::kSelection1Y, TitleMenu::kSelectionBottom1X + m_sceneChangeCountDemo - 300
+	//	, TitleMenu::kSelectionBottom1Y, 0xff0000, true);
 	//ステージ1
 	DrawBox(TitleMenu::kSelection2X, TitleMenu::kSelection2Y, TitleMenu::kSelectionBottom2X, TitleMenu::kSelectionBottom2Y, 0xffffff, true);
 	DrawBox(TitleMenu::kSelection2X, TitleMenu::kSelection2Y, TitleMenu::kSelectionBottom2X + m_sceneChangeCountStage1 - 300
@@ -272,13 +249,13 @@ void SceneTitle::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);//色を戻す
 
 	//枠組み（青色）
-	DrawBox(TitleMenu::kSelection1X - 1, TitleMenu::kSelection1Y - 1, TitleMenu::kSelectionBottom1X + 1, TitleMenu::kSelectionBottom1Y + 1, 0x0000ff, false);
+	//DrawBox(TitleMenu::kSelection1X - 1, TitleMenu::kSelection1Y - 1, TitleMenu::kSelectionBottom1X + 1, TitleMenu::kSelectionBottom1Y + 1, 0x0000ff, false);
 	DrawBox(TitleMenu::kSelection2X -1, TitleMenu::kSelection2Y - 1, TitleMenu::kSelectionBottom2X + 1, TitleMenu::kSelectionBottom2Y + 1, 0x0000ff, false);
 	DrawBox(TitleMenu::kSelection3X - 1, TitleMenu::kSelection3Y - 1, TitleMenu::kSelectionBottom3X + 1, TitleMenu::kSelectionBottom3Y + 1, 0x0000ff, false);
 
 	if (m_isSceneFocus1)//フォーカスを合わせるを周りの枠の色を切り替える（赤色にする）
 	{
-		DrawBox(TitleMenu::kSelection1X - 1, TitleMenu::kSelection1Y - 1, TitleMenu::kSelectionBottom1X + 1, TitleMenu::kSelectionBottom1Y + 1, 0xff00ff, false);
+		//DrawBox(TitleMenu::kSelection1X - 1, TitleMenu::kSelection1Y - 1, TitleMenu::kSelectionBottom1X + 1, TitleMenu::kSelectionBottom1Y + 1, 0xff00ff, false);
 	}
 	if (m_isSceneFocus2)
 	{
@@ -291,7 +268,7 @@ void SceneTitle::Draw()
 	}
 
 	//文字
-	DrawString(TitleMenu::kSelection1X + 100, TitleMenu::kSelection1Y + 5 , "Tutorial", 0x0000ff);
+	//DrawString(TitleMenu::kSelection1X + 100, TitleMenu::kSelection1Y + 5 , "Tutorial", 0x0000ff);
 	DrawString(TitleMenu::kSelection2X + 100, TitleMenu::kSelection2Y + 5, "GameStart", 0x0000ff);
 	DrawString(TitleMenu::kSelection3X + 125, TitleMenu::kSelection3Y + 15, "Quit", 0x0000ff);
 	SetFontSize(64);//文字サイズ変更

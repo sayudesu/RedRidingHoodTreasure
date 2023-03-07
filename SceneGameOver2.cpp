@@ -1,46 +1,43 @@
-#include <DxLib.h>
+#include <Dxlib.h>
 #include "game.h"
-#include "SceneResult.h"
+#include "SceneGameOver2.h"
 #include "SceneTitle.h"
 #include "SceneMain.h"
-#include "SceneMain.h"
-#include "SceneMain2.h"
 #include "SceneMain3.h"
 #include "TitleCursorGame.h"
 #include "GameSceneCollision.h"
 
-namespace
-{
-
-}
-
-SceneResult::SceneResult():
+SceneGameOver2::SceneGameOver2() :
 	m_color1(0),//選択画面の色
 	m_color2(0),
 	m_color3(0),
-	m_pCursor(nullptr),
-	m_pCursorCollision(nullptr)
+	m_pCursor(nullptr),//カーソル表示用
+	m_pCursorCollision(nullptr)//カーソル当たり判定
 {
 	m_pCursor = new TitleCursorGame;
 	m_pCursorCollision = new GameSceneCollision;
 }
 
-void SceneResult::Init()
+SceneGameOver2::~SceneGameOver2()
 {
-
+	delete m_pCursor;
+	delete m_pCursorCollision;
 }
 
-void SceneResult::End()
+void SceneGameOver2::Init()
 {
-
 }
 
-SceneBase* SceneResult::Update()
+void SceneGameOver2::End()
+{
+}
+
+SceneBase* SceneGameOver2::Update()
 {
 	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
-	m_pCursor->Update();
-	m_pCursorCollision->Update();
+	m_pCursor->Update();//カーソルの更新処理
+	m_pCursorCollision->Update();//カーソルと選択範囲の当たり判定
 
 	//カーソルが当たっていない場合の文字背景の色
 	m_color2 = Color::kWhite;
@@ -62,10 +59,11 @@ SceneBase* SceneResult::Update()
 			return(new SceneTitle);//タイトル画面に移動
 		}
 	}
+
 	return this;
 }
 
-void SceneResult::Draw()
+void SceneGameOver2::Draw()
 {
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
@@ -79,9 +77,10 @@ void SceneResult::Draw()
 	DrawBox(SceneSelect::kSelectLeft3, SceneSelect::kSelectTop3, SceneSelect::kSelectRight3, SceneSelect::kSelectBottom3, m_color3, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);//色を戻す
 
-	DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop + 5, "GameClear", Color::kYellow);
+	DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop + 5, "You Died.", Color::kRed);
 	DrawString(SceneSelect::kSelectLeft2 + 100, SceneSelect::kSelectTop2 + 5, "Retry", Color::kBlue);
 	DrawString(SceneSelect::kSelectLeft3 + 75, SceneSelect::kSelectTop3 + 5, "Back to Title", Color::kBlue);
 
 	m_pCursor->Draw();
 }
+

@@ -27,9 +27,9 @@ private:
 	int m_hPlayerLighting;
 	int m_hPlayerHealthBer;
 
-	int Color1;//選択画面の色
-	int Color2;
-	int Color3;
+	int m_color1;//選択画面の色
+	int m_color2;
+	int m_color3;
 
 	int m_hMusicBgm1;
 

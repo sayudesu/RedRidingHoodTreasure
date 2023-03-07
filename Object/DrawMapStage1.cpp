@@ -9,6 +9,8 @@ DrawMapStage1::DrawMapStage1():
 	m_hMap5(-1),
 	m_hTiles(-1),
 	m_hBlock(-1),
+	m_hLadderChip(-1),
+	m_hLadder(-1),//梯子
 	m_hForest(),//マップ背景Forest
 	m_hForestCut(),//背景切り取り
 	m_hMapChip1(-1),//マップチップデータ
@@ -77,6 +79,9 @@ void DrawMapStage1::Init()
 
 	m_hMapChip1 = LoadGraph(Image::kMapTiles);
 	m_hBox = DerivationGraph(288, 272, 32, 32, m_hMapChip1);//地面画像から一部を抽出
+
+	m_hLadderChip = LoadGraph(Image::kLadder);//梯子読み込み
+	m_hLadder = DerivationGraph(48, 160, 16, 32, m_hLadderChip);//画像の一部を読み込み
 }
 
 void DrawMapStage1::End()
@@ -111,13 +116,11 @@ void DrawMapStage1::Draw()
 	DrawMap();//マップ表示
 
 	//第一梯子
-	DrawBox(Stage1::kLadder1X, Stage1::kLadder1Y, Stage1::kLadderBottom1X, Stage1::kLadderBottom1Y, 0xff0000, true);
+	DrawExtendGraph(Stage1::kLadder1X - 8, Stage1::kLadder1Y, Stage1::kLadderBottom1X + 8, Stage1::kLadderBottom1Y, m_hLadder, true);//判定確認用
+	DrawBox(Stage1::kLadder1X, Stage1::kLadder1Y, Stage1::kLadderBottom1X, Stage1::kLadderBottom1Y, 0xff0000, false);
 	//第二梯子
-	DrawBox(Stage1::kLadder2X, Stage1::kLadder2Y, Stage1::kLadderBottom2X, Stage1::kLadderBottom2Y, 0xff0000, true);
-	////第三梯子
-	//DrawBox(Stage1::kLadder3X, Stage1::kLadder3Y, Stage1::kLadderBottom3X, Stage1::kLadderBottom3Y, 0xff0000, true);
-	////第四梯子
-	//DrawBox(Stage1::kLadder4X, Stage1::kLadder4Y, Stage1::kLadderBottom4X, Stage1::kLadderBottom4Y, 0xff0000, true);
+	DrawExtendGraph(Stage1::kLadder2X - 8, Stage1::kLadder2Y, Stage1::kLadderBottom2X + 8, Stage1::kLadderBottom2Y, m_hLadder, true);//判定確認用
+	DrawBox(Stage1::kLadder2X, Stage1::kLadder2Y, Stage1::kLadderBottom2X, Stage1::kLadderBottom2Y, 0xff0000, false);
 
 	//ゴール
 	DrawExtendGraph(Stage1::kGoalX, Stage1::kGoalY, Stage1::kGoalBottomX, Stage1::kGoalBottomY, m_hBox, true);
@@ -188,36 +191,4 @@ void DrawMapStage1::DrawMap()
 	//DrawBox(Stage1::kBox7Xt, Stage1::kBox7Yt, Stage1::kBoxBottom7Xt, Stage1::kBoxBottom7Yt, 0xffffff, false);
 	//DrawBox(Stage1::kBox8Xt, Stage1::kBox8Yt, Stage1::kBoxBottom8Xt, Stage1::kBoxBottom8Yt, 0xffffff, true);
 
-	////4階地面
-	//DrawExtendGraph(Stage1::kBox1Xf, Stage1::kBox1Yf - 2, Stage1::kBoxBottom1Xf, Stage1::kBoxBottom1Yf, m_hBlock, true);
-	////DrawBox(Stage1::kBox1Xf, Stage1::kBox1Yf, Stage1::kBoxBottom1Xf, Stage1::kBoxBottom1Yf, 0xffffff, false);
-	//DrawExtendGraph(Stage1::kBox2Xf, Stage1::kBox2Yf - 2, Stage1::kBoxBottom2Xf, Stage1::kBoxBottom2Yf, m_hBlock, true);
-	////DrawBox(Stage1::kBox2Xf, Stage1::kBox2Yf, Stage1::kBoxBottom2Xf, Stage1::kBoxBottom2Yf, 0xffffff, false);
-	//DrawExtendGraph(Stage1::kBox3Xf, Stage1::kBox3Yf - 2, Stage1::kBoxBottom3Xf, Stage1::kBoxBottom3Yf, m_hBlock, true);
-	////DrawBox(Stage1::kBox3Xf, Stage1::kBox3Yf, Stage1::kBoxBottom3Xf, Stage1::kBoxBottom3Yf, 0xffffff, false);
-	//DrawExtendGraph(Stage1::kBox4Xf, Stage1::kBox4Yf - 2, Stage1::kBoxBottom4Xf, Stage1::kBoxBottom4Yf, m_hBlock, true);
-	////DrawBox(Stage1::kBox4Xf, Stage1::kBox4Yf, Stage1::kBoxBottom4Xf, Stage1::kBoxBottom4Yf, 0xffffff, false);
-	//DrawExtendGraph(Stage1::kBox5Xf, Stage1::kBox5Yf - 2, Stage1::kBoxBottom5Xf, Stage1::kBoxBottom5Yf, m_hBlock, true);
-	////DrawBox(Stage1::kBox5Xf, Stage1::kBox5Yf, Stage1::kBoxBottom5Xf, Stage1::kBoxBottom5Yf, 0xffffff, false);
-	//DrawExtendGraph(Stage1::kBox6Xf, Stage1::kBox6Yf - 2, Stage1::kBoxBottom6Xf, Stage1::kBoxBottom6Yf, m_hBlock, true);
-	////DrawBox(Stage1::kBox6Xf, Stage1::kBox6Yf, Stage1::kBoxBottom6Xf, Stage1::kBoxBottom6Yf, 0xffffff, false);
-	//DrawExtendGraph(Stage1::kBox7Xf, Stage1::kBox7Yf - 2, Stage1::kBoxBottom7Xf, Stage1::kBoxBottom7Yf, m_hBlock, true);
-	////DrawBox(Stage1::kBox7Xf, Stage1::kBox7Yf, Stage1::kBoxBottom7Xf, Stage1::kBoxBottom7Yf, 0xffffff, false);
-	//DrawExtendGraph(Stage1::kBox8Xf, Stage1::kBox8Yf - 2, Stage1::kBoxBottom8Xf, Stage1::kBoxBottom8Yf, m_hBlock, true);
-	////DrawBox(Stage1::kBox8Xf, Stage1::kBox8Yf, Stage1::kBoxBottom8Xf, Stage1::kBoxBottom8Yf, 0xffffff, false);
-
-	////5階地面
-
-	//DrawExtendGraph(Stage1::kBox1XFi, Stage1::kBox1YFi - 2, Stage1::kBoxBottom1XFi, Stage1::kBoxBottom1YFi, m_hBlock, true);
-	////DrawBox(Stage1::kBox1XFi, Stage1::kBox1YFi, Stage1::kBoxBottom1XFi, Stage1::kBoxBottom1YFi, 0xffffff, false);
-	//DrawExtendGraph(Stage1::kBox2XFi, Stage1::kBox2YFi - 2 , Stage1::kBoxBottom2XFi, Stage1::kBoxBottom2YFi, m_hBlock, true);
-	////DrawBox(Stage1::kBox2XFi, Stage1::kBox2YFi, Stage1::kBoxBottom2XFi, Stage1::kBoxBottom2YFi, 0xffffff, false);
-	//DrawExtendGraph(Stage1::kBox3XFi, Stage1::kBox3YFi - 2, Stage1::kBoxBottom3XFi, Stage1::kBoxBottom3YFi, m_hBlock, true);
-	////DrawBox(Stage1::kBox3XFi, Stage1::kBox3YFi, Stage1::kBoxBottom3XFi, Stage1::kBoxBottom3YFi, 0xffffff, false);
-	//DrawExtendGraph(Stage1::kBox4XFi, Stage1::kBox4YFi - 2, Stage1::kBoxBottom4XFi, Stage1::kBoxBottom4YFi, m_hBlock, true);
-	////DrawBox(Stage1::kBox4XFi, Stage1::kBox4YFi, Stage1::kBoxBottom4XFi, Stage1::kBoxBottom4YFi, 0xffffff, false);
-	//DrawExtendGraph(Stage1::kBox5XFi, Stage1::kBox5YFi - 2, Stage1::kBoxBottom5XFi, Stage1::kBoxBottom5YFi, m_hBlock, true);
-	////DrawBox(Stage1::kBox5XFi, Stage1::kBox5YFi, Stage1::kBoxBottom5XFi, Stage1::kBoxBottom5YFi, 0xffffff, false);
-	//DrawExtendGraph(Stage1::kBox6XFi, Stage1::kBox6YFi - 2, Stage1::kBoxBottom6XFi, Stage1::kBoxBottom6YFi,m_hBlock, true);
-	////DrawBox(Stage1::kBox6XFi, Stage1::kBox6YFi, Stage1::kBoxBottom6XFi, Stage1::kBoxBottom6YFi, 0xffffff, false);
 }

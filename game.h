@@ -585,7 +585,7 @@ namespace TitleMenu
 	constexpr int kSelectionBottom1Y = kSelection1Y + 30;
 	//ステージ１
 	constexpr int kSelection2X = Game::kScreenWidth / 2 - 150;
-	constexpr int kSelection2Y = kSelection1Y + 70;
+	constexpr int kSelection2Y = kSelection1Y;
 	constexpr int kSelectionBottom2X = kSelection2X + 300;
 	constexpr int kSelectionBottom2Y = kSelection2Y + 30;
 	//ゲーム終了
@@ -641,5 +641,6 @@ namespace Color
 	constexpr int kRed     = 0xff0000;//赤
 	constexpr int kGreen   = 0x00ff00;//緑
 	constexpr int kBlue    = 0x0000ff;//青
+	constexpr int kYellow = 0xffff00;//黄色
 	constexpr int kThinRed = 0xaa0000;//薄い赤
 }

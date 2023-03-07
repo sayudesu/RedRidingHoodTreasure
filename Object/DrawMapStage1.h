@@ -25,6 +25,10 @@ private:
 	int m_hTiles;
 	int m_hBlock;//地面用
 
+	//梯子
+	int m_hLadderChip;
+	int m_hLadder;
+
 	//マップ背景Forest
 	int m_hForest[9];
 	int m_hForestCut[9];//背景切り取り

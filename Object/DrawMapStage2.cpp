@@ -80,7 +80,7 @@ void DrawMapStage2::Init()
 	m_hBox = DerivationGraph(288, 272, 32, 32, m_hMapChip1);//’n–Ê‰æ‘œ‚©‚çˆê•”‚ğ’Šo
 
 	m_hLadderChip = LoadGraph(Image::kLadder);//’òq“Ç‚İ‚İ
-	m_hLadder = DerivationGraph(48, 160, 16, 32, m_hLadderChip);
+	m_hLadder = DerivationGraph(48, 160, 16, 32, m_hLadderChip);//‰æ‘œ‚Ìˆê•”‚ğ“Ç‚İ‚İ
 }
 
 void DrawMapStage2::End()

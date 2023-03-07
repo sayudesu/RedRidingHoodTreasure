@@ -18,9 +18,9 @@ namespace
 	//動く速さ
 	constexpr float kMoveSpeed = 5.0f;
 	// ジャンプ力
-	constexpr float kJump = -10.3f;
+	constexpr float kJump = -11.0f;
 	// 重力
-	constexpr float kGravity = 1.0f;
+	constexpr float kGravity = 0.9f;
 
 	//地面の高さY軸
 	constexpr int kGround = 700;
@@ -506,6 +506,7 @@ void PlayerNew::UpdateMove()
 	{
 		//重力
 		m_vec.y += kGravity;
+
 	}
 
 	if (m_isLadder)//梯子にいる場合
@@ -572,6 +573,14 @@ void PlayerNew::UpdateMove()
 	m_playerRight  = m_playerLeft + 30;
 	m_playerBottom = m_playerTop + 40;
 
+	//if (!m_isFall)
+	//{
+	//	//プレイヤーの座標
+	//	m_playerLeft = static_cast<int>(m_pos.x);
+	//	m_playerTop += 10;
+	//	m_playerRight = m_playerLeft + 30;
+	//	m_playerBottom = m_playerTop + 40;
+	//}
 	//スコア判定座標
 	//m_scoreLeft   = m_playerLeft;
 	//m_scoreTop    = m_playerBottom;

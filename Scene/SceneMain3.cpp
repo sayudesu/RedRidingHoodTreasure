@@ -1,7 +1,7 @@
 #include "SceneMain3.h"
 #include "SceneTitle.h"
 #include "SceneResult.h"
-#include "SceneGameOver.h"
+#include "SceneGameOver2.h"
 #include "DrawMapStage2.h"
 #include "PlayerNew.h"
 #include "Collision2.h"
@@ -89,7 +89,7 @@ SceneBase* SceneMain3::Update()
 	if (m_pCollision->m_isDeadSceneChange)//敵やトラップに当たって死んだ場合
 	{
 		printfDx("敵やトラップに当たって死んだ");
-		return(new SceneGameOver);
+		return(new SceneGameOver2);
 	}
 
 	if (CheckHitKey(KEY_INPUT_Z))

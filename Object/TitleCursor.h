@@ -19,6 +19,10 @@ public:
 	Vec2 GetCursor() { return m_padPos; }
 
 private:
+
+	int m_mouseX;
+	int m_mouseY;
+
 	Vec2 m_padPos;
 
 };

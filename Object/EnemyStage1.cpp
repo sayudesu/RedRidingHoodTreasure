@@ -93,14 +93,14 @@ EnemyStage1::EnemyStage1():
 	m_barrelPos.x = Enemy1::kBossPosLeft;
 	m_barrelPos.y = Enemy1::kBossPosTop;
 	//どっすん
-	m_fallenPos.x = Stage1::kBox2Xt;
-	m_fallenPos.y = Stage1::kBoxBottom8Yf;
-	//どっすん2
-	m_fallen2Pos.x = Stage1::kBox4Xt;
-	m_fallen2Pos.y = Stage1::kBoxBottom8Yf;
+	//m_fallenPos.x = Stage1::kBox2Xt;
+	//m_fallenPos.y = Stage1::kBoxBottom8Yf;
+	////どっすん2
+	//m_fallen2Pos.x = Stage1::kBox4Xt;
+	//m_fallen2Pos.y = Stage1::kBoxBottom8Yf;
 	//チャージする敵
-	m_chargePos.x = Stage1::kBox1Xf;
-	m_chargePos.y = Stage1::kBox1Yf - 50;
+	//m_chargePos.x = Stage1::kBox1Xf;
+	//m_chargePos.y = Stage1::kBox1Yf - 50;
 
 	m_chargeSpeed = 10.0f;
 
@@ -142,18 +142,18 @@ void EnemyStage1::Draw()
 	//ボス(洞窟に変更敵のスポーン位置)
 	DrawExtendGraph(Enemy1::kBossPosLeft, Enemy1::kBossPosTop, Enemy1::kBossPosRight, Enemy1::kBossPosBottom,
 		m_hCave, true);
-	DrawBox(Enemy1::kBossPosLeft, Enemy1::kBossPosTop,
-		Enemy1::kBossPosRight, Enemy1::kBossPosBottom, 0xffff00, false);
+	/*DrawBox(Enemy1::kBossPosLeft, Enemy1::kBossPosTop,
+		Enemy1::kBossPosRight, Enemy1::kBossPosBottom, 0xffff00, false);*/
 
 	//エネミー炎の玉
 	DrawRectRotaGraph(m_posLeft + 20 , m_posTop + 15,
 		m_fireBallImagePosX, m_fireBallImagePosY, 48, 32, 1.3, m_fireRad, m_hFireBall, true, m_fireImageDirection);//画像を描画
-	DrawBox(m_posLeft, m_posTop, m_posRight, m_posBottom, 0xff0000, false);//判定確認
+	//DrawBox(m_posLeft, m_posTop, m_posRight, m_posBottom, 0xff0000, false);//判定確認
 
 	//樽
 	DrawRectRotaGraph(m_barrelLeft + 20, m_barrelTop + 15 - 5,
 		m_barreImagePosX, 0, 48, 32, 2, 0, m_hBarre, true, m_barreImageDirection);//画像を描画
-	DrawBox(m_barrelLeft, m_barrelTop, m_barrelRight, m_barrelBottom, 0xffff00, false);//判定確認
+	//DrawBox(m_barrelLeft, m_barrelTop, m_barrelRight, m_barrelBottom, 0xffff00, false);//判定確認
 	//横288
 	//縦32
 
@@ -252,7 +252,7 @@ void EnemyStage1::fireBallMove()
 
 	if (!m_isFireBallCourse)//右動き
 	{
-		m_pos.x -= 8.0f;
+		m_pos.x -= 5.0f;
 		if (m_pos.x < 0)//向きを変更する
 		{
 			//方向を変更
@@ -262,7 +262,7 @@ void EnemyStage1::fireBallMove()
 	}
 	else//左動き
 	{
-		m_pos.x += 8.0f;
+		m_pos.x += 5.0f;
 		if (m_pos.x > Game::kScreenWidth)//向きを変更する
 		{
 			//方向を変更

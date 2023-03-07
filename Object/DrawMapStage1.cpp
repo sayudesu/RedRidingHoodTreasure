@@ -117,14 +117,14 @@ void DrawMapStage1::Draw()
 
 	//第一梯子
 	DrawExtendGraph(Stage1::kLadder1X - 8, Stage1::kLadder1Y, Stage1::kLadderBottom1X + 8, Stage1::kLadderBottom1Y, m_hLadder, true);//判定確認用
-	DrawBox(Stage1::kLadder1X, Stage1::kLadder1Y, Stage1::kLadderBottom1X, Stage1::kLadderBottom1Y, 0xff0000, false);
+	//DrawBox(Stage1::kLadder1X, Stage1::kLadder1Y, Stage1::kLadderBottom1X, Stage1::kLadderBottom1Y, 0xff0000, false);
 	//第二梯子
 	DrawExtendGraph(Stage1::kLadder2X - 8, Stage1::kLadder2Y, Stage1::kLadderBottom2X + 8, Stage1::kLadderBottom2Y, m_hLadder, true);//判定確認用
-	DrawBox(Stage1::kLadder2X, Stage1::kLadder2Y, Stage1::kLadderBottom2X, Stage1::kLadderBottom2Y, 0xff0000, false);
+	//DrawBox(Stage1::kLadder2X, Stage1::kLadder2Y, Stage1::kLadderBottom2X, Stage1::kLadderBottom2Y, 0xff0000, false);
 
 	//ゴール
 	DrawExtendGraph(Stage1::kGoalX, Stage1::kGoalY, Stage1::kGoalBottomX, Stage1::kGoalBottomY, m_hBox, true);
-	DrawBox(Stage1::kGoalX, Stage1::kGoalY, Stage1::kGoalBottomX, Stage1::kGoalBottomY, 0xff00ff, false);
+	//DrawBox(Stage1::kGoalX, Stage1::kGoalY, Stage1::kGoalBottomX, Stage1::kGoalBottomY, 0xff00ff, false);
 
 }
 

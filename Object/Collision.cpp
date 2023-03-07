@@ -369,165 +369,165 @@ bool Collision::HitObject()
 		}
 	}
 
-	//4階の判定///////////////////////////////////////////////////////////////////////////////////////////
-	if ((Stage1::kBoxBottom1Xf > m_pPlayer->GetPlayerLeft()) &&
-		(Stage1::kBox1Xf < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage1::kBoxBottom1Yf > m_pPlayer->GetPlayerTop()) &&
-			(Stage1::kBox1Yf < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage1::kBox1Yf - kPlayerPosY + kPlayerPosPulsY;
-			m_isPlayerPos = true;//突進を有効にする
-			return true;
-		}
-	}
-	//1段差
-	if ((Stage1::kBoxBottom2Xf > m_pPlayer->GetPlayerLeft()) &&
-		(Stage1::kBox2Xf < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage1::kBoxBottom2Yf > m_pPlayer->GetPlayerTop()) &&
-			(Stage1::kBox2Yf < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage1::kBox2Yf - kPlayerPosY + kPlayerPosPulsY;
-			m_isPlayerPos = true;//突進を有効にする
-			return true;
-		}
-	}
-	//2段差
-	if ((Stage1::kBoxBottom3Xf > m_pPlayer->GetPlayerLeft()) &&
-		(Stage1::kBox3Xf < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage1::kBoxBottom3Yf > m_pPlayer->GetPlayerTop()) &&
-			(Stage1::kBox3Yf < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage1::kBox3Yf - kPlayerPosY + kPlayerPosPulsY;
-			return true;
-		}
-	}
-	//3段差
-	if ((Stage1::kBoxBottom4Xf > m_pPlayer->GetPlayerLeft()) &&
-		(Stage1::kBox4Xf < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage1::kBoxBottom4Yf > m_pPlayer->GetPlayerTop()) &&
-			(Stage1::kBox4Yf < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage1::kBox4Yf - kPlayerPosY + kPlayerPosPulsY;
-			return true;
-		}
-	}
-	//4段差
-	if ((Stage1::kBoxBottom5Xf > m_pPlayer->GetPlayerLeft()) &&
-		(Stage1::kBox5Xf < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage1::kBoxBottom5Yf > m_pPlayer->GetPlayerTop()) &&
-			(Stage1::kBox5Yf < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage1::kBox5Yf - kPlayerPosY + kPlayerPosPulsY;
-			return true;
-		}
-	}
-	//5段差
-	if ((Stage1::kBoxBottom6Xf > m_pPlayer->GetPlayerLeft()) &&
-		(Stage1::kBox6Xf < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage1::kBoxBottom6Yf > m_pPlayer->GetPlayerTop()) &&
-			(Stage1::kBox6Yf < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage1::kBox6Yf - kPlayerPosY + kPlayerPosPulsY;
-			return true;
-		}
-	}
-	//6段差
-	if ((Stage1::kBoxBottom7Xf > m_pPlayer->GetPlayerLeft()) &&
-		(Stage1::kBox7Xf < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage1::kBoxBottom7Yf > m_pPlayer->GetPlayerTop()) &&
-			(Stage1::kBox7Yf < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage1::kBox7Yf - kPlayerPosY + kPlayerPosPulsY;
-			return true;
-		}
-	}
-	//7段差
-	if ((Stage1::kBoxBottom8Xf > m_pPlayer->GetPlayerLeft()) &&
-		(Stage1::kBox8Xf < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage1::kBoxBottom8Yf > m_pPlayer->GetPlayerTop()) &&
-			(Stage1::kBox8Yf < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage1::kBox8Yf - kPlayerPosY + kPlayerPosPulsY;
-			m_isPlayerPos = true;//突進を有効にする
-			return true;
-		}
-	}
+	////4階の判定///////////////////////////////////////////////////////////////////////////////////////////
+	//if ((Stage1::kBoxBottom1Xf > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage1::kBox1Xf < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage1::kBoxBottom1Yf > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage1::kBox1Yf < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage1::kBox1Yf - kPlayerPosY + kPlayerPosPulsY;
+	//		m_isPlayerPos = true;//突進を有効にする
+	//		return true;
+	//	}
+	//}
+	////1段差
+	//if ((Stage1::kBoxBottom2Xf > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage1::kBox2Xf < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage1::kBoxBottom2Yf > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage1::kBox2Yf < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage1::kBox2Yf - kPlayerPosY + kPlayerPosPulsY;
+	//		m_isPlayerPos = true;//突進を有効にする
+	//		return true;
+	//	}
+	//}
+	////2段差
+	//if ((Stage1::kBoxBottom3Xf > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage1::kBox3Xf < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage1::kBoxBottom3Yf > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage1::kBox3Yf < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage1::kBox3Yf - kPlayerPosY + kPlayerPosPulsY;
+	//		return true;
+	//	}
+	//}
+	////3段差
+	//if ((Stage1::kBoxBottom4Xf > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage1::kBox4Xf < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage1::kBoxBottom4Yf > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage1::kBox4Yf < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage1::kBox4Yf - kPlayerPosY + kPlayerPosPulsY;
+	//		return true;
+	//	}
+	//}
+	////4段差
+	//if ((Stage1::kBoxBottom5Xf > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage1::kBox5Xf < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage1::kBoxBottom5Yf > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage1::kBox5Yf < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage1::kBox5Yf - kPlayerPosY + kPlayerPosPulsY;
+	//		return true;
+	//	}
+	//}
+	////5段差
+	//if ((Stage1::kBoxBottom6Xf > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage1::kBox6Xf < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage1::kBoxBottom6Yf > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage1::kBox6Yf < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage1::kBox6Yf - kPlayerPosY + kPlayerPosPulsY;
+	//		return true;
+	//	}
+	//}
+	////6段差
+	//if ((Stage1::kBoxBottom7Xf > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage1::kBox7Xf < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage1::kBoxBottom7Yf > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage1::kBox7Yf < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage1::kBox7Yf - kPlayerPosY + kPlayerPosPulsY;
+	//		return true;
+	//	}
+	//}
+	////7段差
+	//if ((Stage1::kBoxBottom8Xf > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage1::kBox8Xf < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage1::kBoxBottom8Yf > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage1::kBox8Yf < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage1::kBox8Yf - kPlayerPosY + kPlayerPosPulsY;
+	//		m_isPlayerPos = true;//突進を有効にする
+	//		return true;
+	//	}
+	//}
 
-	//5階の判定///////////////////////////////////////////////////////////////////////////////////////////
-	if ((Stage1::kBoxBottom1XFi > m_pPlayer->GetPlayerLeft()) &&
-		(Stage1::kBox1XFi < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage1::kBoxBottom1YFi > m_pPlayer->GetPlayerTop()) &&
-			(Stage1::kBox1YFi < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage1::kBox1YFi - kPlayerPosY + kPlayerPosPulsY;
-			m_isPlayerPos = false;//突進を無効にする
-			return true;
-		}
-	}
-	//1段差
-	if ((Stage1::kBoxBottom2XFi > m_pPlayer->GetPlayerLeft()) &&
-		(Stage1::kBox2XFi < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage1::kBoxBottom2YFi > m_pPlayer->GetPlayerTop()) &&
-			(Stage1::kBox2YFi < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage1::kBox2YFi - kPlayerPosY + kPlayerPosPulsY;
-			return true;
-		}
-	}
-	//2段差
-	if ((Stage1::kBoxBottom3XFi > m_pPlayer->GetPlayerLeft()) &&
-		(Stage1::kBox3XFi < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage1::kBoxBottom3YFi > m_pPlayer->GetPlayerTop()) &&
-			(Stage1::kBox3YFi < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage1::kBox3YFi - kPlayerPosY + kPlayerPosPulsY;
-			return true;
-		}
-	}
-	//3段差
-	if ((Stage1::kBoxBottom4XFi > m_pPlayer->GetPlayerLeft()) &&
-		(Stage1::kBox4XFi < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage1::kBoxBottom4YFi > m_pPlayer->GetPlayerTop()) &&
-			(Stage1::kBox4YFi < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage1::kBox4YFi - kPlayerPosY + kPlayerPosPulsY;
-			return true;
-		}
-	}
-	//4段差
-	if ((Stage1::kBoxBottom5XFi > m_pPlayer->GetPlayerLeft()) &&
-		(Stage1::kBox5XFi < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage1::kBoxBottom5YFi > m_pPlayer->GetPlayerTop()) &&
-			(Stage1::kBox5YFi < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage1::kBox5YFi - kPlayerPosY + kPlayerPosPulsY;
-			return true;
-		}
-	}
-	//5段差
-	if ((Stage1::kBoxBottom6XFi > m_pPlayer->GetPlayerLeft()) &&
-		(Stage1::kBox6XFi < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage1::kBoxBottom6YFi > m_pPlayer->GetPlayerTop()) &&
-			(Stage1::kBox6YFi < m_pPlayer->GetPlayerBottom()))
-		{
-			m_posY = Stage1::kBox6YFi - kPlayerPosY + kPlayerPosPulsY;
-			return true;
-		}
-	}
+	////5階の判定///////////////////////////////////////////////////////////////////////////////////////////
+	//if ((Stage1::kBoxBottom1XFi > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage1::kBox1XFi < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage1::kBoxBottom1YFi > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage1::kBox1YFi < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage1::kBox1YFi - kPlayerPosY + kPlayerPosPulsY;
+	//		m_isPlayerPos = false;//突進を無効にする
+	//		return true;
+	//	}
+	//}
+	////1段差
+	//if ((Stage1::kBoxBottom2XFi > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage1::kBox2XFi < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage1::kBoxBottom2YFi > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage1::kBox2YFi < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage1::kBox2YFi - kPlayerPosY + kPlayerPosPulsY;
+	//		return true;
+	//	}
+	//}
+	////2段差
+	//if ((Stage1::kBoxBottom3XFi > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage1::kBox3XFi < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage1::kBoxBottom3YFi > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage1::kBox3YFi < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage1::kBox3YFi - kPlayerPosY + kPlayerPosPulsY;
+	//		return true;
+	//	}
+	//}
+	////3段差
+	//if ((Stage1::kBoxBottom4XFi > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage1::kBox4XFi < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage1::kBoxBottom4YFi > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage1::kBox4YFi < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage1::kBox4YFi - kPlayerPosY + kPlayerPosPulsY;
+	//		return true;
+	//	}
+	//}
+	////4段差
+	//if ((Stage1::kBoxBottom5XFi > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage1::kBox5XFi < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage1::kBoxBottom5YFi > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage1::kBox5YFi < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage1::kBox5YFi - kPlayerPosY + kPlayerPosPulsY;
+	//		return true;
+	//	}
+	//}
+	////5段差
+	//if ((Stage1::kBoxBottom6XFi > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage1::kBox6XFi < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage1::kBoxBottom6YFi > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage1::kBox6YFi < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		m_posY = Stage1::kBox6YFi - kPlayerPosY + kPlayerPosPulsY;
+	//		return true;
+	//	}
+	//}
 	
 	DrawBox(static_cast<int>(m_pPlayer->GetPlayerLeft()), static_cast<int>(m_pPlayer->GetPlayerTop()),
 		static_cast<int>(m_pPlayer->GetPlayerRight()), static_cast<int>(m_pPlayer->GetPlayerBottom()), 0x00ff00, true);
@@ -559,27 +559,27 @@ bool Collision::HItLadder()
 		}
 	}
 
-	//三階の判定
-	if ((Stage1::kLadderBottom3X > m_pPlayer->GetPlayerLeft()) &&
-		(Stage1::kLadder3X < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage1::kLadderBottom3Y > m_pPlayer->GetPlayerTop()) &&
-			(Stage1::kLadder3Y < m_pPlayer->GetPlayerBottom()))
-		{
-			return true;
-		}
-	}
+	////三階の判定
+	//if ((Stage1::kLadderBottom3X > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage1::kLadder3X < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage1::kLadderBottom3Y > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage1::kLadder3Y < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		return true;
+	//	}
+	//}
 
-	//三階の判定
-	if ((Stage1::kLadderBottom4X > m_pPlayer->GetPlayerLeft()) &&
-		(Stage1::kLadder4X < m_pPlayer->GetPlayerRight()))
-	{
-		if ((Stage1::kLadderBottom4Y > m_pPlayer->GetPlayerTop()) &&
-			(Stage1::kLadder4Y < m_pPlayer->GetPlayerBottom()))
-		{
-			return true;
-		}
-	}
+	////三階の判定
+	//if ((Stage1::kLadderBottom4X > m_pPlayer->GetPlayerLeft()) &&
+	//	(Stage1::kLadder4X < m_pPlayer->GetPlayerRight()))
+	//{
+	//	if ((Stage1::kLadderBottom4Y > m_pPlayer->GetPlayerTop()) &&
+	//		(Stage1::kLadder4Y < m_pPlayer->GetPlayerBottom()))
+	//	{
+	//		return true;
+	//	}
+	//}
 
 	return false;
 }
@@ -587,16 +587,16 @@ bool Collision::HItLadder()
 //敵が梯子に当たっているかどうか
 int Collision::HItEnemyLadder()
 {
-	//三階の判定
-	if ((Stage1::kLadderBottom3X > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kLadder3X < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kLadderBottom3Y > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kLadder3Y < m_pEnemy->GetBarrelBottom()))
-		{
-			return 4;
-		}
-	}
+	////三階の判定
+	//if ((Stage1::kLadderBottom3X > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kLadder3X < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kLadderBottom3Y > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kLadder3Y < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		return 4;
+	//	}
+	//}
 
 	return 0;
 }
@@ -1054,182 +1054,182 @@ int Collision::HitEnemyObject()
 	}
 
 	//4階の判定///////////////////////////////////////////////////////////////////////////////////////////
-	if ((Stage1::kBoxBottom1Xf > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kBox1Xf < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kBoxBottom1Yf > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kBox1Yf < m_pEnemy->GetBarrelBottom()))
-		{
-			m_enemyPosY = Stage1::kBox1Yf - kEnemyPosY + kPlayerPosPulsY;	
-			return 4;
-		}
-	}
-	//1段差
-	if ((Stage1::kBoxBottom2Xf > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kBox2Xf < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kBoxBottom2Yf > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kBox2Yf < m_pEnemy->GetBarrelBottom()))
-		{
-			m_enemyPosY = Stage1::kBox2Yf - kEnemyPosY + kPlayerPosPulsY;	
-			return 4;
-		}
-	}
-	//2段差
-	if ((Stage1::kBoxBottom3Xf > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kBox3Xf < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kBoxBottom3Yf > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kBox3Yf < m_pEnemy->GetBarrelBottom()))
-		{
-			m_enemyPosY = Stage1::kBox3Yf - kEnemyPosY + kPlayerPosPulsY;	
-			return 4;
-		}
-	}
-	//3段差
-	if ((Stage1::kBoxBottom4Xf > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kBox4Xf < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kBoxBottom4Yf > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kBox4Yf < m_pEnemy->GetBarrelBottom()))
-		{
-			m_enemyPosY = Stage1::kBox4Yf - kEnemyPosY + kPlayerPosPulsY;
-			return 4;
-		}
-	}
-	//4段差
-	if ((Stage1::kBoxBottom5Xf > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kBox5Xf < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kBoxBottom5Yf > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kBox5Yf < m_pEnemy->GetBarrelBottom()))
-		{
-			m_enemyPosY = Stage1::kBox5Yf - kEnemyPosY + kPlayerPosPulsY;
-			return 4;
-		}
-	}
-	//5段差
-	if ((Stage1::kBoxBottom6Xf > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kBox6Xf < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kBoxBottom6Yf > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kBox6Yf < m_pEnemy->GetBarrelBottom()))
-		{
-			m_enemyPosY = Stage1::kBox6Yf - kEnemyPosY + kPlayerPosPulsY;
-			return 4;
-		}
-	}
-	//6段差
-	if ((Stage1::kBoxBottom7Xf > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kBox7Xf < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kBoxBottom7Yf > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kBox7Yf < m_pEnemy->GetBarrelBottom()))
-		{
-			m_enemyPosY = Stage1::kBox7Yf - kEnemyPosY + kPlayerPosPulsY;
-			return 4;
-		}
-	}
-	//7段差
-	if ((Stage1::kBoxBottom8Xf > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kBox8Xf < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kBoxBottom8Yf > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kBox8Yf < m_pEnemy->GetBarrelBottom()))
-		{
-			m_enemyPosY = Stage1::kBox8Yf - kEnemyPosY + kPlayerPosPulsY;
-			return 4;
-		}
-	}
+	//if ((Stage1::kBoxBottom1Xf > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kBox1Xf < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kBoxBottom1Yf > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kBox1Yf < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		m_enemyPosY = Stage1::kBox1Yf - kEnemyPosY + kPlayerPosPulsY;	
+	//		return 4;
+	//	}
+	//}
+	////1段差
+	//if ((Stage1::kBoxBottom2Xf > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kBox2Xf < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kBoxBottom2Yf > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kBox2Yf < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		m_enemyPosY = Stage1::kBox2Yf - kEnemyPosY + kPlayerPosPulsY;	
+	//		return 4;
+	//	}
+	//}
+	////2段差
+	//if ((Stage1::kBoxBottom3Xf > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kBox3Xf < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kBoxBottom3Yf > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kBox3Yf < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		m_enemyPosY = Stage1::kBox3Yf - kEnemyPosY + kPlayerPosPulsY;	
+	//		return 4;
+	//	}
+	//}
+	////3段差
+	//if ((Stage1::kBoxBottom4Xf > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kBox4Xf < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kBoxBottom4Yf > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kBox4Yf < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		m_enemyPosY = Stage1::kBox4Yf - kEnemyPosY + kPlayerPosPulsY;
+	//		return 4;
+	//	}
+	//}
+	////4段差
+	//if ((Stage1::kBoxBottom5Xf > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kBox5Xf < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kBoxBottom5Yf > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kBox5Yf < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		m_enemyPosY = Stage1::kBox5Yf - kEnemyPosY + kPlayerPosPulsY;
+	//		return 4;
+	//	}
+	//}
+	////5段差
+	//if ((Stage1::kBoxBottom6Xf > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kBox6Xf < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kBoxBottom6Yf > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kBox6Yf < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		m_enemyPosY = Stage1::kBox6Yf - kEnemyPosY + kPlayerPosPulsY;
+	//		return 4;
+	//	}
+	//}
+	////6段差
+	//if ((Stage1::kBoxBottom7Xf > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kBox7Xf < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kBoxBottom7Yf > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kBox7Yf < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		m_enemyPosY = Stage1::kBox7Yf - kEnemyPosY + kPlayerPosPulsY;
+	//		return 4;
+	//	}
+	//}
+	////7段差
+	//if ((Stage1::kBoxBottom8Xf > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kBox8Xf < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kBoxBottom8Yf > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kBox8Yf < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		m_enemyPosY = Stage1::kBox8Yf - kEnemyPosY + kPlayerPosPulsY;
+	//		return 4;
+	//	}
+	//}
 
-	//5階の判定///////////////////////////////////////////////////////////////////////////////////////////
-	if ((Stage1::kBoxBottom1XFi > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kBox1XFi < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kBoxBottom1YFi > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kBox1YFi < m_pEnemy->GetBarrelBottom()))
-		{
-			m_enemyPosY = Stage1::kBox1YFi - kEnemyPosY + kPlayerPosPulsY;
-			return 5;
-		}
-	}
-	//1段差
-	if ((Stage1::kBoxBottom2XFi > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kBox2XFi < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kBoxBottom2YFi > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kBox2YFi < m_pEnemy->GetBarrelBottom()))
-		{
-			m_enemyPosY = Stage1::kBox2YFi - kEnemyPosY + kPlayerPosPulsY;
-			return 5;
-		}
-	}
-	//2段差
-	if ((Stage1::kBoxBottom3XFi > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kBox3XFi < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kBoxBottom3YFi > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kBox3YFi < m_pEnemy->GetBarrelBottom()))
-		{
-			m_enemyPosY = Stage1::kBox3YFi - kEnemyPosY + kPlayerPosPulsY;
-			return 5;
-		}
-	}
-	//3段差
-	if ((Stage1::kBoxBottom4XFi > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kBox4XFi < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kBoxBottom4YFi > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kBox4YFi < m_pEnemy->GetBarrelBottom()))
-		{
-			m_enemyPosY = Stage1::kBox4YFi - kEnemyPosY + kPlayerPosPulsY;
-			return 5;
-		}
-	}
-	//4段差
-	if ((Stage1::kBoxBottom5XFi > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kBox5XFi < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kBoxBottom5YFi > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kBox5YFi < m_pEnemy->GetBarrelBottom()))
-		{
-			m_enemyPosY = Stage1::kBox5YFi - kEnemyPosY + kPlayerPosPulsY;
-			return 5;
-		}
-	}
-	//5段差
-	if ((Stage1::kBoxBottom6XFi > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kBox6XFi < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kBoxBottom6YFi > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kBox6YFi < m_pEnemy->GetBarrelBottom()))
-		{
-			m_enemyPosY = Stage1::kBox6YFi - kEnemyPosY + kPlayerPosPulsY;
-			return 5;
-		}
-	}
-	//6段差
-	if ((Stage1::kBoxBottom7XFi > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kBox7XFi < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kBoxBottom7YFi > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kBox7YFi < m_pEnemy->GetBarrelBottom()))
-		{
-			m_enemyPosY = Stage1::kBox7YFi - kEnemyPosY + kPlayerPosPulsY;
-			return 5;
-		}
-	}
-	//7段差
-	if ((Stage1::kBoxBottom8XFi > m_pEnemy->GetBarrelLeft()) &&
-		(Stage1::kBox8XFi < m_pEnemy->GetBarrelRight()))
-	{
-		if ((Stage1::kBoxBottom8YFi > m_pEnemy->GetBarrelTop()) &&
-			(Stage1::kBox8YFi < m_pEnemy->GetBarrelBottom()))
-		{
-			m_enemyPosY = Stage1::kBox8YFi - kEnemyPosY + kPlayerPosPulsY;
-			return 5;
-		}
-	}
+	////5階の判定///////////////////////////////////////////////////////////////////////////////////////////
+	//if ((Stage1::kBoxBottom1XFi > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kBox1XFi < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kBoxBottom1YFi > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kBox1YFi < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		m_enemyPosY = Stage1::kBox1YFi - kEnemyPosY + kPlayerPosPulsY;
+	//		return 5;
+	//	}
+	//}
+	////1段差
+	//if ((Stage1::kBoxBottom2XFi > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kBox2XFi < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kBoxBottom2YFi > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kBox2YFi < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		m_enemyPosY = Stage1::kBox2YFi - kEnemyPosY + kPlayerPosPulsY;
+	//		return 5;
+	//	}
+	//}
+	////2段差
+	//if ((Stage1::kBoxBottom3XFi > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kBox3XFi < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kBoxBottom3YFi > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kBox3YFi < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		m_enemyPosY = Stage1::kBox3YFi - kEnemyPosY + kPlayerPosPulsY;
+	//		return 5;
+	//	}
+	//}
+	////3段差
+	//if ((Stage1::kBoxBottom4XFi > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kBox4XFi < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kBoxBottom4YFi > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kBox4YFi < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		m_enemyPosY = Stage1::kBox4YFi - kEnemyPosY + kPlayerPosPulsY;
+	//		return 5;
+	//	}
+	//}
+	////4段差
+	//if ((Stage1::kBoxBottom5XFi > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kBox5XFi < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kBoxBottom5YFi > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kBox5YFi < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		m_enemyPosY = Stage1::kBox5YFi - kEnemyPosY + kPlayerPosPulsY;
+	//		return 5;
+	//	}
+	//}
+	////5段差
+	//if ((Stage1::kBoxBottom6XFi > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kBox6XFi < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kBoxBottom6YFi > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kBox6YFi < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		m_enemyPosY = Stage1::kBox6YFi - kEnemyPosY + kPlayerPosPulsY;
+	//		return 5;
+	//	}
+	//}
+	////6段差
+	//if ((Stage1::kBoxBottom7XFi > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kBox7XFi < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kBoxBottom7YFi > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kBox7YFi < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		m_enemyPosY = Stage1::kBox7YFi - kEnemyPosY + kPlayerPosPulsY;
+	//		return 5;
+	//	}
+	//}
+	////7段差
+	//if ((Stage1::kBoxBottom8XFi > m_pEnemy->GetBarrelLeft()) &&
+	//	(Stage1::kBox8XFi < m_pEnemy->GetBarrelRight()))
+	//{
+	//	if ((Stage1::kBoxBottom8YFi > m_pEnemy->GetBarrelTop()) &&
+	//		(Stage1::kBox8YFi < m_pEnemy->GetBarrelBottom()))
+	//	{
+	//		m_enemyPosY = Stage1::kBox8YFi - kEnemyPosY + kPlayerPosPulsY;
+	//		return 5;
+	//	}
+	//}
 
 	return 0;
 }

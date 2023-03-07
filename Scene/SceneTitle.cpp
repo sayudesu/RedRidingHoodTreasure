@@ -96,7 +96,6 @@ void SceneTitle::Init()
 
 	m_colorA = kColorWhite;
 	m_colorX = kColorWhite;
-	//m_charaImagePos = (1344 );
 }
 void SceneTitle::End()
 {
@@ -218,7 +217,6 @@ SceneBase* SceneTitle::Update()
 	{
 		m_charaImagePos = 0;
 	}
-
 	return this;
 }
 
@@ -284,6 +282,7 @@ void SceneTitle::Draw()
 	DrawRectRotaGraph(230, 300,
 		m_buttonXLeft, m_buttonXTop, m_buttonXRigth, m_buttonXBottom, 5, 0, m_hButtonUi, true, false);
 	DrawString(230 + 50, 290, "isJump & Check", m_colorX);
+
 	//カーソルの位置を描画
 	m_pCursor->Draw();
 }

@@ -70,7 +70,6 @@ private:
 	//操作
 	void Operation        ();//操作全体
 	void OperationStandard();//基本操作
-	void OperationAttack  ();//攻撃操作
 	void OperationJump    ();//ジャンプ
 	void OperationLadder  ();//梯子での操作
 

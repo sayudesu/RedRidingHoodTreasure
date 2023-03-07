@@ -3,6 +3,8 @@
 #include <Dxlib.h>
 
 TitleCursor::TitleCursor():
+	m_mouseX(0),
+	m_mouseY(0),
 	m_padPos(0.0f,0.0f)
 {
 	m_padPos.x = Game::kScreenWidth / 2;
@@ -21,7 +23,8 @@ void TitleCursor::Init()
 void TitleCursor::Update()
 {
 	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
-
+	// マウスの位置を取得
+	GetMousePoint(&m_mouseX, &m_mouseY);
 	PosSet();
 
 	if (padState & PAD_INPUT_RIGHT)//右

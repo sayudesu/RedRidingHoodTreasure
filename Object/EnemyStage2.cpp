@@ -331,22 +331,6 @@ void EnemyStage2::fireBallMove()
 		m_fireBallImagePosX = 0;
 	}
 
-	//ファイアボールの画像調整
-	//m_fireBallImagePosX += 100;//画像を右まで動かす
-
-	//if (m_fireBallImagePosX >= 800)//画像表示を右まで行ったらY軸を１画像下に下げる
-	//{
-	//	m_fireBallImagePosX = 0;//一番左までリセット
-	//	m_fireBallImagePosY += 100;//表示する画像を１画像分下に下げる
-
-	//}
-	//if (m_fireBallImagePosY >= 700 && m_fireBallImagePosX >= 500)//Y軸下まで行ったら画像を一番上まで戻す
-	//{
-	//	m_fireBallImagePosX = 0;//一番左までリセット
-	//	m_fireBallImagePosY = 0;//Y軸で画像を一番上の画像に戻す
-
-	//}
-
 	if (!m_isFireBallCourse)//右動き
 	{
 		m_pos.x -= 8.0f;

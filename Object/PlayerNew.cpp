@@ -14,11 +14,11 @@ namespace
 	constexpr double kPlayerSize = 1.4;
 	//プレイヤーの初期座標
 	constexpr float kPosX = 0.0f;
-	constexpr float kPosY = static_cast<float>(Game::kScreenHeight) - 50.0f - 300.0f;//デバック用に-300移動
+	constexpr float kPosY = static_cast<float>(Game::kScreenHeight) - 50.0f;//デバック用に-300移動
 	//動く速さ
 	constexpr float kMoveSpeed = 5.0f;
 	// ジャンプ力
-	constexpr float kJump = -11.0f;
+	constexpr float kJump = -11.5f;
 	// 重力
 	constexpr float kGravity = 0.9f;
 
@@ -155,8 +155,6 @@ PlayerNew::PlayerNew() :
 	m_func = &PlayerNew::UpdateMove;
 	m_pos.x = kPosX;
 	m_pos.y = kPosY;
-
-	m_isCharaIdleDirection = true;//プレイヤー右向き
 
 	//画像位置をセット右下座標
 	m_charaImageRigth = 112;
@@ -371,7 +369,6 @@ void PlayerNew::PlayerPosSet()
 void PlayerNew::Operation()
 {
 	OperationStandard();//基本操作
-	OperationAttack();//攻撃操作
 	OperationJump();//ジャンプ操作
 	OperationLadder();//梯子での操作
 }
@@ -423,19 +420,6 @@ void PlayerNew::OperationStandard()
 	else
 	{
 		m_imageBalancePos.x = +0.0f;
-	}
-}
-//攻撃操作
-void PlayerNew::OperationAttack()
-{
-	//m_isAttack = false;//攻撃停止
-	if (Pad::isTrigger(PAD_INPUT_1))//攻撃
-	{
-		printfDx("攻撃\n");
-		PlaySoundMem(m_hAttack, DX_PLAYTYPE_BACK);
-		//プレイヤーの攻撃範
-
-		m_isAttack = true;//攻撃開始
 	}
 }
 //ジャンプ操作
@@ -499,8 +483,6 @@ void PlayerNew::UpdateMove()
 	OperationStandard();//操作::移動
 	
 	PlayerPosSet();//移動可能範囲
-
-	OperationAttack();//攻撃
 
 	if (!m_isFall)//地面に当たっていなかったら
 	{
@@ -573,36 +555,11 @@ void PlayerNew::UpdateMove()
 	m_playerRight  = m_playerLeft + 30;
 	m_playerBottom = m_playerTop + 40;
 
-	//if (!m_isFall)
-	//{
-	//	//プレイヤーの座標
-	//	m_playerLeft = static_cast<int>(m_pos.x);
-	//	m_playerTop += 10;
-	//	m_playerRight = m_playerLeft + 30;
-	//	m_playerBottom = m_playerTop + 40;
-	//}
 	//スコア判定座標
 	//m_scoreLeft   = m_playerLeft;
 	//m_scoreTop    = m_playerBottom;
 	//m_scoreRight  = m_scoreLeft;
 	//m_scoreBottom = m_scoreTop;
-
-	if(m_isAttack)//プレイヤーが攻撃した時の範囲
-	{
-		m_attackPlayerLeft = m_playerLeft - 10;
-		m_attackPlayerTop = m_playerTop - 10;
-		m_attackPlayerRight = m_playerRight + 10;
-		m_attackPlayerBottom = m_playerBottom + 10;
-	}
-	else//攻撃していない場合の範囲
-	{
-		m_attackPlayerLeft   = - 10;
-		m_attackPlayerTop    = - 10;
-		m_attackPlayerRight  = + 10;
-		m_attackPlayerBottom = + 10;
-	}
-
-
 }
 
 void PlayerNew::UpdateDead()

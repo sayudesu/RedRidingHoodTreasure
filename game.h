@@ -90,7 +90,7 @@ namespace Stage1
 	//二階///////////////////////////////////////////////////////////////////////////
 
 	constexpr int kBox1Xs = 100;
-	constexpr int kBox1Ys = Game::kScreenHeight - 250;
+	constexpr int kBox1Ys = Game::kScreenHeight - 250 - 20;
 	constexpr int kBoxBottom1Xs = kBox1Xs + kBoxWidth;
 	constexpr int koxBottom1Ys = kBox1Ys + kBoxHeight;
 
@@ -136,7 +136,7 @@ namespace Stage1
 
 	//三階//////////////////////////////////////////////////////////////////////////////////////////////
 	constexpr int kBox1Xt = 200;                                   //左
-	constexpr int kBox1Yt = Game::kScreenHeight - 400;             //上
+	constexpr int kBox1Yt = Game::kScreenHeight - 400 - 20;             //上
 	constexpr int kBoxBottom1Xt = kBox1Xt + Game::kScreenWidth / 2;//右
 	constexpr int kBoxBottom1Yt = kBox1Yt + kBoxHeight;            //下
 
@@ -182,117 +182,17 @@ namespace Stage1
 	constexpr int kBoxBottom8Xt = kBox8Xt + kBoxWidth;
 	constexpr int kBoxBottom8Yt = kBox8Yt + kBoxHeight;
 
-	//四階///////////////////////////////////////////////////////////////////////////
-
-	constexpr int kBox1Xf = 100;
-	constexpr int kBox1Yf = Game::kScreenHeight - 600;
-	constexpr int kBoxBottom1Xf = kBox1Xf + kBoxWidth;
-	constexpr int kBoxBottom1Yf = kBox1Yf + kBoxHeight;
-
-	constexpr int kBox2Xf = kBoxBottom1Xf;
-	constexpr int kBox2Yf = kBox1Yf + kBoxStep;
-	constexpr int kBoxBottom2Xf = kBox2Xf + kBoxWidth;
-	constexpr int kBoxBottom2Yf = kBox2Yf + kBoxHeight;
-
-	constexpr int kBox3Xf = kBoxBottom2Xf;
-	constexpr int kBox3Yf = kBox2Yf + kBoxStep;
-	constexpr int kBoxBottom3Xf = kBox3Xf + kBoxWidth;
-	constexpr int kBoxBottom3Yf = kBox3Yf + kBoxHeight;
-
-	constexpr int kBox4Xf = kBoxBottom3Xf;
-	constexpr int kBox4Yf = kBox3Yf + kBoxStep;
-	constexpr int kBoxBottom4Xf = kBox4Xf + kBoxWidth;
-	constexpr int kBoxBottom4Yf = kBox4Yf + kBoxHeight;
-
-	constexpr int kBox5Xf = kBoxBottom4Xf;
-	constexpr int kBox5Yf = kBox4Yf + kBoxStep;
-	constexpr int kBoxBottom5Xf = kBox5Xf + kBoxWidth;
-	constexpr int kBoxBottom5Yf = kBox5Yf + kBoxHeight;
-
-	constexpr int kBox6Xf = kBoxBottom5Xf;
-	constexpr int kBox6Yf = kBox5Yf + kBoxStep;
-	constexpr int kBoxBottom6Xf = kBox6Xf + kBoxWidth;
-	constexpr int kBoxBottom6Yf = kBox6Yf + kBoxHeight;
-
-	constexpr int kBox7Xf = kBoxBottom6Xf;
-	constexpr int kBox7Yf = kBox6Yf + kBoxStep;
-	constexpr int kBoxBottom7Xf = kBox7Xf + kBoxWidth;
-	constexpr int kBoxBottom7Yf = kBox7Yf + kBoxHeight;
-
-	constexpr int kBox8Xf = kBoxBottom7Xf;
-	constexpr int kBox8Yf = kBox7Yf + kBoxStep;
-	constexpr int kBoxBottom8Xf = Game::kScreenWidth - 100;
-	constexpr int kBoxBottom8Yf = kBox8Yf + kBoxHeight;
-
-	//五階//////////////////////////////////////////////////////////////////////////////////////////////
-	constexpr int kBox1XFi = 200;                                   //左
-	constexpr int kBox1YFi = Game::kScreenHeight - 750;             //上
-	constexpr int kBoxBottom1XFi = kBox1XFi + Game::kScreenWidth / 2;//右
-	constexpr int kBoxBottom1YFi = kBox1YFi + kBoxHeight;            //下
-
-	//一階一段差
-	constexpr int kBox2XFi = kBoxBottom1XFi;
-	constexpr int kBox2YFi = kBox1YFi - kBoxStep;
-	constexpr int kBoxBottom2XFi = kBox2XFi + kBoxWidth;
-	constexpr int kBoxBottom2YFi = kBox2YFi + kBoxHeight;
-
-	//一階二段差
-	constexpr int kBox3XFi = kBoxBottom2XFi;
-	constexpr int kBox3YFi = kBox2YFi - kBoxStep;
-	constexpr int kBoxBottom3XFi = kBox3XFi + kBoxWidth;
-	constexpr int kBoxBottom3YFi = kBox3YFi + kBoxHeight;
-
-	//一階三段差
-	constexpr int kBox4XFi = kBoxBottom3XFi;
-	constexpr int kBox4YFi = kBox3YFi - kBoxStep;
-	constexpr int kBoxBottom4XFi = kBox4XFi + kBoxWidth;
-	constexpr int kBoxBottom4YFi = kBox4YFi + kBoxHeight;
-
-	//一階四段差
-	constexpr int kBox5XFi = kBoxBottom4XFi;
-	constexpr int kBox5YFi = kBox4YFi - kBoxStep;
-	constexpr int kBoxBottom5XFi = kBox5XFi + kBoxWidth;
-	constexpr int kBoxBottom5YFi = kBox5YFi + kBoxHeight;
-
-	//一階五段差
-	constexpr int kBox6XFi = kBoxBottom5XFi;
-	constexpr int kBox6YFi = kBox5YFi - kBoxStep;
-	constexpr int kBoxBottom6XFi = kBox6XFi + kBoxWidth;
-	constexpr int kBoxBottom6YFi = kBox6YFi + kBoxHeight;
-
-	//一階六段差
-	constexpr int kBox7XFi = kBoxBottom6XFi;
-	constexpr int kBox7YFi = kBox6YFi - kBoxStep;
-	constexpr int kBoxBottom7XFi = kBox7XFi + kBoxWidth;
-	constexpr int kBoxBottom7YFi = kBox7YFi + kBoxHeight;
-
-	//一階七段差
-	constexpr int kBox8XFi = kBoxBottom7XFi;
-	constexpr int kBox8YFi = kBox7YFi - kBoxStep;
-	constexpr int kBoxBottom8XFi = kBox8XFi + kBoxWidth;
-	constexpr int kBoxBottom8YFi = kBox8YFi + kBoxHeight;
-
 	//梯子///////////////////////////////////////////////////////////////////////////////
 	//第一梯子
 	constexpr int kLadder1X = Game::kScreenWidth - 150;
-	constexpr int kLadder1Y = Game::kScreenHeight - 220;
+	constexpr int kLadder1Y = Game::kScreenHeight - 240;
 	constexpr int kLadderBottom1X = kLadder1X + 10;
-	constexpr int kLadderBottom1Y = kLadder1Y + 110;
+	constexpr int kLadderBottom1Y = kLadder1Y + 115;
 	//第二梯子
 	constexpr int kLadder2X = 300;
-	constexpr int kLadder2Y = Game::kScreenHeight - 410;
+	constexpr int kLadder2Y = Game::kScreenHeight - 425;
 	constexpr int kLadderBottom2X = kLadder2X + 10;
-	constexpr int kLadderBottom2Y = kLadder2Y + 145;
-	//第三梯子
-	constexpr int kLadder3X = Game::kScreenWidth - 200;
-	constexpr int kLadder3Y = Game::kScreenHeight - 570;
-	constexpr int kLadderBottom3X = kLadder3X + 10;
-	constexpr int kLadderBottom3Y = kLadder3Y + 130;
-	//第四梯子
-	constexpr int kLadder4X = 300;
-	constexpr int kLadder4Y = Game::kScreenHeight - 760;
-	constexpr int kLadderBottom4X = kLadder4X + 10;
-	constexpr int kLadderBottom4Y = kLadder4Y + 145;
+	constexpr int kLadderBottom2Y = kLadder2Y + 125;
 
 	//ゲームクリア条件位置//////////////////////////////////////////////////////////////////////////
 	constexpr int kGoalX = Game::kScreenWidth - 880;
@@ -363,7 +263,7 @@ namespace Stage2
 	//二階///////////////////////////////////////////////////////////////////////////
 
 	constexpr int kBox1Xs = 100;
-	constexpr int kBox1Ys = Game::kScreenHeight - 250;
+	constexpr int kBox1Ys = Game::kScreenHeight - 250 - 20;
 	constexpr int kBoxBottom1Xs = kBox1Xs + kBoxWidth;
 	constexpr int koxBottom1Ys = kBox1Ys + kBoxHeight;
 
@@ -409,7 +309,7 @@ namespace Stage2
 
 	//三階//////////////////////////////////////////////////////////////////////////////////////////////
 	constexpr int kBox1Xt = 200;                                   //左
-	constexpr int kBox1Yt = Game::kScreenHeight - 400;             //上
+	constexpr int kBox1Yt = Game::kScreenHeight - 400 - 20;             //上
 	constexpr int kBoxBottom1Xt = kBox1Xt + Game::kScreenWidth / 2;//右
 	constexpr int kBoxBottom1Yt = kBox1Yt + kBoxHeight;            //下
 
@@ -458,7 +358,7 @@ namespace Stage2
 	//四階///////////////////////////////////////////////////////////////////////////
 
 	constexpr int kBox1Xf = 100;
-	constexpr int kBox1Yf = Game::kScreenHeight - 600;
+	constexpr int kBox1Yf = Game::kScreenHeight - 600 - 20;
 	constexpr int kBoxBottom1Xf = kBox1Xf + kBoxWidth;
 	constexpr int kBoxBottom1Yf = kBox1Yf + kBoxHeight;
 
@@ -499,7 +399,7 @@ namespace Stage2
 
 	//五階//////////////////////////////////////////////////////////////////////////////////////////////
 	constexpr int kBox1XFi = 200;                                   //左
-	constexpr int kBox1YFi = Game::kScreenHeight - 750;             //上
+	constexpr int kBox1YFi = Game::kScreenHeight - 750 - 20;             //上
 	constexpr int kBoxBottom1XFi = kBox1XFi + Game::kScreenWidth / 2;//右
 	constexpr int kBoxBottom1YFi = kBox1YFi + kBoxHeight;            //下
 
@@ -548,28 +448,28 @@ namespace Stage2
 	//梯子///////////////////////////////////////////////////////////////////////////////
 	//第一梯子
 	constexpr int kLadder1X = Game::kScreenWidth - 150;
-	constexpr int kLadder1Y = Game::kScreenHeight - 220;
+	constexpr int kLadder1Y = Game::kScreenHeight - 240;
 	constexpr int kLadderBottom1X = kLadder1X + 10;
-	constexpr int kLadderBottom1Y = kLadder1Y + 110;
+	constexpr int kLadderBottom1Y = kLadder1Y + 115;
 	//第二梯子
 	constexpr int kLadder2X = 300;
-	constexpr int kLadder2Y = Game::kScreenHeight - 410;
+	constexpr int kLadder2Y = Game::kScreenHeight - 425;
 	constexpr int kLadderBottom2X = kLadder2X + 10;
-	constexpr int kLadderBottom2Y = kLadder2Y + 145;
+	constexpr int kLadderBottom2Y = kLadder2Y + 125;
 	//第三梯子
 	constexpr int kLadder3X = Game::kScreenWidth - 200;
-	constexpr int kLadder3Y = Game::kScreenHeight - 570;
+	constexpr int kLadder3Y = Game::kScreenHeight - 590;
 	constexpr int kLadderBottom3X = kLadder3X + 10;
-	constexpr int kLadderBottom3Y = kLadder3Y + 130;
+	constexpr int kLadderBottom3Y = kLadder3Y + 115;
 	//第四梯子
 	constexpr int kLadder4X = 300;
-	constexpr int kLadder4Y = Game::kScreenHeight - 760;
+	constexpr int kLadder4Y = Game::kScreenHeight - 780;
 	constexpr int kLadderBottom4X = kLadder4X + 10;
-	constexpr int kLadderBottom4Y = kLadder4Y + 145;
+	constexpr int kLadderBottom4Y = kLadder4Y + 135;
 
 	//ゲームクリア条件位置//////////////////////////////////////////////////////////////////////////
 	constexpr int kGoalX = Game::kScreenWidth - 880;
-	constexpr int kGoalY = 280;
+	constexpr int kGoalY = 280 - 20;
 	constexpr int kGoalBottomX = kGoalX + 50;
 	constexpr int kGoalBottomY = kGoalY + 50;
 }
@@ -601,7 +501,7 @@ namespace Enemy1
 {
 	//ボスの位置
 	constexpr int kBossPosLeft   = Game::kScreenWidth - 200;
-	constexpr int kBossPosTop    = 460;
+	constexpr int kBossPosTop    = 460 - 20;
 	constexpr int kBossPosRight  = kBossPosLeft + 200;
 	constexpr int kBossPosBottom = kBossPosTop + 200;
 
@@ -611,7 +511,7 @@ namespace Enemy2
 {
 	//ボスの位置
 	constexpr int kBossPosLeft   = Game::kScreenWidth - 200;
-	constexpr int kBossPosTop    = 110;
+	constexpr int kBossPosTop    = 110 - 20;
 	constexpr int kBossPosRight  = kBossPosLeft + 200;
 	constexpr int kBossPosBottom = kBossPosTop + 200;
 

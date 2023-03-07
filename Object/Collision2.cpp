@@ -91,7 +91,7 @@ void Collision2::Update()
 
 	GetDeadChangeScene(m_pPlayer->SetDead());
 
-	if (m_pPlayer->GetkPlayerPos().y < m_pEnemy->GetBarrelTop() - 70)//樽がプレイヤーから下に一定距離離れると
+	if (m_pPlayer->GetkPlayerPos().y < m_pEnemy->GetBarrelTop() - 100)//樽がプレイヤーから下に一定距離離れると
 	{
 		m_pEnemy->GetBarrelSpeed(5);//スピード
 	}

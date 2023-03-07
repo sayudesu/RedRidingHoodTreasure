@@ -15,7 +15,9 @@ public:
 
 	virtual SceneBase* Update() override;
 	virtual void Draw();
-
+private:
+	void FadeIn();//フェイドイン
+	void FadeOut();//フェイドアウト
 private:
 	//画像ハンドル
 	int m_hImagePlayer;
@@ -48,6 +50,14 @@ private:
 	int m_buttonXTop;
 	int m_buttonXRigth;
 	int m_buttonXBottom;
+
+	float m_fadeValue;//画面の明るさ調整
+
+	bool m_isFadeIn;//フェイドインしたかどうか
+	bool m_isFadeOut;//フェイドアウトしたかどうか
+
+	bool m_isSceneStage;//画面が暗くなった後にシーンの切り替え
+	bool m_isSceneEnd;//画面が暗くなった後にシーンの切り替え
 
 	bool m_isSceneFocus1;
 	bool m_isSceneFocus2;

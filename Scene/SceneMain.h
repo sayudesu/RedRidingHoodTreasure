@@ -20,7 +20,9 @@ public:
 
 	virtual SceneBase* Update() override;
 	virtual void Draw();
-	
+private:
+	void FadeIn();
+	void FadeOut();
 public:
 	bool Check(int firstLeft,int firstTop,int firstRight,int firstBottom,
 		int SecondLeft, int SecondTop, int SecondRight, int SecondBottom);
@@ -42,7 +44,15 @@ private:
 	int m_hMapChip;
 	int m_hMapChipSecond;
 
+	float m_fadeValue;//明るさ調整用
+
+	bool m_isFadeIn;//フェイドインしたかどうか
+	bool m_isFadeOut;//フェイドアウトしたかどうか
+
+	bool m_isSceneStage;//画面が暗くなった後にシーンの切り替え
+	bool m_isSceneEnd;//画面が暗くなった後にシーンの切り替え
+
 	PlayerMapMove* m_pPlayer;
-	//Player* m_pPlayer;
 	Enemy* m_pEnemy;
+
 };

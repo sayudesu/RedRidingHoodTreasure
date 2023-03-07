@@ -17,6 +17,14 @@ SceneMain3::SceneMain3():
 	m_hPlayerHealthBer(-1),
 	m_hEnemyFireBall(-1),
 	m_hMusicBgm1(-1),
+	m_fadeValue(0.0f),
+	m_isFadeIn(false),//フェイドインしたかどうか
+	m_isFadeOut(false),//フェイドアウトしたかどうか
+	m_isSceneResult(false),//画面が暗くなった後にシーンの切り替え
+	m_isSceneRetry(false),
+	m_isSceneTitle(false),//画面が暗くなった後にシーンの切り替え
+	m_isGameClear(false),//ゲームをクリアした場合
+	m_isSceneDead(false),//死んだらシーン切り替え
 	m_pStage(nullptr),
 	m_pPlayer(nullptr),
 	m_pCollision(nullptr),
@@ -55,6 +63,8 @@ void SceneMain3::Init()
 	//プレイヤー画像
 	m_pPlayer->SetHandle(m_hPlayer);
 	m_pPlayer->SetHandleIdle(m_hPlayerIdle);
+
+	m_fadeValue = 255.0f;
 }
 
 void SceneMain3::End()
@@ -74,22 +84,48 @@ void SceneMain3::End()
 
 SceneBase* SceneMain3::Update()
 {
-	if (!m_pMenu->m_isMenu)//メニューを開いて無かったら
+
+	if (!m_isFadeIn)FadeIn();//フェイドイン
+
+	if (m_isFadeIn)//画面が最大値明るくなったら
 	{
-		m_pCollision->Update();
+		if (!m_pMenu->m_isMenu)//メニューを開いて無かったら
+		{
+			m_pCollision->Update();
+		}
+
+		m_pMenu->Update();//メニューの状態を更新しながら確認
+
+		if (m_pCollision->m_isStageClear)//ステージをクリアした場合
+		{
+			m_isSceneResult = true;
+			//return(new SceneResult);
+		}
+
+		if (m_pCollision->m_isDeadSceneChange)//敵やトラップに当たって死んだ場合
+		{
+			m_isSceneDead = true;
+			//printfDx("敵やトラップに当たって死んだ");
+			//return(new SceneGameOver2);
+		}
 	}
 
-	m_pMenu->Update();//メニューの状態を更新しながら確認
 
-	if (m_pCollision->m_isStageClear)//ステージをクリアした場合
+	if (m_isSceneResult)
 	{
-		return(new SceneResult);
+		FadeOut();
+		if (m_isFadeOut)
+		{
+			return(new SceneResult);//新しいステージに移動
+		}
 	}
-
-	if (m_pCollision->m_isDeadSceneChange)//敵やトラップに当たって死んだ場合
+	else if (m_isSceneDead)//死んだ場合のシーン切り替え
 	{
-		printfDx("敵やトラップに当たって死んだ");
-		return(new SceneGameOver2);
+		FadeOut();
+		if (m_isFadeOut)
+		{
+			return(new SceneGameOver2);
+		}
 	}
 
 	if (CheckHitKey(KEY_INPUT_Z))
@@ -109,5 +145,28 @@ void SceneMain3::Draw()
 	{
 		m_pMenu->Draw();
 
+	}
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeValue);
+	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, 0x000000, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+}
+
+void SceneMain3::FadeIn()
+{
+	m_fadeValue -= Scene::kFadeSpeed;
+	if (m_fadeValue <= 0)
+	{
+		m_isFadeIn = true;//画面が最大に明るく
+	}
+}
+
+void SceneMain3::FadeOut()
+{
+	m_fadeValue += Scene::kFadeSpeed;
+	if (m_fadeValue >= 255)
+	{
+		m_isFadeOut = true;//画面が最大に暗く
 	}
 }

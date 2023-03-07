@@ -24,11 +24,18 @@ SceneMain::SceneMain() :
 	m_hMapFifth(-1),
 	m_hMapChip(-1),
 	m_hMapChipSecond(-1),
+	m_fadeValue(0.0f),//明るさ調整用
+	m_isFadeIn(false),//フェイドインしたかどうか
+	m_isFadeOut(false),//フェイドアウトしたかどうか
+	m_isSceneStage(false),//画面が暗くなった後にシーンの切り替え
+	m_isSceneEnd(false),//画面が暗くなった後にシーンの切り替え
 	m_pPlayer(nullptr),
 	m_pEnemy(nullptr)
 {
+
+	m_fadeValue = 255.0f;
+
 	m_pPlayer = new PlayerMapMove;
-	//m_pPlayer = new Player;
 	m_pEnemy = new Enemy;
 }
 
@@ -105,6 +112,7 @@ void SceneMain::End()
 
 SceneBase* SceneMain::Update()
 {
+	FadeIn();//フェイドイン
 
 	m_pPlayer->Update();
 
@@ -134,10 +142,6 @@ SceneBase* SceneMain::Update()
 
 void SceneMain::Draw()
 {
-
-	//SetDrawScreen(m_test);
-
-
 	m_pPlayer->Draw();
 
 	//敵が生きているかどうか
@@ -146,14 +150,34 @@ void SceneMain::Draw()
 		m_pEnemy->Draw();
 	}
 
-	//SetDrawScreen(DX_SCREEN_BACK);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeValue);
+	DrawBox(0, 0, 640, 480, 0xffffff, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	//int shakeX = 0; /*GetRand(4) - 2; */
-	//int shakeY = 0;/*GetRand(4) - 2; */
-//	DrawGraph(shakeX, shakeY, m_test, true);
-	
-
+	//フェイド処理
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeValue);
+	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, 0x000000, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
+
+void SceneMain::FadeIn()
+{
+	m_fadeValue -= Scene::kFadeSpeed;
+	if (m_fadeValue <= 0)
+	{
+		m_isFadeIn = true;//画面が最大に明るく
+	}
+}
+
+void SceneMain::FadeOut()
+{
+	m_fadeValue += Scene::kFadeSpeed;
+	if (m_fadeValue >= 255)
+	{
+		m_isFadeOut = true;//画面が最大に暗く
+	}
+}
+
 
 //敵とプレイヤーの衝突判定
 bool SceneMain::Check(int firstLeft, int firstTop, int firstRight, int firstBottom,

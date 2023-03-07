@@ -544,3 +544,8 @@ namespace Color
 	constexpr int kYellow = 0xffff00;//黄色
 	constexpr int kThinRed = 0xaa0000;//薄い赤
 }
+
+namespace Scene
+{
+	constexpr float kFadeSpeed = 3.5f;//フェイド系
+}

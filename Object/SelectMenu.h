@@ -13,8 +13,9 @@ public:
 	void Draw();
 
 	bool m_isMenu;//メニューを開いているかどうか
-private:
 
+private:
+	int m_frameCount;//メニュー画面を開いた時にディレイを入れる
 	TitleCursor* m_pCursor;
 };
 

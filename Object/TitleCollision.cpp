@@ -2,7 +2,10 @@
 #include "TitleCursor.h"
 #include "game.h"
 #include <Dxlib.h>
-
+namespace
+{
+	constexpr int circleRadius = 19;//‰~‚Ì”¼Œa
+}
 TitleCollision::TitleCollision():
 	m_pCursor(nullptr)
 {
@@ -32,10 +35,10 @@ bool TitleCollision::CollsionDemo()
 	bool result = false;
 	//printfDx("%f\n", m_pCursor->GetCursor().x);
 
-	if ((m_pCursor->GetCursor().x > TitleMenu::kSelection1X - 19) &&//19‚ÍZ‚Ì”¼Œa
-		(m_pCursor->GetCursor().x < TitleMenu::kSelectionBottom1X + 19) &&
-		(m_pCursor->GetCursor().y > TitleMenu::kSelection1Y - 19) &&
-		(m_pCursor->GetCursor().y < TitleMenu::kSelectionBottom1Y+ 19))
+	if ((m_pCursor->GetCursor().x > TitleMenu::kSelection1X - circleRadius) &&//19‚ÍZ‚Ì”¼Œa
+		(m_pCursor->GetCursor().x < TitleMenu::kSelectionBottom1X + circleRadius) &&
+		(m_pCursor->GetCursor().y > TitleMenu::kSelection1Y - circleRadius) &&
+		(m_pCursor->GetCursor().y < TitleMenu::kSelectionBottom1Y+ circleRadius))
 	{
 		result = true;
 		float fl = 19 * 19;
@@ -111,10 +114,10 @@ bool TitleCollision::CollsionStage1()
 {
 	bool result = false;
 
-	if ((m_pCursor->GetCursor().x > TitleMenu::kSelection2X - 19) &&//19‚ÍZ‚Ì”¼Œa
-		(m_pCursor->GetCursor().x < TitleMenu::kSelectionBottom2X + 19) &&
-		(m_pCursor->GetCursor().y > TitleMenu::kSelection2Y - 19) &&
-		(m_pCursor->GetCursor().y < TitleMenu::kSelectionBottom2Y + 19))
+	if ((m_pCursor->GetCursor().x > TitleMenu::kSelection2X - circleRadius) &&//19‚ÍZ‚Ì”¼Œa
+		(m_pCursor->GetCursor().x < TitleMenu::kSelectionBottom2X + circleRadius) &&
+		(m_pCursor->GetCursor().y > TitleMenu::kSelection2Y - circleRadius) &&
+		(m_pCursor->GetCursor().y < TitleMenu::kSelectionBottom2Y + circleRadius))
 	{
 		result = true;
 		float fl = 19 * 19;
@@ -192,10 +195,10 @@ bool TitleCollision::CollsionEnd()
 {
 	bool result = false;
 
-	if ((m_pCursor->GetCursor().x > TitleMenu::kSelection3X - 19) &&//19‚ÍZ‚Ì”¼Œa
-		(m_pCursor->GetCursor().x < TitleMenu::kSelectionBottom3X + 19) &&
-		(m_pCursor->GetCursor().y > TitleMenu::kSelection3Y - 19) &&
-		(m_pCursor->GetCursor().y < TitleMenu::kSelectionBottom3Y + 19))
+	if ((m_pCursor->GetCursor().x > TitleMenu::kSelection3X - circleRadius) &&//19‚ÍZ‚Ì”¼Œa
+		(m_pCursor->GetCursor().x < TitleMenu::kSelectionBottom3X + circleRadius) &&
+		(m_pCursor->GetCursor().y > TitleMenu::kSelection3Y - circleRadius) &&
+		(m_pCursor->GetCursor().y < TitleMenu::kSelectionBottom3Y + circleRadius))
 	{
 		result = true;
 		float fl = 19 * 19;

@@ -1,5 +1,7 @@
 #include <Dxlib.h>
+#include "Image.h"
 #include "game.h"
+#include "Pad.h"
 #include "SceneGameOver2.h"
 #include "SceneTitle.h"
 #include "SceneMain.h"
@@ -8,6 +10,10 @@
 #include "GameSceneCollision.h"
 
 SceneGameOver2::SceneGameOver2() :
+	m_hSoundSelect(-1),//選択時のサウンド
+	m_hSoundSelect2(-1),//選択時のサウンド
+	m_soundCount(0),//サウンド発生までのカウント
+	m_soundCount2(0),
 	m_color1(0),//選択画面の色
 	m_color2(0),
 	m_color3(0),
@@ -22,10 +28,16 @@ SceneGameOver2::~SceneGameOver2()
 {
 	delete m_pCursor;
 	delete m_pCursorCollision;
+	//サウンド削除
+	DeleteSoundMem(m_hSoundSelect);
+	DeleteSoundMem(m_hSoundSelect2);
 }
 
 void SceneGameOver2::Init()
 {
+	//サウンドを読み込み
+	m_hSoundSelect = LoadSoundMem(FX::kSelect);
+	m_hSoundSelect2 = LoadSoundMem(FX::kSelect2);
 }
 
 void SceneGameOver2::End()
@@ -35,7 +47,7 @@ void SceneGameOver2::End()
 SceneBase* SceneGameOver2::Update()
 {
 	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
-
+	Pad::update();
 	m_pCursor->Update();//カーソルの更新処理
 	m_pCursorCollision->Update();//カーソルと選択範囲の当たり判定
 
@@ -45,19 +57,42 @@ SceneBase* SceneGameOver2::Update()
 
 	if (m_pCursorCollision->CollsionStage1())//カーソルと選択範囲に当たっていたら
 	{
+		m_soundCount++;
 		m_color2 = Color::kRed;//カーソルが当たっている場合の文字背景の色
+		if (m_soundCount == 1)
+		{
+			PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
+		}
 		if (padState & PAD_INPUT_2)//Xボタン
 		{
 			return(new SceneMain3);//同じステージを繰り返す
 		}
 	}
+	else
+	{
+		m_soundCount = 0;
+	}
 	if (m_pCursorCollision->CollsionEnd())//カーソルと選択範囲に当たっていたら
 	{
+		m_soundCount2++;
 		m_color3 = Color::kRed;//カーソルが当たっている場合の文字背景の色
+		if (m_soundCount2 == 1)
+		{
+			PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
+		}
 		if (padState & PAD_INPUT_2)//Xボタン
 		{
 			return(new SceneTitle);//タイトル画面に移動
 		}
+	}
+	else
+	{
+		m_soundCount2 = 0;
+	}
+
+	if (Pad::isTrigger(PAD_INPUT_2))//Xボタン
+	{
+		PlaySoundMem(m_hSoundSelect, DX_PLAYTYPE_BACK);//押している音を再生
 	}
 
 	return this;

@@ -17,7 +17,6 @@ namespace
 
 	constexpr int kColorWhite = 0x000000;//白色
 	constexpr int kColorRed = 0xff0000;//赤色
-
 }
 
 SceneTitle::SceneTitle():
@@ -45,7 +44,12 @@ SceneTitle::SceneTitle():
 	m_buttonXTop(0),
 	m_buttonXRigth(0),
 	m_buttonXBottom(0),
+	m_fadeValue(0.0f),
 	m_imagePos(0.0f,0.0f),
+	m_isFadeIn(false),//フェイドインしたかどうか
+	m_isFadeOut(false),//フェイドアウトしたかどうか
+	m_isSceneStage(false),//画面が暗くなった後にシーンの切り替え
+	m_isSceneEnd(false),//画面が暗くなった後にシーンの切り替え
 	m_isSceneFocus1(false),
 	m_isSceneFocus2(false),
 	m_isSceneFocus3(false),
@@ -96,6 +100,8 @@ void SceneTitle::Init()
 
 	m_colorA = kColorWhite;
 	m_colorX = kColorWhite;
+
+	m_fadeValue = 255.0f;
 }
 void SceneTitle::End()
 {
@@ -107,116 +113,139 @@ SceneBase* SceneTitle::Update()
 {
 	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
-	m_pCursor->Update();
-	m_pCollsion->Update();
-	Pad::update();
-	if (padState & PAD_INPUT_1)
-	{
-		if (Pad::isTrigger(PAD_INPUT_1))//Aボタン押した場合
-		{
-			PlaySoundMem(m_hSoundSelect, DX_PLAYTYPE_BACK);//押している音を再生
-			m_buttonALeft = 16 + 16 + 16 + 16 + 16;//画像表示位置を変更
-			m_colorA = kColorRed;//文字の色を変更
-		}
-	}
-	else
-	{
-		m_buttonALeft = 16 + 16 + 16;//画像表示位置を変更
-		m_colorA = kColorWhite;//文字の色を変更
-	}
-	if (padState & PAD_INPUT_2)
-	{
-		if (Pad::isTrigger(PAD_INPUT_2))//Xボタン押した場合
-		{
-			PlaySoundMem(m_hSoundSelect, DX_PLAYTYPE_BACK);//押している音を再生
-			m_buttonXLeft = 16 + 16 + 16 + 16 + 16;//画像表示位置を変更
-			m_colorX = kColorRed;//文字の色を変更
-		}
-	}
-	else
-	{
-		m_buttonXLeft = 16 + 16 + 16;//画像表示位置を変更
-		m_colorX = kColorWhite;//文字の色を変更
-	}
+	if (!m_isFadeIn)FadeIn();//フェイドイン
 
-	//if (m_pCollsion->CollsionDemo())//シーン切り替え::チュートリアル
-	//{
-	//	m_sceneChangeCountDemo = 300;
-	//	m_soundCount1++;
-	//	if (m_soundCount1 == 1)
-	//	{
-	//		PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
-	//	}
-	//	m_isSceneFocus1 = true;//フォーカスを合わせた場合
-	//	if (padState & PAD_INPUT_2)
-	//	{
-	//		return(new SceneMain);//シーン切り替え
-	//		//return(new SceneResult);//シーン切り替え
-	//		
-	//	}
-	//}
-	//else
-	//{
-	//	m_sceneChangeCountDemo = 0;
-	//	m_soundCount1 = 0;
-	//	m_isSceneFocus1 = false;//フォーカスを外した場合
-	//}
-
-	if (m_pCollsion->CollsionStage1())//シーン切り替え::ゲームプレイ
+	if (m_isFadeIn)//画面が最大値明るくなったら
 	{
-		m_sceneChangeCountStage1 = 300;
-		m_soundCount2++;
-		if (m_soundCount2 == 1)
+		m_pCursor->Update();
+		m_pCollsion->Update();
+		Pad::update();
+		if (padState & PAD_INPUT_1)
 		{
-			PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
+			if (Pad::isTrigger(PAD_INPUT_1))//Aボタン押した場合
+			{
+				PlaySoundMem(m_hSoundSelect, DX_PLAYTYPE_BACK);//押している音を再生
+				m_buttonALeft = 16 + 16 + 16 + 16 + 16;//画像表示位置を変更
+				m_colorA = kColorRed;//文字の色を変更
+			}
 		}
-		m_isSceneFocus2 = true;//フォーカスを合わせた場合
+		else
+		{
+			m_buttonALeft = 16 + 16 + 16;//画像表示位置を変更
+			m_colorA = kColorWhite;//文字の色を変更
+		}
 		if (padState & PAD_INPUT_2)
 		{
-			return(new SceneMain2);//シーン切り替え
-			return(new SceneMain3);//シーン切り替え
-			
+			if (Pad::isTrigger(PAD_INPUT_2))//Xボタン押した場合
+			{
+				PlaySoundMem(m_hSoundSelect, DX_PLAYTYPE_BACK);//押している音を再生
+				m_buttonXLeft = 16 + 16 + 16 + 16 + 16;//画像表示位置を変更
+				m_colorX = kColorRed;//文字の色を変更
+			}
 		}
-	}
-	else
-	{	
-		m_sceneChangeCountStage1 = 0;
-		m_soundCount2 = 0;
-		m_isSceneFocus2 = false;//フォーカスを外した場合
+		else
+		{
+			m_buttonXLeft = 16 + 16 + 16;//画像表示位置を変更
+			m_colorX = kColorWhite;//文字の色を変更
+		}
+
+		//if (m_pCollsion->CollsionDemo())//シーン切り替え::チュートリアル
+		//{
+		//	m_sceneChangeCountDemo = 300;
+		//	m_soundCount1++;
+		//	if (m_soundCount1 == 1)
+		//	{
+		//		PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
+		//	}
+		//	m_isSceneFocus1 = true;//フォーカスを合わせた場合
+		//	if (padState & PAD_INPUT_2)
+		//	{
+		//		return(new SceneMain);//シーン切り替え
+		//		//return(new SceneResult);//シーン切り替え
+		//		
+		//	}
+		//}
+		//else
+		//{
+		//	m_sceneChangeCountDemo = 0;
+		//	m_soundCount1 = 0;
+		//	m_isSceneFocus1 = false;//フォーカスを外した場合
+		//}
+
+		if (m_pCollsion->CollsionStage1())//シーン切り替え::ゲームプレイ
+		{
+			m_sceneChangeCountStage1 = 300;
+			m_soundCount2++;
+			if (m_soundCount2 == 1)
+			{
+				PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
+			}
+			m_isSceneFocus2 = true;//フォーカスを合わせた場合
+			if (padState & PAD_INPUT_2)
+			{
+				m_isSceneStage = true;//シーンを切り替え	
+			}
+		}
+		else
+		{	
+			m_sceneChangeCountStage1 = 0;
+			m_soundCount2 = 0;
+			m_isSceneFocus2 = false;//フォーカスを外した場合
+		}
+
+		if (m_pCollsion->CollsionEnd())//シーン切り替え::デスクトップに戻る
+		{
+			m_sceneChangeCountEnd = 300;
+			m_soundCount3++;
+			if (m_soundCount3 == 1)
+			{
+				PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
+			}
+			m_isSceneFocus3 = true;//フォーカスを合わせた場合
+			if (padState & PAD_INPUT_2)
+			{
+				m_isSceneEnd = true;//シーンを切り替え
+			}
+		}
+		else
+		{
+			m_sceneChangeCountEnd = 0;
+			m_soundCount3 = 0;
+			m_isSceneFocus3 = false;//フォーカスを外した場合
+		}
+
+		//右に移動アニメーション
+		m_frameCount++;
+		if (m_frameCount >= kAnimationFrame)
+		{
+			m_charaImagePos += kCharaImageRightPos;
+			m_frameCount = 0;
+		}
+		if (m_charaImagePos == 1344)
+		{
+			m_charaImagePos = 0;
+		}
+
 	}
 
-	if (m_pCollsion->CollsionEnd())//シーン切り替え::デスクトップに戻る
+	if (m_isSceneEnd)//選択をしたら
 	{
-		m_sceneChangeCountEnd = 300;
-		m_soundCount3++;
-		if (m_soundCount3 == 1)
-		{
-			PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
-		}
-		m_isSceneFocus3 = true;//フォーカスを合わせた場合
-		if (padState & PAD_INPUT_2)
+		FadeOut();
+		if (m_isFadeOut)
 		{
 			DxLib_End();//ゲーム終了
 		}
 	}
-	else
+	else if (m_isSceneStage)
 	{
-		m_sceneChangeCountEnd = 0;
-		m_soundCount3 = 0;
-		m_isSceneFocus3 = false;//フォーカスを外した場合
+		FadeOut();
+		if (m_isFadeOut)
+		{
+			return(new SceneMain2);//シーン切り替え
+			return(new SceneMain3);//シーン切り替え
+		}
 	}
 
-	//右に移動アニメーション
-	m_frameCount++;
-	if (m_frameCount >= kAnimationFrame)
-	{
-		m_charaImagePos += kCharaImageRightPos;
-		m_frameCount = 0;
-	}
-	if (m_charaImagePos == 1344)
-	{
-		m_charaImagePos = 0;
-	}
 	return this;
 }
 
@@ -285,8 +314,29 @@ void SceneTitle::Draw()
 
 	//カーソルの位置を描画
 	m_pCursor->Draw();
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeValue);
+	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, 0x000000, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
+void SceneTitle::FadeIn()
+{
+	m_fadeValue -= Scene::kFadeSpeed;
+	if (m_fadeValue <= 0)
+	{
+		m_isFadeIn = true;//画面が最大に明るく
+	}
+}
+
+void SceneTitle::FadeOut()
+{
+	m_fadeValue += Scene::kFadeSpeed;
+	if (m_fadeValue >= 255)
+	{
+		m_isFadeOut = true;//画面が最大に暗く
+	}
+}
 
 
 

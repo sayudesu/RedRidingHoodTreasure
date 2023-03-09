@@ -167,7 +167,7 @@ PlayerNew::PlayerNew() :
 	m_hFxJump = LoadSoundMem(Sound::kJump);  //ジャンプサウンド読み込み
 	m_hRun    = LoadSoundMem(Sound::kRun);   //攻撃サウンド読み込み
 	m_hAttack = LoadSoundMem(Sound::kAttack);//攻撃サウンド読み込み
-	m_hDead   = LoadSoundMem(Sound::kDead);  //攻撃サウンド読み込み
+	m_hDead   = LoadSoundMem(Sound::kDead);  //死亡サウンド読み込み
 	m_hLadder = LoadSoundMem(Sound::kLadder);//梯子上りサウンド読み込み
 
 	int sw, sh, bit;//画面幅　画面高さ　ビット数
@@ -517,34 +517,22 @@ void PlayerNew::UpdateMove()
 	{
 		//PlaySoundMem(m_hDead, DX_PLAYTYPE_NORMAL);//死んだ場合のサウンド再生
 
-		if(CheckSoundMem(m_hDead) == 0)//音でなくなったら
+		if (m_isDamage)//火の玉敵
 		{
-			if (m_isDamage)//火の玉敵
-			{
-				printfDx("Player死亡\n");
-				m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
-			}
-			if (m_isDamageFallen)//落ちモノ敵
-			{
-				printfDx("PlayerFallen死亡\n");
-				m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
-			}
-			if (m_isDamageCharge && m_isRushBlink)//見えている間に当たると死ぬ敵
-			{
-				printfDx("PlayerChage死亡\n");
-				m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
-			}
-			if (m_trapHit == 1)
-			{
-				printfDx("トラップで死亡\n");
-				m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
-			}
+			m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
 		}
-		//printfDx("死亡\n");
-	}
-	if (m_isAttackHit)//攻撃をくらったからどうか
-	{
-		printfDx("Enemy死亡\n");
+		if (m_isDamageFallen)//落ちモノ敵
+		{
+			m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
+		}
+		if (m_isDamageCharge && m_isRushBlink)//見えている間に当たると死ぬ敵
+		{
+			m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
+		}
+		if (m_trapHit == 1)
+		{
+			m_func = &PlayerNew::UpdateDead;//死亡シーン切り替え
+		}
 	}
 
 	m_pos += m_vec;//プレイヤー位置
@@ -560,6 +548,7 @@ void PlayerNew::UpdateMove()
 	//m_scoreTop    = m_playerBottom;
 	//m_scoreRight  = m_scoreLeft;
 	//m_scoreBottom = m_scoreTop;
+
 }
 
 void PlayerNew::UpdateDead()
@@ -570,7 +559,13 @@ void PlayerNew::UpdateDead()
 	//SetDrawBlendMode(DX_BLENDMODE_ADD, 32);
 
 	m_isDead = true;//死亡判定で動きを強制停止
+
 	m_frameCountDead++;
+
+	if (m_frameCountDead == 1)
+	{
+		PlaySoundMem(m_hDead, DX_PLAYTYPE_BACK);//サウンドを再生
+	}
 	if (m_frameCountDead >= 20)//アニメーションを20フレームに1コマで再生
 	{
 		m_charaImageDeadPosX += 112;//画像112ドットを右に動かす

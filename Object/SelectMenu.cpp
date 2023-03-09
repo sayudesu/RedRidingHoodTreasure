@@ -131,7 +131,7 @@ void SelectMenu::Update()
 		m_frameCount++;
 		if (m_frameCount >= 30)
 		{
-			if (padState & PAD_INPUT_X)//メニューを閉じる
+			if (padState & PAD_INPUT_10)//メニューを閉じる
 			{
 				//初期化
 				m_isMenu = false;//メニュー画面を非表示
@@ -151,7 +151,7 @@ void SelectMenu::Update()
 		m_frameCount++;
 		if (m_frameCount >= 30)
 		{
-			if (padState & PAD_INPUT_X)//メニューを開く
+			if (padState & PAD_INPUT_10)//メニューを開く
 			{
 				m_isMenu = true;
 				m_frameCount = 0;

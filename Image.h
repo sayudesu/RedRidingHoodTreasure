@@ -64,11 +64,12 @@ namespace Sound
 	const char* const kBgmDead = "Data/Sound/BGM/Dead.mp3";//死んだ場合BGM
 	const char* const kBgmClear = "Data/Sound/BGM/Clear.wav";//死んだ場合BGM
 
-	const char* const kJump    = "Data/Sound/FX/Eat.mp3";				 //ジャンプサウンド
-	const char* const kSelect  = "Data/Sound/FX/Item Drop.mp3";			 //ボタン押すサウンド
-	const char* const kSelect2 = "Data/Sound/FX/Blocked.mp3";            //選択中のサウンド
-	const char* const kAttack  = "Data/Sound/FX/Power Hit.mp3";          //プレイヤーが攻撃した場合のサウンド
-	const char* const kDead    = "Data/Sound/FX/Move/need edit.wav";     //死んだ場合のサウンド
-	const char* const kRun     = "Data/Sound/FX/Run/Concrete 2.wav";     //走っているサウンド
-	const char* const kLadder  = "Data/Sound/FX/Move/animal curious.wav";//走っているサウンド
+	const char* const kJump    = "Data/Sound/SE/Eat.mp3";				 //ジャンプサウンド
+	const char* const kSelect  = "Data/Sound/SE/Item Drop.mp3";			 //ボタン押すサウンド
+	const char* const kSelect2 = "Data/Sound/SE/Blocked.mp3";            //選択中のサウンド
+	const char* const kAttack  = "Data/Sound/SE/Power Hit.mp3";          //プレイヤーが攻撃した場合のサウンド
+	//const char* const kDead    = "Data/Sound/SE/Move/need edit.wav";     //死んだ場合のサウンド
+	const char* const kRun     = "Data/Sound/SE/Run/Concrete 2.wav";     //走っているサウンド
+	const char* const kLadder  = "Data/Sound/SE/Move/animal curious.wav";//走っているサウンド
+	const char* const kDead    = "Data/Sound/SE/DeadNow.wav";//死んだ場合サウンド
 }

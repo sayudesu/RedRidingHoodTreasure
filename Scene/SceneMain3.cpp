@@ -16,7 +16,7 @@ SceneMain3::SceneMain3():
 	m_hPlayerLighting(-1),
 	m_hPlayerHealthBer(-1),
 	m_hEnemyFireBall(-1),
-	m_hMusicBgm1(-1),
+	m_hMusicBgm(-1),
 	m_fadeValue(0.0f),
 	m_isFadeIn(false),//フェイドインしたかどうか
 	m_isFadeOut(false),//フェイドアウトしたかどうか
@@ -50,10 +50,7 @@ void SceneMain3::Init()
 	m_pCollision->Init();
 	m_pStage->Init();
 
-	m_hMusicBgm1 = LoadSoundMem(FX::kBgm2);
-
-	// 音量の設定
-	ChangeVolumeSoundMem(255 / 3 , m_hMusicBgm1);
+	m_hMusicBgm = LoadSoundMem(Sound::kBgmStage2);//サウンド読み込み
 
 	m_hPlayerLighting = LoadGraph(Image::kPlayerLighting);
 	m_hPlayerHealthBer = LoadGraph(Image::kPlayerHealthBer);
@@ -79,7 +76,8 @@ void SceneMain3::End()
 	//エネミー画像
 	DeleteGraph(m_hEnemyFireBall);
 
-	DeleteSoundMem(m_hMusicBgm1);
+	StopSoundFile();//再生中のサウンドを止める
+	DeleteSoundMem(m_hMusicBgm);
 }
 
 SceneBase* SceneMain3::Update()
@@ -110,6 +108,12 @@ SceneBase* SceneMain3::Update()
 		}
 	}
 
+	//サウンド
+	if (CheckSoundMem(m_hMusicBgm) == 0)//鳴っていなかったら
+	{
+		PlaySoundMem(m_hMusicBgm, DX_PLAYTYPE_BACK);//サウンドを再生
+		ChangeVolumeSoundMem(100, m_hMusicBgm);//音量調整
+	}
 
 	if (m_isSceneResult)
 	{
@@ -125,6 +129,22 @@ SceneBase* SceneMain3::Update()
 		if (m_isFadeOut)
 		{
 			return(new SceneGameOver2);
+		}
+	}
+	else if (m_pMenu->SetSceneRetry())//繰り返す場合のシーン切り替え
+	{
+		FadeOut();
+		if (m_isFadeOut)
+		{
+			return(new SceneMain3);
+		}
+	}
+	else if (m_pMenu->SetSceneTitle())//タイトルに戻る場合のシーン切り替え
+	{
+		FadeOut();
+		if (m_isFadeOut)
+		{
+			return(new SceneTitle);
 		}
 	}
 
@@ -144,7 +164,6 @@ void SceneMain3::Draw()
 	if (m_pMenu->m_isMenu)
 	{
 		m_pMenu->Draw();
-
 	}
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeValue);

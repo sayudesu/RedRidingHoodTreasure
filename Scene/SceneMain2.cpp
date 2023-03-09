@@ -7,49 +7,39 @@
 #include "PlayerNew.h"
 #include "Collision.h"
 #include "SelectMenu.h"
-#include "TitleCursorGame.h"
-#include "GameSceneCollision.h"
+
+#include "SlideSelect.h"
 #include "game.h"
 #include "Image.h"
 #include <Dxlib.h>
 #include "Pad.h"
 
-SceneMain2::SceneMain2():
+SceneMain2::SceneMain2() :
 	m_hPlayer(-1),
 	m_hPlayerIdle(-1),
 	m_hPlayerLighting(-1),
 	m_hPlayerHealthBer(-1),
-	m_hMusicBgm1(-1),
-	m_hSoundSelect(-1),//ボタン押した場合のサウンド
-	m_hSoundSelect2(-1),//ボタン押した場合のサウンド
-	m_soundCount(-1),//サウンド再生までのカウント
-	m_soundCount2(-1),//サウンド再生までのカウント
-	m_soundCount3(-1),
-	m_color1(0),//選択画面の色
-	m_color2(0),
-	m_color3(0),
+	m_hMusicBgm(-1),//BGM用ハンドル
 	m_fadeValue(0.0f),
 	m_isFadeIn(false),//フェイドインしたかどうか
 	m_isFadeOut(false),//フェイドアウトしたかどうか
 	m_isSceneStage(false),//画面が暗くなった後にシーンの切り替え
 	m_isSceneRetry(false),
 	m_isSceneTitle(false),//画面が暗くなった後にシーンの切り替え
-	m_isGameClear(false),//ゲームをクリアした場合
 	m_isSceneDead(false),//死んだらシーン切り替え
 	m_pStage(nullptr),
 	m_pPlayer(nullptr),
 	m_pCollision(nullptr),
 	m_pMenu(nullptr),
-	m_pCursor(nullptr),
-	m_pCursorCollision(nullptr)
+
+	m_pSlidSelect(nullptr)
 {
 
 	m_pStage     = new DrawMapStage1;
 	m_pPlayer    = new PlayerNew;
 	m_pCollision = new Collision;
 	m_pMenu      = new SelectMenu;
-	m_pCursor    = new TitleCursorGame;
-	m_pCursorCollision = new GameSceneCollision;
+	m_pSlidSelect = new SlideSelect;
 }
 
 SceneMain2::~SceneMain2()
@@ -58,27 +48,18 @@ SceneMain2::~SceneMain2()
 	delete m_pPlayer;
 	delete m_pCollision;
 	delete m_pMenu;
-	delete m_pCursorCollision;
 
-	//サウンド削除
-	DeleteSoundMem(m_hSoundSelect);
-	DeleteSoundMem(m_hSoundSelect2);
+	delete m_pSlidSelect;
+
 }
 
 void SceneMain2::Init()
 {
-	//m_pPlayer->Init();
 	m_pCollision->Init();
 	m_pStage->Init();
-	//m_pEnemy->Init();
 
-	// 再生形式をファイルからストリーム再生する、に設定
-	//SetCreateSoundDataType(DX_SOUNDDATATYPE_FILE);
-	m_hMusicBgm1 = LoadSoundMem(FX::kBgm2);
-	m_hSoundSelect = LoadSoundMem(FX::kSelect);//ボタン押した場合のサウンドを読み込み
-	m_hSoundSelect2 = LoadSoundMem(FX::kSelect2);//ボタン押した場合のサウンドを読み込み
-	ChangeVolumeSoundMem(255 / 3 , m_hMusicBgm1);
-
+	m_hMusicBgm = LoadSoundMem(Sound::kBgmStage);
+	
 	//プレイヤー画像
 	//m_hPlayer = LoadGraph(Image::kPlayerImage);
 	//m_hPlayerIdle = LoadGraph(Image::kPlayerImageIdle);
@@ -89,7 +70,7 @@ void SceneMain2::Init()
 	m_pPlayer->SetHandle(m_hPlayer);
 	m_pPlayer->SetHandleIdle(m_hPlayerIdle);
 
-	m_fadeValue = 255.0f;
+	m_fadeValue = 255.0f;//画面の色
 
 }
 
@@ -98,17 +79,21 @@ void SceneMain2::End()
 	m_pPlayer->End();
 	m_pStage->End();
 
-	//m_pEnemy->End();
 	//プレイヤー画像
 	DeleteGraph(m_hPlayer);
 	DeleteGraph(m_hPlayerIdle);
 
-	DeleteSoundMem(m_hMusicBgm1);
+	StopSoundFile();//再生中のサウンドを止める
+	DeleteSoundMem(m_hMusicBgm);
 }
 
 SceneBase* SceneMain2::Update()
 {
-	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
+	//ゲームクリア後の選択を受け取る
+	GetSceneStage(m_pSlidSelect->SetSceneStage());
+	GetSceneRetry(m_pSlidSelect->SetSceneRetry());
+	GetSceneTitle(m_pSlidSelect->SetSceneTitle());
+	GetSceneDead(m_pSlidSelect->SetSceneDead());
 
 	if (!m_isFadeIn)FadeIn();//フェイドイン
 	
@@ -139,75 +124,19 @@ SceneBase* SceneMain2::Update()
 
 		if (m_isGameClear)//ゲームをクリアしたら
 		{
-			m_pCursor->Update();//カーソルの更新処理
-			m_pCursorCollision->Update();//カーソルと選択範囲の当たり判定
-
-			//カーソルが当たっていない場合の文字背景の色
-			m_color1 = Color::kWhite;
-			m_color2 = Color::kWhite;
-			m_color3 = Color::kWhite;
-
-			if (m_pCursorCollision->CollsionDemo())//カーソルと選択範囲に当たっていたら
-			{
-				m_soundCount++;//サウンド再生までのカウント
-				if (m_soundCount == 1)
-				{
-					PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
-				}
-				m_color1 = Color::kRed;//カーソルが当たっている場合の文字背景の色
-				if (padState & PAD_INPUT_2)//Xボタン
-				{
-					m_isSceneStage = true;
-				}
-			}
-			else//カーソルが選択範囲外だったら
-			{
-				m_soundCount = 0;//サウンドカウントをリセット
-			}
-			if (m_pCursorCollision->CollsionStage1())//カーソルと選択範囲に当たっていたら
-			{
-				m_soundCount2++;//サウンド再生までのカウント
-				m_color2 = Color::kRed;//カーソルが当たっている場合の文字背景の色
-				if (m_soundCount2 == 1)
-				{
-					PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
-				}
-				if (padState & PAD_INPUT_2)//Xボタン
-				{
-					m_isSceneRetry = true;
-				}
-			}
-			else//カーソルが選択範囲外だったら
-			{
-				m_soundCount2 = 0;//サウンドカウントをリセット
-			}
-			if (m_pCursorCollision->CollsionEnd())//カーソルと選択範囲に当たっていたら
-			{
-				m_soundCount3++;//サウンド再生までのカウント
-				m_color3 = Color::kRed;//カーソルが当たっている場合の文字背景の色
-				if (m_soundCount3 == 1)
-				{
-					PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
-				}
-				if (padState & PAD_INPUT_2)//Xボタン
-				{
-					m_isSceneTitle = true;
-				}
-			}
-			else//カーソルが選択範囲外だったら
-			{
-				m_soundCount3 = 0;//サウンドカウントをリセット
-			}
-			Pad::update();
-			if (Pad::isTrigger(PAD_INPUT_2))//Xボタン
-			{
-				PlaySoundMem(m_hSoundSelect, DX_PLAYTYPE_BACK);//押している音を再生
-			}
+			//ここにカーソル判定処理
+			m_pSlidSelect->Collsion();
 		}
 	}
+	
+	//サウンド
+	if (CheckSoundMem(m_hMusicBgm) == 0)//鳴っていなかったら
+	{
+		PlaySoundMem(m_hMusicBgm, DX_PLAYTYPE_BACK);//サウンドを再生
+		ChangeVolumeSoundMem(100, m_hMusicBgm);//音量調整
+	}
 
-
-	if (m_isSceneTitle)//選択をしたら
+	if (m_pMenu->SetSceneTitle() || m_isSceneTitle)//選択をしたら
 	{
 		FadeOut();
 		if (m_isFadeOut)
@@ -223,10 +152,10 @@ SceneBase* SceneMain2::Update()
 			return(new SceneMain3);//新しいステージに移動
 		}
 	}
-	else if (m_isSceneRetry)
+	else if (m_pMenu->SetSceneRetry() || m_isSceneRetry)
 	{
 		FadeOut();
-		if (m_isFadeOut) 
+		if (m_isFadeOut)
 		{
 			return(new SceneMain2);//同じステージを繰り返す
 		}
@@ -297,23 +226,8 @@ void SceneMain2::Draw()
 //クリアした時の選択画面表示
 void SceneMain2::GameClear()
 {
-	//背景
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
-	DrawBox(500, 300, Game::kScreenWidth - 500, Game::kScreenHeight - 300, 0x00ffff, true);//中
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	DrawBox(500, 300, Game::kScreenWidth - 500, Game::kScreenHeight - 300, 0xffffff, false);//枠組み
-	//文字背景
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);//色を薄くする
-	DrawBox(SceneSelect::kSelectLeft,SceneSelect::kSelectTop,SceneSelect::kSelectRight,SceneSelect::kSelectBottom, m_color1, true);
-	DrawBox(SceneSelect::kSelectLeft2, SceneSelect::kSelectTop2, SceneSelect::kSelectRight2, SceneSelect::kSelectBottom2, m_color2, true);
-	DrawBox(SceneSelect::kSelectLeft3, SceneSelect::kSelectTop3, SceneSelect::kSelectRight3, SceneSelect::kSelectBottom3, m_color3, true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);//色を戻す
-	//文字
-	DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop    + 5 , "Next Sgage", 0x0000ff);
-	DrawString(SceneSelect::kSelectLeft2 + 100, SceneSelect::kSelectTop2 + 5,  "Retry", 0x0000ff);
-	DrawString(SceneSelect::kSelectLeft3 + 75, SceneSelect::kSelectTop3  + 5,  "Back to Title", 0x0000ff);
-
-	m_pCursor->Draw();
+	m_pSlidSelect->Slider();//選択画面の処理
+	m_pSlidSelect->Draw();//描画処理
 }
 
 void SceneMain2::FadeIn()

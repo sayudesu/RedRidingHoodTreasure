@@ -20,8 +20,12 @@ public:
 private:
 	int m_hSoundSelect;//選択時のサウンド
 	int m_hSoundSelect2;
+
+	int m_hMusicBgm;//BGM用ハンドル
+
 	int m_soundCount;//サウンド発生までのカウント
 	int m_soundCount2;
+
 
 	int m_color1;//選択画面の色
 	int m_color2;

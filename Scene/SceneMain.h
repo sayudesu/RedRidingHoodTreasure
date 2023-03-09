@@ -44,6 +44,8 @@ private:
 	int m_hMapChip;
 	int m_hMapChipSecond;
 
+	int m_hMusicBgm1;//BGM用ハンドル
+
 	float m_fadeValue;//明るさ調整用
 
 	bool m_isFadeIn;//フェイドインしたかどうか

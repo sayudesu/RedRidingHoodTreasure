@@ -6,7 +6,7 @@ TitleCursor::TitleCursor():
 	m_padPos(0.0f,0.0f)
 {
 	m_padPos.x = Game::kScreenWidth / 2;
-	m_padPos.y = Game::kScreenHeight / 2;
+	m_padPos.y = Game::kScreenHeight / 2 + 30;
 }
 
 TitleCursor::~TitleCursor()

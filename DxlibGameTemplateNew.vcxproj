@@ -177,6 +177,7 @@
     <ClCompile Include="Object\PlayerImage.cpp" />
     <ClCompile Include="Object\PlayerMapMove.cpp" />
     <ClCompile Include="Object\PlayerNew.cpp" />
+    <ClCompile Include="Object\SoundManager.cpp" />
     <ClCompile Include="SceneGameOver2.cpp" />
     <ClCompile Include="Scene\SceneGameOver.cpp" />
     <ClCompile Include="Scene\SceneMain2.cpp" />
@@ -189,6 +190,7 @@
     <ClCompile Include="Object\TitleCollision.cpp" />
     <ClCompile Include="Object\TitleCursor.cpp" />
     <ClCompile Include="Object\SelectMenu.cpp" />
+    <ClCompile Include="SlideSelect.cpp" />
     <ClCompile Include="TitleCursorGame.cpp" />
     <ClCompile Include="Util\Mouse.cpp" />
     <ClCompile Include="Util\Pad.cpp" />
@@ -209,6 +211,7 @@
     <ClInclude Include="Object\PlayerImage.h" />
     <ClInclude Include="Object\PlayerMapMove.h" />
     <ClInclude Include="Object\PlayerNew.h" />
+    <ClInclude Include="Object\SoundManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneGameOver2.h" />
     <ClInclude Include="Scene\SceneGameOver.h" />
@@ -222,6 +225,7 @@
     <ClInclude Include="Object\TitleCollision.h" />
     <ClInclude Include="Object\TitleCursor.h" />
     <ClInclude Include="Object\SelectMenu.h" />
+    <ClInclude Include="SlideSelect.h" />
     <ClInclude Include="TitleCursorGame.h" />
     <ClInclude Include="Util\Mouse.h" />
     <ClInclude Include="Util\Pad.h" />

@@ -24,6 +24,7 @@ SceneMain::SceneMain() :
 	m_hMapFifth(-1),
 	m_hMapChip(-1),
 	m_hMapChipSecond(-1),
+	m_hMusicBgm1(-1),//BGM用ハンドル
 	m_fadeValue(0.0f),//明るさ調整用
 	m_isFadeIn(false),//フェイドインしたかどうか
 	m_isFadeOut(false),//フェイドアウトしたかどうか
@@ -43,6 +44,7 @@ SceneMain::~SceneMain()
 {
 	delete m_pPlayer;
 	delete m_pEnemy;
+	DeleteSoundMem(m_hMusicBgm1);
 }
 
 void SceneMain::Init()
@@ -84,6 +86,11 @@ void SceneMain::Init()
 	m_pPlayer->SetHandleMapFifth(m_hMapFifth);
 	m_pPlayer->SetHnadleMapChip(m_hMapChip);
 	m_pPlayer->SetHnadleMapChipSecond(m_hMapChipSecond);
+
+	m_hMusicBgm1 = LoadSoundMem(Sound::kBgm1);
+	PlaySoundMem(m_hMusicBgm1, DX_SOUNDTYPE_STREAMSTYLE);
+	// 音量の設定
+	//ChangeVolumeSoundMem(255 / 3, m_hMusicBgm1);
 
 }
 void SceneMain::End()

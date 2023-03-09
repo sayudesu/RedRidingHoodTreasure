@@ -525,7 +525,7 @@ namespace SceneSelect
 	constexpr int kSelectBottom = kSelectTop + 30;
 
 	constexpr int kSelectLeft2   = kSelectLeft;
-	constexpr int kSelectTop2    = kSelectTop + 80;
+	constexpr int kSelectTop2    = kSelectTop + 80 + 20;
 	constexpr int kSelectRight2  = kSelectLeft2 + 260;
 	constexpr int kSelectBottom2 = kSelectTop2 + 30;
 
@@ -533,16 +533,20 @@ namespace SceneSelect
 	constexpr int kSelectTop3    = kSelectTop2 + 120;
 	constexpr int kSelectRight3  = kSelectLeft3 + 260;
 	constexpr int kSelectBottom3 = kSelectTop3 + 30;
+
+	constexpr int kSlideSpeed  = 20 * 2;
+	constexpr int kSlideSpeed2 = 15;
 }
 
 namespace Color
 {
-	constexpr int kWhite   = 0xffffff;//îí
-	constexpr int kRed     = 0xff0000;//ê‘
-	constexpr int kGreen   = 0x00ff00;//óŒ
-	constexpr int kBlue    = 0x0000ff;//ê¬
-	constexpr int kYellow = 0xffff00;//â©êF
-	constexpr int kThinRed = 0xaa0000;//îñÇ¢ê‘
+	constexpr int kWhite    = 0xffffff;//îí
+	constexpr int kRed      = 0xff0000;//ê‘
+	constexpr int kGreen    = 0x00ff00;//óŒ
+	constexpr int kBlue     = 0x0000ff;//ê¬
+	constexpr int kYellow   = 0xffff00;//â©êF
+	constexpr int kThinRed  = 0xaa0000;//îñÇ¢ê‘
+	constexpr int kThinBlue = 0x0000aa;//ê¬
 }
 
 namespace Scene

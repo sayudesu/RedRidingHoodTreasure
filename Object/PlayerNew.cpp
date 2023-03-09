@@ -153,8 +153,8 @@ PlayerNew::PlayerNew() :
 {
 	m_charaImagePos = 0;
 	m_func = &PlayerNew::UpdateMove;
-	m_pos.x = kPosX;
-	m_pos.y = kPosY;
+	m_pos.x = Game::kScreenWidth / 2;//kPosX;
+	m_pos.y = 0;//kPosY;
 
 	//画像位置をセット右下座標
 	m_charaImageRigth = 112;
@@ -164,11 +164,11 @@ PlayerNew::PlayerNew() :
 	m_hPlayer = LoadGraph(Image::kPlayerImage);		   //プレイヤー画像読み込み
 	m_hPlayerIdle = LoadGraph(Image::kPlayerImageIdle);//プレイヤーアイドル状態画像読み込み
 
-	m_hFxJump = LoadSoundMem(FX::kJump);  //ジャンプサウンド読み込み
-	m_hRun    = LoadSoundMem(FX::kRun);   //攻撃サウンド読み込み
-	m_hAttack = LoadSoundMem(FX::kAttack);//攻撃サウンド読み込み
-	m_hDead   = LoadSoundMem(FX::kDead);  //攻撃サウンド読み込み
-	m_hLadder = LoadSoundMem(FX::kLadder);//梯子上りサウンド読み込み
+	m_hFxJump = LoadSoundMem(Sound::kJump);  //ジャンプサウンド読み込み
+	m_hRun    = LoadSoundMem(Sound::kRun);   //攻撃サウンド読み込み
+	m_hAttack = LoadSoundMem(Sound::kAttack);//攻撃サウンド読み込み
+	m_hDead   = LoadSoundMem(Sound::kDead);  //攻撃サウンド読み込み
+	m_hLadder = LoadSoundMem(Sound::kLadder);//梯子上りサウンド読み込み
 
 	int sw, sh, bit;//画面幅　画面高さ　ビット数
 	GetScreenState(&sw, &sh, &bit);//幅と高さ取得しておく

@@ -4,6 +4,7 @@
 
 class TitleCursor;
 class TitleCollision;
+
 class SceneTitle : public SceneBase
 {
 public:
@@ -25,7 +26,7 @@ private:
 	int m_charaImagePos;
 	int m_hButtonUi;
 
-	int m_hMusicBgm1;
+	int m_hMusicBgm;
 	int m_hSoundSelect;
 	int m_hSoundSelect2;
 

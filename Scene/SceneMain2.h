@@ -5,8 +5,8 @@ class DrawMapStage1;
 class PlayerNew;
 class Collision;
 class SelectMenu;
-class TitleCursorGame;
-class GameSceneCollision;
+
+class SlideSelect;
 
 class SceneMain2 : public SceneBase
 {
@@ -18,6 +18,12 @@ public:
 	virtual void End();
 	virtual SceneBase* Update() override;
 	virtual void Draw();
+public:
+	//ゲームクリア後の選択を受け取る
+	void GetSceneStage(bool scene) { m_isSceneStage = scene; }
+	void GetSceneRetry(bool scene) { m_isSceneRetry = scene; }
+	void GetSceneTitle(bool scene) { m_isSceneTitle = scene; }
+	void GetSceneDead(bool scene) { m_isSceneDead = scene; }
 private:
 	void GameClear();//ゲームをクリアした場合
 private:
@@ -30,15 +36,8 @@ private:
 	int m_hPlayerIdle;
 	int m_hPlayerLighting;
 	int m_hPlayerHealthBer;
-	//サウンドハンドル
-	int m_hSoundSelect;//ボタンをおした場合のサウンド
-	int m_hSoundSelect2;
-	int m_soundCount;//サウンド再生までのカウント
-	int m_soundCount2;
-	int m_soundCount3;
-	int m_color1;//選択画面の色
-	int m_color2;
-	int m_color3;
+
+	int m_hMusicBgm;//BGM用ハンドル
 
 	float m_fadeValue;//画面の明るさ調整
 
@@ -48,10 +47,7 @@ private:
 	bool m_isSceneStage;//画面が暗くなった後にシーンの切り替え
 	bool m_isSceneRetry;//画面が暗くなった後にシーンの切り替え
 	bool m_isSceneTitle;//画面が暗くなった後にシーンの切り替え
-	bool m_isSceneDead;//画面が暗くなった後にシーンの切り替え
-
-
-	int m_hMusicBgm1;
+	bool m_isSceneDead;//画面が暗くなった後にシーンの切り替
 
 	bool m_isGameClear;
 
@@ -59,8 +55,8 @@ private:
 	PlayerNew* m_pPlayer;
 	Collision* m_pCollision;
 	SelectMenu* m_pMenu;
-	TitleCursorGame* m_pCursor;
-	GameSceneCollision* m_pCursorCollision;
+
+	SlideSelect* m_pSlidSelect;
 };
 
 

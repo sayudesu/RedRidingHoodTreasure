@@ -1,4 +1,5 @@
 #pragma once
+
 class TitleCursor;
 
 class TitleCollision

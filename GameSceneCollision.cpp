@@ -25,6 +25,7 @@ void GameSceneCollision::Update()
 
 void GameSceneCollision::Draw()
 {
+	m_pCursor->Draw();
 }
 
 bool GameSceneCollision::CollsionDemo()

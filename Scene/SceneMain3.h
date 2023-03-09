@@ -28,7 +28,7 @@ private:
 	//エネミー画像
 	int m_hEnemyFireBall;
 
-	int m_hMusicBgm1;
+	int m_hMusicBgm;
 
 	float m_fadeValue;//画面の明るさ調整
 

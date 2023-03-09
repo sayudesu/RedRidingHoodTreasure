@@ -23,7 +23,7 @@ SceneTitle::SceneTitle():
 	m_hImagePlayer(-1),
 	m_hImageMap(-1),
 	m_charaImagePos(0),
-	m_hMusicBgm1(-1),
+	m_hMusicBgm(-1),//サウンドBGM
 	m_hButtonUi(-1),
 	m_hSoundSelect(-1),
 	m_hSoundSelect2(-1),
@@ -66,9 +66,12 @@ SceneTitle::~SceneTitle()
 	DeleteGraph(m_hImageMap);
 	DeleteGraph(m_hButtonUi);
 
-	DeleteSoundMem(m_hMusicBgm1);
+	StopSoundFile();//再生中のサウンドを止める
+	DeleteSoundMem(m_hMusicBgm);
 	DeleteSoundMem(m_hSoundSelect);
 	DeleteSoundMem(m_hSoundSelect2);
+
+
 }
 
 void SceneTitle::Init()
@@ -76,12 +79,9 @@ void SceneTitle::Init()
 	m_hImagePlayer = LoadGraph(Image::kPlayerImage);
 	m_hImageMap    = LoadGraph(Image::kMapFirst);
 	m_hButtonUi = LoadGraph(UI::kButton);
-	m_hMusicBgm1 = LoadSoundMem(FX::kBgm1);
-	m_hSoundSelect = LoadSoundMem(FX::kSelect);
-	m_hSoundSelect2 = LoadSoundMem(FX::kSelect2);
-	PlaySoundMem(m_hMusicBgm1, DX_SOUNDTYPE_STREAMSTYLE);
-	// 音量の設定
-	ChangeVolumeSoundMem(255 / 3, m_hMusicBgm1);
+	m_hMusicBgm = LoadSoundMem(Sound::kBgmTitle);
+	m_hSoundSelect = LoadSoundMem(Sound::kSelect);
+	m_hSoundSelect2 = LoadSoundMem(Sound::kSelect2);
 
 	m_imagePos.x   = Game::kScreenWidth / 2;
 	m_imagePos.y   = Game::kScreenHeight / 2 - 250;
@@ -120,23 +120,9 @@ SceneBase* SceneTitle::Update()
 		m_pCursor->Update();
 		m_pCollsion->Update();
 		Pad::update();
-		if (padState & PAD_INPUT_1)
+		if (padState & PAD_INPUT_2)//Aボタン押した場合
 		{
-			if (Pad::isTrigger(PAD_INPUT_1))//Aボタン押した場合
-			{
-				PlaySoundMem(m_hSoundSelect, DX_PLAYTYPE_BACK);//押している音を再生
-				m_buttonALeft = 16 + 16 + 16 + 16 + 16;//画像表示位置を変更
-				m_colorA = kColorRed;//文字の色を変更
-			}
-		}
-		else
-		{
-			m_buttonALeft = 16 + 16 + 16;//画像表示位置を変更
-			m_colorA = kColorWhite;//文字の色を変更
-		}
-		if (padState & PAD_INPUT_2)
-		{
-			if (Pad::isTrigger(PAD_INPUT_2))//Xボタン押した場合
+			if (Pad::isTrigger(PAD_INPUT_2))//Aボタン押した場合
 			{
 				PlaySoundMem(m_hSoundSelect, DX_PLAYTYPE_BACK);//押している音を再生
 				m_buttonXLeft = 16 + 16 + 16 + 16 + 16;//画像表示位置を変更
@@ -149,29 +135,6 @@ SceneBase* SceneTitle::Update()
 			m_colorX = kColorWhite;//文字の色を変更
 		}
 
-		//if (m_pCollsion->CollsionDemo())//シーン切り替え::チュートリアル
-		//{
-		//	m_sceneChangeCountDemo = 300;
-		//	m_soundCount1++;
-		//	if (m_soundCount1 == 1)
-		//	{
-		//		PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
-		//	}
-		//	m_isSceneFocus1 = true;//フォーカスを合わせた場合
-		//	if (padState & PAD_INPUT_2)
-		//	{
-		//		return(new SceneMain);//シーン切り替え
-		//		//return(new SceneResult);//シーン切り替え
-		//		
-		//	}
-		//}
-		//else
-		//{
-		//	m_sceneChangeCountDemo = 0;
-		//	m_soundCount1 = 0;
-		//	m_isSceneFocus1 = false;//フォーカスを外した場合
-		//}
-
 		if (m_pCollsion->CollsionStage1())//シーン切り替え::ゲームプレイ
 		{
 			m_sceneChangeCountStage1 = 300;
@@ -181,7 +144,7 @@ SceneBase* SceneTitle::Update()
 				PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
 			}
 			m_isSceneFocus2 = true;//フォーカスを合わせた場合
-			if (padState & PAD_INPUT_2)
+			if (padState & PAD_INPUT_2)//Aボタン押した場合
 			{
 				m_isSceneStage = true;//シーンを切り替え	
 			}
@@ -228,6 +191,13 @@ SceneBase* SceneTitle::Update()
 
 	}
 
+	//サウンド
+	if (CheckSoundMem(m_hMusicBgm) == 0)//鳴っていなかったら
+	{
+		PlaySoundMem(m_hMusicBgm, DX_PLAYTYPE_BACK);//サウンドを再生
+		ChangeVolumeSoundMem(100, m_hMusicBgm);//音量調整
+	}
+
 	if (m_isSceneEnd)//選択をしたら
 	{
 		FadeOut();
@@ -260,10 +230,7 @@ void SceneTitle::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);//色を薄くする
-	////チュートリアル
-	//DrawBox(TitleMenu::kSelection1X, TitleMenu::kSelection1Y, TitleMenu::kSelectionBottom1X, TitleMenu::kSelectionBottom1Y, 0xffffff, true);
-	//DrawBox(TitleMenu::kSelection1X, TitleMenu::kSelection1Y, TitleMenu::kSelectionBottom1X + m_sceneChangeCountDemo - 300
-	//	, TitleMenu::kSelectionBottom1Y, 0xff0000, true);
+	
 	//ステージ1
 	DrawBox(TitleMenu::kSelection2X, TitleMenu::kSelection2Y, TitleMenu::kSelectionBottom2X, TitleMenu::kSelectionBottom2Y, 0xffffff, true);
 	DrawBox(TitleMenu::kSelection2X, TitleMenu::kSelection2Y, TitleMenu::kSelectionBottom2X + m_sceneChangeCountStage1 - 300
@@ -280,10 +247,6 @@ void SceneTitle::Draw()
 	DrawBox(TitleMenu::kSelection2X -1, TitleMenu::kSelection2Y - 1, TitleMenu::kSelectionBottom2X + 1, TitleMenu::kSelectionBottom2Y + 1, 0x0000ff, false);
 	DrawBox(TitleMenu::kSelection3X - 1, TitleMenu::kSelection3Y - 1, TitleMenu::kSelectionBottom3X + 1, TitleMenu::kSelectionBottom3Y + 1, 0x0000ff, false);
 
-	if (m_isSceneFocus1)//フォーカスを合わせるを周りの枠の色を切り替える（赤色にする）
-	{
-		//DrawBox(TitleMenu::kSelection1X - 1, TitleMenu::kSelection1Y - 1, TitleMenu::kSelectionBottom1X + 1, TitleMenu::kSelectionBottom1Y + 1, 0xff00ff, false);
-	}
 	if (m_isSceneFocus2)
 	{
 
@@ -303,10 +266,6 @@ void SceneTitle::Draw()
 	DrawString(Game::kScreenWidth /2 - 250, Game::kScreenHeight/2 - 150, "Avoidance-Jump", 0xffff00);//タイトル
 	SetFontSize(17);//文字サイス変更
 
-	//X
-	DrawRectRotaGraph(200,200,
-		m_buttonALeft, m_buttonATop, m_buttonARigth, m_buttonABottom, 5, 0, m_hButtonUi, true, false);
-	DrawString(200 + 50, 200, "isAttack", m_colorA);
 	//A
 	DrawRectRotaGraph(230, 300,
 		m_buttonXLeft, m_buttonXTop, m_buttonXRigth, m_buttonXBottom, 5, 0, m_hButtonUi, true, false);

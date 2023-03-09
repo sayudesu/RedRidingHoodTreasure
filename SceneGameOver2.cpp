@@ -12,6 +12,7 @@
 SceneGameOver2::SceneGameOver2() :
 	m_hSoundSelect(-1),//選択時のサウンド
 	m_hSoundSelect2(-1),//選択時のサウンド
+	m_hMusicBgm(-1),//BGM用ハンドル
 	m_soundCount(0),//サウンド発生までのカウント
 	m_soundCount2(0),
 	m_color1(0),//選択画面の色
@@ -36,12 +37,16 @@ SceneGameOver2::~SceneGameOver2()
 void SceneGameOver2::Init()
 {
 	//サウンドを読み込み
-	m_hSoundSelect = LoadSoundMem(FX::kSelect);
-	m_hSoundSelect2 = LoadSoundMem(FX::kSelect2);
+	m_hSoundSelect = LoadSoundMem(Sound::kSelect);
+	m_hSoundSelect2 = LoadSoundMem(Sound::kSelect2);
+
+	m_hMusicBgm = LoadSoundMem(Sound::kBgmDead);
 }
 
 void SceneGameOver2::End()
 {
+	StopSoundFile();//再生中のサウンドを止める
+	DeleteSoundMem(m_hMusicBgm);
 }
 
 SceneBase* SceneGameOver2::Update()
@@ -88,6 +93,13 @@ SceneBase* SceneGameOver2::Update()
 	else
 	{
 		m_soundCount2 = 0;
+	}
+
+	//サウンド
+	if (CheckSoundMem(m_hMusicBgm) == 0)//鳴っていなかったら
+	{
+		PlaySoundMem(m_hMusicBgm, DX_PLAYTYPE_BACK);//サウンドを再生
+		ChangeVolumeSoundMem(100, m_hMusicBgm);//音量調整
 	}
 
 	if (Pad::isTrigger(PAD_INPUT_2))//Xボタン

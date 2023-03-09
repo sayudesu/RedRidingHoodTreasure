@@ -54,10 +54,15 @@ namespace UI
 	const char* const kButton = "Data/UI/gdb-xbox-2.png";//コントローラー画像
 }
 
-namespace FX
+namespace Sound
 {
 	const char* const kBgm1 = "Data/Sound/BGM/DavidKBD - Pink Bloom Pack - 09 - Lightyear City.ogg";
 	const char* const kBgm2 = "Data/Sound/BGM/DavidKBD - Pink Bloom Pack - 08 - Lost Spaceship's Signal.ogg";
+	const char* const kBgmTitle = "Data/Sound/BGM/Title.wav";//ステージ用BGM
+	const char* const kBgmStage = "Data/Sound/BGM/stage.wav";//ステージ用BGM
+	const char* const kBgmStage2 = "Data/Sound/BGM/stage2.wav";//ステージ用BGM
+	const char* const kBgmDead = "Data/Sound/BGM/Dead.mp3";//死んだ場合BGM
+	const char* const kBgmClear = "Data/Sound/BGM/Clear.wav";//死んだ場合BGM
 
 	const char* const kJump    = "Data/Sound/FX/Eat.mp3";				 //ジャンプサウンド
 	const char* const kSelect  = "Data/Sound/FX/Item Drop.mp3";			 //ボタン押すサウンド

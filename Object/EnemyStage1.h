@@ -18,6 +18,8 @@ private:
 
 	void fireBallMove();//樽の動き
 
+	void EnemySoud();//敵の音
+
 	void npcPos();//敵のキャラ座標取得
 
 public:
@@ -90,6 +92,9 @@ private:
 	int m_hNeedle;//地面用
 	int m_hTiles;//画像チップ
 	int m_hCave;//洞窟画像
+	//サウンド用ハンドル
+	int m_hSoundSnail;//カタツムリサウンド
+	int m_hSoundBarre;//樽サウンド
 	//炎の玉のサイズ
 	int m_posLeft;
 	int m_posTop;

@@ -5,6 +5,8 @@
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	SetWindowSizeChangeEnableFlag(true);
+	SetAlwaysRunFlag(true);
 	// windowモード設定
 	ChangeWindowMode(Game::kWindowMode);
 	// ウインドウ名設定
@@ -24,7 +26,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// ダブルバッファモード
 	SetDrawScreen(DX_SCREEN_BACK);
-
+	//フルスクリーンかどうか
+	bool isScreenSize = false;
+	bool isTrigger = false;//ボタン確認
 	// 最初のシーンの初期化
 	SceneManager scene;
 	scene.Init();
@@ -35,6 +39,26 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// 画面のクリア
 		ClearDrawScreen();
+
+		/*
+		//フルスクリーン設定
+		if (CheckHitKey(KEY_INPUT_LALT))
+		{
+			if (CheckHitKey(KEY_INPUT_RETURN))
+			{
+				if (!isTrigger)
+				{
+					isScreenSize = !isScreenSize;
+					ChangeWindowMode(isScreenSize);
+				}
+				isScreenSize = true;
+			}
+			else
+			{
+				isScreenSize = false;
+			}
+		}
+		*/
 
 		//更新処理
 		scene.Update();

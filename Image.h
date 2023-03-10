@@ -72,4 +72,9 @@ namespace Sound
 	const char* const kRun     = "Data/Sound/SE/Run/Concrete 2.wav";     //走っているサウンド
 	const char* const kLadder  = "Data/Sound/SE/Move/animal curious.wav";//走っているサウンド
 	const char* const kDead    = "Data/Sound/SE/DeadNow.wav";//死んだ場合サウンド
+
+	//Enemy
+	const char* const kSnail   = "Data/Sound/SE/Enemy/Snail.wav";
+	const char* const kBarreRun = "Data/Sound/SE/Enemy/BarreRun.wav";
+	const char* const kBarreRun2 = "Data/Sound/SE/Enemy/BarreRun2.wav";
 }

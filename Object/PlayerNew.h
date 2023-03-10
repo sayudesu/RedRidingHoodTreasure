@@ -164,6 +164,7 @@ private:
 	int m_frameCount2;
 	int m_frameCount3;
 	int m_frameCountDead;
+	bool m_isDeadSound;//死んだ際にサウンドを再生する
 	//死んだらそのあとカウント
 	int m_deadCount;
 	//現在何階にいるか

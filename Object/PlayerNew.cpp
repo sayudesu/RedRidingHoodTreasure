@@ -96,6 +96,7 @@ PlayerNew::PlayerNew() :
 	m_frameCount2(0),
 	m_frameCount3(0),
 	m_frameCountDead(0),//死んだらそのあとカウント
+	m_isDeadSound(false),//死んだ際にサウンドを再生する
 	m_deadCount(0),
 	m_hierarchy(0),
 	m_tip(0),
@@ -153,8 +154,8 @@ PlayerNew::PlayerNew() :
 {
 	m_charaImagePos = 0;
 	m_func = &PlayerNew::UpdateMove;
-	m_pos.x = Game::kScreenWidth / 2;//kPosX;
-	m_pos.y = 0;//kPosY;
+	m_pos.x = kPosX;//Game::kScreenWidth / 2;
+	m_pos.y = kPosY;//0;
 
 	//画像位置をセット右下座標
 	m_charaImageRigth = 112;
@@ -387,10 +388,15 @@ void PlayerNew::OperationStandard()
 		m_isCharaDirection = true;     //プレイヤーの向きを変更
 		m_isStopMove = false;          //動いていたら非表示
 		m_CountRunSound++;             //サウンド再生までカウント
-		if (m_CountRunSound >= 25)     //13フレームに一度だけ足音を再生
+		//サウンド
+		if (m_CountRunSound >= 25)
 		{
-			PlaySoundMem(m_hRun, DX_PLAYTYPE_BACK);
-			m_CountRunSound = 0;
+			if (CheckSoundMem(m_hRun) == 0)//鳴っていなかったら
+			{
+					PlaySoundMem(m_hRun, DX_PLAYTYPE_BACK);//サウンドを再生
+					ChangeVolumeSoundMem(200, m_hRun);//音量調整
+					m_CountRunSound = 0;
+			}
 		}
 		m_pos.x += kMoveSpeed;//座標を移動
 	}
@@ -402,13 +408,17 @@ void PlayerNew::OperationStandard()
 		m_isCharaDirection = false;   //プレイヤーの向きを変更
 		m_isStopMove = false;         //動いていたら非表示
 		m_CountRunSound++;            //サウンド再生までカウント
-		if (m_CountRunSound >= 25)    //13フレームに一度だけ足音を再生
+		//サウンド
+		if (m_CountRunSound >= 25)
 		{
-			PlaySoundMem(m_hRun, DX_PLAYTYPE_BACK);
-			m_CountRunSound = 0;
+			if (CheckSoundMem(m_hRun) == 0)//鳴っていなかったら
+			{
+					PlaySoundMem(m_hRun, DX_PLAYTYPE_BACK);//サウンドを再生
+					ChangeVolumeSoundMem(200, m_hRun);//音量調整
+					m_CountRunSound = 0;
+			}
 		}
 
-		
 		m_pos.x -= kMoveSpeed;//座標を移動
 
 	}
@@ -548,6 +558,7 @@ void PlayerNew::UpdateMove()
 	//m_scoreTop    = m_playerBottom;
 	//m_scoreRight  = m_scoreLeft;
 	//m_scoreBottom = m_scoreTop;
+	
 
 }
 
@@ -562,12 +573,16 @@ void PlayerNew::UpdateDead()
 
 	m_frameCountDead++;
 
-	if (m_frameCountDead == 1)
+	if(!m_isDeadSound)
 	{
 		PlaySoundMem(m_hDead, DX_PLAYTYPE_BACK);//サウンドを再生
+		m_isDeadSound = true;
 	}
 	if (m_frameCountDead >= 20)//アニメーションを20フレームに1コマで再生
 	{
+		printfDx("X = %d\n", m_charaImageDeadPosX); 
+		printfDx("Y = %d\n", m_charaImageDeadPosY);
+		//m_charaImageDeadPosY = 1330;
 		m_charaImageDeadPosX += 112;//画像112ドットを右に動かす
 		m_frameCountDead = 0;//カウントをリセット
 	}
@@ -584,4 +599,12 @@ void PlayerNew::UpdateDead()
 	
 		m_deadCount = 0;//カウントリセット
 	}
+
+
+	//if (m_isDead)//死んでいる画面
+	//{
+	//	DrawRectRotaGraph(Game::kScreenWidth / 2, Game::kScreenHeight / 2 - 300,
+	//		m_charaImageLeft + m_charaImageDeadPosX, m_charaImageTop + m_charaImageDeadPosY, m_charaImageRigth, m_charaImageBottom,
+	//		20, m_playerRad, m_hPlayer, true, m_isCharaDirection);
+	//}
 }

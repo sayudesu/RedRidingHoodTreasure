@@ -102,6 +102,7 @@ private:
 	int m_hNeedle;//地面用
 	int m_hTiles;//画像チップ
 	int m_hCave;//洞窟画像
+	int m_hUpDown;//上下運動の罠画像
 	//炎の玉のサイズ
 	int m_posLeft;
 	int m_posTop;
@@ -152,6 +153,11 @@ private:
 	//樽（イノシシ）の画像位置
 	int m_barreImagePosX;
 	bool m_barreImageDirection;//画像の方向
+
+	//罠の画像位置
+	int m_upDownLeftImageX;
+	int m_upDownLeftImageY;
+	int m_upDownRad;//角度
 
 	int m_barrelSpeed;//樽の速度
 

@@ -11,6 +11,8 @@ EnemyStage1::EnemyStage1():
 	m_hNeedle(-1),//地面用
 	m_hTiles(-1),//画像チップ
 	m_hCave(-1),//洞窟画像用
+	m_hSoundSnail(-1),//カタツムリサウンド
+	m_hSoundBarre(-1),//樽サウンド
 	m_posLeft(0),
 	m_posTop(0),
 	m_posRight(0),
@@ -92,15 +94,6 @@ EnemyStage1::EnemyStage1():
 	//樽初期位置
 	m_barrelPos.x = Enemy1::kBossPosLeft;
 	m_barrelPos.y = Enemy1::kBossPosTop;
-	//どっすん
-	//m_fallenPos.x = Stage1::kBox2Xt;
-	//m_fallenPos.y = Stage1::kBoxBottom8Yf;
-	////どっすん2
-	//m_fallen2Pos.x = Stage1::kBox4Xt;
-	//m_fallen2Pos.y = Stage1::kBoxBottom8Yf;
-	//チャージする敵
-	//m_chargePos.x = Stage1::kBox1Xf;
-	//m_chargePos.y = Stage1::kBox1Yf - 50;
 
 	m_chargeSpeed = 10.0f;
 
@@ -112,6 +105,10 @@ EnemyStage1::EnemyStage1():
 
 	m_hNeedle = DerivationGraph(0, 160, 32 + 16, 32, m_hEnemyImage);//地面画像から一部を抽出
 	m_hCave = DerivationGraph(272, 208, 128,160, m_hTiles);//地面画像から一部を抽出
+
+	//サウンド読み込み
+	m_hSoundSnail = LoadSoundMem(Sound::kSnail);//かたつむりサウンド
+	m_hSoundBarre = LoadSoundMem(Sound::kBarreRun);//樽（いのしし）
 }
 
 EnemyStage1::~EnemyStage1()
@@ -120,6 +117,9 @@ EnemyStage1::~EnemyStage1()
 	DeleteGraph(m_hBarre);//イノシシ
 	DeleteGraph(m_hEnemyImage);//画像
 	DeleteGraph(m_hNeedle);//落ちてくる敵
+	//サウンドメモリ解放
+	DeleteSoundMem(m_hSoundSnail);
+	DeleteSoundMem(m_hSoundBarre);
 }
 
 void EnemyStage1::Init()
@@ -134,6 +134,7 @@ void EnemyStage1::Update()
 {
 	BarrelMove();//樽の動き
 	fireBallMove();//ファイアボールの動き
+	EnemySoud();//サウンド
 	npcPos();//敵のサイズ取得
 }
 //描画
@@ -156,13 +157,6 @@ void EnemyStage1::Draw()
 	//DrawBox(m_barrelLeft, m_barrelTop, m_barrelRight, m_barrelBottom, 0xffff00, false);//判定確認
 	//横288
 	//縦32
-
-#if false	
-	//どっすん範囲
-	DrawBox(m_fallenRangeLeft, m_fallenRangeTop, m_fallenRangeRight, m_fallenRangeBottom, 0xffff00, false);
-	//どっすん2範囲
-	DrawBox(m_fallenRange2Left, m_fallenRange2Top, m_fallenRange2Right, m_fallenRange2Bottom, 0xffff00, false);
-#endif
 }
 //樽の動き
 void EnemyStage1::BarrelMove()
@@ -278,6 +272,25 @@ void EnemyStage1::fireBallMove()
 	}
 }
 
+//敵の音
+void EnemyStage1::EnemySoud()
+{
+	//サウンド
+	if (CheckSoundMem(m_hSoundSnail) == 0)//鳴っていなかったら
+	{
+		PlaySoundMem(m_hSoundSnail, DX_PLAYTYPE_BACK);//サウンドを再生
+		ChangeVolumeSoundMem(100, m_hSoundSnail);//音量調整
+	}
+	if (m_vec.y <= 3.0f)
+	{
+		if (CheckSoundMem(m_hSoundBarre) == 0)//鳴っていなかったら
+		{
+			PlaySoundMem(m_hSoundBarre, DX_PLAYTYPE_BACK);//サウンドを再生
+			ChangeVolumeSoundMem(200, m_hSoundBarre);//音量調整
+		}
+	}
+}
+
 //敵のキャラ座標取得
 void EnemyStage1::npcPos()
 {
@@ -287,7 +300,6 @@ void EnemyStage1::npcPos()
 	m_posRight = m_posLeft + 40;
 	m_posBottom = m_posTop + 30;
 
-
 	if (m_isCourse)
 	{
 		m_barrelSizePulsX = 150;
@@ -296,37 +308,10 @@ void EnemyStage1::npcPos()
 	{
 		m_barrelSizePulsX = 0;
 	}
-
 	//樽
 	m_barrelLeft = m_barrelPos.x;
 	m_barrelTop = m_barrelPos.y + 5.0f;
 	m_barrelRight = m_barrelLeft + 50;
 	m_barrelBottom = m_barrelTop + 40;
 
-	//ドッスン
-	m_fallenLeft = m_fallenPos.x;
-	m_fallenTop = m_fallenPos.y;
-	m_fallenRight = m_fallenLeft  + 150;
-	m_fallenBottom = m_fallenTop  +10;
-	//ドッスン反応判定
-	m_fallenRangeLeft =1110;
-	m_fallenRangeTop = 550;
-	m_fallenRangeRight = m_fallenRangeLeft+ 250;
-	m_fallenRangeBottom = m_fallenRangeTop + 120;
-	//ドッスン2
-	m_fallen2Left = m_fallen2Pos.x;
-	m_fallen2Top = m_fallen2Pos.y;
-	m_fallen2Right = m_fallen2Left + 150;
-	m_fallen2Bottom = m_fallen2Top + 10;
-	//ドッスン2反応判定
-	m_fallenRange2Left = 1110 + 150 + 150;
-	m_fallenRange2Top = 550;
-	m_fallenRange2Right = m_fallenRange2Left + 250;
-	m_fallenRange2Bottom = m_fallenRange2Top + 120;
-
-	//チャージエネミー
-	m_chargeLeft = m_chargePos.x;
-	m_chargeTop = m_chargePos.y;
-	m_chargeRight = m_chargeLeft + 30;
-	m_chargeBottom = m_chargeTop + 30;
 }

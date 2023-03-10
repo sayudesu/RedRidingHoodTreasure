@@ -61,7 +61,7 @@ void SelectMenu::Update()
 	m_pCursor->Update();//カーソル表示
 	if (m_isMenu)//メニュー表示している場合
 	{
-
+		//上から下にメニューをスライド
 		if (m_backGround_Y <= 300) m_backGround_Y += SceneSelect::kSlideSpeed;
 		else
 		{
@@ -133,16 +133,7 @@ void SelectMenu::Update()
 		{
 			if (padState & PAD_INPUT_10)//メニューを閉じる
 			{
-				//初期化
-				m_isMenu = false;//メニュー画面を非表示
-				m_backGround_Y = 0;//背景のDrawBox位置縦座標
-				m_SringBox_Y   = 0;//文字枠範囲縦座標
-				m_SringBox2_Y  = 0;//文字枠範囲縦座標
-				m_SringBox3_Y  = 0;//文字枠範囲縦座標
-				m_Sring_Y      = 0;//文字縦座標
-				m_Sring2_Y     = 0;//文字縦座標
-				m_Sring3_Y     = 0;//文字縦座標
-				m_frameCount   = 0;
+				m_isMoveStop = true;//閉じるスライド開始
 			}
 		}
 	}
@@ -155,8 +146,35 @@ void SelectMenu::Update()
 			{
 				m_isMenu = true;
 				m_frameCount = 0;
+				//初期化メニュー表示位置
+				m_backGround_Y = 0;//背景のDrawBox位置縦座標
+				m_SringBox_Y = 0;//文字枠範囲縦座標
+				m_SringBox2_Y = 0;//文字枠範囲縦座標
+				m_SringBox3_Y = 0;//文字枠範囲縦座標
+				m_Sring_Y = 0;//文字縦座標
+				m_Sring2_Y = 0;//文字縦座標
+				m_Sring3_Y = 0;//文字縦座標
 			}
 		}
+	}
+
+	if (m_isMoveStop)//メニューを閉じる前に下にスライドさせる
+	{
+		if (m_backGround_Y <= Game::kScreenHeight) m_backGround_Y += SceneSelect::kSlideSpeed;
+		else
+		{
+			//初期化
+			m_isMenu = false;//メニュー画面を非表示
+			m_isMoveStop = false;//スライド完了
+			m_frameCount = 0;
+
+		}
+		if (m_SringBox_Y <= Game::kScreenHeight) m_SringBox_Y += SceneSelect::kSlideSpeed;
+		if (m_SringBox2_Y <= Game::kScreenHeight) m_SringBox2_Y += SceneSelect::kSlideSpeed;
+		if (m_SringBox3_Y <= Game::kScreenHeight) m_SringBox3_Y += SceneSelect::kSlideSpeed;
+		if (m_Sring_Y <= Game::kScreenHeight) m_Sring_Y += SceneSelect::kSlideSpeed;
+		if (m_Sring2_Y <= Game::kScreenHeight) m_Sring2_Y += SceneSelect::kSlideSpeed;
+		if (m_Sring3_Y <= Game::kScreenHeight) m_Sring3_Y += SceneSelect::kSlideSpeed;
 	}
 }
 

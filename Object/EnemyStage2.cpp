@@ -10,6 +10,7 @@ EnemyStage2::EnemyStage2() :
 	m_hNeedle(-1),//地面用
 	m_hTiles(-1),//画像チップ
 	m_hCave(-1),//洞窟画像用
+	m_hUpDown(-1),//上下運動の罠画像
 	m_posLeft(0),
 	m_posTop(0),
 	m_posRight(0),
@@ -45,6 +46,9 @@ EnemyStage2::EnemyStage2() :
 	m_upDownBottom(0),
 	m_fireBallImagePosX(0),//ファイアボール画像位置
 	m_fireBallImagePosY(0),
+	m_upDownLeftImageX(0),//罠の画像位置
+	m_upDownLeftImageY(0),
+	m_upDownRad(0),//罠角度
 	m_fireImageDirection(0),
 	m_barreImagePosX(0),//樽（イノシシ）画像位置
 	m_barreImageDirection(false),//樽（いのしし）画像の方向
@@ -116,6 +120,7 @@ EnemyStage2::EnemyStage2() :
 	m_hFireBall = LoadGraph(Image::kEnemySnail);//カタツムリ
 	m_hBarre = LoadGraph(Image::kEnemyBarre);//いのしし
 	m_hTiles = LoadGraph(Image::kMapTiles2);//画像チップ（洞窟用）
+	m_hUpDown = LoadGraph(Image::kEnemyFireBall);//罠
 
 	m_hEnemyImage = LoadGraph(Image::kEnemyFallen);//落ちてくる罠が入ってる画像
 
@@ -220,7 +225,12 @@ void EnemyStage2::Draw()
 
 	//罠
 	//上下運動する罠
-	DrawBox(m_upDownLeft, m_upDownTop, m_upDownRight, m_upDownBottom, 0xffffff, true);
+	DrawRectRotaGraph(
+		m_upDownLeft + 14, m_upDownTop + 15,
+		m_upDownLeftImageX, m_upDownLeftImageY, 100, 100,
+		1, m_upDownRad,
+		m_hUpDown, true, false);
+	DrawBox(m_upDownLeft, m_upDownTop, m_upDownRight, m_upDownBottom, 0xffffff, false);
 
 #if false	
 	//どっすん範囲
@@ -515,6 +525,7 @@ void EnemyStage2::ChargeMove()
 	m_chargePos += toPlayer * m_chargeSpeed;//プレイヤーの方向に直線で移動
 
 }
+
 void EnemyStage2::UpDownMove()
 {
 	if (!m_isUpDown)//上にいる場合
@@ -534,6 +545,24 @@ void EnemyStage2::UpDownMove()
 		}
 
 	}
+
+	if(m_upDownLeftImageX <= 400)m_upDownLeftImageX += 100;//Xが400になるまで繰り返す
+	else{
+
+		m_upDownLeftImageX = 0;//画像位置を右に戻す
+		if (m_upDownLeftImageY <= 400)m_upDownLeftImageY += 100;//Yが400になるまで繰り返す
+		else{
+			if(m_upDownRad <= DX_PI + DX_PI)m_upDownRad++;
+			else{
+				m_upDownRad = DX_PI;
+			}
+			m_upDownLeftImageY = 0;//一番上に戻す
+		}
+
+	}
+
+	printfDx("%d\n", m_upDownRad);
+
 }
 //敵のキャラ座標取得
 void EnemyStage2::npcPos()

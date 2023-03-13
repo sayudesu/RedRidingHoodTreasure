@@ -5,6 +5,7 @@ class DrawMapStage1;
 class PlayerNew;
 class Collision;
 class SelectMenu;
+class Fireworks;
 
 class SlideSelect;
 
@@ -55,8 +56,10 @@ private:
 	PlayerNew* m_pPlayer;
 	Collision* m_pCollision;
 	SelectMenu* m_pMenu;
-
 	SlideSelect* m_pSlidSelect;
+	Fireworks* m_pFireworks;
+
+
 };
 
 

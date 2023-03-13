@@ -154,8 +154,8 @@ PlayerNew::PlayerNew() :
 {
 	m_charaImagePos = 0;
 	m_func = &PlayerNew::UpdateMove;
-	m_pos.x = kPosX;//Game::kScreenWidth / 2;
-	m_pos.y = kPosY;//0;
+	m_pos.x = Game::kScreenWidth / 2; //kPosX;
+	m_pos.y = 0; //kPosY;
 
 	//画像位置をセット右下座標
 	m_charaImageRigth = 112;

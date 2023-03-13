@@ -7,6 +7,7 @@
 #include "PlayerNew.h"
 #include "Collision.h"
 #include "SelectMenu.h"
+#include "Fireworks.h"
 
 #include "SlideSelect.h"
 #include "game.h"
@@ -31,8 +32,8 @@ SceneMain2::SceneMain2() :
 	m_pPlayer(nullptr),
 	m_pCollision(nullptr),
 	m_pMenu(nullptr),
-
-	m_pSlidSelect(nullptr)
+	m_pSlidSelect(nullptr),
+	m_pFireworks(nullptr)
 {
 
 	m_pStage     = new DrawMapStage1;
@@ -40,6 +41,7 @@ SceneMain2::SceneMain2() :
 	m_pCollision = new Collision;
 	m_pMenu      = new SelectMenu;
 	m_pSlidSelect = new SlideSelect;
+	m_pFireworks = new Fireworks;
 }
 
 SceneMain2::~SceneMain2()
@@ -48,8 +50,8 @@ SceneMain2::~SceneMain2()
 	delete m_pPlayer;
 	delete m_pCollision;
 	delete m_pMenu;
-
 	delete m_pSlidSelect;
+	delete m_pFireworks;
 
 }
 
@@ -57,6 +59,7 @@ void SceneMain2::Init()
 {
 	m_pCollision->Init();
 	m_pStage->Init();
+	m_pFireworks->Init();
 
 	m_hMusicBgm = LoadSoundMem(Sound::kBgmStage);
 	
@@ -78,6 +81,7 @@ void SceneMain2::End()
 {
 	m_pPlayer->End();
 	m_pStage->End();
+	m_pFireworks->End();
 
 	//プレイヤー画像
 	DeleteGraph(m_hPlayer);
@@ -221,13 +225,18 @@ void SceneMain2::Draw()
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 	*/
+
+
 }
 
 //クリアした時の選択画面表示
 void SceneMain2::GameClear()
 {
 	m_pSlidSelect->Slider();//選択画面の処理
+	m_pFireworks->Update();
+
 	m_pSlidSelect->Draw();//描画処理
+	m_pFireworks->Draw();
 }
 
 void SceneMain2::FadeIn()

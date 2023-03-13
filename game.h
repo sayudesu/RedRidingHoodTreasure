@@ -7,15 +7,11 @@ namespace Game
 //#ifdef _DEBUG	
 	// ウインドウモード設定
 	constexpr bool kWindowMode = true;
-	/*
-#else
-	constexpr bool kWindowMode = false;
-#endif
-*/
+
 	// マウスカーソル表示
 	constexpr bool kMouseMode = true;
 	// ウインドウ名
-	const char* const kTitleText = "ゲーム（制作中）";
+	const char* const kTitleText = "ここぜったに変える！まってて";
 	//フォント名
 	const char* const kFontName = "Eras Demi ITC";
 	//const char* const kFontName = "Data/Font/GAGAGAGA FREE";

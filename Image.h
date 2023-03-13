@@ -13,6 +13,19 @@ namespace Image
 
 	//Œõ
 	const char* const kPlayerLighting = "Data/UI/lighting2.png";
+	//‰Ô‰Î
+	const char* const RocketBlue     = "Data/FireWorks/Rocket_Blue.png";
+	const char* const RocketOrange   = "Data/FireWorks/RocketOrange.png";
+	const char* const LongOrange     = "Data/FireWorks/Long_Orange.png";
+	const char* const LongGreen      = "Data/FireWorks/Long_Green.png";
+	const char* const LongBlue       = "Data/FireWorks/Long_Blue.png";
+	const char* const DefaultOrange  = "Data/FireWorks/Default_Orange.png";
+	const char* const DefaultGreen   = "Data/FireWorks/Default_Green.png";
+	const char* const DefaultBlue    = "Data/FireWorks/Default_Blue.png";
+	const char* const CrystalsOrange = "Data/FireWorks/Crystals_Orange.png";
+	const char* const CrystalsGreen  = "Data/FireWorks/Crystals_Green.png";
+	const char* const CrystalsBlue   = "Data/FireWorks/Crystals_Blue.png";
+
 
 	//‘Ì—Í
 	const char* const kPlayerHealthBer = "Data/UI/HP2.png";

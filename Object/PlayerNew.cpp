@@ -154,8 +154,8 @@ PlayerNew::PlayerNew() :
 {
 	m_charaImagePos = 0;
 	m_func = &PlayerNew::UpdateMove;
-	m_pos.x = Game::kScreenWidth / 2; //kPosX;
-	m_pos.y = 0; //kPosY;
+	m_pos.x =kPosX; //Game::kScreenWidth / 2; 
+	m_pos.y = kPosY; //0;
 
 	//画像位置をセット右下座標
 	m_charaImageRigth = 112;
@@ -248,8 +248,6 @@ void PlayerNew::Update()
 void PlayerNew::Draw()
 {
 
-	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xffffff, false);
-
 	if (m_isRunMove || m_isJumpMove)//動いていいる場合の画像
 	{
 		DrawRectRotaGraph(m_playerLeft + 15, m_playerTop - 5,
@@ -269,10 +267,10 @@ void PlayerNew::Draw()
 		//縦80
 	}
 
-	if (m_isAttack)//攻撃した場合の画像（未実装）
-	{
-		DrawBox(m_attackPlayerLeft, m_attackPlayerTop, m_attackPlayerRight, m_attackPlayerBottom, 0xffffff, true);
-	}
+	//if (m_isAttack)//攻撃した場合の画像（未実装）
+	//{
+	//	DrawBox(m_attackPlayerLeft, m_attackPlayerTop, m_attackPlayerRight, m_attackPlayerBottom, 0xffffff, true);
+	//}
 
 	m_isAttack = false;//攻撃していない
 
@@ -283,7 +281,11 @@ void PlayerNew::Draw()
 			20, m_playerRad, m_hPlayer, true, m_isCharaDirection);
 	}
 
+#if false	
+	
+	DrawBox(m_playerLeft, m_playerTop, m_playerRight, m_playerBottom, 0xffffff, false);
 
+#endif
 }
 //アニメーションを再生
 void PlayerNew::Animation()
@@ -580,8 +582,8 @@ void PlayerNew::UpdateDead()
 	}
 	if (m_frameCountDead >= 20)//アニメーションを20フレームに1コマで再生
 	{
-		printfDx("X = %d\n", m_charaImageDeadPosX); 
-		printfDx("Y = %d\n", m_charaImageDeadPosY);
+		//printfDx("X = %d\n", m_charaImageDeadPosX); 
+		//printfDx("Y = %d\n", m_charaImageDeadPosY);
 		//m_charaImageDeadPosY = 1330;
 		m_charaImageDeadPosX += 112;//画像112ドットを右に動かす
 		m_frameCountDead = 0;//カウントをリセット

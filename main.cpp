@@ -66,10 +66,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//•\¦ˆ—
 		scene.Draw();
 
+#if false
 		auto fps = GetFPS();// Frame Per Second
 		auto drawcall = GetDrawCallCount();// •`‰æ–½—ß”
 		DrawFormatString(200, 200, 0xffffff, "FPS=%2.2f", fps);
 		DrawFormatString(200, 230, 0xffffff, "DC=%d", drawcall);
+#endif
 
 		//— ‰æ–Ê‚ğ•\‰æ–Ê‚ğ“ü‚ê‘Ö‚¦‚é
 		ScreenFlip();

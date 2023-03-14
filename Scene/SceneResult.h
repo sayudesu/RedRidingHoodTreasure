@@ -4,6 +4,7 @@
 
 class TitleCursorGame;//カーソルクラス
 class GameSceneCollision;//カーソル判定
+class Fireworks;//花火
 
 class SceneResult : public SceneBase
 {
@@ -19,11 +20,13 @@ public:
 	virtual void Draw();
 private:
 	int m_hSoundSelect;//選択時のサウンド
+	int m_hSoundSelect1;//選択時のサウンド
 	int m_hSoundSelect2;
 
 	int m_hMusicBgm;//BGM用ハンドル
 
 	int m_soundCount;//サウンド発生までのカウント
+	int m_soundCount1;//サウンド発生までのカウント
 	int m_soundCount2;
 
 
@@ -33,5 +36,6 @@ private:
 
 	TitleCursorGame* m_pCursor;
 	GameSceneCollision* m_pCursorCollision;
+	Fireworks* m_pFireworks;
 };
 

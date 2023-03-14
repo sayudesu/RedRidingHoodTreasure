@@ -8,8 +8,10 @@
 #include "SceneMain.h"
 #include "SceneMain2.h"
 #include "SceneMain3.h"
+#include "SceneMain4.h"
 #include "TitleCursorGame.h"
 #include "GameSceneCollision.h"
+#include "Fireworks.h"
 
 namespace
 {
@@ -18,24 +20,29 @@ namespace
 
 SceneResult::SceneResult():
 	m_hSoundSelect(-1),//選択時のサウンド
+	m_hSoundSelect1(-1),//選択時のサウンド
 	m_hSoundSelect2(-1),//選択時のサウンド
 	m_hMusicBgm(-1),//BGM用ハンドル
 	m_soundCount(0),//サウンド発生までのカウント
+	m_soundCount1(0),//サウンド発生までのカウント
 	m_soundCount2(0),
 	m_color1(0),//選択画面の色
 	m_color2(0),
 	m_color3(0),
 	m_pCursor(nullptr),
-	m_pCursorCollision(nullptr)
+	m_pCursorCollision(nullptr),
+	m_pFireworks(nullptr)
 {
 	m_pCursor = new TitleCursorGame;
 	m_pCursorCollision = new GameSceneCollision;
+	m_pFireworks = new Fireworks;
 }
 
 SceneResult::~SceneResult()
 {
 	delete m_pCursor;
 	delete m_pCursorCollision;
+	delete m_pFireworks;
 
 	//サウンド削除
 	DeleteSoundMem(m_hSoundSelect);
@@ -63,10 +70,25 @@ SceneBase* SceneResult::Update()
 	Pad::update();
 	m_pCursor->Update();
 	m_pCursorCollision->Update();
+	m_pFireworks->Update();//花火更新処理
 
 	//カーソルが当たっていない場合の文字背景の色
+	m_color1 = Color::kWhite;
 	m_color2 = Color::kWhite;
 	m_color3 = Color::kWhite;
+	if (m_pCursorCollision->CollsionDemo())//カーソルと選択範囲に当たっていたら
+	{
+		m_soundCount1++;
+		m_color1 = Color::kRed;//カーソルが当たっている場合の文字背景の色
+		if (m_soundCount1 == 1)
+		{
+			PlaySoundMem(m_hSoundSelect2, PAD_INPUT_10);//押している音を再生
+		}
+		if (padState & PAD_INPUT_2)//Xボタン
+		{
+			return(new SceneMain4);//同じステージを繰り返す
+		}
+	}
 
 	if (m_pCursorCollision->CollsionStage1())//カーソルと選択範囲に当たっていたら
 	{
@@ -120,21 +142,25 @@ SceneBase* SceneResult::Update()
 
 void SceneResult::Draw()
 {
-
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+	DrawBox(100, 100, Game::kScreenWidth- 100, Game::kScreenHeight- 100, 0xf0e68c, true);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
 	DrawBox(500, 300, Game::kScreenWidth - 500, Game::kScreenHeight - 300, 0x00ffff, true);//中
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	DrawBox(500, 300, Game::kScreenWidth - 500, Game::kScreenHeight - 300, 0xffffff, false);//枠組み
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);//色を薄くする
-	//DrawBox(SceneSelect::kSelectLeft, SceneSelect::kSelectTop, SceneSelect::kSelectRight, SceneSelect::kSelectBottom, m_color1, true);
+	DrawBox(SceneSelect::kSelectLeft, SceneSelect::kSelectTop, SceneSelect::kSelectRight, SceneSelect::kSelectBottom, m_color1, true);
 	DrawBox(SceneSelect::kSelectLeft2, SceneSelect::kSelectTop2, SceneSelect::kSelectRight2, SceneSelect::kSelectBottom2, m_color2, true);
 	DrawBox(SceneSelect::kSelectLeft3, SceneSelect::kSelectTop3, SceneSelect::kSelectRight3, SceneSelect::kSelectBottom3, m_color3, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);//色を戻す
 
-	DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop + 5, "GameClear", Color::kYellow);
+	DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop - 70, "GameClear", Color::kYellow);
+	DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop + 5, "NextStage", Color::kYellow);
 	DrawString(SceneSelect::kSelectLeft2 + 100, SceneSelect::kSelectTop2 + 5, "Retry", Color::kBlue);
 	DrawString(SceneSelect::kSelectLeft3 + 75, SceneSelect::kSelectTop3 + 5, "Back to Title", Color::kBlue);
+
+	m_pFireworks->Draw();//花火更新処理
 
 	m_pCursor->Draw();
 }

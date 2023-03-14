@@ -1,9 +1,9 @@
-#include "EnemyStage2.h"
+#include "EnemyStage3.h"
 #include "game.h"
 #include "Image.h"
 #include <DxLib.h>
 
-EnemyStage2::EnemyStage2() :
+EnemyStage3::EnemyStage3() :
 	m_hFireBall(-1),//画像ハンドル
 	m_hBarre(-1),
 	m_hEnemyImage(-1),
@@ -28,6 +28,14 @@ EnemyStage2::EnemyStage2() :
 	m_fallen2Top(0),
 	m_fallen2Right(0),
 	m_fallen2Bottom(0),
+	m_fallen3Left(0),
+	m_fallen3Top(0),
+	m_fallen3Right(0),
+	m_fallen3Bottom(0),
+	m_fallen4Left(0),
+	m_fallen4Top(0),
+	m_fallen4Right(0),
+	m_fallen4Bottom(0),
 	m_fallenRangeLeft(0),
 	m_fallenRangeTop(0),
 	m_fallenRangeRight(0),
@@ -36,6 +44,14 @@ EnemyStage2::EnemyStage2() :
 	m_fallenRange2Top(0),
 	m_fallenRange2Right(0),
 	m_fallenRange2Bottom(0),
+	m_fallenRange3Left(0),
+	m_fallenRange3Top(0),
+	m_fallenRange3Right(0),
+	m_fallenRange3Bottom(0),
+	m_fallenRange4Left(0),
+	m_fallenRange4Top(0),
+	m_fallenRange4Right(0),
+	m_fallenRange4Bottom(0),
 	m_chargeLeft(0),
 	m_chargeTop(0),
 	m_chargeRight(0),
@@ -44,10 +60,22 @@ EnemyStage2::EnemyStage2() :
 	m_upDownTop(0),
 	m_upDownRight(0),
 	m_upDownBottom(0),
+	m_upDown2Left(0),//上下運動する罠
+	m_upDown2Top(0),
+	m_upDown2Right(0),
+	m_upDown2Bottom(0),
+	m_upDown3Left(0),//上下運動する罠
+	m_upDown3Top(0),
+	m_upDown3Right(0),
+	m_upDown3Bottom(0),
 	m_fireBallImagePosX(0),//ファイアボール画像位置
 	m_fireBallImagePosY(0),
 	m_upDownLeftImageX(0),//罠の画像位置
 	m_upDownLeftImageY(0),
+	m_upDownLeft2ImageX(0),//罠の画像位置
+	m_upDownLeft2ImageY(0),
+	m_upDownLeft3ImageX(0),//罠の画像位置
+	m_upDownLeft3ImageY(0),
 	m_upDownRad(0),//罠角度
 	m_fireImageDirection(0),
 	m_barreImagePosX(0),//樽（イノシシ）画像位置
@@ -57,14 +85,20 @@ EnemyStage2::EnemyStage2() :
 	m_fallFireBall(0),
 	m_fallenRange(0),
 	m_fallenRange2(0),
+	m_fallenRange3(0),
+	m_fallenRange4(0),
 	m_fallenCount(0),
 	m_fallenCount2(0),
+	m_fallenCount3(0),
+	m_fallenCount4(0),
 	m_frameCountBarreImage(0),//樽（いのしし）の画像描画用フレームカウント
 	m_frameCountFireImage(0),
 	m_ladderNum(0),
 	m_rushCount(0),
 	m_fallenUpSpeed(0.0f),
 	m_fallenUpSpeed2(0.0f),
+	m_fallenUpSpeed3(0.0f),
+	m_fallenUpSpeed4(0.0f),
 	m_getPos(0.0f),
 	m_fireRad(0),//ファイアボール角度
 	m_chargeSpeed(0.0f),
@@ -77,17 +111,29 @@ EnemyStage2::EnemyStage2() :
 	m_isCanFallen(false),
 	m_isFallenDrop2(false),
 	m_isCanFallen2(false),
+	m_isFallenDrop3(false),
+	m_isCanFallen3(false),
+	m_isFallenDrop4(false),
+	m_isCanFallen4(false),
 	m_isFallenUp(false),
 	m_isFallenUp2(false),
+	m_isFallenUp3(false),
+	m_isFallenUp4(false),
 	m_isUpDown(false),//上下どちらにいるか
+	m_isUpDown2(false),//上下どちらにいるか
+	m_isUpDown3(false),//上下どちらにいるか
 	m_isRush(false),
 	m_isRushBlink(false),
 	m_pos(0.0f, 0.0f),
 	m_barrelPos(0.0f, 0.0f),//樽
 	m_fallenPos(0.0f, 0.0f),//ドッスン的な奴
 	m_fallen2Pos(0.0f, 0.0f),//ドッスン的な奴
+	m_fallen3Pos(0.0f, 0.0f),//ドッスン的な奴
+	m_fallen4Pos(0.0f, 0.0f),//ドッスン的な奴
 	m_chargePos(0.0f, 0.0f),//チャージする敵
 	m_upDownPos(0.0f, 0.0f),//上下運動する罠
+	m_upDown2Pos(0.0f, 0.0f),//上下運動する罠
+	m_upDown3Pos(0.0f, 0.0f),//上下運動する罠
 	m_vec(0.0f, 0.0f),
 	m_playerPos(0.0f, 0.0f),
 	m_playerSavePos(0.0f, 0.0f)
@@ -95,6 +141,9 @@ EnemyStage2::EnemyStage2() :
 	m_isFirstMove = true;//初動動作
 	m_isCanFallen = true;
 	m_isCanFallen2 = true;
+	m_isCanFallen3 = true;
+	m_isCanFallen4 = true;
+
 	//ファイアボール初期位置
 	m_pos.x = Game::kScreenWidth - 400;
 	m_pos.y = Game::kScreenHeight - 150;
@@ -107,6 +156,12 @@ EnemyStage2::EnemyStage2() :
 	//どっすん2
 	m_fallen2Pos.x = Stage2::kBox4Xt;
 	m_fallen2Pos.y = Stage2::kBoxBottom8Yf;
+	//どっすん3
+	m_fallen3Pos.x = Stage2::kBoxBottom5Xf;
+	m_fallen3Pos.y = Stage2::kBoxBottom8Yf - Stage2::kBoxHeight / 2;
+	//どっすん4
+	m_fallen4Pos.x = Stage2::kBoxBottom3Xf;
+	m_fallen4Pos.y = Stage2::kBoxBottom8Yf - Stage2::kBoxHeight;
 	//チャージする敵
 	m_chargePos.x = Stage2::kBox1Xf;
 	m_chargePos.y = Stage2::kBox1Yf - 50;
@@ -114,8 +169,14 @@ EnemyStage2::EnemyStage2() :
 	m_chargeSpeed = 10.0f;
 
 
-	m_upDownPos.x = 1000.0f;
+	m_upDownPos.x = 1000.0f + 50;
 	m_upDownPos.y = Stage2::kBoxBottom4Yf + 15;
+
+	m_upDown2Pos.x = 1000.0f - 250;
+	m_upDown2Pos.y = Stage2::kBoxBottom4Yf + 15;
+
+	m_upDown3Pos.x = 1000.0f - 550;
+	m_upDown3Pos.y = Stage2::kBoxBottom4Yf + 15;
 
 	m_hFireBall = LoadGraph(Image::kEnemySnail);//カタツムリ
 	m_hBarre = LoadGraph(Image::kEnemyBarre);//いのしし
@@ -128,7 +189,7 @@ EnemyStage2::EnemyStage2() :
 	m_hCave = DerivationGraph(272, 208, 128, 160, m_hTiles);//地面画像から一部を抽出
 }
 
-EnemyStage2::~EnemyStage2()
+EnemyStage3::~EnemyStage3()
 {
 	DeleteGraph(m_hFireBall);//かたつむり
 	DeleteGraph(m_hBarre);//イノシシ
@@ -136,15 +197,15 @@ EnemyStage2::~EnemyStage2()
 	DeleteGraph(m_hNeedle);//落ちてくる敵
 }
 
-void EnemyStage2::Init()
+void EnemyStage3::Init()
 {
 }
 
-void EnemyStage2::End()
+void EnemyStage3::End()
 {
 }
 
-void EnemyStage2::Update()
+void EnemyStage3::Update()
 {
 	BarrelMove();//樽の動き
 	fireBallMove();//ファイアボールの動き
@@ -154,12 +215,11 @@ void EnemyStage2::Update()
 	npcPos();//敵のサイズ取得
 }
 //描画
-void EnemyStage2::Draw()
+void EnemyStage3::Draw()
 {
 	//ボス(洞窟に変更敵のスポーン位置)
 	DrawExtendGraph(Enemy2::kBossPosLeft, Enemy2::kBossPosTop, Enemy2::kBossPosRight, Enemy2::kBossPosBottom,
 		m_hCave, true);
-
 
 	//エネミー炎の玉
 	DrawRectRotaGraph(m_posLeft + 20, m_posTop + 15,
@@ -210,6 +270,44 @@ void EnemyStage2::Draw()
 		m_hNeedle, true, false
 	);
 
+	DrawRectRotaGraph(
+		m_fallen3Left + 30, m_fallen3Top + 15,
+		0, 0, 32 + 16, 32,
+		1, DX_PI,
+		m_hNeedle, true, false
+	);
+	DrawRectRotaGraph(
+		m_fallen3Left + 30 + 45, m_fallen3Top + 15,
+		0, 0, 32 + 16, 32,
+		1, DX_PI,
+		m_hNeedle, true, false
+	);
+	DrawRectRotaGraph(
+		m_fallen3Left + 30 + 45 + 45, m_fallen3Top + 15,
+		0, 0, 32 + 16, 32,
+		1, DX_PI,
+		m_hNeedle, true, false
+	);
+
+	DrawRectRotaGraph(
+		m_fallen4Left + 30, m_fallen4Top + 15,
+		0, 0, 32 + 16, 32,
+		1, DX_PI,
+		m_hNeedle, true, false
+	);
+	DrawRectRotaGraph(
+		m_fallen4Left + 30 + 45, m_fallen4Top + 15,
+		0, 0, 32 + 16, 32,
+		1, DX_PI,
+		m_hNeedle, true, false
+	);
+	DrawRectRotaGraph(
+		m_fallen4Left + 30 + 45 + 45, m_fallen4Top + 15,
+		0, 0, 32 + 16, 32,
+		1, DX_PI,
+		m_hNeedle, true, false
+	);
+
 	//チャージエネミー
 	if (!m_isRushBlink)//止まってる間は見えない
 	{
@@ -223,8 +321,20 @@ void EnemyStage2::Draw()
 		m_upDownLeftImageX, m_upDownLeftImageY, 100, 100,
 		1, m_upDownRad,
 		m_hUpDown, true, false);
+	//上下運動する罠
+	DrawRectRotaGraph(
+		m_upDown2Left + 14, m_upDown2Top + 15,
+		m_upDownLeft2ImageX, m_upDownLeft2ImageY, 100, 100,
+		1, m_upDownRad,
+		m_hUpDown, true, false);
+	//上下運動する罠
+	DrawRectRotaGraph(
+		m_upDown3Left + 14, m_upDown3Top + 15,
+		m_upDownLeft3ImageX, m_upDownLeft3ImageY, 100, 100,
+		1, m_upDownRad,
+		m_hUpDown, true, false);
 
-#if false	
+#if false			
 	DrawBox(Enemy2::kBossPosLeft, Enemy2::kBossPosTop,
 		Enemy2::kBossPosRight, Enemy2::kBossPosBottom, 0xffff00, false);
 	DrawBox(m_posLeft, m_posTop, m_posRight, m_posBottom, 0xff0000, false);//判定確認
@@ -233,19 +343,29 @@ void EnemyStage2::Draw()
 	DrawBox(m_fallenLeft, m_fallenTop, m_fallenRight, m_fallenBottom, 0xffff00, false);
 	//どっすん2
 	DrawBox(m_fallen2Left, m_fallen2Top, m_fallen2Right, m_fallen2Bottom, 0xffff00, false);
+	//どっすん3
+	DrawBox(m_fallen3Left, m_fallen3Top, m_fallen3Right, m_fallen3Bottom, 0x00ff00, false);
+	//どっすん4
+	DrawBox(m_fallen4Left, m_fallen4Top, m_fallen4Right, m_fallen4Bottom, 0xffff00, false);
+	DrawBox(m_upDownLeft, m_upDownTop, m_upDownRight, m_upDownBottom, 0xffffff, false);
+	DrawBox(m_upDown2Left, m_upDown2Top, m_upDown2Right, m_upDown2Bottom, 0xffffff, false);
+	DrawBox(m_upDown3Left, m_upDown3Top, m_upDown3Right, m_upDown3Bottom, 0xffffff, false);
 	//どっすん範囲
 	DrawBox(m_fallenRangeLeft, m_fallenRangeTop, m_fallenRangeRight, m_fallenRangeBottom, 0xffff00, false);
 	//どっすん2範囲
 	DrawBox(m_fallenRange2Left, m_fallenRange2Top, m_fallenRange2Right, m_fallenRange2Bottom, 0xffff00, false);
-	DrawBox(m_upDownLeft, m_upDownTop, m_upDownRight, m_upDownBottom, 0xffffff, false);
+	//どっすん3範囲
+	DrawBox(m_fallenRange3Left, m_fallenRange3Top, m_fallenRange3Right, m_fallenRange3Bottom, 0x00ff00, false);
+	//どっすん4範囲
+	DrawBox(m_fallenRange4Left, m_fallenRange4Top, m_fallenRange4Right, m_fallenRange4Bottom, 0x00ff00, false);
 #endif
 }
 //樽の動き
-void EnemyStage2::BarrelMove()
+void EnemyStage3::BarrelMove()
 {
 	m_barrelPos.y += m_vec.y;//重力のベクトル用
 
-	m_vec.y += 3.0f;//重力
+	m_vec.y += 5.0f;//重力
 
 	m_frameCountBarreImage++;
 	if (m_frameCountBarreImage == 3)//３フレームに一回画像を変更
@@ -327,7 +447,7 @@ void EnemyStage2::BarrelMove()
 
 }
 //炎球の動き
-void EnemyStage2::fireBallMove()
+void EnemyStage3::fireBallMove()
 {
 	m_pos.y += 3.0f;//重力
 
@@ -370,7 +490,7 @@ void EnemyStage2::fireBallMove()
 	}
 }
 //どっすん動き
-void EnemyStage2::falleMove()
+void EnemyStage3::falleMove()
 {
 	//一体目
 	if (m_isCanFallen)//初期の位置にいるかどうか
@@ -466,51 +586,105 @@ void EnemyStage2::falleMove()
 		}
 	}
 
+	//三体目
+	if (m_isCanFallen3)//初期の位置にいるかどうか
+	{
+		if (m_fallenRange == 3)//範囲内だったら
+		{
+			m_isFallenDrop3 = true;
+			m_isCanFallen3 = false;
+		}
 
-	////二体目
-	//if (m_isCanFallen2)//初期の位置にいるかどうか
-	//{
-	//	if (m_fallenRange == 2)//範囲内だったら
-	//	{
-	//		m_isFallenDrop2 = true;
-	//		m_isCanFallen2 = false;
-	//	}
-	//}
+	}
 
-	//if (m_isFallenDrop2)//落ちもの揺れる
-	//{
-	//	m_fallenCount2++;//震える時間
-	//	//揺れる
-	//	m_fallen2Pos.x = Stage2::kBox4Xt + GetRand(10);
-	//	m_fallen2Pos.y = Stage2::kBoxBottom8Yf + GetRand(10);
+	if (m_isFallenDrop3)//落ちもの揺れる
+	{
+		m_fallenCount3++;//震える時間
+		//揺れる
 
-	//	if (m_fallenCount2 >= 30)//3秒後
-	//	{
-	//		//ポジションをリセット
-	//		m_fallen2Pos.x = Stage2::kBox4Xt;
-	//		m_fallen2Pos.y = Stage2::kBoxBottom8Yf;
-	//	}
-	//}
+		m_fallen3Pos.x = Stage2::kBoxBottom5Xf + GetRand(10);
+		m_fallen3Pos.y = Stage2::kBoxBottom8Yf - Stage2::kBoxHeight / 2 + GetRand(10);
+	}
 
-	//if (m_fallenCount2 >= 45)
-	//{
-	//	m_isFallenDrop2 = false;
-	//	//落下開始
-	//	m_fallen2Pos.y += 10;//落下スピード
-	//	if (m_fallen2Pos.y >= Stage2::kBox4Yt)//落ちる場所制限
-	//	{
-	//		m_fallenCount2 = 0;//カウントリセット
+	if (m_fallenCount3 >= 45)//落ちるカウント
+	{
+		m_isFallenDrop3 = false;
+		//落下開始
+		m_fallenUpSpeed3 = 10.0f;//今だけ後で書き換える
+		m_fallen3Pos.y += m_fallenUpSpeed3;//落下スピード
 
-	//		//初期ポジションに戻す
-	//		m_fallen2Pos.x = Stage2::kBox4Xt;
-	//		m_fallen2Pos.y = Stage2::kBoxBottom8Yf;
-	//		m_isCanFallen2 = true;
+		if (m_fallen3Pos.y >= Stage2::kBox4Yt)//落ちる場所制限
+		{
+			m_isFallenUp3 = true;//上に戻す処理
+		}
+	}
 
-	//	}
-	//}
+	if (m_isFallenUp3)//天井
+	{
+		m_fallenUpSpeed3 = 15.0f;//今だけ後で書き換える
+		m_fallen3Pos.y -= m_fallenUpSpeed3;
+
+		if (m_fallen3Pos.y <= Stage2::kBoxBottom8Yf)
+		{
+			m_fallenCount3 = 0;//カウントリセット
+			m_isFallenUp3 = false;
+			m_isCanFallen3 = true;//再度落ちるための処理
+
+			m_fallen3Pos.x = Stage2::kBoxBottom5Xf;
+			m_fallen3Pos.y = Stage2::kBoxBottom8Yf - Stage2::kBoxHeight / 2;
+		}
+	}
+
+	//四体目
+	if (m_isCanFallen4)//初期の位置にいるかどうか
+	{
+		if (m_fallenRange == 4)//範囲内だったら
+		{
+			m_isFallenDrop4 = true;
+			m_isCanFallen4 = false;
+		}
+
+	}
+
+	if (m_isFallenDrop4)//落ちもの揺れる
+	{
+		m_fallenCount4++;//震える時間
+		//揺れる
+		m_fallen4Pos.x = Stage2::kBoxBottom3Xf + GetRand(10);
+		m_fallen4Pos.y = Stage2::kBoxBottom8Yf - Stage2::kBoxHeight + GetRand(10);
+	}
+
+	if (m_fallenCount4 >= 45)
+	{
+		m_isFallenDrop4 = false;
+		//落下開始
+		m_fallenUpSpeed4 = 10.0f;//今だけ後で書き換える
+		m_fallen4Pos.y += m_fallenUpSpeed4;//落下スピード
+		if (m_fallen4Pos.y >= Stage2::kBox4Yt)//落ちる場所制限
+		{
+			m_isFallenUp4 = true;//上に戻す処理
+		}
+	}
+
+	if (m_isFallenUp4)//天井
+	{
+		m_fallenUpSpeed4 = 15.0f;//今だけ後で書き換える
+		m_fallen4Pos.y -= m_fallenUpSpeed4;
+
+		if (m_fallen4Pos.y <= Stage2::kBoxBottom8Yf)
+		{
+			m_fallenCount4 = 0;//カウントリセット
+			m_isFallenUp4 = false;
+			m_isCanFallen4 = true;//再度落ちるための処理
+
+			m_fallen4Pos.x = Stage2::kBoxBottom3Xf;
+			m_fallen4Pos.y = Stage2::kBoxBottom8Yf - Stage2::kBoxHeight;
+		}
+	}
+
 }
 //敵に突進する
-void EnemyStage2::ChargeMove()
+void EnemyStage3::ChargeMove()
 {
 	//プレイヤーに突進する
 	Vec2 toPlayer{ 0.0f,0.0f };
@@ -527,7 +701,7 @@ void EnemyStage2::ChargeMove()
 
 }
 
-void EnemyStage2::UpDownMove()
+void EnemyStage3::UpDownMove()
 {
 	if (!m_isUpDown)//上にいる場合
 	{
@@ -562,9 +736,77 @@ void EnemyStage2::UpDownMove()
 
 	}
 
+	if (!m_isUpDown2)//上にいる場合
+	{
+		m_upDown2Pos.y += 3;
+		if (m_upDown2Pos.y == Stage2::kBox4Yt - 15)//下に到達した場合
+		{
+			m_isUpDown2 = true;
+		}
+	}
+	else
+	{
+		m_upDown2Pos.y -= 3;
+		if (m_upDown2Pos.y == Stage2::kBoxBottom4Yf + 15 - 15)//下に到達した場合
+		{
+			m_isUpDown2 = false;
+		}
+
+	}
+
+	if (m_upDownLeft2ImageX <= 400)m_upDownLeft2ImageX += 100;//Xが400になるまで繰り返す
+	else {
+
+		m_upDownLeft2ImageX = 0;//画像位置を右に戻す
+		if (m_upDownLeft2ImageY <= 400)m_upDownLeft2ImageY += 100;//Yが400になるまで繰り返す
+		else {
+			if (m_upDownRad <= DX_PI + DX_PI)m_upDownRad++;
+			else {
+				m_upDownRad = DX_PI;
+			}
+			m_upDownLeft2ImageY = 0;//一番上に戻す
+		}
+
+	}
+
+	if (!m_isUpDown3)//上にいる場合
+	{
+		m_upDown3Pos.y += 3;
+		if (m_upDown3Pos.y == Stage2::kBox4Yt - 15)//下に到達した場合
+		{
+			m_isUpDown3 = true;
+		}
+	}
+	else
+	{
+		m_upDown3Pos.y -= 3;
+		if (m_upDown3Pos.y == Stage2::kBoxBottom4Yf + 15 - 15 - 15)//下に到達した場合
+		{
+			m_isUpDown3 = false;
+		}
+
+	}
+
+	if (m_upDownLeft3ImageX <= 400)m_upDownLeft3ImageX += 100;//Xが400になるまで繰り返す
+	else {
+
+		m_upDownLeft3ImageX = 0;//画像位置を右に戻す
+		if (m_upDownLeft3ImageY <= 400)m_upDownLeft3ImageY += 100;//Yが400になるまで繰り返す
+		else {
+			if (m_upDownRad <= DX_PI + DX_PI)m_upDownRad++;
+			else {
+				m_upDownRad = DX_PI;
+			}
+			m_upDownLeft3ImageY = 0;//一番上に戻す
+		}
+
+	}
+
+	//printfDx("%d\n", m_upDownRad);
+
 }
 //敵のキャラ座標取得
-void EnemyStage2::npcPos()
+void EnemyStage3::npcPos()
 {
 	//enemyの座標
 	m_posLeft = m_pos.x;
@@ -609,6 +851,28 @@ void EnemyStage2::npcPos()
 	m_fallenRange2Right = m_fallenRange2Left + 250;
 	m_fallenRange2Bottom = m_fallenRange2Top + 120;
 
+	//ドッスン3
+	m_fallen3Left = m_fallen3Pos.x;
+	m_fallen3Top = m_fallen3Pos.y;
+	m_fallen3Right = m_fallen3Left + 150;
+	m_fallen3Bottom = m_fallen3Top + 10;
+	//ドッスン3反応判定
+	m_fallenRange3Left = 1110 - 150 - 150 - 10;
+	m_fallenRange3Top = 550;
+	m_fallenRange3Right = m_fallenRange3Left + 250;
+	m_fallenRange3Bottom = m_fallenRange3Top + 120;
+
+	//ドッスン4
+	m_fallen4Left = m_fallen4Pos.x;
+	m_fallen4Top = m_fallen4Pos.y;
+	m_fallen4Right = m_fallen4Left + 150;
+	m_fallen4Bottom = m_fallen4Top + 10;
+	//ドッスン4反応判定
+	m_fallenRange4Left = 1110 - 150 - 150 - 150 - 150 - 10;
+	m_fallenRange4Top = 550;
+	m_fallenRange4Right = m_fallenRange4Left + 250;
+	m_fallenRange4Bottom = m_fallenRange4Top + 120;
+
 	//チャージエネミー
 	m_chargeLeft = m_chargePos.x;
 	m_chargeTop = m_chargePos.y;
@@ -619,4 +883,16 @@ void EnemyStage2::npcPos()
 	m_upDownTop = m_upDownPos.y;
 	m_upDownRight = m_upDownLeft + 30;
 	m_upDownBottom = m_upDownTop + 30;
+
+	//上下運動する罠
+	m_upDown2Left = m_upDown2Pos.x;
+	m_upDown2Top = m_upDown2Pos.y;
+	m_upDown2Right = m_upDown2Left + 30;
+	m_upDown2Bottom = m_upDown2Top + 30;
+
+	//上下運動する罠
+	m_upDown3Left = m_upDown3Pos.x;
+	m_upDown3Top = m_upDown3Pos.y;
+	m_upDown3Right = m_upDown3Left + 30;
+	m_upDown3Bottom = m_upDown3Top + 30;
 }

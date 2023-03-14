@@ -164,8 +164,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Fireworks.cpp" />
-    <ClCompile Include="GameSceneCollision.cpp" />
+    <ClCompile Include="Object\Collision3.cpp" />
+    <ClCompile Include="Object\EnemyStage3.cpp" />
+    <ClCompile Include="Object\Fireworks.cpp" />
+    <ClCompile Include="Object\GameSceneCollision.cpp" />
     <ClCompile Include="Object\Collision2.cpp" />
     <ClCompile Include="Object\DrawMapStage2.cpp" />
     <ClCompile Include="Object\EnemyStage2.cpp" />
@@ -179,43 +181,47 @@
     <ClCompile Include="Object\PlayerMapMove.cpp" />
     <ClCompile Include="Object\PlayerNew.cpp" />
     <ClCompile Include="Object\SoundManager.cpp" />
-    <ClCompile Include="SceneGameOver2.cpp" />
+    <ClCompile Include="Scene\SceneGameOver2.cpp" />
     <ClCompile Include="Scene\SceneGameOver.cpp" />
     <ClCompile Include="Scene\SceneMain2.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
     <ClCompile Include="Scene\SceneMain.cpp" />
     <ClCompile Include="Scene\SceneMain3.cpp" />
+    <ClCompile Include="Scene\SceneMain4.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Scene\SceneResult.cpp" />
     <ClCompile Include="Scene\SceneTitle.cpp" />
     <ClCompile Include="Object\TitleCollision.cpp" />
     <ClCompile Include="Object\TitleCursor.cpp" />
     <ClCompile Include="Object\SelectMenu.cpp" />
-    <ClCompile Include="SlideSelect.cpp" />
-    <ClCompile Include="TitleCursorGame.cpp" />
+    <ClCompile Include="Object\SlideSelect.cpp" />
+    <ClCompile Include="Object\TitleCursorGame.cpp" />
     <ClCompile Include="Util\Mouse.cpp" />
     <ClCompile Include="Util\Pad.cpp" />
     <ClCompile Include="Util\Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Fireworks.h" />
-    <ClInclude Include="GameSceneCollision.h" />
+    <ClInclude Include="Object\Collision3.h" />
+    <ClInclude Include="Object\EnemyStage3.h" />
+    <ClInclude Include="Object\Fireworks.h" />
+    <ClInclude Include="Object\GameSceneCollision.h" />
     <ClInclude Include="Object\Collision2.h" />
     <ClInclude Include="Object\DrawMapStage2.h" />
     <ClInclude Include="Object\EnemyStage2.h" />
     <ClInclude Include="Object\EnemyStage1.h" />
     <ClInclude Include="Object\Collision.h" />
     <ClInclude Include="Object\DrawMapStage1.h" />
-    <ClInclude Include="Image.h" />
+    <ClInclude Include="Scene\SceneMain4.h" />
+    <ClInclude Include="Util\Image.h" />
     <ClInclude Include="Object\Enemy.h" />
-    <ClInclude Include="game.h" />
+    <ClInclude Include="Util\game.h" />
     <ClInclude Include="Object\Player.h" />
     <ClInclude Include="Object\PlayerImage.h" />
     <ClInclude Include="Object\PlayerMapMove.h" />
     <ClInclude Include="Object\PlayerNew.h" />
     <ClInclude Include="Object\SoundManager.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="SceneGameOver2.h" />
+    <ClInclude Include="Scene\SceneGameOver2.h" />
     <ClInclude Include="Scene\SceneGameOver.h" />
     <ClInclude Include="Scene\SceneMain2.h" />
     <ClInclude Include="Scene\SceneBase.h" />
@@ -227,8 +233,8 @@
     <ClInclude Include="Object\TitleCollision.h" />
     <ClInclude Include="Object\TitleCursor.h" />
     <ClInclude Include="Object\SelectMenu.h" />
-    <ClInclude Include="SlideSelect.h" />
-    <ClInclude Include="TitleCursorGame.h" />
+    <ClInclude Include="Object\SlideSelect.h" />
+    <ClInclude Include="Object\TitleCursorGame.h" />
     <ClInclude Include="Util\Mouse.h" />
     <ClInclude Include="Util\Pad.h" />
     <ClInclude Include="Util\Vec2.h" />

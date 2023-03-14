@@ -2,6 +2,7 @@
 #include "SceneMain.h"
 #include "SceneMain2.h"
 #include "SceneMain3.h"
+#include "SceneMain4.h"
 #include "SceneResult.h"
 #include "TitleCursor.h"
 #include "TitleCollision.h"
@@ -213,6 +214,7 @@ SceneBase* SceneTitle::Update()
 		{
 			return(new SceneMain2);//シーン切り替え
 			return(new SceneMain3);//シーン切り替え
+			return(new SceneMain4);//シーン切り替え
 		}
 	}
 

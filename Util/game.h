@@ -511,7 +511,7 @@ namespace Enemy2
 	constexpr int kBossPosRight  = kBossPosLeft + 200;
 	constexpr int kBossPosBottom = kBossPosTop + 200;
 
-	constexpr float kBarrelSpeed = 8.0f;
+	constexpr float kBarrelSpeed = 10.0f;
 }
 namespace SceneSelect
 {
@@ -548,4 +548,13 @@ namespace Color
 namespace Scene
 {
 	constexpr float kFadeSpeed = 3.5f;//フェイド系
+}
+
+namespace Staging//演出用
+{
+	constexpr int kFireworksNum= 3;//花火の数
+
+	constexpr int kFireworksAnimatioFramenCount = 1;//アニメーションフレームカウント
+
+	constexpr int kFireworksRocketSpeed = 25;//花火打ち上げ速度
 }

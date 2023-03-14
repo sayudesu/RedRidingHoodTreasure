@@ -1,9 +1,9 @@
-#include "DrawMapStage2.h"
+#include "DrawMapStage3.h"
 #include "game.h"
 #include "Image.h"
 #include <Dxlib.h>
 
-DrawMapStage2::DrawMapStage2() :
+DrawMapStage3::DrawMapStage3() :
 	m_hMap1(-1), m_hMap2(-1),//マップ用ハンドル
 	m_hMap3(-1), m_hMap4(-1),
 	m_hMap5(-1),
@@ -20,11 +20,11 @@ DrawMapStage2::DrawMapStage2() :
 
 }
 
-DrawMapStage2::~DrawMapStage2()
+DrawMapStage3::~DrawMapStage3()
 {
 }
 
-void DrawMapStage2::Init()
+void DrawMapStage3::Init()
 {
 
 	for (int i = 0; i < 9; i++)
@@ -83,7 +83,7 @@ void DrawMapStage2::Init()
 	m_hLadder = DerivationGraph(48, 160, 16, 32, m_hLadderChip);//画像の一部を読み込み
 }
 
-void DrawMapStage2::End()
+void DrawMapStage3::End()
 {
 	DeleteGraph(m_hMap1);
 	DeleteGraph(m_hMap2);
@@ -103,34 +103,34 @@ void DrawMapStage2::End()
 	DeleteGraph(m_hBox);
 }
 
-void DrawMapStage2::Update()
+void DrawMapStage3::Update()
 {
 }
 
-void DrawMapStage2::Draw()
+void DrawMapStage3::Draw()
 {
 	DrawBackground();//マップの背景を表示
 	DrawMap();//マップ表示
 	
 	//第一梯子
 	DrawExtendGraph(Stage2::kLadder1X - 8, Stage2::kLadder1Y, Stage2::kLadderBottom1X + 8, Stage2::kLadderBottom1Y, m_hLadder, true);//判定確認用
-	//DrawBox(Stage2::kLadder1X, Stage2::kLadder1Y, Stage2::kLadderBottom1X, Stage2::kLadderBottom1Y, 0xff0000, false);//梯子表示
+	DrawBox(Stage2::kLadder1X, Stage2::kLadder1Y, Stage2::kLadderBottom1X, Stage2::kLadderBottom1Y, 0xff0000, false);//梯子表示
 	//第二梯子
 	DrawExtendGraph(Stage2::kLadder2X - 8, Stage2::kLadder2Y, Stage2::kLadderBottom2X + 8, Stage2::kLadderBottom2Y, m_hLadder, true);//判定確認用
-	//DrawBox(Stage2::kLadder2X, Stage2::kLadder2Y, Stage2::kLadderBottom2X, Stage2::kLadderBottom2Y, 0xff0000, false);//梯子表示
+	DrawBox(Stage2::kLadder2X, Stage2::kLadder2Y, Stage2::kLadderBottom2X, Stage2::kLadderBottom2Y, 0xff0000, false);//梯子表示
 	//第三梯子
 	DrawExtendGraph(Stage2::kLadder3X - 8, Stage2::kLadder3Y, Stage2::kLadderBottom3X + 8, Stage2::kLadderBottom3Y, m_hLadder, true);//判定確認用
-	//DrawBox(Stage2::kLadder3X, Stage2::kLadder3Y, Stage2::kLadderBottom3X, Stage2::kLadderBottom3Y, 0xff0000, false);//梯子表示
+	DrawBox(Stage2::kLadder3X, Stage2::kLadder3Y, Stage2::kLadderBottom3X, Stage2::kLadderBottom3Y, 0xff0000, false);//梯子表示
 	//第四梯子
 	DrawExtendGraph(Stage2::kLadder4X - 8, Stage2::kLadder4Y, Stage2::kLadderBottom4X + 8, Stage2::kLadderBottom4Y, m_hLadder, true);//判定確認用
-	//DrawBox(Stage2::kLadder4X, Stage2::kLadder4Y, Stage2::kLadderBottom4X, Stage2::kLadderBottom4Y, 0xff0000, false);//梯子表示
+	DrawBox(Stage2::kLadder4X, Stage2::kLadder4Y, Stage2::kLadderBottom4X, Stage2::kLadderBottom4Y, 0xff0000, false);//梯子表示
 
 	//ゴール
 	DrawExtendGraph(Stage2::kGoalX, Stage2::kGoalY, Stage2::kGoalBottomX, Stage2::kGoalBottomY, m_hBox, true);
-	//DrawBox(Stage2::kGoalX, Stage2::kGoalY, Stage2::kGoalBottomX, Stage2::kGoalBottomY, 0xff00ff, false);
+	DrawBox(Stage2::kGoalX, Stage2::kGoalY, Stage2::kGoalBottomX, Stage2::kGoalBottomY, 0xff00ff, false);
 }
 //背景画像を描画
-void DrawMapStage2::DrawBackground()
+void DrawMapStage3::DrawBackground()
 {
 	for (int i = 0; i < 9; i++)//背景を描画
 	{
@@ -138,7 +138,7 @@ void DrawMapStage2::DrawBackground()
 	}
 }
 //地面を描画
-void DrawMapStage2::DrawMap()
+void DrawMapStage3::DrawMap()
 {
 	//1階地面
 	DrawExtendGraph(Stage2::kBox1X, Stage2::kBox1Y - 2, Stage2::kBoxBottom1X, Stage2::kBoxBottom1Y, m_hBlock, true);
@@ -159,7 +159,7 @@ void DrawMapStage2::DrawMap()
 	//DrawBox(Stage2::kBox8X, Stage2::kBox8Y, Stage2::kBoxBottom8X, Stage2::kBoxBottom8Y, 0xffffff, false);
 
 	//2階地面
-	DrawExtendGraph(Stage2::kBox1Xs, Stage2::kBox1Ys - 2, Stage2::kBoxBottom1Xs, Stage2::koxBottom1Ys, m_hBlock, true);
+	DrawExtendGraph(Stage2::kBox1Xs, Stage2::kBox1Ys - 2 , Stage2::kBoxBottom1Xs, Stage2::koxBottom1Ys, m_hBlock, true);
 	//DrawBox(Stage2::kBox1Xs, Stage2::kBox1Ys, Stage2::kBoxBottom1Xs, Stage2::koxBottom1Ys, 0xffffff, false);
 	DrawExtendGraph(Stage2::kBox2Xs, Stage2::kBox2Ys - 2, Stage2::kBoxBottom2Xs, Stage2::kBoxBottom2Ys, m_hBlock, true);
 	//DrawBox(Stage2::kBox2Xs, Stage2::kBox2Ys, Stage2::kBoxBottom2Xs, Stage2::kBoxBottom2Ys, 0xffffff, false);

@@ -1,7 +1,7 @@
 #include "SceneMain4.h"
 #include "SceneTitle.h"
-#include "SceneResult.h"
-#include "SceneGameOver2.h"
+#include "SceneResult2.h"
+#include "SceneGameOver3.h"
 #include "DrawMapStage2.h"
 #include "PlayerNew.h"
 #include "Collision3.h"
@@ -118,7 +118,7 @@ SceneBase* SceneMain4::Update()
 		FadeOut();
 		if (m_isFadeOut)
 		{
-			return(new SceneResult);//新しいステージに移動
+			return(new SceneResult2);//新しいステージに移動
 		}
 	}
 	else if (m_isSceneDead)//死んだ場合のシーン切り替え
@@ -126,7 +126,7 @@ SceneBase* SceneMain4::Update()
 		FadeOut();
 		if (m_isFadeOut)
 		{
-			return(new SceneGameOver2);
+			return(new SceneGameOver3);
 		}
 	}
 	else if (m_pMenu->SetSceneRetry())//繰り返す場合のシーン切り替え

@@ -38,10 +38,18 @@ public:
 	int  GetRight () { return m_posRight; }
 	int  GetBottom() { return m_posBottom; }
 	//樽
-	int  GetBarrelLeft  () { return m_barrelLeft; }
-	int  GetBarrelTop   () { return m_barrelTop; }
-	int  GetBarrelRight () { return m_barrelRight; }
-	int  GetBarrelBottom() { return m_barrelBottom; }
+	int  GetBarrelLeft  () { return m_barrelLeft[0]; }
+	int  GetBarrelTop   () { return m_barrelTop[0]; }
+	int  GetBarrelRight () { return m_barrelRight[0]; }
+	int  GetBarrelBottom() { return m_barrelBottom[0]; }
+	int  GetBarrel2Left() { return m_barrelLeft[1]; }
+	int  GetBarrel2Top() { return m_barrelTop[1]; }
+	int  GetBarrel2Right() { return m_barrelRight[1]; }
+	int  GetBarrel2Bottom() { return m_barrelBottom[1]; }
+	int  GetBarrel3Left() { return m_barrelLeft[2]; }
+	int  GetBarrel3Top() { return m_barrelTop[2]; }
+	int  GetBarrel3Right() { return m_barrelRight[2]; }
+	int  GetBarrel3Bottom() { return m_barrelBottom[2]; }
 	//樽スピード
 	void  GetBarrelSpeed(int speed) { m_barrelSpeed = speed; }
 	//どっすん
@@ -111,8 +119,12 @@ public:
 
 public:
 
-	void GetHitFall    (int fall)   { m_fall = fall; }
-	void GetPos        (float posY) { m_getPos = posY; }
+	void GetHitFall    (int fall)   { m_fall[0] = fall; }
+	void GetHitFall2(int fall) { m_fall[1] = fall; }
+	void GetHitFall3(int fall) { m_fall[2] = fall; }
+	void GetPos        (float posY) { m_getPos[0] = posY; }
+	void GetPos2	   (float posY) { m_getPos[1] = posY; }
+	void GetPos3	   (float posY) { m_getPos[2] = posY; }
 	void GetEnemyLadder(int num)    { m_ladderNum = num; }
 
 	void GetHitFireBallFall(int fall)   { m_fallFireBall = fall; }
@@ -127,7 +139,7 @@ public:
 private:
 	//エネミー画像
 	int m_hFireBall;
-	int m_hBarre;
+	int m_hBarre[3];
 	int m_hEnemyImage;
 	int m_hNeedle;//地面用
 	int m_hTiles;//画像チップ
@@ -139,10 +151,10 @@ private:
 	int m_posRight;
 	int m_posBottom;
 	//樽のサイズ
-	int m_barrelLeft;
-	int m_barrelTop;
-	int m_barrelRight;
-	int m_barrelBottom;
+	int m_barrelLeft[3];
+	int m_barrelTop[3];
+	int m_barrelRight[3];
+	int m_barrelBottom[3];
 	//樽サイズプラス
 	int m_barrelSizePulsX;
 	//ドッスンのサイズ
@@ -209,8 +221,8 @@ private:
 	int m_fireBallImagePosY;
 	bool m_fireImageDirection;//画像の方向
 	//樽（イノシシ）の画像位置
-	int m_barreImagePosX;
-	bool m_barreImageDirection;//画像の方向
+	int m_barreImagePosX[3];
+	bool m_barreImageDirection[3];//画像の方向
 
 	//罠の画像位置
 	int m_upDownLeftImageX;
@@ -223,7 +235,7 @@ private:
 
 	int m_barrelSpeed;//樽の速度
 
-	int m_fall;//地面との判定
+	int m_fall[3];//地面との判定
 	int m_fallFireBall;//地面との判定
 
 	int m_fallenRange;//落ちもの敵の範囲判定
@@ -237,7 +249,7 @@ private:
 	int m_fallenCount3;
 	int m_fallenCount4;
 	int m_frameCountFireImage;
-	int m_frameCountBarreImage;
+	int m_frameCountBarreImage[3];
 
 	int m_ladderNum;
 	int m_getFireBallPos;//y軸固定座標
@@ -249,14 +261,14 @@ private:
 	float m_fallenUpSpeed3;//
 	float m_fallenUpSpeed4;//
 
-	float m_getPos;//y軸固定座標
+	float m_getPos[3];//y軸固定座標
 	float m_chargeSpeed;
 	float m_length;
 	int   m_rushCount;
 
 	bool m_isFirstMove;//初動動作
 
-	bool m_isCourse;//動く向き
+	bool m_isCourse[3];//動く向き
 	bool m_isFireBallCourse;//動く向き
 
 	bool m_isFallenDrop;
@@ -273,6 +285,8 @@ private:
 	bool m_isFallenUp3;
 	bool m_isFallenUp4;
 
+	bool m_isBarreMove;//2体の敵が動くかどうか
+
 	bool m_isUpDown;//上下どちらにいるか
 	bool m_isUpDown2;//上下どちらにいるか
 	bool m_isUpDown3;//上下どちらにいるか
@@ -282,7 +296,7 @@ private:
 
 
 	Vec2 m_pos;//ファイアーボール
-	Vec2 m_barrelPos;//樽
+	Vec2 m_barrelPos[3];//樽
 	Vec2 m_fallenPos;//ドッスン的なやつ
 	Vec2 m_fallen2Pos;//ドッスン的なやつ
 	Vec2 m_fallen3Pos;//ドッスン的なやつ
@@ -291,7 +305,7 @@ private:
 	Vec2 m_upDownPos;//上下運動する罠
 	Vec2 m_upDown2Pos;//上下運動する罠
 	Vec2 m_upDown3Pos;//上下運動する罠
-	Vec2 m_vec;
+	Vec2 m_vec[3];
 
 	Vec2 m_playerPos;
 	Vec2 m_playerSavePos;

@@ -245,7 +245,7 @@ void EnemyStage2::BarrelMove()
 {
 	m_barrelPos.y += m_vec.y;//重力のベクトル用
 
-	m_vec.y += 3.0f;//重力
+	m_vec.y += 5.0f;//重力
 
 	m_frameCountBarreImage++;
 	if (m_frameCountBarreImage == 3)//３フレームに一回画像を変更

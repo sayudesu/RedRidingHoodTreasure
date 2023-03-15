@@ -5,7 +5,7 @@
 
 EnemyStage3::EnemyStage3() :
 	m_hFireBall(-1),//画像ハンドル
-	m_hBarre(-1),
+	m_hBarre(),//樽（いのしし画像）
 	m_hEnemyImage(-1),
 	m_hNeedle(-1),//地面用
 	m_hTiles(-1),//画像チップ
@@ -15,10 +15,10 @@ EnemyStage3::EnemyStage3() :
 	m_posTop(0),
 	m_posRight(0),
 	m_posBottom(0),
-	m_barrelLeft(0),//樽サイズ
-	m_barrelTop(0),
-	m_barrelRight(0),
-	m_barrelBottom(0),
+	m_barrelLeft(),//樽サイズ
+	m_barrelTop(),
+	m_barrelRight(),
+	m_barrelBottom(),
 	m_barrelSizePulsX(0),//樽サイズ変更.X
 	m_fallenLeft(0),
 	m_fallenTop(0),
@@ -78,10 +78,10 @@ EnemyStage3::EnemyStage3() :
 	m_upDownLeft3ImageY(0),
 	m_upDownRad(0),//罠角度
 	m_fireImageDirection(0),
-	m_barreImagePosX(0),//樽（イノシシ）画像位置
-	m_barreImageDirection(false),//樽（いのしし）画像の方向
+	m_barreImagePosX(),//樽（イノシシ）画像位置
+	m_barreImageDirection(),//樽（いのしし）画像の方向
 	m_barrelSpeed(0),
-	m_fall(0),
+	m_fall(),
 	m_fallFireBall(0),
 	m_fallenRange(0),
 	m_fallenRange2(0),
@@ -91,7 +91,7 @@ EnemyStage3::EnemyStage3() :
 	m_fallenCount2(0),
 	m_fallenCount3(0),
 	m_fallenCount4(0),
-	m_frameCountBarreImage(0),//樽（いのしし）の画像描画用フレームカウント
+	m_frameCountBarreImage(),//樽（いのしし）の画像描画用フレームカウント
 	m_frameCountFireImage(0),
 	m_ladderNum(0),
 	m_rushCount(0),
@@ -99,13 +99,13 @@ EnemyStage3::EnemyStage3() :
 	m_fallenUpSpeed2(0.0f),
 	m_fallenUpSpeed3(0.0f),
 	m_fallenUpSpeed4(0.0f),
-	m_getPos(0.0f),
+	m_getPos(),
 	m_fireRad(0),//ファイアボール角度
 	m_chargeSpeed(0.0f),
 	m_length(0.0f),
 	m_getFireBallPos(0),
 	m_isFirstMove(false),
-	m_isCourse(false),
+	m_isCourse(),
 	m_isFireBallCourse(false),
 	m_isFallenDrop(false),
 	m_isCanFallen(false),
@@ -119,13 +119,14 @@ EnemyStage3::EnemyStage3() :
 	m_isFallenUp2(false),
 	m_isFallenUp3(false),
 	m_isFallenUp4(false),
+	m_isBarreMove(false),//2体の敵が動くかどうか
 	m_isUpDown(false),//上下どちらにいるか
 	m_isUpDown2(false),//上下どちらにいるか
 	m_isUpDown3(false),//上下どちらにいるか
 	m_isRush(false),
 	m_isRushBlink(false),
 	m_pos(0.0f, 0.0f),
-	m_barrelPos(0.0f, 0.0f),//樽
+	m_barrelPos(),//樽
 	m_fallenPos(0.0f, 0.0f),//ドッスン的な奴
 	m_fallen2Pos(0.0f, 0.0f),//ドッスン的な奴
 	m_fallen3Pos(0.0f, 0.0f),//ドッスン的な奴
@@ -134,7 +135,7 @@ EnemyStage3::EnemyStage3() :
 	m_upDownPos(0.0f, 0.0f),//上下運動する罠
 	m_upDown2Pos(0.0f, 0.0f),//上下運動する罠
 	m_upDown3Pos(0.0f, 0.0f),//上下運動する罠
-	m_vec(0.0f, 0.0f),
+	m_vec(),
 	m_playerPos(0.0f, 0.0f),
 	m_playerSavePos(0.0f, 0.0f)
 {
@@ -144,12 +145,30 @@ EnemyStage3::EnemyStage3() :
 	m_isCanFallen3 = true;
 	m_isCanFallen4 = true;
 
+	for (int i = 0; i < 3; i++)
+	{
+		m_barrelLeft[i] = 0;
+		m_barrelTop[i] = 0;
+		m_barrelRight[i] = 0;
+		m_barrelBottom[i] = 0;
+		m_getPos[i] = 0;
+		m_fall[i] = 0;
+		m_barreImagePosX[i] = 0;
+		m_barreImageDirection[i] = false;
+		m_isCourse[i] = false;
+		m_frameCountBarreImage[i] = 0;
+	}
+
 	//ファイアボール初期位置
 	m_pos.x = Game::kScreenWidth - 400;
 	m_pos.y = Game::kScreenHeight - 150;
 	//樽初期位置
-	m_barrelPos.x = Enemy2::kBossPosLeft;
-	m_barrelPos.y = Enemy2::kBossPosTop;
+	for (int i = 0; i < 3; i++)
+	{
+		m_barrelPos[i].x = Enemy2::kBossPosLeft;
+		m_barrelPos[i].y = Enemy2::kBossPosTop;
+		m_vec[i] = {0.0f,0.0f};
+	}
 	//どっすん
 	m_fallenPos.x = Stage2::kBox2Xt;
 	m_fallenPos.y = Stage2::kBoxBottom8Yf;
@@ -179,7 +198,11 @@ EnemyStage3::EnemyStage3() :
 	m_upDown3Pos.y = Stage2::kBoxBottom4Yf + 15;
 
 	m_hFireBall = LoadGraph(Image::kEnemySnail);//カタツムリ
-	m_hBarre = LoadGraph(Image::kEnemyBarre);//いのしし
+	for (int i = 0; i < 3; i++)
+	{
+		m_hBarre[i] = LoadGraph(Image::kEnemyBarre);//いのしし
+
+	}
 	m_hTiles = LoadGraph(Image::kMapTiles2);//画像チップ（洞窟用）
 	m_hUpDown = LoadGraph(Image::kEnemyFireBall);//罠
 
@@ -192,7 +215,10 @@ EnemyStage3::EnemyStage3() :
 EnemyStage3::~EnemyStage3()
 {
 	DeleteGraph(m_hFireBall);//かたつむり
-	DeleteGraph(m_hBarre);//イノシシ
+	for (int i = 0; i < 3; i++)
+	{
+		DeleteGraph(m_hBarre[i]);//イノシシ
+	}
 	DeleteGraph(m_hEnemyImage);//画像
 	DeleteGraph(m_hNeedle);//落ちてくる敵
 }
@@ -226,8 +252,20 @@ void EnemyStage3::Draw()
 		m_fireBallImagePosX, m_fireBallImagePosY, 48, 32, 1.3, m_fireRad, m_hFireBall, true, m_fireImageDirection);//画像を描画
 
 	//樽
-	DrawRectRotaGraph(m_barrelLeft + 20, m_barrelTop + 15 - 5,
-		m_barreImagePosX, 0, 48, 32, 2, 0, m_hBarre, true, m_barreImageDirection);//画像を描画
+	//DrawRectRotaGraph(m_barrelLeft[0] + 20, m_barrelTop[0] + 15 - 5,
+	//	m_barreImagePosX[0], 0, 48, 32, 2, 0, m_hBarre[0], true, m_barreImageDirection);//画像を描画
+
+	//DrawRectRotaGraph(m_barrelLeft[1] + 20, m_barrelTop[1] + 15 - 5,
+	//	m_barreImagePosX[1], 0, 48, 32, 2, 0, m_hBarre[1], true, false);//画像を描画
+
+	//DrawRectRotaGraph(m_barrelLeft[2] + 20, m_barrelTop[2] + 15 - 5,
+	//	m_barreImagePosX[2], 0, 48, 32, 2, 0, m_hBarre[2], true, false);//画像を描画
+
+	for (int i = 0; i < 3; i++)
+	{
+		DrawRectRotaGraph(m_barrelLeft[i] + 20, m_barrelTop[i] + 15 - 5,
+			m_barreImagePosX[i], 0, 48, 32, 2, 0, m_hBarre[i], true, m_barreImageDirection[i]);//画像を描画
+	}
 	//横288
 	//縦32
 
@@ -334,11 +372,11 @@ void EnemyStage3::Draw()
 		1, m_upDownRad,
 		m_hUpDown, true, false);
 
-#if false			
+#if true		
 	DrawBox(Enemy2::kBossPosLeft, Enemy2::kBossPosTop,
 		Enemy2::kBossPosRight, Enemy2::kBossPosBottom, 0xffff00, false);
 	DrawBox(m_posLeft, m_posTop, m_posRight, m_posBottom, 0xff0000, false);//判定確認
-	DrawBox(m_barrelLeft, m_barrelTop, m_barrelRight, m_barrelBottom, 0xffff00, false);//判定確認
+	DrawBox(m_barrelLeft[0], m_barrelTop[0], m_barrelRight[0], m_barrelBottom[0], 0xffff00, false);//判定確認
 	//どっすん
 	DrawBox(m_fallenLeft, m_fallenTop, m_fallenRight, m_fallenBottom, 0xffff00, false);
 	//どっすん2
@@ -363,88 +401,118 @@ void EnemyStage3::Draw()
 //樽の動き
 void EnemyStage3::BarrelMove()
 {
-	m_barrelPos.y += m_vec.y;//重力のベクトル用
-
-	m_vec.y += 5.0f;//重力
-
-	m_frameCountBarreImage++;
-	if (m_frameCountBarreImage == 3)//３フレームに一回画像を変更
+	int num = 3;
+	for (int i = 0; i < num; i++)
 	{
-		m_barreImagePosX += 48;
-		m_frameCountBarreImage = 0;
-	}
-	if (m_barreImagePosX >= 288)
-	{
-		m_barreImagePosX = 0;
+		m_vec[i].y += 10.0f;//重力
+		m_barrelPos[i].y += m_vec[i].y;//重力のベクトル用
 	}
 
-	if (m_fall == 5)//地面に当たったら
+	for (int i = 0; i < num; i++)
 	{
-		m_isCourse = false;
-		m_vec.y = 0.0f;//下に落ちないように
-		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
-		m_barrelPos.x -= Enemy2::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
-	}
-	else if (m_fall == 4)//地面に当たったら
-	{
-		m_isCourse = true;
-		m_vec.y = 0.0f;//下に落ちないように
-		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
-		m_barrelPos.x += Enemy2::kBarrelSpeed * m_barrelSpeed;//左に移動
-		m_barreImageDirection = true;//画像の方向を変更
-	}
-
-	if (m_fall == 3)//地面に当たったら
-	{
-		m_isCourse = false;
-		m_vec.y = 0.0f;//下に落ちないように
-		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
-		m_barrelPos.x -= Enemy2::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
-		m_barreImageDirection = false;//画像の方向を変更
-	}
-
-	if (m_fall == 2)//地面に当たったら
-	{
-		m_isCourse = true;
-		m_vec.y = 0.0f;//下に落ちないように
-		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
-		m_barrelPos.x += Enemy2::kBarrelSpeed * m_barrelSpeed;//左に移動
-		m_barreImageDirection = true;//画像の方向を変更
-
-	}
-
-	if (m_fall == 1)//地面に当たったら
-	{
-		m_isCourse = false;
-		m_vec.y = 0.0f;//下に落ちないように
-		m_barrelPos.y = m_getPos;//プレイヤーの位置座標
-		m_barrelPos.x -= Enemy2::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
-		m_barreImageDirection = false;//画像の方向を変更
-
-	}
-
-	if (m_barrelRight < 0)//樽が画面左に消えると最初の位置に戻っていく
-	{
-		m_barrelPos.x = Enemy2::kBossPosLeft + 50;
-		m_barrelPos.y = Enemy2::kBossPosTop + 100;
-	}
-	else if (m_barrelRight > Game::kScreenWidth + 100)//樽が画面右に消えると最初の位置に戻っていく
-	{
-		m_barrelPos.x = Enemy2::kBossPosLeft + 50;
-		m_barrelPos.y = Enemy2::kBossPosTop + 100;
-	}
-
-	if (m_fall == 0 && !m_isCourse)//樽が右に移動する場合
-	{
-		m_barrelPos.x -= Enemy2::kBarrelSpeed;
-	}
-
-	if (m_fall == 0 && m_isCourse)//樽が左に移動する場合
-	{
-		m_barrelPos.x += Enemy2::kBarrelSpeed;
+		m_frameCountBarreImage[i]++;
+		if (m_frameCountBarreImage[i] == 3)//３フレームに一回画像を変更
+		{
+			m_barreImagePosX[i] += 48;
+			m_frameCountBarreImage[i] = 0;
+		}
+		if (m_barreImagePosX[i] >= 288)
+		{
+			m_barreImagePosX[i] = 0;
+		}
 	}
 
 
+	for (int i = 0; i < num; i++)
+	{
+		if (m_fall[i] == 5)//地面に当たったら
+		{
+
+
+			m_isCourse[i] = false;
+			m_vec[i].y = 0.0f;//下に落ちないように
+			m_barrelPos[i].y = m_getPos[i];//プレイヤーの位置座標
+			m_barrelPos[i].x -= Enemy2::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
+			m_barrelPos[1].x -= 3.0f;//GetRand(10);
+			m_barrelPos[2].x -= 4.0f;//GetRand(10);
+		}
+		else if (m_fall[i] == 4)//地面に当たったら
+		{
+			m_isCourse[i] = true;
+			m_vec[i].y = 0.0f;//下に落ちないように
+			m_barrelPos[i].y = m_getPos[i];//プレイヤーの位置座標
+			m_barrelPos[i].x += Enemy2::kBarrelSpeed * m_barrelSpeed;//左に移動
+			m_barreImageDirection[i] = true;//画像の方向を変更
+			m_barrelPos[1].x += 3.0f;//GetRand(10);
+			m_barrelPos[2].x += 4.0f;//GetRand(10);
+		}
+
+		if (m_fall[i] == 3)//地面に当たったら
+		{
+			m_isCourse[i] = false;
+			m_vec[i].y = 0.0f;//下に落ちないように
+			m_barrelPos[i].y = m_getPos[i];//プレイヤーの位置座標
+			m_barrelPos[i].x -= Enemy2::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
+			m_barreImageDirection[i] = false;//画像の方向を変更
+			m_barrelPos[1].x -= 3.0f;//GetRand(10);
+			m_barrelPos[2].x -= 4.0f;//GetRand(10);
+		}
+
+		if (m_fall[i] == 2)//地面に当たったら
+		{
+			m_isCourse[i] = true;
+			m_vec[i].y = 0.0f;//下に落ちないように
+			m_barrelPos[i].y = m_getPos[i];//プレイヤーの位置座標
+			m_barrelPos[i].x += Enemy2::kBarrelSpeed * m_barrelSpeed;//左に移動
+			m_barreImageDirection[i] = true;//画像の方向を変更
+			m_barrelPos[1].x += 3.0f;//GetRand(10);
+			m_barrelPos[2].x += 4.0f;//GetRand(10);
+
+		}
+
+		if (m_fall[i] == 1)//地面に当たったら
+		{
+			m_isCourse[i] = false;
+			m_vec[i].y = 0.0f;//下に落ちないように
+			m_barrelPos[i].y = m_getPos[i];//プレイヤーの位置座標
+			m_barrelPos[i].x -= Enemy2::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
+			m_barreImageDirection[i] = false;//画像の方向を変更
+			m_barrelPos[1].x -= 3.0f;//GetRand(10);
+			m_barrelPos[2].x -= 4.0f;//GetRand(10);
+
+		}
+
+		if (m_barrelPos[i].x < 0)//樽が画面左に消えると最初の位置に戻っていく
+		{
+			m_barrelPos[i].x = Enemy2::kBossPosLeft + 50;
+			m_barrelPos[i].y = Enemy2::kBossPosTop + 100;
+		}
+		else if (m_barrelPos[i].x > Game::kScreenWidth + 100)//樽が画面右に消えると最初の位置に戻っていく
+		{
+			m_barrelPos[i].x = Enemy2::kBossPosLeft + 50;
+			m_barrelPos[i].y = Enemy2::kBossPosTop + 100;
+		}
+		else if (m_barrelPos[i].y < 0)
+		{
+			m_barrelPos[i].x = Enemy2::kBossPosLeft + 50;
+			m_barrelPos[i].y = Enemy2::kBossPosTop + 100;
+		}
+		else if (m_barrelPos[i].y > Game::kScreenHeight)
+		{
+			m_barrelPos[i].x = Enemy2::kBossPosLeft + 50;
+			m_barrelPos[i].y = Enemy2::kBossPosTop + 100;
+		}
+
+		if (m_fall[i] == 0 && !m_isCourse[i])//樽が右に移動する場合
+		{
+			m_barrelPos[i].x -= Enemy2::kBarrelSpeed;
+		}
+
+		if (m_fall[i] == 0 && m_isCourse[i])//樽が左に移動する場合
+		{
+			m_barrelPos[i].x += Enemy2::kBarrelSpeed;
+		}
+	}
 }
 //炎球の動き
 void EnemyStage3::fireBallMove()
@@ -814,26 +882,31 @@ void EnemyStage3::npcPos()
 	m_posRight = m_posLeft + 40;
 	m_posBottom = m_posTop + 30;
 
-
-	if (m_isCourse)
+	for (int i = 0; i < 3; i++)
 	{
-		m_barrelSizePulsX = 150;
-	}
-	else
-	{
-		m_barrelSizePulsX = 0;
+		if (m_isCourse[i])
+		{
+			m_barrelSizePulsX = 150;
+		}
+		else
+		{
+			m_barrelSizePulsX = 0;
+		}
 	}
 
 	//樽
-	m_barrelLeft = m_barrelPos.x;
-	m_barrelTop = m_barrelPos.y + 5.0f;
-	m_barrelRight = m_barrelLeft + 50;
-	m_barrelBottom = m_barrelTop + 40;
+	for (int i = 0; i < 3; i++)
+	{
+		m_barrelLeft[i] = m_barrelPos[i].x;
+		m_barrelTop[i] = m_barrelPos[i].y + 5.0f;
+		m_barrelRight[i] = m_barrelLeft[i] + 50;
+		m_barrelBottom[i] = m_barrelTop[i] + 40;
+	}
 
 	//ドッスン
 	m_fallenLeft = m_fallenPos.x;
 	m_fallenTop = m_fallenPos.y;
-	m_fallenRight = m_fallenLeft + 150;
+	m_fallenRight = m_fallenLeft + 150 - 10;
 	m_fallenBottom = m_fallenTop + 10;
 	//ドッスン反応判定
 	m_fallenRangeLeft = 1110;
@@ -843,7 +916,7 @@ void EnemyStage3::npcPos()
 	//ドッスン2
 	m_fallen2Left = m_fallen2Pos.x;
 	m_fallen2Top = m_fallen2Pos.y;
-	m_fallen2Right = m_fallen2Left + 150;
+	m_fallen2Right = m_fallen2Left + 150 - 10;
 	m_fallen2Bottom = m_fallen2Top + 10;
 	//ドッスン2反応判定
 	m_fallenRange2Left = 1110 + 150 + 150;
@@ -854,7 +927,7 @@ void EnemyStage3::npcPos()
 	//ドッスン3
 	m_fallen3Left = m_fallen3Pos.x;
 	m_fallen3Top = m_fallen3Pos.y;
-	m_fallen3Right = m_fallen3Left + 150;
+	m_fallen3Right = m_fallen3Left + 150 - 10;
 	m_fallen3Bottom = m_fallen3Top + 10;
 	//ドッスン3反応判定
 	m_fallenRange3Left = 1110 - 150 - 150 - 10;
@@ -865,7 +938,7 @@ void EnemyStage3::npcPos()
 	//ドッスン4
 	m_fallen4Left = m_fallen4Pos.x;
 	m_fallen4Top = m_fallen4Pos.y;
-	m_fallen4Right = m_fallen4Left + 150;
+	m_fallen4Right = m_fallen4Left + 150 - 10;
 	m_fallen4Bottom = m_fallen4Top + 10;
 	//ドッスン4反応判定
 	m_fallenRange4Left = 1110 - 150 - 150 - 150 - 150 - 10;

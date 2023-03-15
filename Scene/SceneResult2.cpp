@@ -2,7 +2,7 @@
 #include "Image.h"
 #include "game.h"
 #include "Pad.h"
-#include "SceneResult.h"
+#include "SceneResult2.h"
 #include "SceneTitle.h"
 #include "SceneMain.h"
 #include "SceneMain.h"
@@ -18,7 +18,7 @@ namespace
 
 }
 
-SceneResult::SceneResult():
+SceneResult2::SceneResult2():
 	m_hSoundSelect(-1),//選択時のサウンド
 	m_hSoundSelect1(-1),//選択時のサウンド
 	m_hSoundSelect2(-1),//選択時のサウンド
@@ -38,7 +38,7 @@ SceneResult::SceneResult():
 	m_pFireworks = new Fireworks;
 }
 
-SceneResult::~SceneResult()
+SceneResult2::~SceneResult2()
 {
 	delete m_pCursor;
 	delete m_pCursorCollision;
@@ -49,7 +49,7 @@ SceneResult::~SceneResult()
 	DeleteSoundMem(m_hSoundSelect2);
 }
 
-void SceneResult::Init()
+void SceneResult2::Init()
 {
 	//サウンドを読み込み
 	m_hSoundSelect = LoadSoundMem(Sound::kSelect);
@@ -58,13 +58,13 @@ void SceneResult::Init()
 	m_hMusicBgm = LoadSoundMem(Sound::kBgmClear);
 }
 
-void SceneResult::End()
+void SceneResult2::End()
 {
 	StopSoundFile();//再生中のサウンドを止める
 	DeleteSoundMem(m_hMusicBgm);
 }
 
-SceneBase* SceneResult::Update()
+SceneBase* SceneResult2::Update()
 {
 	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	Pad::update();
@@ -76,6 +76,7 @@ SceneBase* SceneResult::Update()
 	m_color1 = Color::kWhite;
 	m_color2 = Color::kWhite;
 	m_color3 = Color::kWhite;
+	/*
 	if (m_pCursorCollision->CollsionDemo())//カーソルと選択範囲に当たっていたら
 	{
 		m_soundCount1++;
@@ -89,7 +90,7 @@ SceneBase* SceneResult::Update()
 			return(new SceneMain4);//同じステージを繰り返す
 		}
 	}
-
+	*/
 	if (m_pCursorCollision->CollsionStage1())//カーソルと選択範囲に当たっていたら
 	{
 		m_soundCount++;
@@ -100,7 +101,7 @@ SceneBase* SceneResult::Update()
 		}
 		if (padState & PAD_INPUT_2)//Xボタン
 		{
-			return(new SceneMain3);//同じステージを繰り返す
+			return(new SceneMain4);//同じステージを繰り返す
 		}
 	}
 	else
@@ -140,7 +141,7 @@ SceneBase* SceneResult::Update()
 	return this;
 }
 
-void SceneResult::Draw()
+void SceneResult2::Draw()
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
 	DrawBox(100, 100, Game::kScreenWidth- 100, Game::kScreenHeight- 100, 0xf0e68c, true);
@@ -150,13 +151,13 @@ void SceneResult::Draw()
 	DrawBox(500, 300, Game::kScreenWidth - 500, Game::kScreenHeight - 300, 0xffffff, false);//枠組み
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);//色を薄くする
-	DrawBox(SceneSelect::kSelectLeft, SceneSelect::kSelectTop, SceneSelect::kSelectRight, SceneSelect::kSelectBottom, m_color1, true);
+	//DrawBox(SceneSelect::kSelectLeft, SceneSelect::kSelectTop, SceneSelect::kSelectRight, SceneSelect::kSelectBottom, m_color1, true);
 	DrawBox(SceneSelect::kSelectLeft2, SceneSelect::kSelectTop2, SceneSelect::kSelectRight2, SceneSelect::kSelectBottom2, m_color2, true);
 	DrawBox(SceneSelect::kSelectLeft3, SceneSelect::kSelectTop3, SceneSelect::kSelectRight3, SceneSelect::kSelectBottom3, m_color3, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);//色を戻す
 
-	DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop - 70, "GameClear", Color::kYellow);
-	DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop + 5, "NextStage", Color::kBlue);
+	DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop + 5, "GameClear", Color::kYellow);
+	//DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop + 5, "NextStage", Color::kYellow);
 	DrawString(SceneSelect::kSelectLeft2 + 100, SceneSelect::kSelectTop2 + 5, "Retry", Color::kBlue);
 	DrawString(SceneSelect::kSelectLeft3 + 75, SceneSelect::kSelectTop3 + 5, "Back to Title", Color::kBlue);
 

@@ -18,7 +18,7 @@ namespace
 //コンストラクタ
 Collision3::Collision3():
 	m_posY(0.0f),
-	m_enemyPosY(0),
+	m_enemyPosY(),
 	m_landingPos(0.0f),
 	m_enemyFireBallPosY(0),
 	m_isGameOver(false),
@@ -33,6 +33,11 @@ Collision3::Collision3():
 	m_pMap = new DrawMapStage1;
 	m_pEnemy = new EnemyStage3;
 	m_landingPos = 70.0f;
+
+	for (int i = 0; i < 3; i++)
+	{
+		m_enemyPosY[i] = 0;
+	}
 }
 //デストラクタ
 Collision3::~Collision3()
@@ -65,8 +70,12 @@ void Collision3::Update()
 
 	//樽エネミー判定
 	m_pEnemy->GetHitFall(HitEnemyObject()); //重力.y
+	m_pEnemy->GetHitFall2(HitBarre()); //重力.y
+	m_pEnemy->GetHitFall3(HitBarre2()); //重力.y
 	m_pEnemy->GetEnemyLadder(HItEnemyLadder());   //位置.y
-	m_pEnemy->GetPos(m_enemyPosY);           //位置.y
+	m_pEnemy->GetPos(m_enemyPosY[0]);           //位置.y
+	m_pEnemy->GetPos2(m_enemyPosY[1]);           //位置.y
+	m_pEnemy->GetPos3(m_enemyPosY[2]);           //位置.y
 
 	//炎玉エネミー判定
 	m_pEnemy->GetHitFireBallFall(HitEnemyFireBall()); //重力.y
@@ -737,6 +746,24 @@ bool Collision3::HitEnemy()
 			return true;
 		}
 	}
+	if ((m_pEnemy->GetBarrel2Right() > m_pPlayer->GetPlayerLeft()) &&
+		(m_pEnemy->GetBarrel2Left() < m_pPlayer->GetPlayerRight()))
+	{
+		if ((m_pEnemy->GetBarrel2Bottom() > m_pPlayer->GetPlayerTop()) &&
+			(m_pEnemy->GetBarrel2Top() < m_pPlayer->GetPlayerBottom()))
+		{
+			return true;
+		}
+	}
+	if ((m_pEnemy->GetBarrel3Right() > m_pPlayer->GetPlayerLeft()) &&
+		(m_pEnemy->GetBarrel3Left() < m_pPlayer->GetPlayerRight()))
+	{
+		if ((m_pEnemy->GetBarrel3Bottom() > m_pPlayer->GetPlayerTop()) &&
+			(m_pEnemy->GetBarrel3Top() < m_pPlayer->GetPlayerBottom()))
+		{
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -783,7 +810,7 @@ bool Collision3::HitPlayer()
 
 }
 
-//地面の判定
+//敵と地面の判定
 int Collision3::HitEnemyObject()
 {
 	//1階の判定///////////////////////////////////////////////////////////////////////////////////////////
@@ -793,7 +820,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom1Y > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox1Y < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox1Y - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox1Y - kEnemyPosY + kPlayerPosPulsY;
 
 			return 1;
 		}
@@ -805,7 +832,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom2Y > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox2Y < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox2Y - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox2Y - kEnemyPosY + kPlayerPosPulsY;
 			return 1;
 		}
 	}
@@ -816,7 +843,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom3Y > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox3Y < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox3Y - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox3Y - kEnemyPosY + kPlayerPosPulsY;
 			-Stage2::kBoxStep;
 			return 1;
 		}
@@ -828,7 +855,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom4Y > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox4Y < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox4Y - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox4Y - kEnemyPosY + kPlayerPosPulsY;
 			-Stage2::kBoxStep - Stage2::kBoxStep;
 			return 1;
 		}
@@ -840,7 +867,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom5Y > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox5Y < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox5Y - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox5Y - kEnemyPosY + kPlayerPosPulsY;
 			return 1;
 		}
 	}
@@ -851,7 +878,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom6Y > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox6Y < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox6Y - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox6Y - kEnemyPosY + kPlayerPosPulsY;
 			return 1;
 		}
 	}
@@ -862,7 +889,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom7Y > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox7Y < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox7Y - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox7Y - kEnemyPosY + kPlayerPosPulsY;
 			return 1;
 		}
 	}
@@ -873,7 +900,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom8Y > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox8Y < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox8Y - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox8Y - kEnemyPosY + kPlayerPosPulsY;
 			return 1;
 		}
 	}
@@ -885,7 +912,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::koxBottom1Ys > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox1Ys < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox1Ys - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox1Ys - kEnemyPosY + kPlayerPosPulsY;
 			return 2;
 		}
 	}
@@ -896,7 +923,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom2Ys > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox2Ys < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox2Ys - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox2Ys - kEnemyPosY + kPlayerPosPulsY;
 			return 2;
 		}
 	}
@@ -907,7 +934,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom3Ys > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox3Ys < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox3Ys - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox3Ys - kEnemyPosY + kPlayerPosPulsY;
 			return 2;
 		}
 	}
@@ -918,7 +945,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom4Ys > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox4Ys < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox4Ys - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox4Ys - kEnemyPosY + kPlayerPosPulsY;
 			return 2;
 		}
 	}
@@ -929,7 +956,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom5Ys > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox5Ys < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox5Ys - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox5Ys - kEnemyPosY + kPlayerPosPulsY;
 			return 2;
 		}
 	}
@@ -940,7 +967,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom6Ys > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox6Ys < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox6Ys - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox6Ys - kEnemyPosY + kPlayerPosPulsY;
 			return 2;
 		}
 	}
@@ -951,7 +978,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom7Ys > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox7Ys < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox7Ys - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox7Ys - kEnemyPosY + kPlayerPosPulsY;
 			return 2;
 		}
 	}
@@ -962,7 +989,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom8Ys > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox8Ys < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox8Ys - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox8Ys - kEnemyPosY + kPlayerPosPulsY;
 			return 2;
 		}
 	}
@@ -974,7 +1001,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom1Yt > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox1Yt < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox1Yt - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox1Yt - kEnemyPosY + kPlayerPosPulsY;
 			return 3;
 		}
 	}
@@ -985,7 +1012,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom2Yt > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox2Yt < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox2Yt - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox2Yt - kEnemyPosY + kPlayerPosPulsY;
 			return 3;
 		}
 	}
@@ -996,7 +1023,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom3Yt > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox3Yt < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox3Yt - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox3Yt - kEnemyPosY + kPlayerPosPulsY;
 			return 3;
 		}
 	}
@@ -1007,7 +1034,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom4Yt > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox4Yt < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox4Yt - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox4Yt - kEnemyPosY + kPlayerPosPulsY;
 			return 3;
 		}
 	}
@@ -1018,7 +1045,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom5Yt > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox5Yt < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox5Yt - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox5Yt - kEnemyPosY + kPlayerPosPulsY;
 			return 3;
 		}
 	}
@@ -1029,7 +1056,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom6Yt > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox6Yt < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox6Yt - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox6Yt - kEnemyPosY + kPlayerPosPulsY;
 			return 3;
 		}
 	}
@@ -1040,7 +1067,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom7Yt > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox7Yt < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox7Yt - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox7Yt - kEnemyPosY + kPlayerPosPulsY;
 			return 3;
 		}
 	}
@@ -1051,7 +1078,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom8Yt > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox8Yt < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox8Yt - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox8Yt - kEnemyPosY + kPlayerPosPulsY;
 			return 3;
 		}
 	}
@@ -1063,7 +1090,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom1Yf > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox1Yf < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox1Yf - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox1Yf - kEnemyPosY + kPlayerPosPulsY;
 			return 4;
 		}
 	}
@@ -1074,7 +1101,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom2Yf > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox2Yf < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox2Yf - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox2Yf - kEnemyPosY + kPlayerPosPulsY;
 			return 4;
 		}
 	}
@@ -1085,7 +1112,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom3Yf > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox3Yf < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox3Yf - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox3Yf - kEnemyPosY + kPlayerPosPulsY;
 			return 4;
 		}
 	}
@@ -1096,7 +1123,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom4Yf > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox4Yf < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox4Yf - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox4Yf - kEnemyPosY + kPlayerPosPulsY;
 			return 4;
 		}
 	}
@@ -1107,7 +1134,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom5Yf > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox5Yf < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox5Yf - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox5Yf - kEnemyPosY + kPlayerPosPulsY;
 			return 4;
 		}
 	}
@@ -1118,7 +1145,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom6Yf > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox6Yf < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox6Yf - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox6Yf - kEnemyPosY + kPlayerPosPulsY;
 			return 4;
 		}
 	}
@@ -1129,7 +1156,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom7Yf > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox7Yf < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox7Yf - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox7Yf - kEnemyPosY + kPlayerPosPulsY;
 			return 4;
 		}
 	}
@@ -1140,7 +1167,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom8Yf > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox8Yf < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox8Yf - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox8Yf - kEnemyPosY + kPlayerPosPulsY;
 			return 4;
 		}
 	}
@@ -1152,7 +1179,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom1YFi > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox1YFi < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox1YFi - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox1YFi - kEnemyPosY + kPlayerPosPulsY;
 			return 5;
 		}
 	}
@@ -1163,7 +1190,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom2YFi > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox2YFi < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox2YFi - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox2YFi - kEnemyPosY + kPlayerPosPulsY;
 			return 5;
 		}
 	}
@@ -1174,7 +1201,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom3YFi > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox3YFi < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox3YFi - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox3YFi - kEnemyPosY + kPlayerPosPulsY;
 			return 5;
 		}
 	}
@@ -1185,7 +1212,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom4YFi > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox4YFi < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox4YFi - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox4YFi - kEnemyPosY + kPlayerPosPulsY;
 			return 5;
 		}
 	}
@@ -1196,7 +1223,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom5YFi > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox5YFi < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox5YFi - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox5YFi - kEnemyPosY + kPlayerPosPulsY;
 			return 5;
 		}
 	}
@@ -1207,7 +1234,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom6YFi > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox6YFi < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox6YFi - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox6YFi - kEnemyPosY + kPlayerPosPulsY;
 			return 5;
 		}
 	}
@@ -1218,7 +1245,7 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom7YFi > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox7YFi < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox7YFi - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox7YFi - kEnemyPosY + kPlayerPosPulsY;
 			return 5;
 		}
 	}
@@ -1229,10 +1256,204 @@ int Collision3::HitEnemyObject()
 		if ((Stage2::kBoxBottom8YFi > m_pEnemy->GetBarrelTop()) &&
 			(Stage2::kBox8YFi < m_pEnemy->GetBarrelBottom()))
 		{
-			m_enemyPosY = Stage2::kBox8YFi - kEnemyPosY + kPlayerPosPulsY;
+			m_enemyPosY[0] = Stage2::kBox8YFi - kEnemyPosY + kPlayerPosPulsY;
 			return 5;
 		}
 	}
+
+	return 0;
+}
+
+int Collision3::HitBarre()
+{
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////*ここから追加いのしし*///////////////////////////////////////////////////////////////////
+//5階の判定///////////////////////////////////////////////////////////////////////////////////////////
+	if ((Stage2::kBoxBottom1XFi > m_pEnemy->GetBarrel2Left()) &&
+		(Stage2::kBox1XFi < m_pEnemy->GetBarrel2Right()))
+	{
+		if ((Stage2::kBoxBottom1YFi > m_pEnemy->GetBarrel2Top()) &&
+			(Stage2::kBox1YFi < m_pEnemy->GetBarrel2Bottom()))
+		{
+			m_enemyPosY[1] = Stage2::kBox1YFi - kEnemyPosY + kPlayerPosPulsY;
+			return 5;
+		}
+	}
+	//1段差
+	if ((Stage2::kBoxBottom2XFi > m_pEnemy->GetBarrel2Left()) &&
+		(Stage2::kBox2XFi < m_pEnemy->GetBarrel2Right()))
+	{
+		if ((Stage2::kBoxBottom2YFi > m_pEnemy->GetBarrel2Top()) &&
+			(Stage2::kBox2YFi < m_pEnemy->GetBarrel2Bottom()))
+		{
+			m_enemyPosY[1] = Stage2::kBox2YFi - kEnemyPosY + kPlayerPosPulsY;
+			return 5;
+		}
+	}
+	//2段差
+	if ((Stage2::kBoxBottom3XFi > m_pEnemy->GetBarrel2Left()) &&
+		(Stage2::kBox3XFi < m_pEnemy->GetBarrel2Right()))
+	{
+		if ((Stage2::kBoxBottom3YFi > m_pEnemy->GetBarrel2Top()) &&
+			(Stage2::kBox3YFi < m_pEnemy->GetBarrel2Bottom()))
+		{
+			m_enemyPosY[1] = Stage2::kBox3YFi - kEnemyPosY + kPlayerPosPulsY;
+			return 5;
+		}
+	}
+	//3段差
+	if ((Stage2::kBoxBottom4XFi > m_pEnemy->GetBarrel2Left()) &&
+		(Stage2::kBox4XFi < m_pEnemy->GetBarrel2Right()))
+	{
+		if ((Stage2::kBoxBottom4YFi > m_pEnemy->GetBarrel2Top()) &&
+			(Stage2::kBox4YFi < m_pEnemy->GetBarrel2Bottom()))
+		{
+			m_enemyPosY[1] = Stage2::kBox4YFi - kEnemyPosY + kPlayerPosPulsY;
+			return 5;
+		}
+	}
+	//4段差
+	if ((Stage2::kBoxBottom5XFi > m_pEnemy->GetBarrel2Left()) &&
+		(Stage2::kBox5XFi < m_pEnemy->GetBarrel2Right()))
+	{
+		if ((Stage2::kBoxBottom5YFi > m_pEnemy->GetBarrel2Top()) &&
+			(Stage2::kBox5YFi < m_pEnemy->GetBarrel2Bottom()))
+		{
+			m_enemyPosY[1] = Stage2::kBox5YFi - kEnemyPosY + kPlayerPosPulsY;
+			return 5;
+		}
+	}
+	//5段差
+	if ((Stage2::kBoxBottom6XFi > m_pEnemy->GetBarrel2Left()) &&
+		(Stage2::kBox6XFi < m_pEnemy->GetBarrel2Right()))
+	{
+		if ((Stage2::kBoxBottom6YFi > m_pEnemy->GetBarrel2Top()) &&
+			(Stage2::kBox6YFi < m_pEnemy->GetBarrel2Bottom()))
+		{
+			m_enemyPosY[1] = Stage2::kBox6YFi - kEnemyPosY + kPlayerPosPulsY;
+			return 5;
+		}
+	}
+	//6段差
+	if ((Stage2::kBoxBottom7XFi > m_pEnemy->GetBarrel2Left()) &&
+		(Stage2::kBox7XFi < m_pEnemy->GetBarrel2Right()))
+	{
+		if ((Stage2::kBoxBottom7YFi > m_pEnemy->GetBarrel2Top()) &&
+			(Stage2::kBox7YFi < m_pEnemy->GetBarrel2Bottom()))
+		{
+			m_enemyPosY[1] = Stage2::kBox7YFi - kEnemyPosY + kPlayerPosPulsY;
+			return 5;
+		}
+	}
+	//7段差
+	if ((Stage2::kBoxBottom8XFi > m_pEnemy->GetBarrel2Left()) &&
+		(Stage2::kBox8XFi < m_pEnemy->GetBarrel2Right()))
+	{
+		if ((Stage2::kBoxBottom8YFi > m_pEnemy->GetBarrel2Top()) &&
+			(Stage2::kBox8YFi < m_pEnemy->GetBarrel2Bottom()))
+		{
+			m_enemyPosY[1] = Stage2::kBox8YFi - kEnemyPosY + kPlayerPosPulsY;
+			return 5;
+		}
+	}
+
+
+
+	return 0;
+}
+
+int Collision3::HitBarre2()
+{
+	////////////////////////////////////////////////////////////////////////////
+//1段差
+	if ((Stage2::kBoxBottom1XFi > m_pEnemy->GetBarrel3Left()) &&
+		(Stage2::kBox1XFi < m_pEnemy->GetBarrel3Right()))
+	{
+		if ((Stage2::kBoxBottom1YFi > m_pEnemy->GetBarrel3Top()) &&
+			(Stage2::kBox1YFi < m_pEnemy->GetBarrel3Bottom()))
+		{
+			m_enemyPosY[2] = Stage2::kBox1YFi - kEnemyPosY + kPlayerPosPulsY;
+			return 5;
+		}
+	}
+	//1段差
+	if ((Stage2::kBoxBottom2XFi > m_pEnemy->GetBarrel3Left()) &&
+		(Stage2::kBox2XFi < m_pEnemy->GetBarrel3Right()))
+	{
+		if ((Stage2::kBoxBottom2YFi > m_pEnemy->GetBarrel3Top()) &&
+			(Stage2::kBox2YFi < m_pEnemy->GetBarrel3Bottom()))
+		{
+			m_enemyPosY[2] = Stage2::kBox2YFi - kEnemyPosY + kPlayerPosPulsY;
+			return 5;
+		}
+	}
+	//2段差
+	if ((Stage2::kBoxBottom3XFi > m_pEnemy->GetBarrel3Left()) &&
+		(Stage2::kBox3XFi < m_pEnemy->GetBarrel3Right()))
+	{
+		if ((Stage2::kBoxBottom3YFi > m_pEnemy->GetBarrel3Top()) &&
+			(Stage2::kBox3YFi < m_pEnemy->GetBarrel3Bottom()))
+		{
+			m_enemyPosY[2] = Stage2::kBox3YFi - kEnemyPosY + kPlayerPosPulsY;
+			return 5;
+		}
+	}
+	//3段差
+	if ((Stage2::kBoxBottom4XFi > m_pEnemy->GetBarrel3Left()) &&
+		(Stage2::kBox4XFi < m_pEnemy->GetBarrel3Right()))
+	{
+		if ((Stage2::kBoxBottom4YFi > m_pEnemy->GetBarrel3Top()) &&
+			(Stage2::kBox4YFi < m_pEnemy->GetBarrel3Bottom()))
+		{
+			m_enemyPosY[2] = Stage2::kBox4YFi - kEnemyPosY + kPlayerPosPulsY;
+			return 5;
+		}
+	}
+	//4段差
+	if ((Stage2::kBoxBottom5XFi > m_pEnemy->GetBarrel3Left()) &&
+		(Stage2::kBox5XFi < m_pEnemy->GetBarrel3Right()))
+	{
+		if ((Stage2::kBoxBottom5YFi > m_pEnemy->GetBarrel3Top()) &&
+			(Stage2::kBox5YFi < m_pEnemy->GetBarrel3Bottom()))
+		{
+			m_enemyPosY[2] = Stage2::kBox5YFi - kEnemyPosY + kPlayerPosPulsY;
+			return 5;
+		}
+	}
+	//5段差
+	if ((Stage2::kBoxBottom6XFi > m_pEnemy->GetBarrel3Left()) &&
+		(Stage2::kBox6XFi < m_pEnemy->GetBarrel3Right()))
+	{
+		if ((Stage2::kBoxBottom6YFi > m_pEnemy->GetBarrel3Top()) &&
+			(Stage2::kBox6YFi < m_pEnemy->GetBarrel3Bottom()))
+		{
+			m_enemyPosY[2] = Stage2::kBox6YFi - kEnemyPosY + kPlayerPosPulsY;
+			return 5;
+		}
+	}
+	//6段差
+	if ((Stage2::kBoxBottom7XFi > m_pEnemy->GetBarrel3Left()) &&
+		(Stage2::kBox7XFi < m_pEnemy->GetBarrel3Right()))
+	{
+		if ((Stage2::kBoxBottom7YFi > m_pEnemy->GetBarrel3Top()) &&
+			(Stage2::kBox7YFi < m_pEnemy->GetBarrel3Bottom()))
+		{
+			m_enemyPosY[2] = Stage2::kBox7YFi - kEnemyPosY + kPlayerPosPulsY;
+			return 5;
+		}
+	}
+	//7段差
+	if ((Stage2::kBoxBottom8XFi > m_pEnemy->GetBarrel3Left()) &&
+		(Stage2::kBox8XFi < m_pEnemy->GetBarrel3Right()))
+	{
+		if ((Stage2::kBoxBottom8YFi > m_pEnemy->GetBarrel3Top()) &&
+			(Stage2::kBox8YFi < m_pEnemy->GetBarrel3Bottom()))
+		{
+			m_enemyPosY[2] = Stage2::kBox8YFi - kEnemyPosY + kPlayerPosPulsY;
+			return 5;
+		}
+	}
+
 
 	return 0;
 }

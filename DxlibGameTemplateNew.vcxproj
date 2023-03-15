@@ -183,6 +183,7 @@
     <ClCompile Include="Object\SoundManager.cpp" />
     <ClCompile Include="Scene\SceneGameOver2.cpp" />
     <ClCompile Include="Scene\SceneGameOver.cpp" />
+    <ClCompile Include="Scene\SceneGameOver3.cpp" />
     <ClCompile Include="Scene\SceneMain2.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
     <ClCompile Include="Scene\SceneMain.cpp" />
@@ -190,6 +191,7 @@
     <ClCompile Include="Scene\SceneMain4.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Scene\SceneResult.cpp" />
+    <ClCompile Include="Scene\SceneResult2.cpp" />
     <ClCompile Include="Scene\SceneTitle.cpp" />
     <ClCompile Include="Object\TitleCollision.cpp" />
     <ClCompile Include="Object\TitleCursor.cpp" />
@@ -211,7 +213,9 @@
     <ClInclude Include="Object\EnemyStage1.h" />
     <ClInclude Include="Object\Collision.h" />
     <ClInclude Include="Object\DrawMapStage1.h" />
+    <ClInclude Include="Scene\SceneGameOver3.h" />
     <ClInclude Include="Scene\SceneMain4.h" />
+    <ClInclude Include="Scene\SceneResult2.h" />
     <ClInclude Include="Util\Image.h" />
     <ClInclude Include="Object\Enemy.h" />
     <ClInclude Include="Util\game.h" />

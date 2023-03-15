@@ -24,6 +24,8 @@ public:
 	bool HitGoal();//ゴールとの判定
 
 	int HitEnemyObject();//敵と地面との当たり判定
+	int HitBarre();//地面との判定
+	int HitBarre2();//地面との判定
 	int HItEnemyLadder();//梯子とエネミーの当たり判定
 
 	int HitEnemyFireBall();//炎球と地面の当たり判定
@@ -53,7 +55,7 @@ public:
 private:
 
 	bool m_isGameOver;
-	float m_enemyPosY;//プレイヤーのY座標
+	float m_enemyPosY[3];//プレイヤーのY座標
 	int m_enemyFireBallPosY;//プレイヤーのY座標
 
 	float m_landingPos;//着地位置

@@ -28,6 +28,7 @@ SceneMain2::SceneMain2() :
 	m_isSceneRetry(false),
 	m_isSceneTitle(false),//画面が暗くなった後にシーンの切り替え
 	m_isSceneDead(false),//死んだらシーン切り替え
+	m_isGameClear(false),
 	m_pStage(nullptr),
 	m_pPlayer(nullptr),
 	m_pCollision(nullptr),
@@ -195,7 +196,7 @@ void SceneMain2::Draw()
 		GameClear();//どの画面に移動するか確認
 	}
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeValue);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(m_fadeValue));
 	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, 0x000000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	/*

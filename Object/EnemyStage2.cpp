@@ -387,8 +387,8 @@ void EnemyStage2::falleMove()
 	{
 		m_fallenCount++;//k‚¦‚éŠÔ
 		//—h‚ê‚é
-		m_fallenPos.x = Stage2::kBox2Xt + GetRand(10);
-		m_fallenPos.y = Stage2::kBoxBottom8Yf + GetRand(10);
+		m_fallenPos.x = static_cast<float>(Stage2::kBox2Xt + GetRand(10));
+		m_fallenPos.y = static_cast<float>(Stage2::kBoxBottom8Yf + GetRand(10));
 	}
 
 	if (m_fallenCount >= 45)
@@ -434,8 +434,8 @@ void EnemyStage2::falleMove()
 	{
 		m_fallenCount2++;//k‚¦‚éŠÔ
 		//—h‚ê‚é
-		m_fallen2Pos.x = Stage2::kBox4Xt + GetRand(10);
-		m_fallen2Pos.y = Stage2::kBoxBottom8Yf + GetRand(10);
+		m_fallen2Pos.x = static_cast<float>(Stage2::kBox4Xt + GetRand(10));
+		m_fallen2Pos.y = static_cast<float>(Stage2::kBoxBottom8Yf + GetRand(10));
 	}
 
 	if (m_fallenCount2 >= 45)

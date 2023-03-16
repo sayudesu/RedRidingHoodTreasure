@@ -295,8 +295,8 @@ void EnemyStage1::EnemySoud()
 void EnemyStage1::npcPos()
 {
 	//enemyÇÃç¿ïW
-	m_posLeft = m_pos.x;
-	m_posTop = m_pos.y;
+	m_posLeft = static_cast<int>(m_pos.x);
+	m_posTop = static_cast<int>(m_pos.y);
 	m_posRight = m_posLeft + 40;
 	m_posBottom = m_posTop + 30;
 
@@ -309,8 +309,8 @@ void EnemyStage1::npcPos()
 		m_barrelSizePulsX = 0;
 	}
 	//íM
-	m_barrelLeft = m_barrelPos.x;
-	m_barrelTop = m_barrelPos.y + 5.0f;
+	m_barrelLeft = static_cast<int>(m_barrelPos.x);
+	m_barrelTop = static_cast<int>(m_barrelPos.y + 5.0f);
 	m_barrelRight = m_barrelLeft + 50;
 	m_barrelBottom = m_barrelTop + 40;
 

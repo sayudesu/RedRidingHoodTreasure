@@ -84,8 +84,8 @@ void SceneTitle::Init()
 	m_hSoundSelect = LoadSoundMem(Sound::kSelect);
 	m_hSoundSelect2 = LoadSoundMem(Sound::kSelect2);
 
-	m_imagePos.x   = Game::kScreenWidth / 2;
-	m_imagePos.y   = Game::kScreenHeight / 2 - 250;
+	m_imagePos.x = static_cast<float>(Game::kScreenWidth) / 2;
+	m_imagePos.y   = static_cast<int>(Game::kScreenHeight / 2 - 250);
 
 	//Aボタン押していない状態（画像）
 	m_buttonALeft = 16 + 16 + 16;
@@ -224,7 +224,7 @@ SceneBase* SceneTitle::Update()
 void SceneTitle::Draw()
 {
 	DrawExtendGraph(0 + 100, 0 + 100,Game::kScreenWidth  - 100, Game::kScreenHeight - 100,m_hImageMap,true);
-	DrawRectRotaGraph(m_imagePos.x, m_imagePos.y,
+	DrawRectRotaGraph(static_cast<int>(m_imagePos.x, m_imagePos.y),
 		m_charaImagePos, 133, 112, 133, 18, 0, m_hImagePlayer, true, true);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);//透過
@@ -278,7 +278,7 @@ void SceneTitle::Draw()
 	//カーソルの位置を描画
 	m_pCursor->Draw();
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeValue);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(m_fadeValue));
 	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, 0x000000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

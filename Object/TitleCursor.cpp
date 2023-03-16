@@ -3,10 +3,11 @@
 #include <Dxlib.h>
 
 TitleCursor::TitleCursor():
-	m_padPos(0.0f,0.0f)
+	m_padPos(0.0f,0.0f),
+	m_isMenu(false)
 {
-	m_padPos.x = Game::kScreenWidth / 2;
-	m_padPos.y = Game::kScreenHeight / 2 + 30;
+	m_padPos.x = static_cast<float>(Game::kScreenWidth) / 2;
+	m_padPos.y = static_cast<float>(Game::kScreenHeight / 2 + 30);
 }
 
 TitleCursor::~TitleCursor()
@@ -23,8 +24,8 @@ void TitleCursor::Update()
 	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	if (!m_isMenu)//メニューを閉じる時にカーソルの位置を初期値に戻す
 	{
-		m_padPos.x = Game::kScreenWidth / 2;
-		m_padPos.y = Game::kScreenHeight / 2;
+		m_padPos.x = static_cast<float>(Game::kScreenWidth) / 2;
+		m_padPos.y = static_cast<float>(Game::kScreenHeight) / 2;
 	}
 	PosSet();
 
@@ -65,10 +66,10 @@ void TitleCursor::PosSet()
 
 void TitleCursor::DrawPadCursor()
 {
-	DrawCircle(m_padPos.x, m_padPos.y, 20, 0x00ffff, false);
+	DrawCircle(static_cast<int>(m_padPos.x, m_padPos.y), 20, 0x00ffff, false);
 	// 描画ブレンドモードをアルファブレンド（５０％）にする
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-	DrawCircle(m_padPos.x, m_padPos.y, 19, 0xffff00, true);
+	DrawCircle(static_cast<int>(m_padPos.x,m_padPos.y), 19, 0xffff00, true);
 	// 描画ブレンドモードをノーブレンドにする
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

@@ -263,9 +263,9 @@ void PlayerMapMove::Draw()
 	if(!m_isHealthBer)
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 230);
-		DrawBox(m_pos.x - 35, m_pos.y - 30, m_pos.x - 35 + 75, m_pos.y - 30 + 10, 0xff0000, true);
-		DrawExtendGraph(m_pos.x - 35, m_pos.y - 30, m_playerHealthSizeX + m_pos.x - 35 + 75, m_playerHealthSizeY + m_pos.y - 30 + 10,m_hHealthBer,true);
-		DrawBox(m_pos.x - 35, m_pos.y - 30, m_pos.x - 35 + 75, m_pos.y - 30 + 10, 0xffffff, false);
+		DrawBox(static_cast<int>(m_pos.x) - 35, static_cast<int>(m_pos.y) - 30, static_cast<int>(m_pos.x) - 35 + 75, static_cast<int>(m_pos.y) - 30 + 10, 0xff0000, true);
+		DrawExtendGraph(static_cast<int>(m_pos.x) - 35, static_cast<int>(m_pos.y) - 30, m_playerHealthSizeX + static_cast<int>(m_pos.x) - 35 + 75, m_playerHealthSizeY + static_cast<int>(m_pos.y) - 30 + 10,m_hHealthBer,true);
+		DrawBox(static_cast<int>(m_pos.x) - 35, static_cast<int>(m_pos.y) - 30, static_cast<int>(m_pos.x) - 35 + 75, static_cast<int>(m_pos.y) - 30 + 10, 0xffffff, false);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 
@@ -274,7 +274,7 @@ void PlayerMapMove::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 64);
 	for (int i = 0; i < 4 ; i++)
 	{
-		DrawRotaGraph(m_pos.x - 3 + GetRand(5), m_pos.y + 20 + GetRand(5), 3, 0, m_hPlayerLighting, true, false);
+		DrawRotaGraph(static_cast<int>(m_pos.x) - 3 + GetRand(5), static_cast<int>(m_pos.y) + 20 + GetRand(5), 3, 0, m_hPlayerLighting, true, false);
 	}
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
@@ -367,7 +367,8 @@ void PlayerMapMove::Draw()
 
 	if (m_isAttack)
 	{
-		DrawBox(m_attackPos.x, m_attackPos.y, m_attackBottomPos.x, m_attackBottomPos.y, 0x0000ff, false);
+		DrawBox(static_cast<int>(m_attackPos.x), static_cast<int>(m_attackPos.y),
+			static_cast<int>(m_attackBottomPos.x), static_cast<int>(m_attackBottomPos.y), 0x0000ff, false);
 	}
 
 	//printfDx("%f\n", m_pos.y);

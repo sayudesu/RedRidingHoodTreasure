@@ -548,8 +548,8 @@ void EnemyStage3::falleMove()
 	{
 		m_fallenCount++;//震える時間
 		//揺れる
-		m_fallenPos.x = Stage2::kBox2Xt + GetRand(10);
-		m_fallenPos.y = Stage2::kBoxBottom8Yf + GetRand(10);
+		m_fallenPos.x = static_cast<float>(Stage2::kBox2Xt + GetRand(10));
+		m_fallenPos.y = static_cast<float>(Stage2::kBoxBottom8Yf + GetRand(10));
 	}
 
 	if (m_fallenCount >= 45)
@@ -595,8 +595,8 @@ void EnemyStage3::falleMove()
 	{
 		m_fallenCount2++;//震える時間
 		//揺れる
-		m_fallen2Pos.x = Stage2::kBox4Xt + GetRand(10);
-		m_fallen2Pos.y = Stage2::kBoxBottom8Yf + GetRand(10);
+		m_fallen2Pos.x = static_cast<float>(Stage2::kBox4Xt + GetRand(10));
+		m_fallen2Pos.y = static_cast<float>(Stage2::kBoxBottom8Yf + GetRand(10));
 	}
 
 	if (m_fallenCount2 >= 45)
@@ -643,8 +643,8 @@ void EnemyStage3::falleMove()
 		m_fallenCount3++;//震える時間
 		//揺れる
 
-		m_fallen3Pos.x = Stage2::kBoxBottom5Xf + GetRand(10);
-		m_fallen3Pos.y = Stage2::kBoxBottom8Yf - Stage2::kBoxHeight / 2 + GetRand(10);
+		m_fallen3Pos.x = static_cast<float>(Stage2::kBoxBottom5Xf + GetRand(10));
+		m_fallen3Pos.y = static_cast<float>(Stage2::kBoxBottom8Yf - Stage2::kBoxHeight / 2 + GetRand(10));
 	}
 
 	if (m_fallenCount3 >= 45)//落ちるカウント
@@ -691,8 +691,8 @@ void EnemyStage3::falleMove()
 	{
 		m_fallenCount4++;//震える時間
 		//揺れる
-		m_fallen4Pos.x = Stage2::kBoxBottom3Xf + GetRand(10);
-		m_fallen4Pos.y = Stage2::kBoxBottom8Yf - Stage2::kBoxHeight + GetRand(10);
+		m_fallen4Pos.x = static_cast<float>(Stage2::kBoxBottom3Xf + GetRand(10));
+		m_fallen4Pos.y = static_cast<float>(Stage2::kBoxBottom8Yf - Stage2::kBoxHeight + GetRand(10));
 	}
 
 	if (m_fallenCount4 >= 45)
@@ -768,9 +768,9 @@ void EnemyStage3::UpDownMove()
 		m_upDownLeftImageX = 0;//画像位置を右に戻す
 		if (m_upDownLeftImageY <= 400)m_upDownLeftImageY += 100;//Yが400になるまで繰り返す
 		else{
-			if(m_upDownRad <= DX_PI + DX_PI)m_upDownRad++;
+			if(m_upDownRad <= static_cast<int>(DX_PI + DX_PI))m_upDownRad++;
 			else{
-				m_upDownRad = DX_PI;
+				m_upDownRad = static_cast<int>(DX_PI);
 			}
 			m_upDownLeftImageY = 0;//一番上に戻す
 		}
@@ -801,9 +801,9 @@ void EnemyStage3::UpDownMove()
 		m_upDownLeft2ImageX = 0;//画像位置を右に戻す
 		if (m_upDownLeft2ImageY <= 400)m_upDownLeft2ImageY += 100;//Yが400になるまで繰り返す
 		else {
-			if (m_upDownRad <= DX_PI + DX_PI)m_upDownRad++;
+			if (m_upDownRad <= static_cast<int>(DX_PI + DX_PI))m_upDownRad++;
 			else {
-				m_upDownRad = DX_PI;
+				m_upDownRad = static_cast<int>(DX_PI);
 			}
 			m_upDownLeft2ImageY = 0;//一番上に戻す
 		}
@@ -850,8 +850,8 @@ void EnemyStage3::UpDownMove()
 void EnemyStage3::npcPos()
 {
 	//enemyの座標
-	m_posLeft = m_pos.x;
-	m_posTop = m_pos.y;
+	m_posLeft = static_cast<int>(m_pos.x);
+	m_posTop = static_cast<int>(m_pos.y);
 	m_posRight = m_posLeft + 40;
 	m_posBottom = m_posTop + 30;
 
@@ -870,15 +870,15 @@ void EnemyStage3::npcPos()
 	//樽
 	for (int i = 0; i < 3; i++)
 	{
-		m_barrelLeft[i] = m_barrelPos[i].x;
-		m_barrelTop[i] = m_barrelPos[i].y + 5.0f;
+		m_barrelLeft[i] = static_cast<int>(m_barrelPos[i].x);
+		m_barrelTop[i] = static_cast<int>(m_barrelPos[i].y + 5.0f);
 		m_barrelRight[i] = m_barrelLeft[i] + 50;
 		m_barrelBottom[i] = m_barrelTop[i] + 40;
 	}
 
 	//ドッスン
-	m_fallenLeft = m_fallenPos.x;
-	m_fallenTop = m_fallenPos.y;
+	m_fallenLeft = static_cast<int>(m_fallenPos.x);
+	m_fallenTop = static_cast<int>(m_fallenPos.y);
 	m_fallenRight = m_fallenLeft + 150 - 10;
 	m_fallenBottom = m_fallenTop + 10;
 	//ドッスン反応判定
@@ -887,8 +887,8 @@ void EnemyStage3::npcPos()
 	m_fallenRangeRight = m_fallenRangeLeft + 250;
 	m_fallenRangeBottom = m_fallenRangeTop + 120;
 	//ドッスン2
-	m_fallen2Left = m_fallen2Pos.x;
-	m_fallen2Top = m_fallen2Pos.y;
+	m_fallen2Left = static_cast<int>(m_fallen2Pos.x);
+	m_fallen2Top = static_cast<int>(m_fallen2Pos.y);
 	m_fallen2Right = m_fallen2Left + 150 - 10;
 	m_fallen2Bottom = m_fallen2Top + 10;
 	//ドッスン2反応判定
@@ -898,8 +898,8 @@ void EnemyStage3::npcPos()
 	m_fallenRange2Bottom = m_fallenRange2Top + 120;
 
 	//ドッスン3
-	m_fallen3Left = m_fallen3Pos.x;
-	m_fallen3Top = m_fallen3Pos.y;
+	m_fallen3Left = static_cast<int>(m_fallen3Pos.x);
+	m_fallen3Top = static_cast<int>(m_fallen3Pos.y);
 	m_fallen3Right = m_fallen3Left + 150 - 10;
 	m_fallen3Bottom = m_fallen3Top + 10;
 	//ドッスン3反応判定
@@ -909,8 +909,8 @@ void EnemyStage3::npcPos()
 	m_fallenRange3Bottom = m_fallenRange3Top + 120;
 
 	//ドッスン4
-	m_fallen4Left = m_fallen4Pos.x;
-	m_fallen4Top = m_fallen4Pos.y;
+	m_fallen4Left = static_cast<int>(m_fallen4Pos.x);
+	m_fallen4Top = static_cast<int>(m_fallen4Pos.y);
 	m_fallen4Right = m_fallen4Left + 150 - 10;
 	m_fallen4Bottom = m_fallen4Top + 10;
 	//ドッスン4反応判定
@@ -920,25 +920,25 @@ void EnemyStage3::npcPos()
 	m_fallenRange4Bottom = m_fallenRange4Top + 120;
 
 	//チャージエネミー
-	m_chargeLeft = m_chargePos.x;
-	m_chargeTop = m_chargePos.y;
+	m_chargeLeft = static_cast<int>(m_chargePos.x);
+	m_chargeTop = static_cast<int>(m_chargePos.y);
 	m_chargeRight = m_chargeLeft + 30;
 	m_chargeBottom = m_chargeTop + 30;
 	//上下運動する罠
-	m_upDownLeft = m_upDownPos.x;
-	m_upDownTop = m_upDownPos.y;
+	m_upDownLeft = static_cast<int>(m_upDownPos.x);
+	m_upDownTop = static_cast<int>(m_upDownPos.y);
 	m_upDownRight = m_upDownLeft + 30;
 	m_upDownBottom = m_upDownTop + 30;
 
 	//上下運動する罠
-	m_upDown2Left = m_upDown2Pos.x;
-	m_upDown2Top = m_upDown2Pos.y;
+	m_upDown2Left = static_cast<int>(m_upDown2Pos.x);
+	m_upDown2Top = static_cast<int>(m_upDown2Pos.y);
 	m_upDown2Right = m_upDown2Left + 30;
 	m_upDown2Bottom = m_upDown2Top + 30;
 
 	//上下運動する罠
-	m_upDown3Left = m_upDown3Pos.x;
-	m_upDown3Top = m_upDown3Pos.y;
+	m_upDown3Left = static_cast<int>(m_upDown3Pos.x);
+	m_upDown3Top = static_cast<int>(m_upDown3Pos.y);
 	m_upDown3Right = m_upDown3Left + 30;
 	m_upDown3Bottom = m_upDown3Top + 30;
 }

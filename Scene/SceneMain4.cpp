@@ -164,7 +164,7 @@ void SceneMain4::Draw()
 		m_pMenu->Draw();
 	}
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeValue);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(m_fadeValue));
 	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, 0x000000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 

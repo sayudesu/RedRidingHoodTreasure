@@ -128,7 +128,7 @@ public:
 	void GetEnemyLadder(int num)    { m_ladderNum = num; }
 
 	void GetHitFireBallFall(int fall)   { m_fallFireBall = fall; }
-	void GetFireBallPos    (float posY) { m_getFireBallPos = posY; }
+	void GetFireBallPos    (int posY) { m_getFireBallPos = posY; }
 
 	void GetFallenRange(int range)  { m_fallenRange = range; }
 	void GetFallenRange2(int range) { m_fallenRange2 = range; }

@@ -78,6 +78,7 @@ PlayerNew::PlayerNew() :
 	m_charaImageTop(0),
 	m_charaImageRigth(0),
 	m_charaImageBottom(0),
+	m_score(0),
 	m_count(0),
 	m_boxPosX(0),
 	m_boxPosY(0),
@@ -149,6 +150,7 @@ PlayerNew::PlayerNew() :
 	m_isAttackHit(false),
 	m_isDamageCharge(false),
 	m_isRushBlink(false),
+	m_isRunImagePos(false),
 	m_trapHit(0)//トラップに当たって死ぬ
 
 {
@@ -259,7 +261,7 @@ void PlayerNew::Draw()
 	}
 	else if (m_isStopMove)//止まっている場合の画像
 	{
-		DrawRectRotaGraph(m_imagePos.x + m_imageBalancePos.x, m_imagePos.y + 10.0f,
+		DrawRectRotaGraph(static_cast<int>(m_imagePos.x) + static_cast<int>(m_imageBalancePos.x), static_cast<int>(m_imagePos.y + 10.0f),
 			m_charaImageIdlePos, 0, 80, 80,
 			1.5, m_playerRad, m_hPlayerIdle, true, m_isCharaIdleDirection);
 		//画像の１キャラ分の大きさ

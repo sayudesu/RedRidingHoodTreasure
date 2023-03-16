@@ -139,8 +139,8 @@ void Enemy::ShotEnemy()
 void Enemy::ShotEnemyDraw()
 {
 
-	DrawBox(static_cast<float>(m_shotEnemyPos.x), static_cast<int>(m_shotEnemyPos.y),
-		static_cast<float>(m_shotEnemyBottomPos.x), static_cast<float>(m_shotEnemyBottomPos.y), 0xffffff, true);
+	DrawBox(static_cast<int>(m_shotEnemyPos.x), static_cast<int>(m_shotEnemyPos.y),
+		static_cast<int>(m_shotEnemyBottomPos.x), static_cast<int>(m_shotEnemyBottomPos.y), 0xffffff, true);
 }
 
 void Enemy::Condition()

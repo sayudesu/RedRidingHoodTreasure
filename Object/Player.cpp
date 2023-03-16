@@ -277,8 +277,8 @@ void Player::Draw()
 		DrawBox(static_cast<int>(m_pos.x) - 35, static_cast<int>(m_pos.y) - 30,
 			static_cast<int>(m_pos.x) - 35 + 75, static_cast<int>(m_pos.y) - 30 + 10, 0xff0000, true);
 		DrawExtendGraph(static_cast<int>(m_pos.x) - 35, static_cast<int>(m_pos.y) - 30,
-			m_playerHealthSizeX + m_pos.x - 35 + 75, m_playerHealthSizeY + m_pos.y - 30 + 10,m_hHealthBer,true);
-		DrawBox(m_pos.x - 35, m_pos.y - 30, m_pos.x - 35 + 75, m_pos.y - 30 + 10, 0xffffff, false);
+			m_playerHealthSizeX + static_cast<int>(m_pos.x) - 35 + 75, m_playerHealthSizeY + static_cast<int>(m_pos.y) - 30 + 10,m_hHealthBer,true);
+		DrawBox(static_cast<int>(m_pos.x) - 35, static_cast<int>(m_pos.y) - 30, static_cast<int>(m_pos.x) - 35 + 75, static_cast<int>(m_pos.y) - 30 + 10, 0xffffff, false);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 

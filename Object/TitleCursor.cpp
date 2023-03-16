@@ -8,6 +8,7 @@ TitleCursor::TitleCursor():
 {
 	m_padPos.x = static_cast<float>(Game::kScreenWidth) / 2;
 	m_padPos.y = static_cast<float>(Game::kScreenHeight / 2 + 30);
+	m_isMenu = true;
 }
 
 TitleCursor::~TitleCursor()
@@ -66,10 +67,10 @@ void TitleCursor::PosSet()
 
 void TitleCursor::DrawPadCursor()
 {
-	DrawCircle(static_cast<int>(m_padPos.x, m_padPos.y), 20, 0x00ffff, false);
+	DrawCircle(static_cast<int>(m_padPos.x), static_cast<int>( m_padPos.y), 20, 0x00ffff, false);
 	// 描画ブレンドモードをアルファブレンド（５０％）にする
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-	DrawCircle(static_cast<int>(m_padPos.x,m_padPos.y), 19, 0xffff00, true);
+	DrawCircle(static_cast<int>(m_padPos.x), static_cast<int>(m_padPos.y), 19, 0xffff00, true);
 	// 描画ブレンドモードをノーブレンドにする
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

@@ -10,6 +10,7 @@
 #include "game.h"
 #include "Image.h"
 #include <Pad.h>
+#include <cassert>
 
 namespace
 {
@@ -77,6 +78,7 @@ SceneTitle::~SceneTitle()
 
 void SceneTitle::Init()
 {
+
 	m_hImagePlayer = LoadGraph(Image::kPlayerImage);
 	m_hImageMap    = LoadGraph(Image::kMapFirst);
 	m_hButtonUi = LoadGraph(UI::kButton);
@@ -84,8 +86,17 @@ void SceneTitle::Init()
 	m_hSoundSelect = LoadSoundMem(Sound::kSelect);
 	m_hSoundSelect2 = LoadSoundMem(Sound::kSelect2);
 
-	m_imagePos.x = static_cast<float>(Game::kScreenWidth) / 2;
-	m_imagePos.y   = static_cast<int>(Game::kScreenHeight / 2 - 250);
+
+	assert(m_hImagePlayer > -1);
+	assert(m_hImageMap > -1);
+	assert(m_hButtonUi > -1);
+	assert(m_hMusicBgm > -1);
+	assert(m_hSoundSelect > -1);
+	assert(m_hSoundSelect2 > -1);
+
+
+	m_imagePos.x   = Game::kScreenWidth / 2;
+	m_imagePos.y   = Game::kScreenHeight / 2 - 250;
 
 	//Aボタン押していない状態（画像）
 	m_buttonALeft = 16 + 16 + 16;
@@ -115,7 +126,7 @@ SceneBase* SceneTitle::Update()
 	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
 	if (!m_isFadeIn)FadeIn();//フェイドイン
-
+	
 	if (m_isFadeIn)//画面が最大値明るくなったら
 	{
 		m_pCursor->Update();
@@ -213,8 +224,8 @@ SceneBase* SceneTitle::Update()
 		if (m_isFadeOut)
 		{
 			return(new SceneMain2);//シーン切り替え
-			return(new SceneMain3);//シーン切り替え
 			return(new SceneMain4);//シーン切り替え
+			return(new SceneMain3);//シーン切り替え
 		}
 	}
 
@@ -224,7 +235,7 @@ SceneBase* SceneTitle::Update()
 void SceneTitle::Draw()
 {
 	DrawExtendGraph(0 + 100, 0 + 100,Game::kScreenWidth  - 100, Game::kScreenHeight - 100,m_hImageMap,true);
-	DrawRectRotaGraph(static_cast<int>(m_imagePos.x, m_imagePos.y),
+	DrawRectRotaGraph(m_imagePos.x, m_imagePos.y,
 		m_charaImagePos, 133, 112, 133, 18, 0, m_hImagePlayer, true, true);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);//透過
@@ -278,7 +289,7 @@ void SceneTitle::Draw()
 	//カーソルの位置を描画
 	m_pCursor->Draw();
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(m_fadeValue));
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeValue);
 	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, 0x000000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

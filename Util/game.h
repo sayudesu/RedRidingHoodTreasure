@@ -11,9 +11,11 @@ namespace Game
 	// マウスカーソル表示
 	constexpr bool kMouseMode = true;
 	// ウインドウ名
-	const char* const kTitleText = "ここぜったに変える！まってて";
+	const char* const kTitleText = "赤ずきんの財宝";
 	//フォント名
-	const char* const kFontName = "Eras Demi ITC";
+	const char* const kFontName = "Eras Demi ITC"; 
+	//const char* const kFontNameJp = "Data/Font/GAGAGAGA FREE.otf";
+	const char* const kFontNameJp = "Ark Pixel 10px monospaced ja";
 	//const char* const kFontName = "Data/Font/GAGAGAGA FREE";
 	constexpr int kFontSize = 64;
 	// ウインドウサイズ
@@ -552,7 +554,7 @@ namespace Scene
 
 namespace Staging//演出用
 {
-	constexpr int kFireworksNum= 3;//花火の数
+	constexpr int kFireworksNum= 10;//花火の数
 
 	constexpr int kFireworksAnimatioFramenCount = 1;//アニメーションフレームカウント
 

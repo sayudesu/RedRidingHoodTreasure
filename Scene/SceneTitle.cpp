@@ -212,8 +212,8 @@ SceneBase* SceneTitle::Update()
 		FadeOut();
 		if (m_isFadeOut)
 		{
-			return(new SceneMain4);//シーン切り替え
 			return(new SceneMain2);//シーン切り替え
+			return(new SceneMain4);//シーン切り替え
 			return(new SceneMain3);//シーン切り替え
 		}
 	}
@@ -263,10 +263,12 @@ void SceneTitle::Draw()
 	//DrawString(TitleMenu::kSelection1X + 100, TitleMenu::kSelection1Y + 5 , "Tutorial", 0x0000ff);
 	DrawString(TitleMenu::kSelection2X + 100, TitleMenu::kSelection2Y + 5, "GameStart", 0x0000ff);
 	DrawString(TitleMenu::kSelection3X + 125, TitleMenu::kSelection3Y + 15, "Quit", 0x0000ff);
-	SetFontSize(64);//文字サイズ変更
-	DrawString(Game::kScreenWidth /2 - 250 + 5, Game::kScreenHeight / 2 - 150 + 5 , "Avoidance-Jump", 0x00000);//タイトル
-	DrawString(Game::kScreenWidth /2 - 250, Game::kScreenHeight/2 - 150, "Avoidance-Jump", 0xffff00);//タイトル
-	SetFontSize(17);//文字サイス変更
+	SetFontSize(128 + 32 + 32);//文字サイズ変更//タイトル
+	//ChangeFont(Game::kFontNameJp);//フォント変更
+	DrawString(Game::kScreenWidth /2 - 400 + 5, Game::kScreenHeight / 2 - 200 + 5 , "赤ずきんの財宝", 0x00000);//タイトル
+	DrawString(Game::kScreenWidth /2 - 400, Game::kScreenHeight/2 - 200, "赤ずきんの財宝", 0xffff00);//タイトル
+	SetFontSize(32);//文字サイス変更
+//	ChangeFont(Game::kFontName);//フォント変更
 
 	//A
 	DrawRectRotaGraph(230, 300,

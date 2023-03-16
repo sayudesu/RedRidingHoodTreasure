@@ -15,14 +15,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetMouseDispFlag(Game::kMouseMode);
 	// 画面サイズの設定
 	SetGraphMode(Game::kScreenWidth, Game::kScreenHeight, Game::kColorDepth);
-	//フォント変更
-	ChangeFont(Game::kFontName);
 	//CreateFontToHandle(Game::kFontName,64,-1,-1);
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
 		return -1;			// エラーが起きたら直ちに終了
 	}
+
+	PCSTR font_path = "Data/Font/Silver.ttf"; // 読み込むフォントファイルのパス
+	if (AddFontResourceEx(font_path, FR_PRIVATE, NULL) > 0) 
+	{
+	}
+	else
+	{
+		// フォント読込エラー処理
+		MessageBox(NULL, "フォント読込失敗", "", MB_OK);
+	}
+	//フォント変更
+	ChangeFont("Silver");
 
 	// ダブルバッファモード
 	SetDrawScreen(DX_SCREEN_BACK);

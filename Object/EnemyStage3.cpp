@@ -192,7 +192,7 @@ EnemyStage3::EnemyStage3() :
 	m_upDownPos.x = 1000.0f + 50;
 	m_upDownPos.y = Stage2::kBoxBottom4Yf + 15;
 
-	m_upDown2Pos.x = 1000.0f - 250;
+	m_upDown2Pos.x = 1000.0f - 250 + 10;
 	m_upDown2Pos.y = Stage2::kBoxBottom4Yf + 15;
 
 	m_upDown3Pos.x = 1000.0f - 550;

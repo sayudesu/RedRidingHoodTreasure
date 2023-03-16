@@ -4,6 +4,7 @@
 #include "game.h"
 
 Fireworks::Fireworks() :
+	m_puls(0), m_pulsCount(0), m_FirePos(0),
 	m_hFireworks(), m_hFireworksRocket(),//花火用画像ハンドル
 	m_fireworksImagePosX(), m_fireworksImagePosY(),//花火描画位置
 	m_fireworksImageRocketLeft(0), m_fireworksImageRocketTop(0),//花火画像位置
@@ -64,9 +65,16 @@ void Fireworks::End()
 
 void Fireworks::Update()
 {
-	
-
-	for (int i = 0; i < Staging::kFireworksNum; i++)
+	m_pulsCount++;
+	if (m_puls < 10)
+	{
+		if (m_pulsCount == 60)
+		{
+			m_puls++;
+			m_pulsCount = 0;
+		}
+	}
+	for (int i = 0; i < m_puls; i++)
 	{
 		m_frameCount[i]++;
 		//m_delayCount[i]++;//複数花火の場合はディレイを入れる
@@ -74,12 +82,13 @@ void Fireworks::Update()
 		{
 			m_frameCount[i] = 0;
 
-			if (m_fireworksImagePosY[i] >= 500)//破裂場所位置
+			if (m_fireworksImagePosY[i] > m_FirePos/*GetRand(Game::kScreenHeight) - 200*/)//破裂場所位置
 			{
 				m_fireworksImagePosY[i] -= Staging::kFireworksRocketSpeed;//上に座標を移動
 			}
 			else//破裂位置に到達した場合
 			{
+				m_FirePos = GetRand(Game::kScreenHeight) - 300;
 				m_isFire[i] = true;//花火を表示
 				m_isFireRocket[i] = false;//打ち上げを非表示
 				//m_fireworksImageLeft = 96;
@@ -117,7 +126,7 @@ void Fireworks::Update()
 
 void Fireworks::Draw()
 {
-	for (int i = 0; i < Staging::kFireworksNum; i++)
+	for (int i = 0; i < m_puls; i++)
 	{
 		if (m_isFireRocket[i])
 		{

@@ -6,6 +6,7 @@
 EnemyStage3::EnemyStage3() :
 	m_hFireBall(-1),//画像ハンドル
 	m_hBarre(),//樽（いのしし画像）
+	m_maskHandle(),
 	m_hEnemyImage(-1),
 	m_hNeedle(-1),//地面用
 	m_hTiles(-1),//画像チップ
@@ -201,6 +202,7 @@ EnemyStage3::EnemyStage3() :
 	for (int i = 0; i < 3; i++)
 	{
 		m_hBarre[i] = LoadGraph(Image::kEnemyBarre);//いのしし
+		m_maskHandle[i] = LoadMask(Image::kEnemyBarre);
 
 	}
 	m_hTiles = LoadGraph(Image::kMapTiles2);//画像チップ（洞窟用）
@@ -221,6 +223,8 @@ EnemyStage3::~EnemyStage3()
 	}
 	DeleteGraph(m_hEnemyImage);//画像
 	DeleteGraph(m_hNeedle);//落ちてくる敵
+
+	DeleteMaskScreen();
 }
 
 void EnemyStage3::Init()
@@ -401,15 +405,19 @@ void EnemyStage3::Draw()
 //樽の動き
 void EnemyStage3::BarrelMove()
 {
+
 	int num = 3;
 	for (int i = 0; i < num; i++)
 	{
+		if (i != 0)
+		{
+			m_barrelPos[1].x -= 8.0f;//GetRand(10);
+			m_barrelPos[2].x -= 9.0f;//GetRand(10);
+		}
 		m_vec[i].y += 10.0f;//重力
 		m_barrelPos[i].y += m_vec[i].y;//重力のベクトル用
-	}
+	
 
-	for (int i = 0; i < num; i++)
-	{
 		m_frameCountBarreImage[i]++;
 		if (m_frameCountBarreImage[i] == 3)//３フレームに一回画像を変更
 		{
@@ -420,31 +428,25 @@ void EnemyStage3::BarrelMove()
 		{
 			m_barreImagePosX[i] = 0;
 		}
-	}
-
-
-	for (int i = 0; i < num; i++)
-	{
+	
 		if (m_fall[i] == 5)//地面に当たったら
 		{
-
-
 			m_isCourse[i] = false;
 			m_vec[i].y = 0.0f;//下に落ちないように
 			m_barrelPos[i].y = m_getPos[i];//プレイヤーの位置座標
-			m_barrelPos[i].x -= Enemy2::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
-			m_barrelPos[1].x -= 3.0f;//GetRand(10);
-			m_barrelPos[2].x -= 4.0f;//GetRand(10);
+			if (i == 0)
+			{
+				m_barrelPos[i].x -= Enemy2::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
+			}
+
 		}
-		else if (m_fall[i] == 4)//地面に当たったら
+		if (m_fall[i] == 4)//地面に当たったら
 		{
 			m_isCourse[i] = true;
 			m_vec[i].y = 0.0f;//下に落ちないように
 			m_barrelPos[i].y = m_getPos[i];//プレイヤーの位置座標
-			m_barrelPos[i].x += Enemy2::kBarrelSpeed * m_barrelSpeed;//左に移動
+			m_barrelPos[0].x += Enemy2::kBarrelSpeed * m_barrelSpeed;//左に移動
 			m_barreImageDirection[i] = true;//画像の方向を変更
-			m_barrelPos[1].x += 3.0f;//GetRand(10);
-			m_barrelPos[2].x += 4.0f;//GetRand(10);
 		}
 
 		if (m_fall[i] == 3)//地面に当たったら
@@ -452,10 +454,8 @@ void EnemyStage3::BarrelMove()
 			m_isCourse[i] = false;
 			m_vec[i].y = 0.0f;//下に落ちないように
 			m_barrelPos[i].y = m_getPos[i];//プレイヤーの位置座標
-			m_barrelPos[i].x -= Enemy2::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
+			m_barrelPos[0].x -= Enemy2::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
 			m_barreImageDirection[i] = false;//画像の方向を変更
-			m_barrelPos[1].x -= 3.0f;//GetRand(10);
-			m_barrelPos[2].x -= 4.0f;//GetRand(10);
 		}
 
 		if (m_fall[i] == 2)//地面に当たったら
@@ -463,10 +463,8 @@ void EnemyStage3::BarrelMove()
 			m_isCourse[i] = true;
 			m_vec[i].y = 0.0f;//下に落ちないように
 			m_barrelPos[i].y = m_getPos[i];//プレイヤーの位置座標
-			m_barrelPos[i].x += Enemy2::kBarrelSpeed * m_barrelSpeed;//左に移動
+			m_barrelPos[0].x += Enemy2::kBarrelSpeed * m_barrelSpeed;//左に移動
 			m_barreImageDirection[i] = true;//画像の方向を変更
-			m_barrelPos[1].x += 3.0f;//GetRand(10);
-			m_barrelPos[2].x += 4.0f;//GetRand(10);
 
 		}
 
@@ -475,43 +473,18 @@ void EnemyStage3::BarrelMove()
 			m_isCourse[i] = false;
 			m_vec[i].y = 0.0f;//下に落ちないように
 			m_barrelPos[i].y = m_getPos[i];//プレイヤーの位置座標
-			m_barrelPos[i].x -= Enemy2::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
+			m_barrelPos[0].x -= Enemy2::kBarrelSpeed * m_barrelSpeed;//とりあえず右に移動
 			m_barreImageDirection[i] = false;//画像の方向を変更
-			m_barrelPos[1].x -= 3.0f;//GetRand(10);
-			m_barrelPos[2].x -= 4.0f;//GetRand(10);
 
 		}
 
-		if (m_barrelPos[i].x < 0)//樽が画面左に消えると最初の位置に戻っていく
-		{
-			m_barrelPos[i].x = Enemy2::kBossPosLeft + 50;
-			m_barrelPos[i].y = Enemy2::kBossPosTop + 100;
-		}
-		else if (m_barrelPos[i].x > Game::kScreenWidth + 100)//樽が画面右に消えると最初の位置に戻っていく
-		{
-			m_barrelPos[i].x = Enemy2::kBossPosLeft + 50;
-			m_barrelPos[i].y = Enemy2::kBossPosTop + 100;
-		}
-		else if (m_barrelPos[i].y < 0)
-		{
-			m_barrelPos[i].x = Enemy2::kBossPosLeft + 50;
-			m_barrelPos[i].y = Enemy2::kBossPosTop + 100;
-		}
-		else if (m_barrelPos[i].y > Game::kScreenHeight)
+		if (m_barrelPos[i].x < 0|| m_barrelPos[i].x > Game::kScreenWidth + 100||
+			m_barrelPos[i].y < 0|| m_barrelPos[i].y > Game::kScreenHeight)//樽が画面左に消えると最初の位置に戻っていく
 		{
 			m_barrelPos[i].x = Enemy2::kBossPosLeft + 50;
 			m_barrelPos[i].y = Enemy2::kBossPosTop + 100;
 		}
 
-		if (m_fall[i] == 0 && !m_isCourse[i])//樽が右に移動する場合
-		{
-			m_barrelPos[i].x -= Enemy2::kBarrelSpeed;
-		}
-
-		if (m_fall[i] == 0 && m_isCourse[i])//樽が左に移動する場合
-		{
-			m_barrelPos[i].x += Enemy2::kBarrelSpeed;
-		}
 	}
 }
 //炎球の動き

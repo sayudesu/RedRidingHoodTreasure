@@ -140,6 +140,7 @@ private:
 	//エネミー画像
 	int m_hFireBall;
 	int m_hBarre[3];
+	int m_maskHandle[3];
 	int m_hEnemyImage;
 	int m_hNeedle;//地面用
 	int m_hTiles;//画像チップ

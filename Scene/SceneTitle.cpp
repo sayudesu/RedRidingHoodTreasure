@@ -213,8 +213,8 @@ SceneBase* SceneTitle::Update()
 		if (m_isFadeOut)
 		{
 			return(new SceneMain2);//シーン切り替え
-			return(new SceneMain4);//シーン切り替え
 			return(new SceneMain3);//シーン切り替え
+			return(new SceneMain4);//シーン切り替え
 		}
 	}
 
@@ -261,8 +261,8 @@ void SceneTitle::Draw()
 
 	//文字
 	//DrawString(TitleMenu::kSelection1X + 100, TitleMenu::kSelection1Y + 5 , "Tutorial", 0x0000ff);
-	DrawString(TitleMenu::kSelection2X + 100, TitleMenu::kSelection2Y + 5, "GameStart", 0x0000ff);
-	DrawString(TitleMenu::kSelection3X + 125, TitleMenu::kSelection3Y + 15, "Quit", 0x0000ff);
+	DrawString(TitleMenu::kSelection2X + 85, TitleMenu::kSelection2Y + 5, "ゲームスタート", 0x0000ff);
+	DrawString(TitleMenu::kSelection3X + 65, TitleMenu::kSelection3Y + 15, "デスクトップに戻る", 0x0000ff);
 	SetFontSize(128 + 32 + 32);//文字サイズ変更//タイトル
 	//ChangeFont(Game::kFontNameJp);//フォント変更
 	DrawString(Game::kScreenWidth /2 - 400 + 5, Game::kScreenHeight / 2 - 200 + 5 , "赤ずきんの財宝", 0x00000);//タイトル
@@ -273,7 +273,7 @@ void SceneTitle::Draw()
 	//A
 	DrawRectRotaGraph(230, 300,
 		m_buttonXLeft, m_buttonXTop, m_buttonXRigth, m_buttonXBottom, 5, 0, m_hButtonUi, true, false);
-	DrawString(230 + 50, 290, "isJump & Check", m_colorX);
+	DrawString(230 + 50, 290, "ジャンプ & 決定", m_colorX);
 
 	//カーソルの位置を描画
 	m_pCursor->Draw();

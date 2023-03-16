@@ -70,7 +70,7 @@ void Collision2::Update()
 
 	//炎玉エネミー判定
 	m_pEnemy->GetHitFireBallFall(HitEnemyFireBall()); //重力.y
-	m_pEnemy->GetFireBallPos(m_enemyFireBallPosY); //位置.y
+	m_pEnemy->GetFireBallPos(static_cast<float>(m_enemyFireBallPosY)); //位置.y
 
 	//落ちるエネミー判定
 	m_pEnemy->GetFallenRange(HitFallenRange());//範囲に入っているかどうか

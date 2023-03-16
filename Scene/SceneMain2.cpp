@@ -232,11 +232,11 @@ void SceneMain2::Draw()
 //クリアした時の選択画面表示
 void SceneMain2::GameClear()
 {
-	m_pSlidSelect->Slider();//選択画面の処理
 	m_pFireworks->Update();
+	m_pSlidSelect->Slider();//選択画面の処理
 
-	m_pSlidSelect->Draw();//描画処理
 	m_pFireworks->Draw();
+	m_pSlidSelect->Draw();//描画処理
 }
 
 void SceneMain2::FadeIn()

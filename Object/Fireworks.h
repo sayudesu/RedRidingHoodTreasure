@@ -13,9 +13,9 @@ public:
 	void Draw();//描画
 
 private:
-	int m_pulsCount;
-	int m_puls;
-	int m_FirePos;
+	int m_pulsCount;//花火を増やすためのカウント
+	int m_puls;//花火描画数
+	int m_FirePos[Staging::kFireworksNum];//どこで花火を爆破させるかのY軸
 	//花火画像ハンドル
 	int m_hFireworksRocket[Staging::kFireworksNum];//花火打ち上げ画像
 	int m_hFireworks[9];//花火画像ハンドル

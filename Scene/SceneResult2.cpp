@@ -156,10 +156,10 @@ void SceneResult2::Draw()
 	DrawBox(SceneSelect::kSelectLeft3, SceneSelect::kSelectTop3, SceneSelect::kSelectRight3, SceneSelect::kSelectBottom3, m_color3, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);//色を戻す
 
-	DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop + 5, "GameClear", Color::kYellow);
-	//DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop + 5, "NextStage", Color::kYellow);
-	DrawString(SceneSelect::kSelectLeft2 + 100, SceneSelect::kSelectTop2 + 5, "Retry", Color::kBlue);
-	DrawString(SceneSelect::kSelectLeft3 + 75, SceneSelect::kSelectTop3 + 5, "Back to Title", Color::kBlue);
+	DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop - 70, "ゲームクリア", Color::kYellow);
+	//DrawString(SceneSelect::kSelectLeft + 70, SceneSelect::kSelectTop + 5, "次のステージ", Color::kBlue);
+	DrawString(SceneSelect::kSelectLeft2 + 85, SceneSelect::kSelectTop2 + 5, "もう一度", Color::kBlue);
+	DrawString(SceneSelect::kSelectLeft3 + 60, SceneSelect::kSelectTop3 + 5, "タイトルに戻る", Color::kBlue);
 
 	m_pFireworks->Draw();//花火更新処理
 

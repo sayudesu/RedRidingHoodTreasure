@@ -75,9 +75,9 @@ void SlideSelect::Draw()
 	DrawBox(SceneSelect::kSelectLeft2, m_SringBox2_Y, SceneSelect::kSelectRight2, m_SringBox2_Y + 30, Color::kThinBlue, false);
 	DrawBox(SceneSelect::kSelectLeft3, m_SringBox3_Y, SceneSelect::kSelectRight3, m_SringBox3_Y + 30, Color::kThinBlue, false);
 	//文字
-	DrawString(SceneSelect::kSelectLeft + 75,  m_Sring_Y + 5, "Next Sgage", 0x0000ff);//+5
-	DrawString(SceneSelect::kSelectLeft2 + 100,m_Sring2_Y - 35, "Retry", 0x0000ff);
-	DrawString(SceneSelect::kSelectLeft3 + 75, m_Sring3_Y - 35, "Back to Title", 0x0000ff);
+	DrawString(SceneSelect::kSelectLeft + 70,  m_Sring_Y + 5, "次のステージ", 0x0000ff);//+5
+	DrawString(SceneSelect::kSelectLeft2 + 85,m_Sring2_Y - 35, "もう一度", 0x0000ff);
+	DrawString(SceneSelect::kSelectLeft3 + 60, m_Sring3_Y - 35, "タイトルに戻る", 0x0000ff);
 
 
 

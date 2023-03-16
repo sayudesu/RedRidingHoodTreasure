@@ -553,13 +553,13 @@ void EnemyStage2::UpDownMove()
 		m_upDownLeftImageX = 0;//画像位置を右に戻す
 		if (m_upDownLeftImageY <= 400)m_upDownLeftImageY += 100;//Yが400になるまで繰り返す
 		else{
-			if(m_upDownRad <= DX_PI + DX_PI)m_upDownRad++;
+			if(m_upDownRad <= static_cast<int>(DX_PI + DX_PI))m_upDownRad++;
 			else{
-				m_upDownRad = DX_PI;
+				m_upDownRad = static_cast<int>(DX_PI);
 			}
 			m_upDownLeftImageY = 0;//一番上に戻す
 		}
-
+			
 	}
 
 }
@@ -567,8 +567,8 @@ void EnemyStage2::UpDownMove()
 void EnemyStage2::npcPos()
 {
 	//enemyの座標
-	m_posLeft = m_pos.x;
-	m_posTop = m_pos.y;
+	m_posLeft = static_cast<int>(m_pos.x);
+	m_posTop = static_cast<int>(m_pos.y);
 	m_posRight = m_posLeft + 40;
 	m_posBottom = m_posTop + 30;
 
@@ -583,14 +583,14 @@ void EnemyStage2::npcPos()
 	}
 
 	//樽
-	m_barrelLeft = m_barrelPos.x;
-	m_barrelTop = m_barrelPos.y + 5.0f;
+	m_barrelLeft = static_cast<int>(m_barrelPos.x);
+	m_barrelTop = static_cast<int>(m_barrelPos.y + 5.0f);
 	m_barrelRight = m_barrelLeft + 50;
 	m_barrelBottom = m_barrelTop + 40;
 
 	//ドッスン
-	m_fallenLeft = m_fallenPos.x;
-	m_fallenTop = m_fallenPos.y;
+	m_fallenLeft = static_cast<int>(m_fallenPos.x);
+	m_fallenTop = static_cast<int>(m_fallenPos.y);
 	m_fallenRight = m_fallenLeft + 150;
 	m_fallenBottom = m_fallenTop + 10;
 	//ドッスン反応判定
@@ -599,8 +599,8 @@ void EnemyStage2::npcPos()
 	m_fallenRangeRight = m_fallenRangeLeft + 250;
 	m_fallenRangeBottom = m_fallenRangeTop + 120;
 	//ドッスン2
-	m_fallen2Left = m_fallen2Pos.x;
-	m_fallen2Top = m_fallen2Pos.y;
+	m_fallen2Left = static_cast<int>(m_fallen2Pos.x);
+	m_fallen2Top = static_cast<int>(m_fallen2Pos.y);
 	m_fallen2Right = m_fallen2Left + 150;
 	m_fallen2Bottom = m_fallen2Top + 10;
 	//ドッスン2反応判定
@@ -610,13 +610,13 @@ void EnemyStage2::npcPos()
 	m_fallenRange2Bottom = m_fallenRange2Top + 120;
 
 	//チャージエネミー
-	m_chargeLeft = m_chargePos.x;
-	m_chargeTop = m_chargePos.y;
+	m_chargeLeft = static_cast<int>(m_chargePos.x);
+	m_chargeTop = static_cast<int>(m_chargePos.y);
 	m_chargeRight = m_chargeLeft + 30;
 	m_chargeBottom = m_chargeTop + 30;
 	//上下運動する罠
-	m_upDownLeft = m_upDownPos.x;
-	m_upDownTop = m_upDownPos.y;
+	m_upDownLeft = static_cast<int>(m_upDownPos.x);
+	m_upDownTop = static_cast<int>(m_upDownPos.y);
 	m_upDownRight = m_upDownLeft + 30;
 	m_upDownBottom = m_upDownTop + 30;
 }

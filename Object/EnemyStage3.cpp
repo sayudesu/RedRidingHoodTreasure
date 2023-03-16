@@ -834,9 +834,9 @@ void EnemyStage3::UpDownMove()
 		m_upDownLeft3ImageX = 0;//‰æ‘œˆÊ’u‚ğ‰E‚É–ß‚·
 		if (m_upDownLeft3ImageY <= 400)m_upDownLeft3ImageY += 100;//Y‚ª400‚É‚È‚é‚Ü‚ÅŒJ‚è•Ô‚·
 		else {
-			if (m_upDownRad <= DX_PI + DX_PI)m_upDownRad++;
+			if (m_upDownRad <= static_cast<int>(DX_PI + DX_PI))m_upDownRad++;
 			else {
-				m_upDownRad = DX_PI;
+				m_upDownRad = static_cast<int>(DX_PI);
 			}
 			m_upDownLeft3ImageY = 0;//ˆê”Ôã‚É–ß‚·
 		}

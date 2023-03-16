@@ -2,6 +2,9 @@
 #include "game.h"
 //#define _DEBUG 
 
+//グローバル変数の上位互換の様な物
+_declspec(selectany) int stageNum = 0;
+
 namespace Game
 {
 //#ifdef _DEBUG	
@@ -554,7 +557,7 @@ namespace Scene
 
 namespace Staging//演出用
 {
-	constexpr int kFireworksNum= 10;//花火の数
+	constexpr int kFireworksNum = 5;//花火の数
 
 	constexpr int kFireworksAnimatioFramenCount = 1;//アニメーションフレームカウント
 

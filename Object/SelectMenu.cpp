@@ -193,8 +193,8 @@ void SelectMenu::Draw()
 	DrawBox(SceneSelect::kSelectLeft2, m_SringBox2_Y, SceneSelect::kSelectRight2, m_SringBox2_Y + 30, Color::kThinBlue, false);
 	DrawBox(SceneSelect::kSelectLeft3, m_SringBox3_Y, SceneSelect::kSelectRight3, m_SringBox3_Y + 30, Color::kThinBlue, false);
 	
-	DrawString(SceneSelect::kSelectLeft2 + 100, m_Sring2_Y - 35, "Retry", 0x0000ff);
-	DrawString(SceneSelect::kSelectLeft3 + 75, m_Sring3_Y - 35, "Back to Title", 0x0000ff);
+	DrawString(SceneSelect::kSelectLeft2 + 80, m_Sring2_Y - 35, "リスタート", 0x0000ff);
+	DrawString(SceneSelect::kSelectLeft3 + 65, m_Sring3_Y - 35, "タイトルに戻る", 0x0000ff);
 
 	//m_pCursor->Draw();//カーソル表示
 	m_pCursorCollision->Draw();

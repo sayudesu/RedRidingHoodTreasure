@@ -74,8 +74,8 @@ void Enemy::Draw()
 		, static_cast<int>(m_sizeBottom.x), static_cast<int>(m_sizeBottom.y),0xff0000, false);
 
 	//çUåÇéÛÇØîÕàÕîªíË
-	DrawBox(m_sizeHit.x, m_sizeHit.y
-		, m_sizeBottomHit.x, m_sizeBottomHit.y, 0x0000ff, false);
+	DrawBox(static_cast<int>(m_sizeHit.x), static_cast<int>(m_sizeHit.y)
+		, static_cast<int>(m_sizeBottomHit.x), static_cast<int>(m_sizeBottomHit.y), 0x0000ff, false);
 
 #endif
 }
@@ -139,7 +139,8 @@ void Enemy::ShotEnemy()
 void Enemy::ShotEnemyDraw()
 {
 
-	DrawBox(m_shotEnemyPos.x, m_shotEnemyPos.y, m_shotEnemyBottomPos.x, m_shotEnemyBottomPos.y, 0xffffff, true);
+	DrawBox(static_cast<float>(m_shotEnemyPos.x), static_cast<int>(m_shotEnemyPos.y),
+		static_cast<float>(m_shotEnemyBottomPos.x), static_cast<float>(m_shotEnemyBottomPos.y), 0xffffff, true);
 }
 
 void Enemy::Condition()

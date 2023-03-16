@@ -4,7 +4,7 @@
 #include "game.h"
 
 Fireworks::Fireworks() :
-	m_puls(0), m_pulsCount(0), m_FirePos(0),
+	m_puls(0), m_pulsCount(0), m_FirePos(),
 	m_hFireworks(), m_hFireworksRocket(),//花火用画像ハンドル
 	m_fireworksImagePosX(), m_fireworksImagePosY(),//花火描画位置
 	m_fireworksImageRocketLeft(0), m_fireworksImageRocketTop(0),//花火画像位置
@@ -17,6 +17,7 @@ Fireworks::Fireworks() :
 	//初期化
 	for (int i = 0; i < Staging::kFireworksNum; i++)
 	{
+		m_FirePos[i] = 0;
 		m_fireworksImagePosX[i] = GetRand(Game::kScreenWidth);
 		m_fireworksImagePosY[i] = Game::kScreenHeight;
 		m_fireworksImageLeft[i] = 96;
@@ -65,16 +66,17 @@ void Fireworks::End()
 
 void Fireworks::Update()
 {
-	m_pulsCount++;
-	if (m_puls < 10)
+	m_pulsCount++;//花火を増やすまでのカウント
+
+	if (m_puls < Staging::kFireworksNum)//最大10個まで花火を描画
 	{
-		if (m_pulsCount == 60)
+		if (m_pulsCount == 60)//１秒に1回花火を増やす
 		{
 			m_puls++;
-			m_pulsCount = 0;
+			m_pulsCount = 0;//カウントを初期化
 		}
 	}
-	for (int i = 0; i < m_puls; i++)
+	for (int i = 0; i < m_puls; i++)//花火描画する数だけ処理する
 	{
 		m_frameCount[i]++;
 		//m_delayCount[i]++;//複数花火の場合はディレイを入れる
@@ -82,29 +84,26 @@ void Fireworks::Update()
 		{
 			m_frameCount[i] = 0;
 
-			if (m_fireworksImagePosY[i] > m_FirePos/*GetRand(Game::kScreenHeight) - 200*/)//破裂場所位置
+			if (m_fireworksImagePosY[i] > m_FirePos[i]/*GetRand(Game::kScreenHeight) - 200*/)//破裂場所位置
 			{
+				m_FirePos[i] = GetRand(Game::kScreenHeight) - 400;
 				m_fireworksImagePosY[i] -= Staging::kFireworksRocketSpeed;//上に座標を移動
 			}
 			else//破裂位置に到達した場合
 			{
-				m_FirePos = GetRand(Game::kScreenHeight) - 300;
 				m_isFire[i] = true;//花火を表示
 				m_isFireRocket[i] = false;//打ち上げを非表示
-				//m_fireworksImageLeft = 96;
 			}
 
 		} 
 		
-		if (m_isFire[i])
+		if (m_isFire[i])//打ち上げご爆破画像
 		{
-			//printfDx("%d", m_frameCount[i]);
 			//花火
 			if (m_fireworksImageLeft[i] <= 5766)m_fireworksImageLeft[i] += 93;//アニメーションを再生
 			else//花火アニメーションが終わったら
 			{
 				//座標初期値
-
 				m_fireworksImagePosX[i] = GetRand(Game::kScreenWidth);//花火位置を変更
 				m_fireworksImagePosY[i] = Game::kScreenHeight;//一番下に移動
 				m_isFire[i] = false;//散った花火は非表示

@@ -125,9 +125,10 @@ void SceneGameOver::Draw()
 	DrawBox(SceneSelect::kSelectLeft3, SceneSelect::kSelectTop3, SceneSelect::kSelectRight3, SceneSelect::kSelectBottom3, m_color3, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);//色を戻す
 
-	DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop + 5, "You Died.", Color::kRed);
-	DrawString(SceneSelect::kSelectLeft2 + 100, SceneSelect::kSelectTop2 + 5, "Retry", Color::kBlue);
-	DrawString(SceneSelect::kSelectLeft3 + 75, SceneSelect::kSelectTop3 + 5, "Back to Title", Color::kBlue);
-
+	DrawString(SceneSelect::kSelectLeft - 70, SceneSelect::kSelectTop + 5, "赤ずきんは財宝を手に入れる事はできなかった...", Color::kRed);
+	DrawString(SceneSelect::kSelectLeft2 + 85, SceneSelect::kSelectTop2 + 5, "もう一度", Color::kBlue);
+	DrawString(SceneSelect::kSelectLeft3 + 65, SceneSelect::kSelectTop3 + 5, "タイトルに戻る", Color::kBlue);
+	printfDx("%d\n", stageNum);
+	stageNum++;
 	m_pCursor->Draw();
 }

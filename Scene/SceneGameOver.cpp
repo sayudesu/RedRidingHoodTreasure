@@ -69,7 +69,7 @@ SceneBase* SceneGameOver::Update()
 		{
 			PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
 		}
-		if (padState & PAD_INPUT_2)//Xボタン
+		if (padState & PAD_INPUT_1)//Xボタン
 		{
 			return(new SceneMain2);//同じステージを繰り返す
 		}
@@ -86,7 +86,7 @@ SceneBase* SceneGameOver::Update()
 		{
 			PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
 		}
-		if (padState & PAD_INPUT_2)//Xボタン
+		if (padState & PAD_INPUT_1)//Xボタン
 		{
 			return(new SceneTitle);//タイトル画面に移動
 		}
@@ -103,7 +103,7 @@ SceneBase* SceneGameOver::Update()
 		ChangeVolumeSoundMem(100, m_hMusicBgm);//音量調整
 	}
 
-	if (Pad::isTrigger(PAD_INPUT_2))//Xボタン
+	if (Pad::isTrigger(PAD_INPUT_1))//Xボタン
 	{
 		PlaySoundMem(m_hSoundSelect, DX_PLAYTYPE_BACK);//押している音を再生
 	}
@@ -113,6 +113,9 @@ SceneBase* SceneGameOver::Update()
 
 void SceneGameOver::Draw()
 {
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, Color::kThinRed, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
 	DrawBox(500, 300, Game::kScreenWidth - 500, Game::kScreenHeight - 300, 0x00ffff, true);//中
@@ -128,7 +131,6 @@ void SceneGameOver::Draw()
 	DrawString(SceneSelect::kSelectLeft - 70, SceneSelect::kSelectTop + 5, "赤ずきんは財宝を手に入れる事はできなかった...", Color::kRed);
 	DrawString(SceneSelect::kSelectLeft2 + 85, SceneSelect::kSelectTop2 + 5, "もう一度", Color::kBlue);
 	DrawString(SceneSelect::kSelectLeft3 + 65, SceneSelect::kSelectTop3 + 5, "タイトルに戻る", Color::kBlue);
-	printfDx("%d\n", stageNum);
-	stageNum++;
+
 	m_pCursor->Draw();
 }

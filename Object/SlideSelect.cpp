@@ -126,7 +126,7 @@ void SlideSelect::Collsion()
 			PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
 		}
 		m_color1 = Color::kRed;//カーソルが当たっている場合の文字背景の色
-		if (padState & PAD_INPUT_2)//Xボタン
+		if (padState & PAD_INPUT_1)//Xボタン
 		{
 			m_isSceneStage = true;
 		}
@@ -143,7 +143,7 @@ void SlideSelect::Collsion()
 		{
 			PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
 		}
-		if (padState & PAD_INPUT_2)//Xボタン
+		if (padState & PAD_INPUT_1)//Xボタン
 		{
 			m_isSceneRetry = true;
 		}
@@ -160,7 +160,7 @@ void SlideSelect::Collsion()
 		{
 			PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
 		}
-		if (padState & PAD_INPUT_2)//Xボタン
+		if (padState & PAD_INPUT_1)//Xボタン
 		{
 			m_isSceneTitle = true;
 		}
@@ -170,7 +170,7 @@ void SlideSelect::Collsion()
 		m_soundCount3 = 0;//サウンドカウントをリセット
 	}
 	Pad::update();
-	if (Pad::isTrigger(PAD_INPUT_2))//Xボタン
+	if (Pad::isTrigger(PAD_INPUT_1))//Xボタン
 	{
 		PlaySoundMem(m_hSoundSelect, DX_PLAYTYPE_BACK);//押している音を再生
 	}

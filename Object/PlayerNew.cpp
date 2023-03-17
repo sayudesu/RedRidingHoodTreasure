@@ -440,7 +440,7 @@ void PlayerNew::OperationStandard()
 void PlayerNew::OperationJump()////地面にいる場合&&梯子にいない場合
 {
 	//ジャンプ
-	if (Pad::isTrigger(PAD_INPUT_2))//上
+	if (Pad::isTrigger(PAD_INPUT_1))//上
 	{
 		m_isJumpMove = true;//ジャンプアニメーション再生
 		m_isJumpImagePos = true;//ジャンプ画像位置

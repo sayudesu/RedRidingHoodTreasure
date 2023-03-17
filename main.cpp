@@ -50,7 +50,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		// 画面のクリア
 		ClearDrawScreen();
 
-		/*
+		
 		//フルスクリーン設定
 		if (CheckHitKey(KEY_INPUT_LALT))
 		{
@@ -68,7 +68,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 				isScreenSize = false;
 			}
 		}
-		*/
+		
 
 		//更新処理
 		scene.Update();

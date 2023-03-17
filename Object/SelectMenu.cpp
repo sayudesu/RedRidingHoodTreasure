@@ -94,7 +94,7 @@ void SelectMenu::Update()
 			{
 				PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
 			}
-			if (padState & PAD_INPUT_2)//Xボタン
+			if (padState & PAD_INPUT_1)//Xボタン
 			{
 				m_isSceneRetry = true;
 			}
@@ -111,7 +111,7 @@ void SelectMenu::Update()
 			{
 				PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
 			}
-			if (padState & PAD_INPUT_2)//Xボタン
+			if (padState & PAD_INPUT_1)//Xボタン
 			{
 				m_isSceneTitle = true;
 			}
@@ -123,7 +123,7 @@ void SelectMenu::Update()
 
 		Pad::update();
 
-		if (Pad::isTrigger(PAD_INPUT_2))//Xボタン
+		if (Pad::isTrigger(PAD_INPUT_1))//Xボタン
 		{
 			PlaySoundMem(m_hSoundSelect, DX_PLAYTYPE_BACK);//押している音を再生
 		}
@@ -131,7 +131,7 @@ void SelectMenu::Update()
 		m_frameCount++;
 		if (m_frameCount >= 30)
 		{
-			if (padState & PAD_INPUT_10)//メニューを閉じる
+			if (padState & PAD_INPUT_8)//メニューを閉じる
 			{
 				m_isMoveStop = true;//閉じるスライド開始
 			}
@@ -142,7 +142,7 @@ void SelectMenu::Update()
 		m_frameCount++;
 		if (m_frameCount >= 30)
 		{
-			if (padState & PAD_INPUT_10)//メニューを開く
+			if (padState & PAD_INPUT_8)//メニューを開く
 			{
 				m_isMenu = true;
 				m_frameCount = 0;

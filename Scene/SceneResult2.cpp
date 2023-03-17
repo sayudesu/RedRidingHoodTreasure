@@ -99,7 +99,7 @@ SceneBase* SceneResult2::Update()
 		{
 			PlaySoundMem(m_hSoundSelect2, PAD_INPUT_10);//押している音を再生
 		}
-		if (padState & PAD_INPUT_2)//Xボタン
+		if (padState & PAD_INPUT_1)//Xボタン
 		{
 			return(new SceneMain4);//同じステージを繰り返す
 		}
@@ -116,7 +116,7 @@ SceneBase* SceneResult2::Update()
 		{
 			PlaySoundMem(m_hSoundSelect2, PAD_INPUT_10);//押している音を再生
 		}
-		if (padState & PAD_INPUT_2)//Xボタン
+		if (padState & PAD_INPUT_1)//Xボタン
 		{
 			return(new SceneTitle);//タイトル画面に移動
 		}
@@ -133,7 +133,7 @@ SceneBase* SceneResult2::Update()
 		ChangeVolumeSoundMem(100, m_hMusicBgm);//音量調整
 	}
 
-	if (Pad::isTrigger(PAD_INPUT_2))//Xボタン
+	if (Pad::isTrigger(PAD_INPUT_1))//Xボタン
 	{
 		PlaySoundMem(m_hSoundSelect, DX_PLAYTYPE_BACK);//押している音を再生
 	}
@@ -144,7 +144,11 @@ SceneBase* SceneResult2::Update()
 void SceneResult2::Draw()
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-	DrawBox(100, 100, Game::kScreenWidth- 100, Game::kScreenHeight- 100, 0xf0e68c, true);
+	DrawBox(0,0, Game::kScreenWidth, Game::kScreenHeight, 0xf0e68c, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	m_pFireworks->Draw();//花火更新処理
+
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
 	DrawBox(500, 300, Game::kScreenWidth - 500, Game::kScreenHeight - 300, 0x00ffff, true);//中
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
@@ -160,8 +164,6 @@ void SceneResult2::Draw()
 	//DrawString(SceneSelect::kSelectLeft + 70, SceneSelect::kSelectTop + 5, "次のステージ", Color::kBlue);
 	DrawString(SceneSelect::kSelectLeft2 + 85, SceneSelect::kSelectTop2 + 5, "もう一度", Color::kBlue);
 	DrawString(SceneSelect::kSelectLeft3 + 60, SceneSelect::kSelectTop3 + 5, "タイトルに戻る", Color::kBlue);
-
-	m_pFireworks->Draw();//花火更新処理
 
 	m_pCursor->Draw();
 }

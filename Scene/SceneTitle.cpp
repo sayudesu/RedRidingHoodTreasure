@@ -132,9 +132,9 @@ SceneBase* SceneTitle::Update()
 		m_pCursor->Update();
 		m_pCollsion->Update();
 		Pad::update();
-		if (padState & PAD_INPUT_2)//Aボタン押した場合
+		if (padState & PAD_INPUT_1)//Aボタン押した場合
 		{
-			if (Pad::isTrigger(PAD_INPUT_2))//Aボタン押した場合
+			if (Pad::isTrigger(PAD_INPUT_1))//Aボタン押した場合
 			{
 				PlaySoundMem(m_hSoundSelect, DX_PLAYTYPE_BACK);//押している音を再生
 				m_buttonXLeft = 16 + 16 + 16 + 16 + 16;//画像表示位置を変更
@@ -156,7 +156,7 @@ SceneBase* SceneTitle::Update()
 				PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
 			}
 			m_isSceneFocus2 = true;//フォーカスを合わせた場合
-			if (padState & PAD_INPUT_2)//Aボタン押した場合
+			if (padState & PAD_INPUT_1)//Aボタン押した場合
 			{
 				m_isSceneStage = true;//シーンを切り替え	
 			}
@@ -177,7 +177,7 @@ SceneBase* SceneTitle::Update()
 				PlaySoundMem(m_hSoundSelect2, DX_PLAYTYPE_BACK);//押している音を再生
 			}
 			m_isSceneFocus3 = true;//フォーカスを合わせた場合
-			if (padState & PAD_INPUT_2)
+			if (padState & PAD_INPUT_1)
 			{
 				m_isSceneEnd = true;//シーンを切り替え
 			}

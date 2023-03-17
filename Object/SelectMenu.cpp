@@ -59,6 +59,9 @@ void SelectMenu::Update()
 	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	m_pCursor->GetMenu(m_isMenu);
 	m_pCursor->Update();//カーソル表示
+
+	ChangeVolumeSoundMem(SoundVolume::Select, m_hSoundSelect2);//音量調整
+
 	if (m_isMenu)//メニュー表示している場合
 	{
 		//上から下にメニューをスライド

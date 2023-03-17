@@ -100,7 +100,7 @@ SceneBase* SceneGameOver::Update()
 	if (CheckSoundMem(m_hMusicBgm) == 0)//鳴っていなかったら
 	{
 		PlaySoundMem(m_hMusicBgm, DX_PLAYTYPE_BACK);//サウンドを再生
-		ChangeVolumeSoundMem(100, m_hMusicBgm);//音量調整
+		ChangeVolumeSoundMem(SoundVolume::BGM, m_hMusicBgm);//音量調整
 	}
 
 	if (Pad::isTrigger(PAD_INPUT_1))//Xボタン

@@ -13,6 +13,12 @@ public:
 	void Draw();//描画
 
 private:
+	//サウンドハンドル
+	int m_hSoundFireworksRocket[Staging::kFireworksNum];
+	int m_hSoundFireworksBreak[Staging::kFireworksNum];
+
+	int m_soundCount[Staging::kFireworksNum];//サウンドやりやむまでのカウント
+	int m_saundTimeCount[Staging::kFireworksNum];
 	int m_pulsCount;//花火を増やすためのカウント
 	int m_puls;//花火描画1
 	int m_FirePos[Staging::kFireworksNum];//どこで花火を爆破させるかのY軸

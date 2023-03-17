@@ -117,6 +117,7 @@ void SlideSelect::Collsion()
 	m_color2 = Color::kWhite;
 	m_color3 = Color::kWhite;
 
+	ChangeVolumeSoundMem(SoundVolume::Select, m_hSoundSelect2);//音量調整
 
 	if (m_pCursorCollision->CollsionDemo())//カーソルと選択範囲に当たっていたら
 	{

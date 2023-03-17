@@ -51,23 +51,25 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		ClearDrawScreen();
 
 		
-		//フルスクリーン設定
-		if (CheckHitKey(KEY_INPUT_LALT))
-		{
-			if (CheckHitKey(KEY_INPUT_RETURN))
-			{
-				if (!isTrigger)
-				{
-					isScreenSize = !isScreenSize;
-					ChangeWindowMode(isScreenSize);
-				}
-				isScreenSize = true;
-			}
-			else
-			{
-				isScreenSize = false;
-			}
-		}
+		////フルスクリーン設定
+		//if (CheckHitKey(KEY_INPUT_LALT))
+		//{
+		//	if (CheckHitKey(KEY_INPUT_RETURN))
+		//	{
+		//		if (!isTrigger)
+		//		{
+		//			isScreenSize = !isScreenSize;
+		//			ChangeWindowMode(isScreenSize);
+		//		}
+		//		printfDx("true\n");
+		//		isScreenSize = true;
+		//	}
+		//	else
+		//	{
+		//		printfDx("false\n");
+		//		isScreenSize = false;
+		//	}
+		//}
 		
 
 		//更新処理
@@ -76,7 +78,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		//表示処理
 		scene.Draw();
 
-#if false
+#if true	
 		auto fps = GetFPS();// Frame Per Second
 		auto drawcall = GetDrawCallCount();// 描画命令数
 		DrawFormatString(200, 200, 0xffffff, "FPS=%2.2f", fps);

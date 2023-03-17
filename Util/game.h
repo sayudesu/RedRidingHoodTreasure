@@ -557,9 +557,19 @@ namespace Scene
 
 namespace Staging//演出用
 {
+	constexpr int kFireworksFastNum = 1;//花火の数
+
 	constexpr int kFireworksNum = 10;//花火の数
 	
 	constexpr int kFireworksAnimatioFramenCount = 1;//アニメーションフレームカウント
 
 	constexpr int kFireworksRocketSpeed = 25;//花火打ち上げ速度
+}
+
+//サウンドボリューム変更
+namespace SoundVolume
+{
+	constexpr int BGM = 100;
+	constexpr int Button = 200;
+	constexpr int Select = 150;
 }

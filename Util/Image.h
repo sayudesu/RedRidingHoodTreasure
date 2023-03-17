@@ -90,4 +90,7 @@ namespace Sound
 	const char* const kSnail   = "Data/Sound/SE/Enemy/Snail.wav";
 	const char* const kBarreRun = "Data/Sound/SE/Enemy/BarreRun.wav";
 	const char* const kBarreRun2 = "Data/Sound/SE/Enemy/BarreRun2.wav";
+	//‰Ô‰Î
+	const char* const kFireWprkRocket = "Data/Sound/SE/Firework/rocket.mp3";
+	const char* const kFireWprkBreak = "Data/Sound/SE/Firework/break.mp3";
 }

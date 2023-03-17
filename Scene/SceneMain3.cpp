@@ -112,7 +112,7 @@ SceneBase* SceneMain3::Update()
 	if (CheckSoundMem(m_hMusicBgm) == 0)//–Â‚Á‚Ä‚¢‚È‚©‚Á‚½‚ç
 	{
 		PlaySoundMem(m_hMusicBgm, DX_PLAYTYPE_BACK);//ƒTƒEƒ“ƒh‚ğÄ¶
-		ChangeVolumeSoundMem(100, m_hMusicBgm);//‰¹—Ê’²®
+		ChangeVolumeSoundMem(SoundVolume::BGM, m_hMusicBgm);//‰¹—Ê’²®
 	}
 
 	if (m_isSceneResult)

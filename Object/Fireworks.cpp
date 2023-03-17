@@ -4,6 +4,7 @@
 #include "game.h"
 
 Fireworks::Fireworks() :
+	m_hSoundFireworksRocket(), m_hSoundFireworksBreak(), m_soundCount(), m_saundTimeCount(),
 	m_puls(0), m_pulsCount(0), m_FirePos(),
 	m_hFireworks(), m_hFireworksRocket(),//花火用画像ハンドル
 	m_fireworksImagePosX(), m_fireworksImagePosY(),//花火描画位置
@@ -17,6 +18,12 @@ Fireworks::Fireworks() :
 	//初期化
 	for (int i = 0; i < Staging::kFireworksNum; i++)
 	{
+		//サウンド
+		m_hSoundFireworksRocket[i] = LoadSoundMem(Sound::kFireWprkRocket);
+		m_hSoundFireworksBreak[i] = LoadSoundMem(Sound::kFireWprkBreak);
+		m_soundCount[i] = 0;
+		m_saundTimeCount[i] = 0;
+
 		m_FirePos[i] = 0;
 		m_fireworksImagePosX[i] = GetRand(Game::kScreenWidth);
 		m_fireworksImagePosY[i] = Game::kScreenHeight;
@@ -25,6 +32,8 @@ Fireworks::Fireworks() :
 		m_isFireRocket[i] = true;
 		m_isFire[i] = false;
 	}
+	//最初の花火の数
+	m_puls = Staging::kFireworksFastNum;
 
 	//
 	m_fireworksImageRocketRight = 7;
@@ -33,6 +42,7 @@ Fireworks::Fireworks() :
 	m_fireworksImageRight = 96;
 	m_fireworksImageBottom = 100;
 
+	
 
 	m_hFireworksRocket[0] = LoadGraph(Image::RocketBlue);
 	m_hFireworksRocket[1] = LoadGraph(Image::RocketOrange);
@@ -50,9 +60,14 @@ Fireworks::Fireworks() :
 
 Fireworks::~Fireworks()
 {
-	for (int i = 0; i < 9; i++)
+	/*メモリ解放*/
+	for (int i = 0; i < Staging::kFireworksNum; i++)
 	{
+		//画像
 		DeleteGraph(m_hFireworks[i]);
+		//サウンド
+		DeleteSoundMem(m_hSoundFireworksRocket[i]);
+		DeleteSoundMem(m_hSoundFireworksBreak[i]);
 	}
 }
 
@@ -86,11 +101,36 @@ void Fireworks::Update()
 
 			if (m_fireworksImagePosY[i] > m_FirePos[i]/*GetRand(Game::kScreenHeight) - 200*/)//破裂場所位置
 			{
-				m_FirePos[i] = GetRand(Game::kScreenHeight) - 400;
+				m_FirePos[i] = GetRand(Game::kScreenHeight) - 400;//爆破させる位置をランダムに決定
 				m_fireworksImagePosY[i] -= Staging::kFireworksRocketSpeed;//上に座標を移動
 			}
 			else//破裂位置に到達した場合
 			{
+				printfDx("%d\n", m_soundCount[i]);
+
+				m_soundCount[i]++;
+
+				if (m_soundCount[i] == 65)
+				{
+					StopSoundMem(m_hSoundFireworksBreak[i]);
+					m_saundTimeCount[i] = 0;
+				}
+
+				if (CheckSoundMem(m_hSoundFireworksBreak[i]) == 0)//鳴っていなかったら
+				{
+					
+					if (m_soundCount[i] == 1)
+					{
+						PlaySoundMem(m_hSoundFireworksBreak[i], DX_PLAYTYPE_BACK);//押している音を再生
+					}
+					m_soundCount[i] = 0;
+				}
+				else
+				{
+					m_saundTimeCount[i]++;
+				}
+	
+
 				m_isFire[i] = true;//花火を表示
 				m_isFireRocket[i] = false;//打ち上げを非表示
 			}

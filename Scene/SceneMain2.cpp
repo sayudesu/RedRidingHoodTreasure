@@ -138,7 +138,7 @@ SceneBase* SceneMain2::Update()
 	if (CheckSoundMem(m_hMusicBgm) == 0)//鳴っていなかったら
 	{
 		PlaySoundMem(m_hMusicBgm, DX_PLAYTYPE_BACK);//サウンドを再生
-		ChangeVolumeSoundMem(100, m_hMusicBgm);//音量調整
+		ChangeVolumeSoundMem(SoundVolume::BGM, m_hMusicBgm);//音量調整
 	}
 
 	if (m_pMenu->SetSceneTitle() || m_isSceneTitle)//選択をしたら

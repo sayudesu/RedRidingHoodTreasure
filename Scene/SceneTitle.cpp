@@ -202,12 +202,12 @@ SceneBase* SceneTitle::Update()
 		}
 
 	}
-
+	ChangeVolumeSoundMem(SoundVolume::Button, m_hSoundSelect2);//音量調整
 	//サウンド
 	if (CheckSoundMem(m_hMusicBgm) == 0)//鳴っていなかったら
 	{
 		PlaySoundMem(m_hMusicBgm, DX_PLAYTYPE_BACK);//サウンドを再生
-		ChangeVolumeSoundMem(100, m_hMusicBgm);//音量調整
+		ChangeVolumeSoundMem(SoundVolume::BGM, m_hMusicBgm);//音量調整
 	}
 
 	if (m_isSceneEnd)//選択をしたら
@@ -223,6 +223,7 @@ SceneBase* SceneTitle::Update()
 		FadeOut();
 		if (m_isFadeOut)
 		{
+			return(new SceneResult);//シーン切り替え
 			return(new SceneMain2);//シーン切り替え
 			return(new SceneMain4);//シーン切り替え
 			return(new SceneMain3);//シーン切り替え

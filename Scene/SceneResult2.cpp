@@ -76,21 +76,7 @@ SceneBase* SceneResult2::Update()
 	m_color1 = Color::kWhite;
 	m_color2 = Color::kWhite;
 	m_color3 = Color::kWhite;
-	/*
-	if (m_pCursorCollision->CollsionDemo())//カーソルと選択範囲に当たっていたら
-	{
-		m_soundCount1++;
-		m_color1 = Color::kRed;//カーソルが当たっている場合の文字背景の色
-		if (m_soundCount1 == 1)
-		{
-			PlaySoundMem(m_hSoundSelect2, PAD_INPUT_10);//押している音を再生
-		}
-		if (padState & PAD_INPUT_2)//Xボタン
-		{
-			return(new SceneMain4);//同じステージを繰り返す
-		}
-	}
-	*/
+
 	if (m_pCursorCollision->CollsionStage1())//カーソルと選択範囲に当たっていたら
 	{
 		m_soundCount++;
@@ -126,6 +112,8 @@ SceneBase* SceneResult2::Update()
 		m_soundCount2 = 0;
 	}
 
+	ChangeVolumeSoundMem(SoundVolume::Button, m_hSoundSelect);//音量調整
+	ChangeVolumeSoundMem(SoundVolume::Select, m_hSoundSelect2);//音量調整
 	//サウンド
 	if (CheckSoundMem(m_hMusicBgm) == 0)//鳴っていなかったら
 	{

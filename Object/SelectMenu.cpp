@@ -179,6 +179,9 @@ void SelectMenu::Update()
 		if (m_Sring2_Y <= Game::kScreenHeight) m_Sring2_Y += SceneSelect::kSlideSpeed;
 		if (m_Sring3_Y <= Game::kScreenHeight) m_Sring3_Y += SceneSelect::kSlideSpeed;
 	}
+
+	ChangeVolumeSoundMem(SoundVolume::Button, m_hSoundSelect);//‰¹—Ê’²®
+	ChangeVolumeSoundMem(SoundVolume::Select, m_hSoundSelect2);//‰¹—Ê’²®
 }
 
 void SelectMenu::Draw()

@@ -376,7 +376,7 @@ void EnemyStage3::Draw()
 		1, m_upDownRad,
 		m_hUpDown, true, false);
 
-#if true		
+#if false		
 	DrawBox(Enemy2::kBossPosLeft, Enemy2::kBossPosTop,
 		Enemy2::kBossPosRight, Enemy2::kBossPosBottom, 0xffff00, false);
 	DrawBox(m_posLeft, m_posTop, m_posRight, m_posBottom, 0xff0000, false);//”»’èŠm”F

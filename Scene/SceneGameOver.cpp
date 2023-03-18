@@ -96,6 +96,8 @@ SceneBase* SceneGameOver::Update()
 		m_soundCount2 = 0;
 	}
 
+	ChangeVolumeSoundMem(SoundVolume::Button, m_hSoundSelect);//‰¹—Ê’²®
+	ChangeVolumeSoundMem(SoundVolume::Select, m_hSoundSelect2);//‰¹—Ê’²®
 	//ƒTƒEƒ“ƒh
 	if (CheckSoundMem(m_hMusicBgm) == 0)//–Â‚Á‚Ä‚¢‚È‚©‚Á‚½‚ç
 	{

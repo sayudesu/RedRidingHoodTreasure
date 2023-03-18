@@ -175,5 +175,6 @@ void SlideSelect::Collsion()
 	{
 		PlaySoundMem(m_hSoundSelect, DX_PLAYTYPE_BACK);//‰Ÿ‚µ‚Ä‚¢‚é‰¹‚ğÄ¶
 	}
-
+	ChangeVolumeSoundMem(SoundVolume::Button, m_hSoundSelect);//‰¹—Ê’²®
+	ChangeVolumeSoundMem(SoundVolume::Select, m_hSoundSelect2);//‰¹—Ê’²®
 }

@@ -488,7 +488,9 @@ void PlayerNew::Score()
 //アップデート処理
 void PlayerNew::UpdateMove()
 {
-
+	ChangeVolumeSoundMem(10, m_hRun);//音量調整
+	ChangeVolumeSoundMem(10, m_hFxJump);//音量調整
+	ChangeVolumeSoundMem(10, m_hLadder);//音量調整
 	Score();//スコア表示
 
 	Animation();//アニメーション

@@ -4,6 +4,7 @@
 #include "SceneMain3.h"
 #include "SceneMain4.h"
 #include "SceneResult.h"
+#include "SceneResult2.h"
 #include "TitleCursor.h"
 #include "TitleCollision.h"
 #include <DxLib.h>
@@ -200,9 +201,10 @@ SceneBase* SceneTitle::Update()
 		{
 			m_charaImagePos = 0;
 		}
-
+		
 	}
-	ChangeVolumeSoundMem(SoundVolume::Button, m_hSoundSelect2);//音量調整
+	ChangeVolumeSoundMem(SoundVolume::Button, m_hSoundSelect);//音量調整
+	ChangeVolumeSoundMem(SoundVolume::Select, m_hSoundSelect2);//音量調整
 	//サウンド
 	if (CheckSoundMem(m_hMusicBgm) == 0)//鳴っていなかったら
 	{
@@ -223,10 +225,10 @@ SceneBase* SceneTitle::Update()
 		FadeOut();
 		if (m_isFadeOut)
 		{
-			return(new SceneResult);//シーン切り替え
 			return(new SceneMain2);//シーン切り替え
 			return(new SceneMain4);//シーン切り替え
 			return(new SceneMain3);//シーン切り替え
+			return(new SceneResult2);//シーン切り替え
 		}
 	}
 

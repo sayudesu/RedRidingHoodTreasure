@@ -289,6 +289,9 @@ void EnemyStage1::EnemySoud()
 			ChangeVolumeSoundMem(200, m_hSoundBarre);//‰¹—Ê’²®
 		}
 	}
+	///////////////////////////////////////////////////
+	ChangeVolumeSoundMem(10, m_hSoundSnail);//‰¹—Ê’²®
+	ChangeVolumeSoundMem(10, m_hSoundBarre);//‰¹—Ê’²®
 }
 
 //“G‚ÌƒLƒƒƒ‰À•Wæ“¾

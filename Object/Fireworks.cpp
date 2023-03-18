@@ -159,8 +159,10 @@ void Fireworks::Update()
 		{
 			m_fireworksImageRocketLeft = 7;//‰æ‘œ‚ğ‚ÌˆÊ’u‚ğ‰Šú’l‚É–ß‚·
 		}
-	}
 
+		ChangeVolumeSoundMem(SoundVolume::kFireworksBreak, m_hSoundFireworksBreak[i]);//‰¹—Ê’²®
+		//ChangeVolumeSoundMem(SoundVolume::Select, m_hSoundSelect2);//‰¹—Ê’²®
+	}
 }
 
 void Fireworks::Draw()

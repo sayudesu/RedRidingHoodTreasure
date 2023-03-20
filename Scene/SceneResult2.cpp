@@ -135,7 +135,7 @@ void SceneResult2::Draw()
 	DrawBox(0,0, Game::kScreenWidth, Game::kScreenHeight, 0xf0e68c, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	m_pFireworks->Draw();//花火更新処理
+	m_pFireworks->Draw();//花火描画更新処理
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
 	DrawBox(500, 300, Game::kScreenWidth - 500, Game::kScreenHeight - 300, 0x00ffff, true);//中

@@ -28,6 +28,7 @@ SceneTitle::SceneTitle():
 	m_charaImagePos(0),
 	m_hMusicBgm(-1),//サウンドBGM
 	m_hButtonUi(-1),
+	m_hTitleMainImage(-1),
 	m_hSoundSelect(-1),
 	m_hSoundSelect2(-1),
 	m_colorA(0),
@@ -68,6 +69,7 @@ SceneTitle::~SceneTitle()
 	DeleteGraph(m_hImagePlayer);
 	DeleteGraph(m_hImageMap);
 	DeleteGraph(m_hButtonUi);
+	DeleteGraph(m_hTitleMainImage);
 
 	StopSoundFile();//再生中のサウンドを止める
 	DeleteSoundMem(m_hMusicBgm);
@@ -83,6 +85,7 @@ void SceneTitle::Init()
 	m_hImagePlayer = LoadGraph(Image::kPlayerImage);
 	m_hImageMap    = LoadGraph(Image::kMapFirst);
 	m_hButtonUi = LoadGraph(UI::kButton);
+	m_hTitleMainImage = LoadGraph(Image::kMapTitleMain);
 	m_hMusicBgm = LoadSoundMem(Sound::kBgmTitle);
 	m_hSoundSelect = LoadSoundMem(Sound::kSelect);
 	m_hSoundSelect2 = LoadSoundMem(Sound::kSelect2);
@@ -225,9 +228,10 @@ SceneBase* SceneTitle::Update()
 		FadeOut();
 		if (m_isFadeOut)
 		{
-			return(new SceneMain2);//シーン切り替え
 			return(new SceneMain4);//シーン切り替え
 			return(new SceneMain3);//シーン切り替え
+			return(new SceneMain2);//シーン切り替え
+			return(new SceneResult);//シーン切り替え
 			return(new SceneResult2);//シーン切り替え
 		}
 	}
@@ -237,14 +241,15 @@ SceneBase* SceneTitle::Update()
 
 void SceneTitle::Draw()
 {
-	DrawExtendGraph(0 + 100, 0 + 100,Game::kScreenWidth  - 100, Game::kScreenHeight - 100,m_hImageMap,true);
-	DrawRectRotaGraph(m_imagePos.x, m_imagePos.y,
-		m_charaImagePos, 133, 112, 133, 18, 0, m_hImagePlayer, true, true);
+	DrawExtendGraph(0, 0, Game::kScreenWidth,Game::kScreenHeight, m_hTitleMainImage, true);
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);//透過
-	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, 0x0000ff, true);//背景
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 30);//透過
+	//DrawExtendGraph(0 + 100, 0 + 100,Game::kScreenWidth  - 100,Game::kScreenHeight - 100,m_hImageMap,true);
+	DrawBox(0 + 100,0 + 100, Game::kScreenWidth  - 100,Game::kScreenHeight  - 100, Color::kWhite, true);//背景
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
+	DrawRectRotaGraph(m_imagePos.x, m_imagePos.y,
+		m_charaImagePos, 133, 112, 133, 18, 0, m_hImagePlayer, true, true);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);//色を薄くする
 	
 	//ステージ1

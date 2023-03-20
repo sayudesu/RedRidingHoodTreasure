@@ -1,6 +1,6 @@
 #pragma once
 
-class TitleCursor;
+class TitleCursorGame;
 class GameSceneCollision;
 
 class SelectMenu
@@ -49,7 +49,7 @@ private:
 	bool m_isSceneTitle;//画面が暗くなった後にシーンの切り替え
 	bool m_isSceneDead;//画面が暗くなった後にシーンの切り替え
 
-	TitleCursor* m_pCursor;
+	TitleCursorGame* m_pCursor;
 	GameSceneCollision* m_pCursorCollision;
 };
 

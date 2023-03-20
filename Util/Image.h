@@ -26,6 +26,8 @@ namespace Image
 	const char* const CrystalsGreen  = "Data/FireWorks/Crystals_Green.png";
 	const char* const CrystalsBlue   = "Data/FireWorks/Crystals_Blue.png";
 
+	//フェード用
+	const char* const kFade = "Data/UI/Fade2.png";
 
 	//体力
 	const char* const kPlayerHealthBer = "Data/UI/HP2.png";
@@ -38,6 +40,12 @@ namespace Image
 	const char* const kMapFifth  = "Data/Map/plx-5.png";
 	const char* const kMapTiles = "Data/Map/Tiles.png";
 	const char* const kMapTiles2 = "Data/Map/Buildings.png";
+
+	const char* const kMapTitleMain = "Data/Map/Title.png";
+
+	const char* const kCountTime1 = "Data/Map/Map1.png";
+	const char* const kCountTime2 = "Data/Map/Map2.png";
+	const char* const kCountTime3 = "Data/Map/Map3.png";
 
 	const char* const kLadder = "Data/Map/inca_back2.png";//梯子
 	const char* const kMapForest = "Data/Map/Background.png";

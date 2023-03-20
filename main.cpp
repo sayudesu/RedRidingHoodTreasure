@@ -78,7 +78,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		//ï\é¶èàóù
 		scene.Draw();
 
-#if true	
+#if false		
 		auto fps = GetFPS();// Frame Per Second
 		auto drawcall = GetDrawCallCount();// ï`âÊñΩóﬂêî
 		DrawFormatString(200, 200, 0xffffff, "FPS=%2.2f", fps);

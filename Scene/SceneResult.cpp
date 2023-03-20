@@ -161,8 +161,10 @@ void SceneResult::Draw()
 	DrawBox(SceneSelect::kSelectLeft2, SceneSelect::kSelectTop2, SceneSelect::kSelectRight2, SceneSelect::kSelectBottom2, m_color2, true);
 	DrawBox(SceneSelect::kSelectLeft3, SceneSelect::kSelectTop3, SceneSelect::kSelectRight3, SceneSelect::kSelectBottom3, m_color3, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);//色を戻す
-
-	DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop - 70, "ゲームクリア", Color::kYellow);
+	SetFontSize(128 + 32 + 32);//文字サイズ変更//タイトル
+	DrawString(SceneSelect::kSelectLeft - 200 + 2, SceneSelect::kSelectTop - 300 + 2, "ゲームクリア", Color::kBlue);
+	DrawString(SceneSelect::kSelectLeft - 200, SceneSelect::kSelectTop - 300, "ゲームクリア", Color::kYellow);
+	SetFontSize(32);//文字サイズ変更//タイトル
 	DrawString(SceneSelect::kSelectLeft + 70, SceneSelect::kSelectTop + 5, "次のステージ", Color::kBlue);
 	DrawString(SceneSelect::kSelectLeft2 + 85, SceneSelect::kSelectTop2 + 5, "もう一度", Color::kBlue);
 	DrawString(SceneSelect::kSelectLeft3 + 60, SceneSelect::kSelectTop3 + 5, "タイトルに戻る", Color::kBlue);

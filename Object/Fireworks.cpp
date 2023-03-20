@@ -61,10 +61,13 @@ Fireworks::Fireworks() :
 Fireworks::~Fireworks()
 {
 	/*メモリ解放*/
-	for (int i = 0; i < Staging::kFireworksNum; i++)
+	for (int i = 0; i < 9; i++)
 	{
 		//画像
 		DeleteGraph(m_hFireworks[i]);
+	}
+	for (int i = 0; i < Staging::kFireworksNum; i++)
+	{
 		//サウンド
 		DeleteSoundMem(m_hSoundFireworksRocket[i]);
 		DeleteSoundMem(m_hSoundFireworksBreak[i]);
@@ -106,8 +109,6 @@ void Fireworks::Update()
 			}
 			else//破裂位置に到達した場合
 			{
-				printfDx("%d\n", m_soundCount[i]);
-
 				m_soundCount[i]++;
 
 				if (m_soundCount[i] == 65)

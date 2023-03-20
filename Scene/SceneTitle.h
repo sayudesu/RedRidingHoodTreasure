@@ -25,6 +25,7 @@ private:
 	int m_hImageMap;
 	int m_charaImagePos;
 	int m_hButtonUi;
+	int m_hTitleMainImage;
 
 	int m_hMusicBgm;
 	int m_hSoundSelect;

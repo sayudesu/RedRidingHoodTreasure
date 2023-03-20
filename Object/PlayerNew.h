@@ -175,6 +175,8 @@ private:
 	int m_tempScreenH;//画面サイズを取得
 	//重力
 	float m_gravity;
+	//プレイヤー背景カラー
+	float m_playerColorSize;
 	//アニメーション
 	bool m_isRunMove;
 	bool m_isStopMove;

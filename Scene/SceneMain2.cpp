@@ -20,8 +20,13 @@ SceneMain2::SceneMain2() :
 	m_hPlayerIdle(-1),
 	m_hPlayerLighting(-1),
 	m_hPlayerHealthBer(-1),
+	m_hFadeImage(-1),
+	m_hCopy(-1),
 	m_hMusicBgm(-1),//BGM用ハンドル
+	m_stageCount(0),//ステージが始まるまでのカウント
+	m_stageCountSeconds(0),
 	m_fadeValue(0.0f),
+	m_isStageCount(false),
 	m_isFadeIn(false),//フェイドインしたかどうか
 	m_isFadeOut(false),//フェイドアウトしたかどうか
 	m_isSceneStage(false),//画面が暗くなった後にシーンの切り替え
@@ -36,7 +41,6 @@ SceneMain2::SceneMain2() :
 	m_pSlidSelect(nullptr),
 	m_pFireworks(nullptr)
 {
-
 	m_pStage     = new DrawMapStage1;
 	m_pPlayer    = new PlayerNew;
 	m_pCollision = new Collision;
@@ -61,19 +65,15 @@ void SceneMain2::Init()
 	m_pCollision->Init();
 	m_pStage->Init();
 	m_pFireworks->Init();
-
 	m_hMusicBgm = LoadSoundMem(Sound::kBgmStage);
-	
-	//プレイヤー画像
-	//m_hPlayer = LoadGraph(Image::kPlayerImage);
-	//m_hPlayerIdle = LoadGraph(Image::kPlayerImageIdle);
-	m_hPlayerLighting = LoadGraph(Image::kPlayerLighting);
-	m_hPlayerHealthBer = LoadGraph(Image::kPlayerHealthBer);
+	m_hCopy = LoadGraph(Image::kCountTime1);
+	m_hFadeImage = LoadGraph(Image::kFade);//フェイド処理
 
 	//プレイヤー画像
 	m_pPlayer->SetHandle(m_hPlayer);
 	m_pPlayer->SetHandleIdle(m_hPlayerIdle);
 
+	m_stageCount = 60 * 3;//ステージ開始カウント
 	m_fadeValue = 255.0f;//画面の色
 
 }
@@ -87,6 +87,7 @@ void SceneMain2::End()
 	//プレイヤー画像
 	DeleteGraph(m_hPlayer);
 	DeleteGraph(m_hPlayerIdle);
+	DeleteGraph(m_hCopy);
 
 	StopSoundFile();//再生中のサウンドを止める
 	DeleteSoundMem(m_hMusicBgm);
@@ -99,17 +100,38 @@ SceneBase* SceneMain2::Update()
 	GetSceneRetry(m_pSlidSelect->SetSceneRetry());
 	GetSceneTitle(m_pSlidSelect->SetSceneTitle());
 	GetSceneDead(m_pSlidSelect->SetSceneDead());
-
+	//printfDx("%d", m_stageCount);
 	if (!m_isFadeIn)FadeIn();//フェイドイン
-	
+	if (m_stageCount == 60 * 3)
+	{
+		m_stageCountSeconds = 3;
+	}
+	if (m_stageCount == 60 * 2)
+	{
+		m_stageCountSeconds = 2;
+	}
+	if (m_stageCount == 60)
+	{
+		m_stageCountSeconds = 1;
+	}
+
 	if (m_isFadeIn)//画面が最大値明るくなったら
 	{
-		if (!m_isGameClear)//クリアしていない場合は処理する
+		if (m_stageCount == 0)
 		{
-			if (!m_pMenu->m_isMenu)
+			m_isStageCount = false;
+			if (!m_isGameClear)//クリアしていない場合は処理する
 			{
-				m_pCollision->Update();
+				if (!m_pMenu->m_isMenu)//メニューを開いていない場合
+				{
+					m_pCollision->Update();
+				}
 			}
+		}
+		else
+		{
+			m_stageCount--;
+			m_isStageCount = true;
 		}
 
 		m_pMenu->Update();
@@ -178,6 +200,8 @@ SceneBase* SceneMain2::Update()
 	{
 		return(new SceneTitle);
 	}
+
+
 	return this;
 }
 
@@ -191,6 +215,7 @@ void SceneMain2::Draw()
 		m_pMenu->Draw();
 
 	}
+
 	if (m_isGameClear)//ゲームをクリアした場合
 	{
 		GameClear();//どの画面に移動するか確認
@@ -226,8 +251,16 @@ void SceneMain2::Draw()
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 	*/
-
-
+	if (m_stageCount != 0)
+	{
+		DrawExtendGraph(0,0, Game::kScreenWidth, Game::kScreenHeight, m_hCopy, true);
+	}
+	if (m_isStageCount)
+	{
+		SetFontSize(128 + 32 + 32);//文字サイズ変更//タイトル
+		DrawFormatString(Game::kScreenWidth/2, Game::kScreenHeight/2, 0xffffff, "%d", m_stageCountSeconds);
+		SetFontSize(32);//文字サイズ変更//タイトル
+	}
 }
 
 //クリアした時の選択画面表示
@@ -237,6 +270,10 @@ void SceneMain2::GameClear()
 	m_pSlidSelect->Slider();//選択画面の処理
 
 	m_pFireworks->Draw();
+	SetFontSize(128 + 32 + 32);//文字サイズ変更//タイトル
+	DrawString(SceneSelect::kSelectLeft - 200 + 2, SceneSelect::kSelectTop - 300 + 2, "ゲームクリア", Color::kBlue);
+	DrawString(SceneSelect::kSelectLeft - 200, SceneSelect::kSelectTop - 300, "ゲームクリア", Color::kYellow);
+	SetFontSize(32);//文字サイズ変更//タイトル
 	m_pSlidSelect->Draw();//描画処理
 }
 

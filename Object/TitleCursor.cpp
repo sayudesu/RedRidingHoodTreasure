@@ -6,8 +6,8 @@ TitleCursor::TitleCursor():
 	m_padPos(0.0f,0.0f),
 	m_isMenu(false)
 {
-	m_padPos.x = static_cast<float>(Game::kScreenWidth) / 2;
-	m_padPos.y = static_cast<float>(Game::kScreenHeight / 2 + 30);
+	m_padPos.x = static_cast<float>(Game::kScreenWidth / 2);
+	m_padPos.y = static_cast<float>(Game::kScreenHeight / 2 + 100);
 	m_isMenu = true;
 }
 
@@ -26,7 +26,7 @@ void TitleCursor::Update()
 	if (!m_isMenu)//メニューを閉じる時にカーソルの位置を初期値に戻す
 	{
 		m_padPos.x = static_cast<float>(Game::kScreenWidth) / 2;
-		m_padPos.y = static_cast<float>(Game::kScreenHeight) / 2;
+		m_padPos.y = static_cast<float>(Game::kScreenHeight) / 2 - 30;
 	}
 	PosSet();
 

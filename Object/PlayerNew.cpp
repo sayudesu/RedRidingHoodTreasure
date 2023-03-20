@@ -13,7 +13,7 @@ namespace
 
 	constexpr double kPlayerSize = 1.4;
 	//プレイヤーの初期座標
-	constexpr float kPosX = 0.0f;
+	constexpr float kPosX = 150.0f;
 	constexpr float kPosY = static_cast<float>(Game::kScreenHeight) - 50.0f;//デバック用に-300移動
 	//動く速さ
 	constexpr float kMoveSpeed = 5.0f;
@@ -103,6 +103,7 @@ PlayerNew::PlayerNew() :
 	m_tip(0),
 	m_tempScreenH(0),
 	m_gravity(0.0f),
+	m_playerColorSize(0.0f),
 	m_isRunMove(false),//アニメーション関連bool
 	m_isStopMove(false),
 	m_isIdleMove(false),
@@ -163,6 +164,8 @@ PlayerNew::PlayerNew() :
 	m_charaImageRigth = 112;
 	m_charaImageBottom = 133;
 	m_charaImageDeadPosY = m_charaImageBottom * 9;
+
+	m_playerColorSize = 500.0f * 2;
 
 	m_hPlayer = LoadGraph(Image::kPlayerImage);		   //プレイヤー画像読み込み
 	m_hPlayerIdle = LoadGraph(Image::kPlayerImageIdle);//プレイヤーアイドル状態画像読み込み
@@ -238,11 +241,10 @@ void PlayerNew::End()
 //アップデート処理
 void PlayerNew::Update()
 {
-
-	if (m_isStageClear)//ステージクリアかどうか
-	{
-		m_isStageClearChangeScene = true;
-	}
+	//if (m_isStageClear)//ステージクリアかどうか
+	//{
+	//	m_isStageClearChangeScene = true;
+	//}
 	//Draw();
 	(this->*m_func)();
 }
@@ -250,6 +252,10 @@ void PlayerNew::Update()
 void PlayerNew::Draw()
 {
 
+	SetDrawBlendMode(DX_BLENDMODE_ADD,30);
+	DrawCircleAA(static_cast<int>(m_pos.x) + 20, static_cast<int>(m_pos.y), m_playerColorSize, 32, 0xffffff, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	
 	if (m_isRunMove || m_isJumpMove)//動いていいる場合の画像
 	{
 		DrawRectRotaGraph(m_playerLeft + 15, m_playerTop - 5,
@@ -268,13 +274,6 @@ void PlayerNew::Draw()
 		//横80
 		//縦80
 	}
-
-	//if (m_isAttack)//攻撃した場合の画像（未実装）
-	//{
-	//	DrawBox(m_attackPlayerLeft, m_attackPlayerTop, m_attackPlayerRight, m_attackPlayerBottom, 0xffffff, true);
-	//}
-
-	m_isAttack = false;//攻撃していない
 
 	if (m_isDead)//死んでいる画面
 	{
@@ -398,7 +397,6 @@ void PlayerNew::OperationStandard()
 			if (CheckSoundMem(m_hRun) == 0)//鳴っていなかったら
 			{
 					PlaySoundMem(m_hRun, DX_PLAYTYPE_BACK);//サウンドを再生
-					ChangeVolumeSoundMem(200, m_hRun);//音量調整
 					m_CountRunSound = 0;
 			}
 		}
@@ -418,7 +416,6 @@ void PlayerNew::OperationStandard()
 			if (CheckSoundMem(m_hRun) == 0)//鳴っていなかったら
 			{
 					PlaySoundMem(m_hRun, DX_PLAYTYPE_BACK);//サウンドを再生
-					ChangeVolumeSoundMem(200, m_hRun);//音量調整
 					m_CountRunSound = 0;
 			}
 		}
@@ -488,10 +485,12 @@ void PlayerNew::Score()
 //アップデート処理
 void PlayerNew::UpdateMove()
 {
-	ChangeVolumeSoundMem(10, m_hRun);//音量調整
-	ChangeVolumeSoundMem(10, m_hFxJump);//音量調整
-	ChangeVolumeSoundMem(10, m_hLadder);//音量調整
+	ChangeVolumeSoundMem(SoundVolume::kRun, m_hRun);//音量調整
+	ChangeVolumeSoundMem(SoundVolume::kJump, m_hFxJump);//音量調整
+	ChangeVolumeSoundMem(SoundVolume::kLadder, m_hLadder);//音量調整
 	Score();//スコア表示
+
+	if (m_playerColorSize > 45.0f)m_playerColorSize -= 10;//45
 
 	Animation();//アニメーション
 	Pad::update();//入力判定
@@ -586,9 +585,6 @@ void PlayerNew::UpdateDead()
 	}
 	if (m_frameCountDead >= 20)//アニメーションを20フレームに1コマで再生
 	{
-		//printfDx("X = %d\n", m_charaImageDeadPosX); 
-		//printfDx("Y = %d\n", m_charaImageDeadPosY);
-		//m_charaImageDeadPosY = 1330;
 		m_charaImageDeadPosX += 112;//画像112ドットを右に動かす
 		m_frameCountDead = 0;//カウントをリセット
 	}
@@ -605,12 +601,4 @@ void PlayerNew::UpdateDead()
 	
 		m_deadCount = 0;//カウントリセット
 	}
-
-
-	//if (m_isDead)//死んでいる画面
-	//{
-	//	DrawRectRotaGraph(Game::kScreenWidth / 2, Game::kScreenHeight / 2 - 300,
-	//		m_charaImageLeft + m_charaImageDeadPosX, m_charaImageTop + m_charaImageDeadPosY, m_charaImageRigth, m_charaImageBottom,
-	//		20, m_playerRad, m_hPlayer, true, m_isCharaDirection);
-	//}
 }

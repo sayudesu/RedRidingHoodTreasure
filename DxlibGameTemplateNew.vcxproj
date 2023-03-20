@@ -176,9 +176,6 @@
     <ClCompile Include="Object\DrawMapStage1.cpp" />
     <ClCompile Include="Object\Enemy.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Object\Player.cpp" />
-    <ClCompile Include="Object\PlayerImage.cpp" />
-    <ClCompile Include="Object\PlayerMapMove.cpp" />
     <ClCompile Include="Object\PlayerNew.cpp" />
     <ClCompile Include="Object\SoundManager.cpp" />
     <ClCompile Include="Scene\SceneGameOver2.cpp" />
@@ -186,7 +183,6 @@
     <ClCompile Include="Scene\SceneGameOver3.cpp" />
     <ClCompile Include="Scene\SceneMain2.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
-    <ClCompile Include="Scene\SceneMain.cpp" />
     <ClCompile Include="Scene\SceneMain3.cpp" />
     <ClCompile Include="Scene\SceneMain4.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />

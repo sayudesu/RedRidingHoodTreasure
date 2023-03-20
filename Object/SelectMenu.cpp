@@ -3,7 +3,7 @@
 #include "Image.h"
 #include "Pad.h"
 #include "SelectMenu.h"
-#include "TitleCursor.h"
+#include "TitleCursorGame.h"
 #include "GameSceneCollision.h"
 
 
@@ -32,7 +32,7 @@ SelectMenu::SelectMenu():
 	m_pCursor(nullptr),
 	m_pCursorCollision(nullptr)
 {
-	m_pCursor = new TitleCursor;
+	m_pCursor = new TitleCursorGame;
 	m_pCursorCollision = new GameSceneCollision;
 
 	m_hSoundSelect = LoadSoundMem(Sound::kSelect);//ボタン押した場合のサウンドを読み込み

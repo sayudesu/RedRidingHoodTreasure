@@ -40,7 +40,6 @@ void SceneGameOver::Init()
 	//ƒTƒEƒ“ƒh‚ğ“Ç‚İ‚İ
 	m_hSoundSelect = LoadSoundMem(Sound::kSelect);
 	m_hSoundSelect2 = LoadSoundMem(Sound::kSelect2);
-
 	m_hMusicBgm = LoadSoundMem(Sound::kBgmDead);
 }
 

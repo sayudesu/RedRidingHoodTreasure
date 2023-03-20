@@ -506,7 +506,7 @@ namespace Enemy1
 	constexpr int kBossPosRight  = kBossPosLeft + 200;
 	constexpr int kBossPosBottom = kBossPosTop + 200;
 
-	constexpr float kBarrelSpeed = 5.0f;
+	constexpr float kBarrelSpeed = 6.0f;
 }
 namespace Enemy2
 {
@@ -552,7 +552,7 @@ namespace Color
 
 namespace Scene
 {
-	constexpr float kFadeSpeed = 3.5f;//フェイド系
+	constexpr float kFadeSpeed = 3.5f * 3;//フェイド系
 }
 
 namespace Staging//演出用
@@ -570,9 +570,13 @@ namespace Staging//演出用
 namespace SoundVolume
 {
 	constexpr int PulsVolume = 80;
-	constexpr int BGM    = 1 + PulsVolume;
-	constexpr int Button = 30 + PulsVolume;
-	constexpr int Select = 30 + PulsVolume;
-	constexpr int kFireworksBreak = 70 + PulsVolume;
+	constexpr int BGM    = 1 + PulsVolume;//BGM
+	constexpr int Button = 30 + PulsVolume;//Aボタン押した場合
+	constexpr int Select = 30 + PulsVolume;//選択画面の選択した場合
+	constexpr int kFireworksBreak = 70 + PulsVolume;//花火破裂
+	constexpr int kFireworksRocket = 70 + PulsVolume;//花火打ち上げ
+	constexpr int kRun = 30 + PulsVolume;//ジャンプ
+	constexpr int kJump = 30 + PulsVolume;//ジャンプ
+	constexpr int kLadder = 30 + PulsVolume;//梯子
 
 }

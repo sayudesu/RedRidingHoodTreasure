@@ -37,11 +37,16 @@ private:
 	int m_hPlayerIdle;
 	int m_hPlayerLighting;
 	int m_hPlayerHealthBer;
+	int m_hFadeImage;
+	int m_hCopy;
 
 	int m_hMusicBgm;//BGM用ハンドル
 
+	int m_stageCount;//ステージが始まるまでのカウント
+	int m_stageCountSeconds;
 	float m_fadeValue;//画面の明るさ調整
 
+	bool m_isStageCount;
 	bool m_isFadeIn;//フェイドインしたかどうか
 	bool m_isFadeOut;//フェイドアウトしたかどうか
 

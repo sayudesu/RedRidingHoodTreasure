@@ -12,6 +12,7 @@
 #include "TitleCursorGame.h"
 #include "GameSceneCollision.h"
 #include "Fireworks.h"
+#include "Chest.h"
 
 namespace
 {
@@ -31,11 +32,13 @@ SceneResult2::SceneResult2():
 	m_color3(0),
 	m_pCursor(nullptr),
 	m_pCursorCollision(nullptr),
-	m_pFireworks(nullptr)
+	m_pFireworks(nullptr),
+	m_pChest(nullptr)
 {
 	m_pCursor = new TitleCursorGame;
 	m_pCursorCollision = new GameSceneCollision;
 	m_pFireworks = new Fireworks;
+	m_pChest = new Chest;
 }
 
 SceneResult2::~SceneResult2()
@@ -43,6 +46,7 @@ SceneResult2::~SceneResult2()
 	delete m_pCursor;
 	delete m_pCursorCollision;
 	delete m_pFireworks;
+	delete m_pChest;
 
 	//サウンド削除
 	DeleteSoundMem(m_hSoundSelect);
@@ -148,10 +152,16 @@ void SceneResult2::Draw()
 	DrawBox(SceneSelect::kSelectLeft3, SceneSelect::kSelectTop3, SceneSelect::kSelectRight3, SceneSelect::kSelectBottom3, m_color3, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);//色を戻す
 
-	DrawString(SceneSelect::kSelectLeft + 75, SceneSelect::kSelectTop - 70, "ゲームクリア", Color::kYellow);
-	//DrawString(SceneSelect::kSelectLeft + 70, SceneSelect::kSelectTop + 5, "次のステージ", Color::kBlue);
+	SetFontSize(128 + 32 + 32);//文字サイズ変更//タイトル
+	DrawString(SceneSelect::kSelectLeft - 200 + 2, SceneSelect::kSelectTop - 300 + 2, "ゲームクリア", Color::kBlue);
+	DrawString(SceneSelect::kSelectLeft - 200, SceneSelect::kSelectTop - 300, "ゲームクリア", Color::kYellow);
+	SetFontSize(32);//文字サイズ変更//タイトル
+
+	DrawString(SceneSelect::kSelectLeft - 50, SceneSelect::kSelectTop, "赤ずきんは財宝を手に入れることができた！", Color::kBlue);
 	DrawString(SceneSelect::kSelectLeft2 + 85, SceneSelect::kSelectTop2 + 5, "もう一度", Color::kBlue);
 	DrawString(SceneSelect::kSelectLeft3 + 60, SceneSelect::kSelectTop3 + 5, "タイトルに戻る", Color::kBlue);
+
+	m_pChest->Stage3UDraw();
 
 	m_pCursor->Draw();
 }

@@ -228,11 +228,11 @@ SceneBase* SceneTitle::Update()
 		FadeOut();
 		if (m_isFadeOut)
 		{
+			return(new SceneResult2);//シーン切り替え
+			return(new SceneMain2);//シーン切り替え
 			return(new SceneMain4);//シーン切り替え
 			return(new SceneMain3);//シーン切り替え
-			return(new SceneMain2);//シーン切り替え
 			return(new SceneResult);//シーン切り替え
-			return(new SceneResult2);//シーン切り替え
 		}
 	}
 

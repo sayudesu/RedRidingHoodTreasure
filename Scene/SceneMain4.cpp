@@ -8,6 +8,7 @@
 #include "SelectMenu.h"
 #include "SlideSelect.h"
 #include "Fireworks.h"
+#include "Chest.h"
 #include "game.h"
 #include "Image.h"
 #include <Dxlib.h>
@@ -35,7 +36,8 @@ SceneMain4::SceneMain4():
 	m_pCollision(nullptr),
 	m_pMenu(nullptr),
 	m_pSlidSelect(nullptr),
-	m_pFireworks(nullptr)
+	m_pFireworks(nullptr),
+	m_pChest(nullptr)
 {
 	m_pStage     = new DrawMapStage2;
 	m_pPlayer    = new PlayerNew;
@@ -43,6 +45,7 @@ SceneMain4::SceneMain4():
 	m_pMenu      = new SelectMenu;
 	m_pSlidSelect = new SlideSelect;
 	m_pFireworks = new Fireworks;
+	m_pChest = new Chest;
 }
 
 SceneMain4::~SceneMain4()
@@ -51,6 +54,7 @@ SceneMain4::~SceneMain4()
 	delete m_pPlayer;
 	delete m_pCollision;
 	delete m_pMenu;
+	delete m_pChest;
 }
 
 void SceneMain4::Init()
@@ -93,6 +97,11 @@ SceneBase* SceneMain4::Update()
 	GetSceneRetry(m_pSlidSelect->SetSceneRetry());
 	GetSceneTitle(m_pSlidSelect->SetSceneTitle());
 	GetSceneDead(m_pSlidSelect->SetSceneDead());
+
+	GetMenuRetry(m_pMenu->SetSceneRetry());
+	GetMenuTitle(m_pMenu->SetSceneTitle());
+
+
 
 	if (!m_isFadeIn)FadeIn();//フェイドイン
 	if (m_stageCount == 60 * 3)
@@ -239,6 +248,8 @@ void SceneMain4::GameClear()
 	DrawString(SceneSelect::kSelectLeft - 200, SceneSelect::kSelectTop - 300, "ゲームクリア", Color::kYellow);
 	SetFontSize(32);//文字サイズ変更//タイトル
 	//m_pSlidSelect->Draw();//描画処理
+
+	m_pChest->Stage3UDraw();
 }
 
 void SceneMain4::FadeIn()

@@ -7,6 +7,7 @@ class Collision3;
 class SelectMenu;
 class SlideSelect;
 class Fireworks;
+class Chest;
 
 class SceneMain4 : public SceneBase
 {
@@ -23,7 +24,10 @@ public:
 	void GetSceneStage(bool scene) { m_isSceneResult = scene; }
 	void GetSceneRetry(bool scene) { m_isSceneRetry = scene; }
 	void GetSceneTitle(bool scene) { m_isSceneTitle = scene; }
-	void GetSceneDead(bool scene)  { m_isSceneDead = scene; }
+	void GetSceneDead(bool scene) { m_isSceneDead = scene; }
+
+	void GetMenuRetry(bool scene){ m_isSceneRetry = scene; }
+	void GetMenuTitle(bool scene) { m_isSceneTitle = scene; }
 private:
 	void GameClear();//ÉQÅ[ÉÄÇÉNÉäÉAÇµÇΩèÍçá
 private:
@@ -62,6 +66,7 @@ private:
 	SelectMenu* m_pMenu;
 	SlideSelect* m_pSlidSelect;
 	Fireworks* m_pFireworks;
+	Chest* m_pChest;
 };
 
 

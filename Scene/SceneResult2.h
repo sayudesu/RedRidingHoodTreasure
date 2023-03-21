@@ -5,6 +5,7 @@
 class TitleCursorGame;//カーソルクラス
 class GameSceneCollision;//カーソル判定
 class Fireworks;//花火
+class Chest;
 
 class SceneResult2 : public SceneBase
 {
@@ -37,5 +38,6 @@ private:
 	TitleCursorGame* m_pCursor;
 	GameSceneCollision* m_pCursorCollision;
 	Fireworks* m_pFireworks;
+	Chest* m_pChest;
 };
 

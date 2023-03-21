@@ -164,6 +164,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Chest.cpp" />
     <ClCompile Include="Object\Collision3.cpp" />
     <ClCompile Include="Object\EnemyStage3.cpp" />
     <ClCompile Include="Object\Fireworks.cpp" />
@@ -199,6 +200,7 @@
     <ClCompile Include="Util\Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Chest.h" />
     <ClInclude Include="Object\Collision3.h" />
     <ClInclude Include="Object\EnemyStage3.h" />
     <ClInclude Include="Object\Fireworks.h" />

@@ -8,8 +8,8 @@
 #include "Collision.h"
 #include "SelectMenu.h"
 #include "Fireworks.h"
-
 #include "SlideSelect.h"
+#include "Chest.h"
 #include "game.h"
 #include "Image.h"
 #include <Dxlib.h>
@@ -39,7 +39,8 @@ SceneMain2::SceneMain2() :
 	m_pCollision(nullptr),
 	m_pMenu(nullptr),
 	m_pSlidSelect(nullptr),
-	m_pFireworks(nullptr)
+	m_pFireworks(nullptr),
+	m_pChest(nullptr)
 {
 	m_pStage     = new DrawMapStage1;
 	m_pPlayer    = new PlayerNew;
@@ -47,6 +48,7 @@ SceneMain2::SceneMain2() :
 	m_pMenu      = new SelectMenu;
 	m_pSlidSelect = new SlideSelect;
 	m_pFireworks = new Fireworks;
+	m_pChest = new Chest;
 }
 
 SceneMain2::~SceneMain2()
@@ -57,6 +59,7 @@ SceneMain2::~SceneMain2()
 	delete m_pMenu;
 	delete m_pSlidSelect;
 	delete m_pFireworks;
+	delete m_pChest;
 
 }
 
@@ -100,7 +103,10 @@ SceneBase* SceneMain2::Update()
 	GetSceneRetry(m_pSlidSelect->SetSceneRetry());
 	GetSceneTitle(m_pSlidSelect->SetSceneTitle());
 	GetSceneDead(m_pSlidSelect->SetSceneDead());
-	//printfDx("%d", m_stageCount);
+
+	GetMenuRetry(m_pMenu->SetSceneRetry());
+	GetMenuTitle(m_pMenu->SetSceneTitle());
+
 	if (!m_isFadeIn)FadeIn();//フェイドイン
 	if (m_stageCount == 60 * 3)
 	{
@@ -275,6 +281,8 @@ void SceneMain2::GameClear()
 	DrawString(SceneSelect::kSelectLeft - 200, SceneSelect::kSelectTop - 300, "ゲームクリア", Color::kYellow);
 	SetFontSize(32);//文字サイズ変更//タイトル
 	m_pSlidSelect->Draw();//描画処理
+
+	m_pChest->Stage1Draw();
 }
 
 void SceneMain2::FadeIn()

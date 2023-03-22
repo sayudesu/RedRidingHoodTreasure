@@ -18,6 +18,10 @@ private:
 	int m_snowDrop;//á‚ª—‚¿‚é”
 
 	//‰æ‘œˆÊ’u
+	int m_left;
+	int m_top;
+
+	float m_angle;
 
 	Vec2 m_snowPos[Dead::kSnowNum];//á‚ÌˆÊ’u
 };

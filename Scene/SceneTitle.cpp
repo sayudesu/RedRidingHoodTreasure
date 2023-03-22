@@ -231,8 +231,8 @@ SceneBase* SceneTitle::Update()
 		FadeOut();
 		if (m_isFadeOut)
 		{
-			return(new SceneGameOver3);
 			return(new SceneMain2);//1ステージ切り替え
+			return(new SceneGameOver3);
 			return(new SceneMain3);//2ステージ切り替え
 			return(new SceneMain4);//3ステージ切り替え
 			return(new SceneResult2);//勝利画面切り替え

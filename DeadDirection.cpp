@@ -8,6 +8,9 @@ DeadDirection::DeadDirection():
 	m_hEffectScreen(0),
 	m_snowCount(0),
 	m_snowDrop(0),
+	m_left(0),
+	m_top(0),
+	m_angle(0.0f),
 	m_snowPos()
 {
 	m_hEffectScreen = MakeScreen(Game::kScreenWidth, Game::kScreenHeight, true);
@@ -15,8 +18,12 @@ DeadDirection::DeadDirection():
 	{
 		m_snowPos[i] = { static_cast<float>(GetRand(Game::kScreenWidth)),0.0f};
 	}
+
+	m_left = Game::kScreenWidth / 2;
+	m_top = Game::kScreenHeight / 2;
+
 	m_hPlayer = LoadGraph(Image::kPlayerImage);
-	m_hPlayerDead = DerivationGraph(112,133 * 10,112,133, m_hPlayer);//地面画像から一部を抽出
+	m_hPlayerDead = DerivationGraph(112 + 8,133 * 10 + 32,112,133, m_hPlayer);//地面画像から一部を抽出
 	//画像の１キャラ分の大きさ
 	//横112
 	//縦133
@@ -30,6 +37,7 @@ DeadDirection::~DeadDirection()
 
 void DeadDirection::Update()
 {
+	m_angle += 0.001;
 	if (m_snowDrop != Dead::kSnowNum)
 	{
 		m_snowCount++;
@@ -78,8 +86,10 @@ void DeadDirection::Draw()
 	SetDrawScreen(DX_SCREEN_BACK);
 	// 画面のクリア
 	ClearDrawScreen();
-
-	DrawExtendGraph(Game::kScreenWidth/2 - 500,Game::kScreenHeight/2, Game::kScreenWidth / 2 + 300, Game::kScreenHeight / 2 + 300, m_hPlayerDead, true);//判定確認用
+	DrawRotaGraph(m_left,m_top,
+		20, m_angle,
+		m_hPlayerDead,true, false);
+	//DrawExtendGraph(m_left, m_top, m_right, m_bottom, m_hPlayerDead, true);//判定確認用
 	//DrawGraph(100, 100, m_hPlayerDead, true);//DX_SCREEN_BACK
 
 	//加算合成する

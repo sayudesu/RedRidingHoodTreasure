@@ -12,6 +12,7 @@
 #include "TitleCursorGame.h"
 #include "GameSceneCollision.h"
 #include "Fireworks.h"
+#include "ClearDirection.h"
 #include "Chest.h"
 
 namespace
@@ -33,12 +34,14 @@ SceneResult2::SceneResult2():
 	m_pCursor(nullptr),
 	m_pCursorCollision(nullptr),
 	m_pFireworks(nullptr),
-	m_pChest(nullptr)
+	m_pChest(nullptr),
+	m_pClearDirection(nullptr)
 {
 	m_pCursor = new TitleCursorGame;
 	m_pCursorCollision = new GameSceneCollision;
 	m_pFireworks = new Fireworks;
 	m_pChest = new Chest;
+	m_pClearDirection = new ClearDirection;
 }
 
 SceneResult2::~SceneResult2()
@@ -47,6 +50,7 @@ SceneResult2::~SceneResult2()
 	delete m_pCursorCollision;
 	delete m_pFireworks;
 	delete m_pChest;
+	delete m_pClearDirection;
 
 	//サウンド削除
 	DeleteSoundMem(m_hSoundSelect);
@@ -75,6 +79,7 @@ SceneBase* SceneResult2::Update()
 	m_pCursor->Update();
 	m_pCursorCollision->Update();
 	m_pFireworks->Update();//花火更新処理
+	m_pClearDirection->Update();
 
 	//カーソルが当たっていない場合の文字背景の色
 	m_color1 = Color::kWhite;
@@ -140,6 +145,7 @@ void SceneResult2::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	m_pFireworks->Draw();//花火描画更新処理
+	m_pClearDirection->Draw();
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
 	DrawBox(500, 300, Game::kScreenWidth - 500, Game::kScreenHeight - 300, 0x00ffff, true);//中
@@ -162,6 +168,5 @@ void SceneResult2::Draw()
 	DrawString(SceneSelect::kSelectLeft3 + 60, SceneSelect::kSelectTop3 + 5, "タイトルに戻る", Color::kBlue);
 
 	m_pChest->Stage3UDraw();
-
 	m_pCursor->Draw();
 }

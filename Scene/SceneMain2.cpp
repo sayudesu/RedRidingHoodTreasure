@@ -33,6 +33,8 @@ SceneMain2::SceneMain2() :
 	m_isSceneRetry(false),
 	m_isSceneTitle(false),//画面が暗くなった後にシーンの切り替え
 	m_isSceneDead(false),//死んだらシーン切り替え
+	m_isSceneMenuRetry(false),
+	m_isSceneMenuTitle(false),
 	m_isGameClear(false),
 	m_pStage(nullptr),
 	m_pPlayer(nullptr),
@@ -169,15 +171,7 @@ SceneBase* SceneMain2::Update()
 		ChangeVolumeSoundMem(SoundVolume::BGM, m_hMusicBgm);//音量調整
 	}
 
-	if (m_pMenu->SetSceneTitle() || m_isSceneTitle)//選択をしたら
-	{
-		FadeOut();
-		if (m_isFadeOut)
-		{
-			return(new SceneTitle);//タイトル画面に移動
-		}
-	}
-	else if (m_isSceneStage)
+	if (m_isSceneStage)
 	{
 		FadeOut();
 		if (m_isFadeOut)
@@ -185,7 +179,7 @@ SceneBase* SceneMain2::Update()
 			return(new SceneMain3);//新しいステージに移動
 		}
 	}
-	else if (m_pMenu->SetSceneRetry() || m_isSceneRetry)
+	else if (/*m_pMenu->SetSceneRetry() ||*/m_isSceneMenuRetry|| m_isSceneRetry)
 	{
 		FadeOut();
 		if (m_isFadeOut)
@@ -193,7 +187,16 @@ SceneBase* SceneMain2::Update()
 			return(new SceneMain2);//同じステージを繰り返す
 		}
 	}
-	else if (m_isSceneDead)//死んだ場合のシーン切り替え
+	else if (/*m_pMenu->SetSceneTitle() ||*/m_isSceneMenuTitle|| m_isSceneTitle)//選択をしたら
+	{
+		FadeOut();
+		if (m_isFadeOut)
+		{
+			return(new SceneTitle);//タイトル画面に移動
+		}
+	}
+
+	if (m_isSceneDead)//死んだ場合のシーン切り替え
 	{
 		FadeOut();
 		if (m_isFadeOut)

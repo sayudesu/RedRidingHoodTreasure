@@ -581,6 +581,7 @@ void PlayerNew::UpdateDead()
 	if(!m_isDeadSound)
 	{
 		PlaySoundMem(m_hDead, DX_PLAYTYPE_BACK);//サウンドを再生
+		ChangeVolumeSoundMem(SoundVolume::kDead, m_hDead);//音量調整
 		m_isDeadSound = true;
 	}
 	if (m_frameCountDead >= 20)//アニメーションを20フレームに1コマで再生

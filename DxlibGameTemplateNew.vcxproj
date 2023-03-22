@@ -164,6 +164,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClearDirection.cpp" />
     <ClCompile Include="DeadDirection.cpp" />
     <ClCompile Include="Object\Chest.cpp" />
     <ClCompile Include="Object\Collision3.cpp" />
@@ -201,6 +202,7 @@
     <ClCompile Include="Util\Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClearDirection.h" />
     <ClInclude Include="DeadDirection.h" />
     <ClInclude Include="Object\Chest.h" />
     <ClInclude Include="Object\Collision3.h" />

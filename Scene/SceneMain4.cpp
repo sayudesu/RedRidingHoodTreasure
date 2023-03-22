@@ -32,6 +32,8 @@ SceneMain4::SceneMain4():
 	m_isSceneTitle(false),//画面が暗くなった後にシーンの切り替え
 	m_isGameClear(false),//ゲームをクリアした場合
 	m_isSceneDead(false),//死んだらシーン切り替え
+	m_isSceneMenuRetry(false),
+	m_isSceneMenuTitle(false),
 	m_pStage(nullptr),
 	m_pPlayer(nullptr),
 	m_pCollision(nullptr),

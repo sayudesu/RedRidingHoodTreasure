@@ -138,6 +138,9 @@
     <ClCompile Include="DeadDirection.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
+    <ClCompile Include="ClearDirection.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\SceneBase.h">
@@ -236,9 +239,6 @@
     <ClInclude Include="Object\SlideSelect.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\SceneResult2.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Object\Fireworks.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
@@ -262,6 +262,12 @@
     </ClInclude>
     <ClInclude Include="Util\game.h">
       <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="ClearDirection.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneResult2.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

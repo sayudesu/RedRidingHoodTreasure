@@ -19,15 +19,15 @@ public:
 	virtual void End();
 	virtual SceneBase* Update() override;
 	virtual void Draw();
-public:
+private:
 	//ゲームクリア後の選択を受け取る
 	void GetSceneStage(bool scene) { m_isSceneStage = scene; }
 	void GetSceneRetry(bool scene) { m_isSceneRetry = scene; }
 	void GetSceneTitle(bool scene) { m_isSceneTitle = scene; }
 	void GetSceneDead(bool scene) { m_isSceneDead = scene; }
 
-	void GetMenuRetry(bool scene) { m_isSceneRetry = scene; }
-	void GetMenuTitle(bool scene) { m_isSceneTitle = scene; }
+	void GetMenuRetry(bool scene) { m_isSceneMenuRetry = scene; }
+	void GetMenuTitle(bool scene) { m_isSceneMenuTitle = scene; }
 private:
 	void GameClear();//ゲームをクリアした場合
 private:
@@ -57,6 +57,9 @@ private:
 	bool m_isSceneRetry;//画面が暗くなった後にシーンの切り替え
 	bool m_isSceneTitle;//画面が暗くなった後にシーンの切り替え
 	bool m_isSceneDead;//画面が暗くなった後にシーンの切り替
+
+	bool m_isSceneMenuRetry;//画面が暗くなった後にシーンの切り替え
+	bool m_isSceneMenuTitle;//画面が暗くなった後にシーンの切り替え
 
 	bool m_isGameClear;
 

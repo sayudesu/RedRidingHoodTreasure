@@ -575,10 +575,16 @@ namespace SoundVolume
 	constexpr int Select = 30 + PulsVolume;//選択画面の選択した場合
 	constexpr int kFireworksBreak = 70 + PulsVolume;//花火破裂
 	constexpr int kFireworksRocket = 70 + PulsVolume;//花火打ち上げ
-	constexpr int kRun = 30 + PulsVolume;//ジャンプ
+	constexpr int kRun = 30 + PulsVolume;//走る
 	constexpr int kJump = 30 + PulsVolume;//ジャンプ
+	constexpr int kDead = 30 + PulsVolume;//梯子
 	constexpr int kLadder = 30 + PulsVolume;//梯子
 
+}
+
+namespace Clear
+{
+	constexpr int kChestNum = 20;
 }
 
 namespace Dead

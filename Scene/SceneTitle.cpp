@@ -5,6 +5,9 @@
 #include "SceneMain4.h"
 #include "SceneResult.h"
 #include "SceneResult2.h"
+#include "SceneGameOver.h"
+#include "SceneGameOver2.h"
+#include "SceneGameOver3.h"
 #include "TitleCursor.h"
 #include "TitleCollision.h"
 #include <DxLib.h>
@@ -99,8 +102,8 @@ void SceneTitle::Init()
 	assert(m_hSoundSelect2 > -1);
 
 
-	m_imagePos.x   = Game::kScreenWidth / 2;
-	m_imagePos.y   = Game::kScreenHeight / 2 - 250;
+	m_imagePos.x   = Game::kScreenWidth / 2.0f;
+	m_imagePos.y   = Game::kScreenHeight / 2.0f - 250.0f;
 
 	//Aボタン押していない状態（画像）
 	m_buttonALeft = 16 + 16 + 16;
@@ -228,11 +231,11 @@ SceneBase* SceneTitle::Update()
 		FadeOut();
 		if (m_isFadeOut)
 		{
-			return(new SceneResult2);//シーン切り替え
-			return(new SceneMain2);//シーン切り替え
-			return(new SceneMain4);//シーン切り替え
-			return(new SceneMain3);//シーン切り替え
-			return(new SceneResult);//シーン切り替え
+			return(new SceneGameOver3);
+			return(new SceneMain2);//1ステージ切り替え
+			return(new SceneMain3);//2ステージ切り替え
+			return(new SceneMain4);//3ステージ切り替え
+			return(new SceneResult2);//勝利画面切り替え
 		}
 	}
 
@@ -241,14 +244,14 @@ SceneBase* SceneTitle::Update()
 
 void SceneTitle::Draw()
 {
+	//マップを背景に描画
 	DrawExtendGraph(0, 0, Game::kScreenWidth,Game::kScreenHeight, m_hTitleMainImage, true);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 30);//透過
-	//DrawExtendGraph(0 + 100, 0 + 100,Game::kScreenWidth  - 100,Game::kScreenHeight - 100,m_hImageMap,true);
 	DrawBox(0 + 100,0 + 100, Game::kScreenWidth  - 100,Game::kScreenHeight  - 100, Color::kWhite, true);//背景
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	DrawRectRotaGraph(m_imagePos.x, m_imagePos.y,
+	DrawRectRotaGraph(static_cast<int>(m_imagePos.x), static_cast<int>(m_imagePos.y),
 		m_charaImagePos, 133, 112, 133, 18, 0, m_hImagePlayer, true, true);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);//色を薄くする
 	
@@ -279,7 +282,6 @@ void SceneTitle::Draw()
 	}
 
 	//文字
-	//DrawString(TitleMenu::kSelection1X + 100, TitleMenu::kSelection1Y + 5 , "Tutorial", 0x0000ff);
 	DrawString(TitleMenu::kSelection2X + 85, TitleMenu::kSelection2Y + 5, "ゲームスタート", 0x0000ff);
 	DrawString(TitleMenu::kSelection3X + 65, TitleMenu::kSelection3Y + 15, "デスクトップに戻る", 0x0000ff);
 	SetFontSize(128 + 32 + 32);//文字サイズ変更//タイトル
@@ -287,7 +289,6 @@ void SceneTitle::Draw()
 	DrawString(Game::kScreenWidth /2 - 400 + 5, Game::kScreenHeight / 2 - 200 + 5 , "赤ずきんの財宝", 0x00000);//タイトル
 	DrawString(Game::kScreenWidth /2 - 400, Game::kScreenHeight/2 - 200, "赤ずきんの財宝", 0xffff00);//タイトル
 	SetFontSize(32);//文字サイス変更
-//	ChangeFont(Game::kFontName);//フォント変更
 
 	//A
 	DrawRectRotaGraph(230, 300,
@@ -297,7 +298,7 @@ void SceneTitle::Draw()
 	//カーソルの位置を描画
 	m_pCursor->Draw();
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeValue);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(m_fadeValue));
 	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, 0x000000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

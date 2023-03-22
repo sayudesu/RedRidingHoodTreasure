@@ -580,3 +580,9 @@ namespace SoundVolume
 	constexpr int kLadder = 30 + PulsVolume;//’òq
 
 }
+
+namespace Dead
+{
+	constexpr int kSnowNum = 100;//á‚Ì”
+	constexpr float kSnowSpeed = 10.0f;
+}

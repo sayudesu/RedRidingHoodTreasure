@@ -17,6 +17,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	SetGraphMode(Game::kScreenWidth, Game::kScreenHeight, Game::kColorDepth);
 	//CreateFontToHandle(Game::kFontName,64,-1,-1);
 
+	SetChangeScreenModeGraphicsSystemResetFlag(false);//フルスクリーン切り替え用
+
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
 		return -1;			// エラーが起きたら直ちに終了
@@ -51,25 +53,25 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		ClearDrawScreen();
 
 		
-		////フルスクリーン設定
-		//if (CheckHitKey(KEY_INPUT_LALT))
-		//{
-		//	if (CheckHitKey(KEY_INPUT_RETURN))
-		//	{
-		//		if (!isTrigger)
-		//		{
-		//			isScreenSize = !isScreenSize;
-		//			ChangeWindowMode(isScreenSize);
-		//		}
-		//		printfDx("true\n");
-		//		isScreenSize = true;
-		//	}
-		//	else
-		//	{
-		//		printfDx("false\n");
-		//		isScreenSize = false;
-		//	}
-		//}
+		//フルスクリーン設定
+		if (CheckHitKey(KEY_INPUT_LALT))
+		{
+			if (CheckHitKey(KEY_INPUT_RETURN))
+			{
+				if (!isTrigger)
+				{
+					isScreenSize = !isScreenSize;
+					ChangeWindowMode(isScreenSize);
+					SetDrawScreen(DX_SCREEN_BACK);//描画先を再定義
+				}
+				
+				isScreenSize = true;
+			}
+			else
+			{
+				isScreenSize = false;
+			}
+		}
 		
 
 		//更新処理

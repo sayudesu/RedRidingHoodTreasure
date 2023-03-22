@@ -8,6 +8,7 @@
 #include "SceneMain2.h"
 #include "TitleCursorGame.h"
 #include "GameSceneCollision.h"
+#include "DeadDirection.h"
 
 SceneGameOver::SceneGameOver():
 	m_hSoundSelect(-1),//選択時のサウンド
@@ -19,16 +20,19 @@ SceneGameOver::SceneGameOver():
 	m_color2(0),
 	m_color3(0),
 	m_pCursor(nullptr),//カーソル表示用
-	m_pCursorCollision(nullptr)//カーソル当たり判定
+	m_pCursorCollision(nullptr),//カーソル当たり判定
+	m_pDeadDirection(nullptr)
 {
 	m_pCursor = new TitleCursorGame;
 	m_pCursorCollision = new GameSceneCollision;
+	m_pDeadDirection = new DeadDirection;
 }
 
 SceneGameOver::~SceneGameOver()
 {
 	delete m_pCursor;
 	delete m_pCursorCollision;
+	delete m_pDeadDirection;
 
 	//サウンド削除
 	DeleteSoundMem(m_hSoundSelect);
@@ -52,6 +56,7 @@ void SceneGameOver::End()
 SceneBase* SceneGameOver::Update()
 {
 	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
+	m_pDeadDirection->Update();
 	Pad::update();
 	m_pCursor->Update();//カーソルの更新処理
 	m_pCursorCollision->Update();//カーソルと選択範囲の当たり判定
@@ -115,7 +120,11 @@ SceneBase* SceneGameOver::Update()
 void SceneGameOver::Draw()
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-	DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, Color::kThinRed, true);
+	//DrawBox(0, 0, Game::kScreenWidth, Game::kScreenHeight, Color::kThinRed, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	SetDrawBlendMode(DX_BLENDMODE_ADD, 128);
+	m_pDeadDirection->Draw();
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);

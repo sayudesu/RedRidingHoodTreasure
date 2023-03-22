@@ -24,6 +24,7 @@ SceneMain4::SceneMain4():
 	m_stageCount(0),//ステージが始まるまでのカウント
 	m_stageCountSeconds(0),
 	m_fadeValue(0.0f),
+	m_isStageCount(false),
 	m_isFadeIn(false),//フェイドインしたかどうか
 	m_isFadeOut(false),//フェイドアウトしたかどうか
 	m_isSceneResult(false),//画面が暗くなった後にシーンの切り替え

@@ -3,6 +3,7 @@
 
 class TitleCursorGame;//カーソルクラス
 class GameSceneCollision;//カーソル当たり判定
+class DeadDirection;
 
 class SceneGameOver2 : public SceneBase
 {
@@ -30,4 +31,5 @@ private:
 
 	TitleCursorGame* m_pCursor;
 	GameSceneCollision* m_pCursorCollision;
+	DeadDirection* m_pDeadDirection;
 };

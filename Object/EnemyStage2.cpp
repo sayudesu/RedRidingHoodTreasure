@@ -10,6 +10,8 @@ EnemyStage2::EnemyStage2() :
 	m_hNeedle(-1),//地面用
 	m_hTiles(-1),//画像チップ
 	m_hCave(-1),//洞窟画像用
+	m_hSoundSnail(-1),//カタツムリサウンド
+	m_hSoundBarre(-1),//樽サウンド
 	m_hUpDown(-1),//上下運動の罠画像
 	m_posLeft(0),
 	m_posTop(0),
@@ -126,6 +128,10 @@ EnemyStage2::EnemyStage2() :
 
 	m_hNeedle = DerivationGraph(0, 160, 32 + 16, 32, m_hEnemyImage);//地面画像から一部を抽出
 	m_hCave = DerivationGraph(272, 208, 128, 160, m_hTiles);//地面画像から一部を抽出
+
+		//サウンド読み込み
+	m_hSoundSnail = LoadSoundMem(Sound::kSnail);//かたつむりサウンド
+	m_hSoundBarre = LoadSoundMem(Sound::kBarreRun);//樽（いのしし）
 }
 
 EnemyStage2::~EnemyStage2()
@@ -134,6 +140,10 @@ EnemyStage2::~EnemyStage2()
 	DeleteGraph(m_hBarre);//イノシシ
 	DeleteGraph(m_hEnemyImage);//画像
 	DeleteGraph(m_hNeedle);//落ちてくる敵
+
+		//サウンドメモリ解放
+	DeleteSoundMem(m_hSoundSnail);
+	DeleteSoundMem(m_hSoundBarre);
 }
 
 void EnemyStage2::Init()
@@ -151,6 +161,7 @@ void EnemyStage2::Update()
 	falleMove();//ドッスン動き
 	ChargeMove();//チャージエネミーの動き
 	UpDownMove();//上下運動する罠
+	EnemySoud();
 	npcPos();//敵のサイズ取得
 }
 //描画
@@ -562,6 +573,26 @@ void EnemyStage2::UpDownMove()
 			
 	}
 
+}
+void EnemyStage2::EnemySoud()
+{
+	//サウンド
+	if (CheckSoundMem(m_hSoundSnail) == 0)//鳴っていなかったら
+	{
+		PlaySoundMem(m_hSoundSnail, DX_PLAYTYPE_BACK);//サウンドを再生
+		ChangeVolumeSoundMem(100, m_hSoundSnail);//音量調整
+	}
+	if (m_vec.y <= 3.0f)
+	{
+		if (CheckSoundMem(m_hSoundBarre) == 0)//鳴っていなかったら
+		{
+			PlaySoundMem(m_hSoundBarre, DX_PLAYTYPE_BACK);//サウンドを再生
+			ChangeVolumeSoundMem(200, m_hSoundBarre);//音量調整
+		}
+	}
+	///////////////////////////////////////////////////
+	ChangeVolumeSoundMem(10, m_hSoundSnail);//音量調整
+	ChangeVolumeSoundMem(10, m_hSoundBarre);//音量調整
 }
 //敵のキャラ座標取得
 void EnemyStage2::npcPos()

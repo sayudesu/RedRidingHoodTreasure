@@ -569,7 +569,7 @@ namespace Staging//演出用
 //サウンドボリューム変更
 namespace SoundVolume
 {
-	constexpr int PulsVolume = 80;
+	constexpr int PulsVolume = 120;
 	constexpr int BGM    = 1 + PulsVolume;//BGM
 	constexpr int Button = 30 + PulsVolume;//Aボタン押した場合
 	constexpr int Select = 30 + PulsVolume;//選択画面の選択した場合

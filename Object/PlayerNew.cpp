@@ -253,7 +253,7 @@ void PlayerNew::Draw()
 {
 
 	SetDrawBlendMode(DX_BLENDMODE_ADD,30);
-	DrawCircleAA(static_cast<int>(m_pos.x) + 20, static_cast<int>(m_pos.y), m_playerColorSize, 32, 0xffffff, true);
+	DrawCircleAA(m_pos.x + 20.0f, m_pos.y, m_playerColorSize, 32, 0xffffff, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	
 	if (m_isRunMove || m_isJumpMove)//“®‚¢‚Ä‚¢‚¢‚éê‡‚Ì‰æ‘œ

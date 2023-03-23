@@ -11,9 +11,10 @@ namespace
 	constexpr float kGravity = 1.0f;
 	constexpr float kGravityZero = 0.0f;
 	constexpr float kPlayerPosY = 40.0f;
+
 	constexpr float kPlayerPosPulsY = 1.0f;
 
-	constexpr float kEnemyPosY = 40.0f;
+	constexpr float kEnemyPosY = 40.0f - 3.0f;
 }
 //コンストラクタ
 Collision::Collision() :

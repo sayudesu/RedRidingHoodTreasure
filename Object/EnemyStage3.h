@@ -151,6 +151,8 @@ private:
 	//サウンド用ハンドル
 	int m_hSoundSnail;//カタツムリサウンド
 	int m_hSoundBarre;//樽サウンド
+	int m_hSoundFire;
+	int m_hSoundDown;
 	//炎の玉のサイズ
 	int m_posLeft;
 	int m_posTop;
@@ -256,6 +258,8 @@ private:
 	int m_fallenCount4;
 	int m_frameCountFireImage;
 	int m_frameCountBarreImage[3];
+	int m_frameFallenSound[4];
+	
 
 	int m_ladderNum;
 	int m_getFireBallPos;//y軸固定座標

@@ -13,7 +13,7 @@ namespace
 	constexpr float kPlayerPosY = 40.0f;
 	constexpr float kPlayerPosPulsY = 1.0f;
 
-	constexpr float kEnemyPosY = 40.0f;
+	constexpr float kEnemyPosY = 40.0f - 3.0f;
 }
 //コンストラクタ
 Collision3::Collision3():

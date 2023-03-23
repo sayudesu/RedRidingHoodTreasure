@@ -20,6 +20,8 @@ private:
 	void FadeIn();//フェイドイン
 	void FadeOut();//フェイドアウト
 private:
+
+	int m_hSoundSnail;
 	//画像ハンドル
 	int m_hImagePlayer;
 	int m_hImageMap;

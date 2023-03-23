@@ -397,6 +397,7 @@ void PlayerNew::OperationStandard()
 			if (CheckSoundMem(m_hRun) == 0)//鳴っていなかったら
 			{
 					PlaySoundMem(m_hRun, DX_PLAYTYPE_BACK);//サウンドを再生
+					ChangeVolumeSoundMem(SoundVolume::kRun, m_hRun);//音量調整
 					m_CountRunSound = 0;
 			}
 		}
@@ -442,6 +443,7 @@ void PlayerNew::OperationJump()////地面にいる場合&&梯子にいない場合
 		m_isJumpMove = true;//ジャンプアニメーション再生
 		m_isJumpImagePos = true;//ジャンプ画像位置
 		PlaySoundMem(m_hFxJump, DX_PLAYTYPE_BACK);
+		ChangeVolumeSoundMem(SoundVolume::kJump, m_hFxJump);//音量調整
 		m_vec.y = 0.0f;
 		m_vec.y = kJump;//ジャンプ開始
 	}
@@ -476,6 +478,8 @@ void PlayerNew::OperationLadder()
 		m_vec.x = 0.0f;//ベクトルをリセット
 		m_vec.y = 0.0f;
 	}
+
+	ChangeVolumeSoundMem(SoundVolume::kLadder, m_hLadder);//音量調整
 }
 void PlayerNew::Score()
 {
@@ -485,9 +489,7 @@ void PlayerNew::Score()
 //アップデート処理
 void PlayerNew::UpdateMove()
 {
-	ChangeVolumeSoundMem(SoundVolume::kRun, m_hRun);//音量調整
-	ChangeVolumeSoundMem(SoundVolume::kJump, m_hFxJump);//音量調整
-	ChangeVolumeSoundMem(SoundVolume::kLadder, m_hLadder);//音量調整
+	
 	Score();//スコア表示
 
 	if (m_playerColorSize > 45.0f)m_playerColorSize -= 10;//45
@@ -558,13 +560,6 @@ void PlayerNew::UpdateMove()
 	m_playerRight  = m_playerLeft + 30;
 	m_playerBottom = m_playerTop + 40;
 
-	//スコア判定座標
-	//m_scoreLeft   = m_playerLeft;
-	//m_scoreTop    = m_playerBottom;
-	//m_scoreRight  = m_scoreLeft;
-	//m_scoreBottom = m_scoreTop;
-	
-
 }
 
 void PlayerNew::UpdateDead()
@@ -575,7 +570,8 @@ void PlayerNew::UpdateDead()
 	//SetDrawBlendMode(DX_BLENDMODE_ADD, 32);
 
 	m_isDead = true;//死亡判定で動きを強制停止
-
+	StartJoypadVibration(DX_INPUT_PAD1, 400, 60 * 3 , -1);
+	//StopJoypadVibration(DX_INPUT_PAD1, -1);
 	m_frameCountDead++;
 
 	if(!m_isDeadSound)

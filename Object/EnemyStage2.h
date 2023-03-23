@@ -108,6 +108,8 @@ private:
 	//サウンド用ハンドル
 	int m_hSoundSnail;//カタツムリサウンド
 	int m_hSoundBarre;//樽サウンド
+	int m_hSoundFire;//炎
+	int m_hSoundDown;//落ちもの
 	//炎の玉のサイズ
 	int m_posLeft;
 	int m_posTop;

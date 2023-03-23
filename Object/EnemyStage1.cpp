@@ -2,6 +2,7 @@
 #include "SceneMain2.h"
 #include "game.h"
 #include "Image.h"
+#include <assert.h>
 #include <DxLib.h>
 
 EnemyStage1::EnemyStage1():
@@ -56,6 +57,8 @@ EnemyStage1::EnemyStage1():
 	m_fallenCount2(0),
 	m_frameCountBarreImage(0),//樽（いのしし）の画像描画用フレームカウント
 	m_frameCountFireImage(0),
+	m_soundCountSnail(0),
+	m_soundCountBarre(0),
 	m_ladderNum(0),
 	m_rushCount(0),
 	m_fallenUpSpeed(0.0f),
@@ -109,6 +112,7 @@ EnemyStage1::EnemyStage1():
 	//サウンド読み込み
 	m_hSoundSnail = LoadSoundMem(Sound::kSnail);//かたつむりサウンド
 	m_hSoundBarre = LoadSoundMem(Sound::kBarreRun);//樽（いのしし）
+	assert(m_hSoundSnail != -1);
 }
 
 EnemyStage1::~EnemyStage1()
@@ -135,6 +139,7 @@ void EnemyStage1::Update()
 	BarrelMove();//樽の動き
 	fireBallMove();//ファイアボールの動き
 	EnemySoud();//サウンド
+
 	npcPos();//敵のサイズ取得
 }
 //描画
@@ -279,19 +284,17 @@ void EnemyStage1::EnemySoud()
 	if (CheckSoundMem(m_hSoundSnail) == 0)//鳴っていなかったら
 	{
 		PlaySoundMem(m_hSoundSnail, DX_PLAYTYPE_BACK);//サウンドを再生
-		ChangeVolumeSoundMem(100, m_hSoundSnail);//音量調整
+		ChangeVolumeSoundMem(SoundVolume::kSnail, m_hSoundSnail);//音量調整
 	}
+
 	if (m_vec.y <= 3.0f)
 	{
 		if (CheckSoundMem(m_hSoundBarre) == 0)//鳴っていなかったら
 		{
 			PlaySoundMem(m_hSoundBarre, DX_PLAYTYPE_BACK);//サウンドを再生
-			ChangeVolumeSoundMem(200, m_hSoundBarre);//音量調整
+			ChangeVolumeSoundMem(SoundVolume::kBarre, m_hSoundBarre);//音量調整
 		}
 	}
-	///////////////////////////////////////////////////
-	ChangeVolumeSoundMem(10, m_hSoundSnail);//音量調整
-	ChangeVolumeSoundMem(10, m_hSoundBarre);//音量調整
 }
 
 //敵のキャラ座標取得

@@ -168,7 +168,7 @@ SceneBase* SceneMain4::Update()
 		ChangeVolumeSoundMem(SoundVolume::BGM, m_hMusicBgm);//音量調整
 	}
 
-	if (m_isSceneTitle)//選択をしたら
+	if (m_isSceneTitle || m_isSceneMenuTitle)//選択をしたら
 	{
 		FadeOut();
 		if (m_isFadeOut)
@@ -184,7 +184,7 @@ SceneBase* SceneMain4::Update()
 			return(new SceneResult2);//新しいステージに移動
 		}
 	}
-	else if (m_isSceneRetry)
+	else if (m_isSceneRetry || m_isSceneMenuRetry)
 	{
 		FadeOut();
 		if (m_isFadeOut)

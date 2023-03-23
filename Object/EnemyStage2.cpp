@@ -10,9 +10,11 @@ EnemyStage2::EnemyStage2() :
 	m_hNeedle(-1),//地面用
 	m_hTiles(-1),//画像チップ
 	m_hCave(-1),//洞窟画像用
+	m_hUpDown(-1),//上下運動の罠画像
 	m_hSoundSnail(-1),//カタツムリサウンド
 	m_hSoundBarre(-1),//樽サウンド
-	m_hUpDown(-1),//上下運動の罠画像
+	m_hSoundFire(-1),
+	m_hSoundDown(-1),
 	m_posLeft(0),
 	m_posTop(0),
 	m_posRight(0),
@@ -132,7 +134,9 @@ EnemyStage2::EnemyStage2() :
 		//サウンド読み込み
 	m_hSoundSnail = LoadSoundMem(Sound::kSnail);//かたつむりサウンド
 	m_hSoundBarre = LoadSoundMem(Sound::kBarreRun);//樽（いのしし）
-}
+	m_hSoundFire = LoadSoundMem(Sound::kFire);//炎
+	m_hSoundDown = LoadSoundMem(Sound::kDonw);//落ちる罠
+	}
 
 EnemyStage2::~EnemyStage2()
 {
@@ -144,6 +148,8 @@ EnemyStage2::~EnemyStage2()
 		//サウンドメモリ解放
 	DeleteSoundMem(m_hSoundSnail);
 	DeleteSoundMem(m_hSoundBarre);
+	DeleteSoundMem(m_hSoundFire);
+	DeleteSoundMem(m_hSoundDown);
 }
 
 void EnemyStage2::Init()
@@ -580,19 +586,42 @@ void EnemyStage2::EnemySoud()
 	if (CheckSoundMem(m_hSoundSnail) == 0)//鳴っていなかったら
 	{
 		PlaySoundMem(m_hSoundSnail, DX_PLAYTYPE_BACK);//サウンドを再生
-		ChangeVolumeSoundMem(100, m_hSoundSnail);//音量調整
+		ChangeVolumeSoundMem(SoundVolume::kSnail, m_hSoundSnail);//音量調整
 	}
+
 	if (m_vec.y <= 3.0f)
 	{
 		if (CheckSoundMem(m_hSoundBarre) == 0)//鳴っていなかったら
 		{
 			PlaySoundMem(m_hSoundBarre, DX_PLAYTYPE_BACK);//サウンドを再生
-			ChangeVolumeSoundMem(200, m_hSoundBarre);//音量調整
+			ChangeVolumeSoundMem(SoundVolume::kBarre, m_hSoundBarre);//音量調整
 		}
 	}
-	///////////////////////////////////////////////////
-	ChangeVolumeSoundMem(10, m_hSoundSnail);//音量調整
-	ChangeVolumeSoundMem(10, m_hSoundBarre);//音量調整
+
+	if (CheckSoundMem(m_hSoundFire) == 0)//鳴っていなかったら
+	{
+		PlaySoundMem(m_hSoundFire, DX_PLAYTYPE_BACK);//サウンドを再生
+		ChangeVolumeSoundMem(SoundVolume::kFire, m_hSoundFire);//音量調整
+	}
+	if (m_isFallenUp)
+	{
+		if (CheckSoundMem(m_hSoundDown) == 0)//鳴っていなかったら
+		{
+			PlaySoundMem(m_hSoundDown, DX_PLAYTYPE_BACK);//サウンドを再生
+			ChangeVolumeSoundMem(SoundVolume::kDown, m_hSoundDown);//音量調整
+		}
+
+	}
+	if (m_isFallenUp2)
+	{
+		if (CheckSoundMem(m_hSoundDown) == 0)//鳴っていなかったら
+		{
+			PlaySoundMem(m_hSoundDown, DX_PLAYTYPE_BACK);//サウンドを再生
+			ChangeVolumeSoundMem(SoundVolume::kDown, m_hSoundDown);//音量調整
+		}
+
+	}
+
 }
 //敵のキャラ座標取得
 void EnemyStage2::npcPos()

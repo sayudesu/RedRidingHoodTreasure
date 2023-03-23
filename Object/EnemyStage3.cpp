@@ -14,6 +14,8 @@ EnemyStage3::EnemyStage3() :
 	m_hSoundBarre(-1),//樽サウンド
 	m_hCave(-1),//洞窟画像用
 	m_hUpDown(-1),//上下運動の罠画像
+	m_hSoundFire(-1),
+	m_hSoundDown(-1),
 	m_posLeft(0),
 	m_posTop(0),
 	m_posRight(0),
@@ -94,6 +96,7 @@ EnemyStage3::EnemyStage3() :
 	m_fallenCount2(0),
 	m_fallenCount3(0),
 	m_fallenCount4(0),
+	m_frameFallenSound(),
 	m_frameCountBarreImage(),//樽（いのしし）の画像描画用フレームカウント
 	m_frameCountFireImage(0),
 	m_ladderNum(0),
@@ -161,7 +164,10 @@ EnemyStage3::EnemyStage3() :
 		m_isCourse[i] = false;
 		m_frameCountBarreImage[i] = 0;
 	}
-
+	for (int i = 0; i < 4; i++)
+	{
+		m_frameFallenSound[i] = 0;
+	}
 	//ファイアボール初期位置
 	m_pos.x = Game::kScreenWidth - 400;
 	m_pos.y = Game::kScreenHeight - 150;
@@ -218,6 +224,8 @@ EnemyStage3::EnemyStage3() :
 	//サウンド読み込み
 	m_hSoundSnail = LoadSoundMem(Sound::kSnail);//かたつむりサウンド
 	m_hSoundBarre = LoadSoundMem(Sound::kBarreRun);//樽（いのしし）
+	m_hSoundFire = LoadSoundMem(Sound::kFire);//炎
+	m_hSoundDown = LoadSoundMem(Sound::kDonw);//落ちる罠
 }
 
 EnemyStage3::~EnemyStage3()
@@ -235,6 +243,8 @@ EnemyStage3::~EnemyStage3()
 	//サウンドメモリ解放
 	DeleteSoundMem(m_hSoundSnail);
 	DeleteSoundMem(m_hSoundBarre);
+	DeleteSoundMem(m_hSoundFire);
+	DeleteSoundMem(m_hSoundDown);
 }
 
 void EnemyStage3::Init()
@@ -860,22 +870,85 @@ void EnemyStage3::UpDownMove()
 void EnemyStage3::EnemySoud()
 {
 	//サウンド
-	//if (CheckSoundMem(m_hSoundSnail) == 0)//鳴っていなかったら
-	//{
-	//	PlaySoundMem(m_hSoundSnail, DX_PLAYTYPE_BACK);//サウンドを再生
-	//	ChangeVolumeSoundMem(100, m_hSoundSnail);//音量調整
-	//}
-	//if (m_vec[i].y <= 3.0f)
-	//{
-	//	if (CheckSoundMem(m_hSoundBarre) == 0)//鳴っていなかったら
-	//	{
-	//		PlaySoundMem(m_hSoundBarre, DX_PLAYTYPE_BACK);//サウンドを再生
-	//		ChangeVolumeSoundMem(200, m_hSoundBarre);//音量調整
-	//	}
-	//}
-	/////////////////////////////////////////////////////
-	//ChangeVolumeSoundMem(10, m_hSoundSnail);//音量調整
-	//ChangeVolumeSoundMem(10, m_hSoundBarre);//音量調整
+	if (CheckSoundMem(m_hSoundSnail) == 0)//鳴っていなかったら
+	{
+		PlaySoundMem(m_hSoundSnail, DX_PLAYTYPE_BACK);//サウンドを再生
+		ChangeVolumeSoundMem(SoundVolume::kSnail, m_hSoundSnail);//音量調整
+	}
+
+	if (m_vec[0].y <= 3.0f)
+	{
+		if (CheckSoundMem(m_hSoundBarre) == 0)//鳴っていなかったら
+		{
+			PlaySoundMem(m_hSoundBarre, DX_PLAYTYPE_BACK);//サウンドを再生
+			ChangeVolumeSoundMem(SoundVolume::kBarre, m_hSoundBarre);//音量調整
+		}
+	}
+
+	if (CheckSoundMem(m_hSoundFire) == 0)//鳴っていなかったら
+	{
+		PlaySoundMem(m_hSoundFire, DX_PLAYTYPE_BACK);//サウンドを再生
+		ChangeVolumeSoundMem(SoundVolume::kFire, m_hSoundFire);//音量調整
+	}
+
+	if (m_isFallenUp)
+	{
+		m_frameFallenSound[0]++;
+		if (m_frameFallenSound[0] == 1)
+		{
+			PlaySoundMem(m_hSoundDown, DX_PLAYTYPE_BACK);//サウンドを再生
+			ChangeVolumeSoundMem(SoundVolume::kDown, m_hSoundDown);//音量調整
+		}
+		
+	}
+	else
+	{
+		m_frameFallenSound[0] = 0;
+	}
+
+	if (m_isFallenUp2)
+	{
+		m_frameFallenSound[1]++;
+		if (m_frameFallenSound[1] == 1)
+		{
+			PlaySoundMem(m_hSoundDown, DX_PLAYTYPE_BACK);//サウンドを再生
+			ChangeVolumeSoundMem(SoundVolume::kDown, m_hSoundDown);//音量調整
+		}
+	
+	}
+	else
+	{
+		m_frameFallenSound[1] = 0;
+	}
+
+	if (m_isFallenUp3)
+	{
+		m_frameFallenSound[2]++;
+		if (m_frameFallenSound[2] == 1)
+		{
+			PlaySoundMem(m_hSoundDown, DX_PLAYTYPE_BACK);//サウンドを再生
+			ChangeVolumeSoundMem(SoundVolume::kDown, m_hSoundDown);//音量調整
+		}
+	}
+	else
+	{
+		m_frameFallenSound[2] = 0;
+	}
+
+	if (m_isFallenUp4)
+	{
+		m_frameFallenSound[3]++;
+		if (m_frameFallenSound[3] == 1)
+		{
+			PlaySoundMem(m_hSoundDown, DX_PLAYTYPE_BACK);//サウンドを再生
+			ChangeVolumeSoundMem(SoundVolume::kDown, m_hSoundDown);//音量調整	
+		}
+	}
+	else
+	{
+		m_frameFallenSound[3] = 0;
+	}
+
 }
 //敵のキャラ座標取得
 void EnemyStage3::npcPos()

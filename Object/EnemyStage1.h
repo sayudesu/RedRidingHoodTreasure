@@ -154,6 +154,8 @@ private:
 	int m_fallenCount2;
 	int m_frameCountFireImage;
 	int m_frameCountBarreImage;
+	int m_soundCountSnail;
+	int m_soundCountBarre;
 	
 	int m_ladderNum;
 	int m_getFireBallPos;//y²ŒÅ’èÀ•W

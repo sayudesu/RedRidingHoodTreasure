@@ -25,7 +25,7 @@ namespace
 	constexpr int kColorRed = 0xff0000;//赤色
 }
 
-SceneTitle::SceneTitle():
+SceneTitle::SceneTitle() :
 	m_hImagePlayer(-1),
 	m_hImageMap(-1),
 	m_charaImagePos(0),
@@ -52,7 +52,7 @@ SceneTitle::SceneTitle():
 	m_buttonXRigth(0),
 	m_buttonXBottom(0),
 	m_fadeValue(0.0f),
-	m_imagePos(0.0f,0.0f),
+	m_imagePos(0.0f, 0.0f),
 	m_isFadeIn(false),//フェイドインしたかどうか
 	m_isFadeOut(false),//フェイドアウトしたかどうか
 	m_isSceneStage(false),//画面が暗くなった後にシーンの切り替え
@@ -61,10 +61,13 @@ SceneTitle::SceneTitle():
 	m_isSceneFocus2(false),
 	m_isSceneFocus3(false),
 	m_pCursor(nullptr),
-	m_pCollsion(nullptr)
+	m_pCollsion(nullptr),
+	m_hSoundSnail (-1)
 {
 	m_pCursor = new TitleCursor;
 	m_pCollsion = new TitleCollision;
+
+	m_hSoundSnail = LoadSoundMem(Sound::kSnail);//かたつむりサウンド
 }
 
 SceneTitle::~SceneTitle()
@@ -78,6 +81,7 @@ SceneTitle::~SceneTitle()
 	DeleteSoundMem(m_hMusicBgm);
 	DeleteSoundMem(m_hSoundSelect);
 	DeleteSoundMem(m_hSoundSelect2);
+	DeleteSoundMem(m_hSoundSnail);
 
 
 }
@@ -232,10 +236,6 @@ SceneBase* SceneTitle::Update()
 		if (m_isFadeOut)
 		{
 			return(new SceneMain2);//1ステージ切り替え
-			return(new SceneResult2);//勝利画面切り替え
-			return(new SceneGameOver3);
-			return(new SceneMain3);//2ステージ切り替え
-			return(new SceneMain4);//3ステージ切り替え
 		}
 	}
 

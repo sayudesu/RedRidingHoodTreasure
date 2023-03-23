@@ -573,12 +573,16 @@ namespace SoundVolume
 	constexpr int BGM    = 1 + PulsVolume;//BGM
 	constexpr int Button = 30 + PulsVolume;//Aボタン押した場合
 	constexpr int Select = 30 + PulsVolume;//選択画面の選択した場合
-	constexpr int kFireworksBreak = 70 + PulsVolume;//花火破裂
+	constexpr int kFireworksBreak = 150 + PulsVolume;//花火破裂
 	constexpr int kFireworksRocket = 70 + PulsVolume;//花火打ち上げ
 	constexpr int kRun = 30 + PulsVolume;//走る
-	constexpr int kJump = 30 + PulsVolume;//ジャンプ
+	constexpr int kJump = 130 + PulsVolume;//ジャンプ
 	constexpr int kDead = 30 + PulsVolume;//梯子
-	constexpr int kLadder = 30 + PulsVolume;//梯子
+	constexpr int kLadder = 100 + PulsVolume;//梯子
+	constexpr int kSnail = 5 + PulsVolume - 50;
+	constexpr int kBarre = 5 + PulsVolume;
+	constexpr int kFire = 100 + PulsVolume;
+	constexpr int kDown = 170 + PulsVolume;
 
 }
 

@@ -172,7 +172,6 @@ PlayerNew::PlayerNew() :
 
 	m_hFxJump = LoadSoundMem(Sound::kJump);  //ジャンプサウンド読み込み
 	m_hRun    = LoadSoundMem(Sound::kRun);   //攻撃サウンド読み込み
-	m_hAttack = LoadSoundMem(Sound::kAttack);//攻撃サウンド読み込み
 	m_hDead   = LoadSoundMem(Sound::kDead);  //死亡サウンド読み込み
 	m_hLadder = LoadSoundMem(Sound::kLadder);//梯子上りサウンド読み込み
 

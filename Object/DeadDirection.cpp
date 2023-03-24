@@ -37,7 +37,7 @@ DeadDirection::~DeadDirection()
 
 void DeadDirection::Update()
 {
-	m_angle += 0.001;
+	m_angle += 0.001f;
 	if (m_snowDrop != Dead::kSnowNum)
 	{
 		m_snowCount++;

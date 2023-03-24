@@ -1,6 +1,11 @@
 #pragma once
 #include "Vec2.h"
 
+namespace Object
+{
+	constexpr int kNum = 16;
+}
+
 class PlayerNew;
 class DrawMapStage1;
 class EnemyStage1;
@@ -48,6 +53,14 @@ public:
 	float m_posY;//プレイヤーのY座標
 
 private:
+
+	int m_floorLeftPos[Object::kNum];//地面位置
+	int m_floorTopPos[Object::kNum];//地面位置
+	int m_floorRightPos[Object::kNum];//地面位置
+	int m_floorBottomPos[Object::kNum];//地面位置
+
+	int m_playerYposMove[Object::kNum];//プレイヤーの位置を調整
+	int m_playerYPulsNum[Object::kNum];
 
 	bool m_isGameOver;
 	float m_enemyPosY;//プレイヤーのY座標

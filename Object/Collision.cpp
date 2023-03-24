@@ -18,6 +18,12 @@ namespace
 }
 //コンストラクタ
 Collision::Collision() :
+	m_floorLeftPos(),
+	m_floorTopPos(),
+	m_floorRightPos(),
+	m_floorBottomPos(),
+	m_playerYposMove(),
+	m_playerYPulsNum(),
 	m_posY(0.0f),
 	m_enemyPosY(0),
 	m_landingPos(0.0f),
@@ -30,10 +36,10 @@ Collision::Collision() :
 	m_pMap(nullptr),
 	m_pEnemy(nullptr)
 {
+	m_landingPos = 70.0f;
 	m_pPlayer    = new PlayerNew;
 	m_pMap       = new DrawMapStage1;
 	m_pEnemy     = new EnemyStage1;
-	m_landingPos = 70.0f;
 }
 //デストラクタ
 Collision::~Collision()
@@ -45,11 +51,108 @@ Collision::~Collision()
 //初期化
 void Collision::Init()
 {
+	for (int i = 0; i < Object::kNum; i++)
+	{
+		m_floorLeftPos[i] = 0;
+		m_floorTopPos[i] = 0;
+		m_floorRightPos[i] = 0;
+		m_floorBottomPos[i] = 0;
+		m_playerYposMove[i] = 0;
+		m_playerYPulsNum[i] = 0;
+	}
+
+	//1階の地面位置
+	m_floorLeftPos[0] = Stage1::kBox1X;
+	m_floorTopPos[0] = Stage1::kBox1Y;
+	m_floorRightPos[0] = Stage1::kBoxBottom1X;
+	m_floorBottomPos[0] = Stage1::kBoxBottom1Y;
+
+	m_floorLeftPos[1] = Stage1::kBox2X;
+	m_floorTopPos[1] = Stage1::kBox2Y;
+	m_floorRightPos[1] = Stage1::kBoxBottom2X;
+	m_floorBottomPos[1] = Stage1::kBoxBottom2Y;
+
+	m_floorLeftPos[2] = Stage1::kBox3X;
+	m_floorTopPos[2] = Stage1::kBox3Y;
+	m_floorRightPos[2] = Stage1::kBoxBottom3X;
+	m_floorBottomPos[2] = Stage1::kBoxBottom3Y;
+
+	m_floorLeftPos[2] = Stage1::kBox4X;
+	m_floorTopPos[2] = Stage1::kBox4Y;
+	m_floorRightPos[2] = Stage1::kBoxBottom4X;
+	m_floorBottomPos[2] = Stage1::kBoxBottom4Y;
+
+	m_floorLeftPos[3] = Stage1::kBox5X;
+	m_floorTopPos[3] = Stage1::kBox5Y;
+	m_floorRightPos[3] = Stage1::kBoxBottom5X;
+	m_floorBottomPos[3] = Stage1::kBoxBottom5Y;
+
+	m_floorLeftPos[4] = Stage1::kBox6X;
+	m_floorTopPos[4] = Stage1::kBox6Y;
+	m_floorRightPos[4] = Stage1::kBoxBottom6X;
+	m_floorBottomPos[4] = Stage1::kBoxBottom6Y;
+
+	m_floorLeftPos[6] = Stage1::kBox7X;
+	m_floorTopPos[6] = Stage1::kBox7Y;
+	m_floorRightPos[6] = Stage1::kBoxBottom7X;
+	m_floorBottomPos[6] = Stage1::kBoxBottom7Y;
+
+	m_floorLeftPos[7] = Stage1::kBox8X;
+	m_floorTopPos[7] = Stage1::kBox8Y;
+	m_floorRightPos[7] = Stage1::kBoxBottom8X;
+	m_floorBottomPos[7] = Stage1::kBoxBottom8Y;
+	//2階の地面位置
+	m_floorLeftPos[8] = Stage1::kBox1Xs;
+	m_floorTopPos[8] = Stage1::kBox1Ys;
+	m_floorRightPos[8] = Stage1::kBoxBottom1Xs;
+	m_floorBottomPos[8] = Stage1::koxBottom1Ys;
+
+	m_floorLeftPos[9] = Stage1::kBox2Xs;
+	m_floorTopPos[9] = Stage1::kBox2Ys;
+	m_floorRightPos[9] = Stage1::kBoxBottom2Xs;
+	m_floorBottomPos[9] = Stage1::kBoxBottom2Ys;
+
+	m_floorLeftPos[10] = Stage1::kBox3Xs;
+	m_floorTopPos[10] = Stage1::kBox3Ys;
+	m_floorRightPos[10] = Stage1::kBoxBottom3Xs;
+	m_floorBottomPos[10] = Stage1::kBoxBottom3Ys;
+
+	m_floorLeftPos[11] = Stage1::kBox4Xs;
+	m_floorTopPos[11] = Stage1::kBox4Ys;
+	m_floorRightPos[11] = Stage1::kBoxBottom4Xs;
+	m_floorBottomPos[11] = Stage1::kBoxBottom4Ys;
+
+	m_floorLeftPos[12] = Stage1::kBox5Xs;
+	m_floorTopPos[12] = Stage1::kBox5Ys;
+	m_floorRightPos[12] = Stage1::kBoxBottom5Xs;
+	m_floorBottomPos[12] = Stage1::kBoxBottom5Ys;
+
+	m_floorLeftPos[13] = Stage1::kBox6Xs;
+	m_floorTopPos[13] = Stage1::kBox6Ys;
+	m_floorRightPos[13] = Stage1::kBoxBottom6Xs;
+	m_floorBottomPos[13] = Stage1::kBoxBottom6Ys;
+
+	m_floorLeftPos[14] = Stage1::kBox7Xs;
+	m_floorTopPos[14] = Stage1::kBox7Ys;
+	m_floorRightPos[14] = Stage1::kBoxBottom7Xs;
+	m_floorBottomPos[14] = Stage1::kBoxBottom7Ys;
+
+	m_floorLeftPos[15] = Stage1::kBox8Xs;
+	m_floorTopPos[15] = Stage1::kBox8Ys;
+	m_floorRightPos[15] = Stage1::kBoxBottom8Xs;
+	m_floorBottomPos[15] = Stage1::kBoxBottom8Ys;
+
+	m_playerYposMove[2] = Stage1::kBoxStep;
+	m_playerYposMove[3] = Stage1::kBoxStep;
+	m_playerYPulsNum[2] = 1;
+	m_playerYPulsNum[3] = 2;
+
 	m_pPlayer->Init();
 }
 //更新
 void Collision::Update()
 {
+
 	m_pPlayer->Update();//プレイヤー更新処理
 
 	if (!m_isGameOver) m_pEnemy->Update();//プレイヤーが死んだら敵の処理を止める
@@ -107,6 +210,33 @@ void Collision::Draw()
 //地面の判定
 bool Collision::HitObject()
 {
+	/*配列でしようと思いましたが詰まってしまい間に合いませんでした。*/
+	//for (int i = 0; i < Object::kNum; i++)
+	//{
+	//	if ((m_floorRightPos[i] > m_pPlayer->GetPlayerLeft()) &&
+	//		(m_floorLeftPos[i] < m_pPlayer->GetPlayerRight()))
+	//	{
+	//		if ((m_floorBottomPos[i] > m_pPlayer->GetPlayerTop()) &&
+	//			(m_floorTopPos[i] < m_pPlayer->GetPlayerBottom()))
+	//		{
+	//			////playerの位置を調整する
+	//			//if (i == 2 || i == 3)
+	//			//{
+	//			//	if (i == 2)m_playerYPulsNum = 1;
+	//			//	else if (i == 3)m_playerYPulsNum = 2;
+	//			//	m_playerYposMove = Stage1::kBoxStep;
+	//			//}
+	//			//else
+	//			//{
+	//			//	m_playerYposMove = 0;
+	//			//}
+	//			m_posY = m_floorTopPos[i] - kPlayerPosY + kPlayerPosPulsY- (m_playerYposMove[i] * m_playerYPulsNum[i]);
+	//			return true;
+	//		}
+	//	}
+	//}
+
+	
 	//1階の判定///////////////////////////////////////////////////////////////////////////////////////////
 	if ((Stage1::kBoxBottom1X > m_pPlayer->GetPlayerLeft()) &&
 		(Stage1::kBox1X < m_pPlayer->GetPlayerRight()))
@@ -530,8 +660,6 @@ bool Collision::HitObject()
 	//	}
 	//}
 	
-	DrawBox(static_cast<int>(m_pPlayer->GetPlayerLeft()), static_cast<int>(m_pPlayer->GetPlayerTop()),
-		static_cast<int>(m_pPlayer->GetPlayerRight()), static_cast<int>(m_pPlayer->GetPlayerBottom()), 0x00ff00, true);
 	return false;
 }
 

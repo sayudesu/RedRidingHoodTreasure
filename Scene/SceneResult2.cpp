@@ -4,8 +4,6 @@
 #include "Pad.h"
 #include "SceneResult2.h"
 #include "SceneTitle.h"
-#include "SceneMain.h"
-#include "SceneMain.h"
 #include "SceneMain2.h"
 #include "SceneMain3.h"
 #include "SceneMain4.h"

@@ -1,7 +1,6 @@
 #include "SceneMain3.h"
 #include "SceneMain4.h"
 #include "SceneTitle.h"
-#include "SceneResult.h"
 #include "SceneGameOver2.h"
 #include "DrawMapStage2.h"
 #include "PlayerNew.h"

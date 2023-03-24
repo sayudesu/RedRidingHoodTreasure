@@ -1,9 +1,7 @@
 #include "SceneTitle.h"
-#include "SceneMain.h"
 #include "SceneMain2.h"
 #include "SceneMain3.h"
 #include "SceneMain4.h"
-#include "SceneResult.h"
 #include "SceneResult2.h"
 #include "SceneGameOver.h"
 #include "SceneGameOver2.h"
@@ -99,7 +97,7 @@ void SceneTitle::Init()
 
 
 	assert(m_hImagePlayer > -1);
-	assert(m_hImageMap > -1);
+	//assert(m_hImageMap > -1);
 	assert(m_hButtonUi > -1);
 	assert(m_hMusicBgm > -1);
 	assert(m_hSoundSelect > -1);

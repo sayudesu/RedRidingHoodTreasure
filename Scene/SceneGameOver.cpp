@@ -4,7 +4,6 @@
 #include "Pad.h"
 #include "SceneGameOver.h"
 #include "SceneTitle.h"
-#include "SceneMain.h"
 #include "SceneMain2.h"
 #include "TitleCursorGame.h"
 #include "GameSceneCollision.h"

@@ -88,8 +88,6 @@ namespace Sound
 	const char* const kJump    = "Data/Sound/SE/Eat.mp3";				 //ジャンプサウンド
 	const char* const kSelect  = "Data/Sound/SE/Item Drop.mp3";			 //ボタン押すサウンド
 	const char* const kSelect2 = "Data/Sound/SE/Blocked.mp3";            //選択中のサウンド
-	const char* const kAttack  = "Data/Sound/SE/Power Hit.mp3";          //プレイヤーが攻撃した場合のサウンド
-	//const char* const kDead    = "Data/Sound/SE/Move/need edit.wav";     //死んだ場合のサウンド
 	const char* const kRun     = "Data/Sound/SE/Run/Concrete 2.wav";     //走っているサウンド
 	const char* const kLadder  = "Data/Sound/SE/Move/animal curious.wav";//走っているサウンド
 	const char* const kDead    = "Data/Sound/SE/DeadNow.wav";//死んだ場合サウンド

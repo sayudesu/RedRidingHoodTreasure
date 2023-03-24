@@ -24,7 +24,7 @@
     <ProjectGuid>{62e27321-e194-47e7-8976-76aba9c07fb2}</ProjectGuid>
     <RootNamespace>DxlibGameTemplateNew</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>DxlibGame</ProjectName>
+    <ProjectName>RedRidingHoodTreasure</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -164,8 +164,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ClearDirection.cpp" />
-    <ClCompile Include="DeadDirection.cpp" />
+    <ClCompile Include="Object\ClearDirection.cpp" />
+    <ClCompile Include="Object\DeadDirection.cpp" />
     <ClCompile Include="Object\Chest.cpp" />
     <ClCompile Include="Object\Collision3.cpp" />
     <ClCompile Include="Object\EnemyStage3.cpp" />
@@ -177,7 +177,6 @@
     <ClCompile Include="Object\EnemyStage1.cpp" />
     <ClCompile Include="Object\Collision.cpp" />
     <ClCompile Include="Object\DrawMapStage1.cpp" />
-    <ClCompile Include="Object\Enemy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object\PlayerNew.cpp" />
     <ClCompile Include="Object\SoundManager.cpp" />
@@ -189,7 +188,6 @@
     <ClCompile Include="Scene\SceneMain3.cpp" />
     <ClCompile Include="Scene\SceneMain4.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
-    <ClCompile Include="Scene\SceneResult.cpp" />
     <ClCompile Include="Scene\SceneResult2.cpp" />
     <ClCompile Include="Scene\SceneTitle.cpp" />
     <ClCompile Include="Object\TitleCollision.cpp" />
@@ -202,8 +200,8 @@
     <ClCompile Include="Util\Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ClearDirection.h" />
-    <ClInclude Include="DeadDirection.h" />
+    <ClInclude Include="Object\ClearDirection.h" />
+    <ClInclude Include="Object\DeadDirection.h" />
     <ClInclude Include="Object\Chest.h" />
     <ClInclude Include="Object\Collision3.h" />
     <ClInclude Include="Object\EnemyStage3.h" />
@@ -219,11 +217,7 @@
     <ClInclude Include="Scene\SceneMain4.h" />
     <ClInclude Include="Scene\SceneResult2.h" />
     <ClInclude Include="Util\Image.h" />
-    <ClInclude Include="Object\Enemy.h" />
     <ClInclude Include="Util\game.h" />
-    <ClInclude Include="Object\Player.h" />
-    <ClInclude Include="Object\PlayerImage.h" />
-    <ClInclude Include="Object\PlayerMapMove.h" />
     <ClInclude Include="Object\PlayerNew.h" />
     <ClInclude Include="Object\SoundManager.h" />
     <ClInclude Include="resource.h" />
@@ -231,10 +225,8 @@
     <ClInclude Include="Scene\SceneGameOver.h" />
     <ClInclude Include="Scene\SceneMain2.h" />
     <ClInclude Include="Scene\SceneBase.h" />
-    <ClInclude Include="Scene\SceneMain.h" />
     <ClInclude Include="Scene\SceneMain3.h" />
     <ClInclude Include="Scene\SceneManager.h" />
-    <ClInclude Include="Scene\SceneResult.h" />
     <ClInclude Include="Scene\SceneTitle.h" />
     <ClInclude Include="Object\TitleCollision.h" />
     <ClInclude Include="Object\TitleCursor.h" />
